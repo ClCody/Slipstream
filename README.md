@@ -73,7 +73,7 @@ if (hitPoint != null) {
 The project uses **Gradle Kotlin DSL** and **Paperweight Userdev**.
 
 ```bash
-git clone https://github.com/YourName/Slipstream.git
+git clone https://github.com/ClCody/Slipstream.git
 cd Slipstream
 ./gradlew build
 ```
