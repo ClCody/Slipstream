@@ -5,72 +5,72 @@
 ![Zero Reflection](https://img.shields.io/badge/Performance-Zero_Reflection-success.svg)
 ![Zero Allocation](https://img.shields.io/badge/Performance-Zero_Allocation-success.svg)
 
-**Slipstream** — это Next-Gen фреймворк для перехвата пакетов и симуляции физики в Minecraft (Paper).
-Создан как сверхбыстрая, современная альтернатива тяжелым библиотекам (вроде ProtocolLib), написанная специально для Kotlin-разработчиков с упором на максимальную производительность.
+**Slipstream** is a Next-Gen framework for packet interception and physics simulation in Minecraft (Paper).
+Built as an ultra-fast, modern alternative to heavy libraries (like ProtocolLib), designed specifically for Kotlin developers with an absolute focus on maximum performance.
 
-Никакой рефлексии в рантайме. Никакого мусора для Garbage Collector. Нативная поддержка Coroutines.
+No runtime reflection. No Garbage Collector overhead. Native Coroutines support.
 
-## 🔥 Почему Slipstream?
+## 🔥 Why Slipstream?
 
-* 🚀 **Zero-Reflection Bytecode Bridge:** Использование `MethodHandles` и магии Kotlin `value classes`. Пакеты обрабатываются со скоростью скомпилированного C2 JIT байткода. Никаких аллокаций оберток в куче.
-* 🧵 **Coroutine-First & Packet Ordering:** Асинхронная обработка пакетов прямо в Netty-потоке (`ctx.executor().asCoroutineDispatcher()`). Строгое сохранение порядка пакетов благодаря встроенной хардкорной буферизации.
-* 📐 **High-Performance Physics:** Независимая встроенная математика (AABB, Vec3d) и сверхбыстрый RayTracing (Slab method).
-* ⏱️ **Time-Travel Ready:** Встроенный `ClientStateTracker` автоматически сохраняет историю позиций игрока (20 тиков) для идеальной лагкомпенсации в ваших анти-читах или комбат-системах.
+* 🚀 **Zero-Reflection Bytecode Bridge:** Uses `MethodHandles` and Kotlin `value classes` magic. Packets are processed at the speed of compiled C2 JIT bytecode. Zero wrapper allocations in the heap.
+* 🧵 **Coroutine-First & Packet Ordering:** Asynchronous packet processing directly in the Netty thread (`ctx.executor().asCoroutineDispatcher()`). Strict packet ordering is preserved via built-in hardcore buffering.
+* 📐 **High-Performance Physics:** Independent built-in math (`MutableAABB`, `MutableVec3d`) and ultra-fast RayTracing (Slab method). Utilizes a GameDev-style **Ring Buffer** for 0-byte allocations during physics updates.
+* ⏱️ **Time-Travel Ready:** The built-in `ClientStateTracker` automatically saves player position history (20 ticks) for perfect lag compensation in your anti-cheats or combat systems.
 
-## 💻 Примеры использования (API)
+## 💻 Usage Examples (API)
 
-### 1. Асинхронные слушатели (Suspend Listeners)
-Не блокируйте сервер и Netty! Делайте запросы к БД прямо во время обработки пакета. Порядок пакетов не нарушится:
+### 1. Asynchronous Listeners (Suspend Listeners)
+Don't block the server and Netty! Make database queries right during packet processing. The packet order won't be disrupted:
 
 ```kotlin
 manager.registerSuspendListener(object : SuspendablePacketListener {
     override suspend fun onPacketInSuspend(player: Player, packet: Any): Boolean {
         if (packet.isMovePacket()) {
-            val wrapper = packet.asMovePacket() // Zero-Allocation обертка
+            val wrapper = packet.asMovePacket() // Zero-Allocation wrapper
             
-            // Корутина может спать, порядок следующих пакетов сохранится в буфере!
+            // The coroutine can suspend, the order of following packets is preserved in the buffer!
             val isBanned = database.checkPlayerSuspend(player.uniqueId)
-            return !isBanned // false = отменить пакет
+            return !isBanned // false = cancel packet
         }
         return true
     }
 })
 ```
 
-### 2. Линейное ожидание пакетов (Packet Awaiter)
-Забудьте про стейт-машины для проверок (например, пинг-спуфа или транзакций). Отправили пакет — подождали ответ в одной корутине:
+### 2. Linear Packet Awaiting (Packet Awaiter)
+Forget about state machines for checks (e.g., ping spoofing or transactions). Send a packet — wait for the response in the same coroutine with $O(1)$ internal Netty queuing:
 
 ```kotlin
-// Отправляем транзакцию клиенту
+// Send a transaction to the client
 player.sendPacket(TransactionPacket(id = 1337))
 
-// Корутина засыпает, пока клиент не пришлет ответ с нужным ID
+// The coroutine suspends until the client sends a response with the target ID
 val response = manager.awaitPacket<ServerboundTransactionPacket>(player) { it.id == 1337 }
 
-player.sendMessage("Ваш пинг проверен!")
+player.sendMessage("Your ping has been verified!")
 ```
 
-### 3. Физика и RayTracing
-Идеально для анти-читов и кастомных сущностей:
+### 3. Physics and RayTracing
+Perfect for anti-cheats and custom entities:
 
 ```kotlin
-// Получаем историю передвижений игрока
+// Get the player's movement history
 val state = SlipstreamPlugin.instance.stateTracker.getState(player)
 val currentHitbox = state.boundingBox
 
-// Быстрый рейтрейсинг (пересечение луча и хитбокса)
-val eyePos = Vec3d(player.eyeLocation.x, player.eyeLocation.y, player.eyeLocation.z)
-val lookDir = Vec3d(player.location.direction.x, player.location.direction.y, player.location.direction.z)
+// Fast RayTracing (ray and hitbox intersection)
+val eyePos = MutableVec3d(player.eyeLocation.x, player.eyeLocation.y, player.eyeLocation.z)
+val lookDir = MutableVec3d(player.location.direction.x, player.location.direction.y, player.location.direction.z)
 
 val hitPoint = RayTrace.intersect(eyePos, lookDir, currentHitbox)
 if (hitPoint != null) {
-    println("Попадание в точку: $hitPoint")
+    println("Hit point: $hitPoint")
 }
 ```
 
-## 🛠️ Сборка
+## 🛠️ Build
 
-Проект использует **Gradle Kotlin DSL** и **Paperweight Userdev**.
+The project uses **Gradle Kotlin DSL** and **Paperweight Userdev**.
 
 ```bash
 git clone https://github.com/YourName/Slipstream.git
@@ -78,5 +78,5 @@ cd Slipstream
 ./gradlew build
 ```
 
-## 📄 Лицензия
+## 📄 License
 MIT License.
