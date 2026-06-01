@@ -5,10 +5,7 @@ import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
 import net.apogee.slipstream.SlipstreamPlugin
 import net.apogee.slipstream.api.SlipstreamManager
-import net.minecraft.server.network.ServerGamePacketListenerImpl
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.network.Connection
-import org.bukkit.craftbukkit.entity.CraftPlayer
+import org.bukkit.entity.Player
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.logging.Logger
@@ -18,10 +15,7 @@ class InjectorTest {
     private lateinit var plugin: SlipstreamPlugin
     private lateinit var manager: SlipstreamManager
     private lateinit var injector: Injector
-    private lateinit var mockPlayer: CraftPlayer
-    private lateinit var mockServerPlayer: ServerPlayer
-    private lateinit var mockListener: ServerGamePacketListenerImpl
-    private lateinit var mockConnection: Connection
+    private lateinit var mockPlayer: Player
     private lateinit var mockChannel: Channel
     private lateinit var mockPipeline: ChannelPipeline
     private lateinit var mockLogger: Logger
@@ -33,19 +27,16 @@ class InjectorTest {
         mockLogger = mockk(relaxed = true)
         every { plugin.logger } returns mockLogger
         
-        injector = Injector(plugin, manager)
+        // Создаем spyk на Injector, чтобы подменить получение канала
+        injector = spyk(Injector(plugin, manager))
 
-        mockPlayer = mockk()
-        mockServerPlayer = mockk()
-        mockListener = mockk()
-        mockConnection = mockk()
-        mockChannel = mockk()
+        mockPlayer = mockk(relaxed = true)
+        mockChannel = mockk(relaxed = true)
         mockPipeline = mockk(relaxed = true)
 
-        every { mockPlayer.handle } returns mockServerPlayer
-        every { mockServerPlayer.connection } returns mockListener
-        every { mockListener.connection } returns mockConnection
-        every { mockConnection.channel } returns mockChannel
+        // Подменяем метод getChannel, чтобы он не лез в NMS/CraftBukkit
+        every { injector.getChannel(any()) } returns mockChannel
+        
         every { mockChannel.pipeline() } returns mockPipeline
         every { mockPlayer.name } returns "TestPlayer"
     }

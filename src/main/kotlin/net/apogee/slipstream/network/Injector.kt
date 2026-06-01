@@ -71,7 +71,7 @@ class Injector(private val plugin: SlipstreamPlugin, private val manager: Slipst
         plugin.server.onlinePlayers.forEach { ejectPlayer(it) }
     }
 
-    private fun getChannel(player: Player): Channel {
+    internal fun getChannel(player: Player): Channel {
         // Zero-Reflection: получаем канал напрямую через Paper NMS маппинги
         val craftPlayer = player as CraftPlayer
         val serverPlayer: ServerPlayer = craftPlayer.handle
