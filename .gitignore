@@ -1,0 +1,20 @@
+# Сборка Gradle
+build/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Среда разработки (IntelliJ IDEA)
+.idea/
+*.iml
+*.iws
+out/
+
+# Кэш Paperweight / Run Paper
+.paperweight/
+run/
+.paper-nms/
+
+# Локальные настройки ОС
+.DS_Store
+Thumbs.db
