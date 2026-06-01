@@ -6,28 +6,29 @@ import kotlin.coroutines.resume
 
 /**
  * Ожидает следующий входящий пакет от игрока, который удовлетворяет [filter].
- * Идеально для анти-читов: отправить транзакцию и заморозить выполнение корутины проверки до ответа (awaitResponse).
+ * Использует локальную очередь Netty-обработчика игрока, избавляясь от CopyOnWriteArrayList и лишних аллокаций.
  */
 suspend inline fun <reified T : Any> SlipstreamManager.awaitPacket(
     player: Player,
     crossinline filter: (T) -> Boolean = { true }
 ): T = suspendCancellableCoroutine { continuation ->
-    val listener = object : PacketListener {
-        override fun onPacketIn(p: Player, packet: Any): Boolean {
-            if (p == player && packet is T && filter(packet)) {
-                // Нашли нужный пакет — возобновляем корутину
-                continuation.resume(packet)
-                // Отписываем слушателя, он одноразовый
-                unregisterListener(this)
-            }
-            return true
+    val handler = getHandler(player) 
+        ?: throw IllegalStateException("Packet handler not found for \${player.name}")
+    
+    val awaiter: (Any) -> Boolean = { packet ->
+        if (packet is T && filter(packet)) {
+            continuation.resume(packet)
+            true // Возвращаем true -> хэндлер автоматически удалит нас из очереди (O(1))
+        } else {
+            false
         }
     }
     
-    // Если корутина отменяется, отписываем слушателя для избежания утечек памяти
-    continuation.invokeOnCancellation {
-        unregisterListener(listener)
-    }
+    // Безопасное добавление через EventLoop
+    handler.addAwaiter(awaiter)
 
-    registerListener(listener)
+    // Отписка при отмене корутины (например, если игрок ливнул или истек таймаут)
+    continuation.invokeOnCancellation {
+        handler.removeAwaiter(awaiter)
+    }
 }

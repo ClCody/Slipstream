@@ -37,6 +37,7 @@ class Injector(private val plugin: SlipstreamPlugin, private val manager: Slipst
             }
 
             val handler = SlipstreamPacketHandler(player, manager)
+            manager.registerHandler(player, handler)
             
             // Вставляем наш хэндлер прямо перед майнкрафтовским packet_handler
             if (pipeline.get(MINECRAFT_PACKET_HANDLER_NAME) != null) {
@@ -54,6 +55,7 @@ class Injector(private val plugin: SlipstreamPlugin, private val manager: Slipst
 
     fun ejectPlayer(player: Player) {
         try {
+            manager.unregisterHandler(player)
             val channel = getChannel(player)
             val pipeline = channel.pipeline()
             if (pipeline.get(CHANNEL_HANDLER_NAME) != null) {

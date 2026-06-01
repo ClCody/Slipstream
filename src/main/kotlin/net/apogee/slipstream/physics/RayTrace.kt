@@ -2,18 +2,14 @@ package net.apogee.slipstream.physics
 
 /**
  * Инструментарий для математики рейтрейсинга.
- * Используется алгоритм slab method (алгоритм Смитса) для вычисления пересечений луча и AABB.
+ * Используется алгоритм slab method (алгоритм Смитса).
  */
 object RayTrace {
 
     /**
      * Вычисляет точку пересечения луча с AABB.
-     * @param origin Точка начала луча (например, глаза игрока)
-     * @param dir Направление луча (нормализованный вектор)
-     * @param box Хитбокс для проверки пересечения
-     * @return Ближайшая точка пересечения или null, если пересечения нет
      */
-    fun intersect(origin: Vec3d, dir: Vec3d, box: AABB): Vec3d? {
+    fun intersect(origin: MutableVec3d, dir: MutableVec3d, box: MutableAABB): MutableVec3d? {
         val invDirX = 1.0 / dir.x
         val invDirY = 1.0 / dir.y
         val invDirZ = 1.0 / dir.z
@@ -49,10 +45,9 @@ object RayTrace {
         if (tMin > tMaxZ || tMinZ > tMax) return null
         val tFinalMin = if (tMinZ > tMin) tMinZ else tMin
 
-        // Если финальное время меньше 0, значит пересечение находится сзади луча
         if (tFinalMin < 0) return null
 
-        return Vec3d(
+        return MutableVec3d(
             origin.x + dir.x * tFinalMin,
             origin.y + dir.y * tFinalMin,
             origin.z + dir.z * tFinalMin

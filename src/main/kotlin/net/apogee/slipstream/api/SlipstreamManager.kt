@@ -1,17 +1,32 @@
 package net.apogee.slipstream.api
 
 import kotlinx.coroutines.CoroutineScope
+import net.apogee.slipstream.network.SlipstreamPacketHandler
 import org.bukkit.entity.Player
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Главная шина событий для пакетов.
- * Использует CopyOnWriteArrayList для потокобезопасного и быстрого итерирования 
- * в Netty-потоках без локов.
+ * Использует CopyOnWriteArrayList для глобальных листенеров.
  */
 class SlipstreamManager(val pluginScope: CoroutineScope) {
     private val syncListeners = CopyOnWriteArrayList<PacketListener>()
     private val suspendListeners = CopyOnWriteArrayList<SuspendablePacketListener>()
+    
+    // Реестр хэндлеров игроков для O(1) awaitPacket магии
+    private val handlers = ConcurrentHashMap<UUID, SlipstreamPacketHandler>()
+
+    fun registerHandler(player: Player, handler: SlipstreamPacketHandler) {
+        handlers[player.uniqueId] = handler
+    }
+
+    fun unregisterHandler(player: Player) {
+        handlers.remove(player.uniqueId)
+    }
+
+    fun getHandler(player: Player): SlipstreamPacketHandler? = handlers[player.uniqueId]
 
     fun registerListener(listener: PacketListener) {
         syncListeners.addIfAbsent(listener)

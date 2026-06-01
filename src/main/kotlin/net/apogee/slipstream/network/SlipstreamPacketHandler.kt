@@ -14,29 +14,69 @@ class SlipstreamPacketHandler(
     private val manager: SlipstreamManager
 ) : ChannelDuplexHandler() {
 
-    // Очереди пакетов (создаются один раз при входе игрока -> Zero-Allocation)
+    @Volatile
+    private var ctx: ChannelHandlerContext? = null
+
+    // Очереди пакетов (Zero-Allocation)
     private val inboundQueue = ArrayDeque<Any>()
     private val outboundQueue = ArrayDeque<Pair<Any, ChannelPromise>>()
+
+    // Очередь одноразовых слушателей (awaitPacket) без COWAL! O(1) добавление и удаление.
+    private val inboundAwaiters = ArrayDeque<(Any) -> Boolean>()
 
     private var isInboundSuspended = false
     private var isOutboundSuspended = false
 
+    override fun handlerAdded(ctx: ChannelHandlerContext) {
+        this.ctx = ctx
+        super.handlerAdded(ctx)
+    }
+
+    /**
+     * Безопасное добавление awaiter-а через Netty EventLoop
+     */
+    fun addAwaiter(awaiter: (Any) -> Boolean) {
+        val eventLoop = ctx?.executor()
+        if (eventLoop != null && !eventLoop.inEventLoop()) {
+            eventLoop.execute { inboundAwaiters.addLast(awaiter) }
+        } else {
+            inboundAwaiters.addLast(awaiter)
+        }
+    }
+
+    fun removeAwaiter(awaiter: (Any) -> Boolean) {
+        val eventLoop = ctx?.executor()
+        if (eventLoop != null && !eventLoop.inEventLoop()) {
+            eventLoop.execute { inboundAwaiters.remove(awaiter) }
+        } else {
+            inboundAwaiters.remove(awaiter)
+        }
+    }
+
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        // Если корутина уже обрабатывает предыдущий пакет, добавляем текущий в очередь
+        // 1. Отрабатываем локальные awaiters (O(1) мутации, 0 аллокаций)
+        if (inboundAwaiters.isNotEmpty()) {
+            val iterator = inboundAwaiters.iterator()
+            while (iterator.hasNext()) {
+                val awaiter = iterator.next()
+                if (awaiter(msg)) {
+                    iterator.remove() // Удаляем слушателя, если пакет подошел
+                }
+            }
+        }
+
+        // 2. Хардкорная буферизация
         if (isInboundSuspended) {
             inboundQueue.addLast(msg)
             return
         }
 
-        // Синхронный хот-пат
+        // 3. Синхронный роутинг
         if (!manager.handleInboundSync(player, msg)) return
 
-        // Асинхронный пат
+        // 4. Асинхронный роутинг
         if (manager.hasSuspendInbound()) {
             isInboundSuspended = true
-            
-            // Магия: используем Netty EventLoop как диспетчер корутин.
-            // Это гарантирует отсутствие гонок данных (race conditions) и локов!
             val dispatcher = ctx.executor().asCoroutineDispatcher()
             
             manager.pluginScope.launch(dispatcher) {
@@ -46,7 +86,6 @@ class SlipstreamPacketHandler(
                         if (manager.handleInboundSuspend(player, currentMsg)) {
                             ctx.fireChannelRead(currentMsg)
                         }
-                        // Извлекаем следующий пакет из очереди или прерываем цикл
                         currentMsg = inboundQueue.pollFirst() ?: break
                     }
                 } finally {
@@ -78,7 +117,6 @@ class SlipstreamPacketHandler(
                         if (manager.handleOutboundSuspend(player, currentMsg)) {
                             ctx.write(currentMsg, currentPromise)
                         }
-                        
                         val next = outboundQueue.pollFirst() ?: break
                         currentMsg = next.first
                         currentPromise = next.second
