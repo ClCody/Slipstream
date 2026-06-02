@@ -1,82 +1,55 @@
 # ⚡ Slipstream Engine
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-blue.svg)
-![PaperMC](https://img.shields.io/badge/Paper-1.21.4+-black.svg)
-![Zero Reflection](https://img.shields.io/badge/Performance-Zero_Reflection-success.svg)
-![Zero Allocation](https://img.shields.io/badge/Performance-Zero_Allocation-success.svg)
+![PaperMC](https://img.shields.io/badge/Paper-1.21+-black.svg)
+![Performance](https://img.shields.io/badge/Performance-Zero_Overhead-success.svg)
 
 **Slipstream** is a Next-Gen framework for packet interception and physics simulation in Minecraft (Paper).
-Built as an ultra-fast, modern alternative to heavy libraries (like ProtocolLib), designed specifically for Kotlin developers with an absolute focus on maximum performance.
+Built as an ultra-fast, modern alternative to heavy libraries (like ProtocolLib), designed specifically for Kotlin developers with an absolute focus on maximum performance and production stability.
 
-No runtime reflection. No Garbage Collector overhead. Native Coroutines support.
+No runtime reflection overhead. Zero Garbage Collector pressure. Native Coroutines support.
 
 ## 🔥 Why Slipstream?
 
-* 🚀 **Zero-Reflection Bytecode Bridge:** Uses `MethodHandles` and Kotlin `value classes` magic. Packets are processed at the speed of compiled C2 JIT bytecode. Zero wrapper allocations in the heap.
-* 🧵 **Coroutine-First & Packet Ordering:** Asynchronous packet processing directly in the Netty thread (`ctx.executor().asCoroutineDispatcher()`). Strict packet ordering is preserved via built-in hardcore buffering.
-* 📐 **High-Performance Physics:** Independent built-in math (`MutableAABB`, `MutableVec3d`) and ultra-fast RayTracing (Slab method). Utilizes a GameDev-style **Ring Buffer** for 0-byte allocations during physics updates.
-* ⏱️ **Time-Travel Ready:** The built-in `ClientStateTracker` automatically saves player position history (20 ticks) for perfect lag compensation in your anti-cheats or combat systems.
+* 🚀 **Zero-Reflection Bytecode Bridge:** Uses `MethodHandles` and Kotlin `value classes`. Packets are processed at the speed of compiled JIT bytecode.
+* 🧵 **Coroutine-First & Lazy Suspend:** Asynchronous packet processing directly in the Netty thread. Slipstream only launches coroutines when a listener is interested, otherwise, it stays 100% synchronous.
+* 📐 **High-Performance Physics:** Independent built-in math (`MutableAABB`, `MutableVec3d`) and ultra-fast RayTracing. Utilizes a **Ring Buffer** for 0-byte allocations during physics updates.
+* 🪄 **Full Packet Mutation:** Read and write any packet field by index (ProtocolLib-style) or via specialized zero-allocation wrappers.
+* 🗺️ **Cross-Version Mapping Resolver:** Built-in support for Mojang/Paper mappings, ensuring your plugin works across multiple versions (1.21+) without changes.
 
-## 💻 Usage Examples (API)
+## 📖 Documentation & Wiki
 
-### 1. Asynchronous Listeners (Suspend Listeners)
-Don't block the server and Netty! Make database queries right during packet processing. The packet order won't be disrupted:
+* [🏗️ Architecture](docs/ARCHITECTURE.md) — Lazy Suspend, Zero-Allocation Queues, and Pipeline internals.
+* [📖 API Guide](docs/API_GUIDE.md) — Listeners, Priorities, Awaiters, and Modifiers.
+* [⏱️ Performance](docs/PERFORMANCE.md) — JMH Benchmarks and why we are the fastest.
 
-```kotlin
-manager.registerSuspendListener(object : SuspendablePacketListener {
-    override suspend fun onPacketInSuspend(player: Player, packet: Any): Boolean {
-        if (packet.isMovePacket()) {
-            val wrapper = packet.asMovePacket() // Zero-Allocation wrapper
-            
-            // The coroutine can suspend, the order of following packets is preserved in the buffer!
-            val isBanned = database.checkPlayerSuspend(player.uniqueId)
-            return !isBanned // false = cancel packet
-        }
-        return true
-    }
-})
-```
+## 🚉 Migration from ProtocolLib
 
-### 2. Linear Packet Awaiting (Packet Awaiter)
-Forget about state machines for checks (e.g., ping spoofing or transactions). Send a packet — wait for the response in the same coroutine with $O(1)$ internal Netty queuing:
+| Feature | ProtocolLib | Slipstream |
+| :--- | :--- | :--- |
+| **Access** | `StructureModifier` (Reflective) | `PacketModifier` (MethodHandles) |
+| **Mutation** | `setField()` (Slow) | `writeField()` (Fast) |
+| **Allocation** | `PacketContainer` (Heap) | `@JvmInline value class` (Stack/Zero) |
+| **Async** | `AsyncMarker` / Task Chain | Native Coroutines (`Suspendable`) |
+| **Ordering** | Complex to manage | Guaranteed (Pipeline Buffering) |
 
-```kotlin
-// Send a transaction to the client
-player.sendPacket(TransactionPacket(id = 1337))
+## 🛠️ Status & Version Support
 
-// The coroutine suspends until the client sends a response with the target ID
-val response = manager.awaitPacket<ServerboundTransactionPacket>(player) { it.id == 1337 }
+* **Current Status:** 🟢 Production Ready
+* **Supported Versions:** 1.21, 1.21.1, 1.21.3, 1.21.4 (Paper/Mojang Mappings)
+* **Kotlin Version:** 2.0.0+
+* **JDK Version:** 21+
 
-player.sendMessage("Your ping has been verified!")
-```
+## ⏱️ Benchmarks
 
-### 3. Physics and RayTracing
-Perfect for anti-cheats and custom entities:
+Slipstream is built for speed. 
 
-```kotlin
-// Get the player's movement history
-val state = SlipstreamPlugin.instance.stateTracker.getState(player)
-val currentHitbox = state.boundingBox
+| Operation | ProtocolLib (ns/op) | Slipstream (ns/op) | Improvement |
+|-----------|-------------------|--------------------|-------------|
+| Field Read | ~18.5             | **~1.1**           | **~16x**     |
+| Field Write| ~21.2             | **~1.4**           | **~15x**     |
 
-// Fast RayTracing (ray and hitbox intersection)
-val eyePos = MutableVec3d(player.eyeLocation.x, player.eyeLocation.y, player.eyeLocation.z)
-val lookDir = MutableVec3d(player.location.direction.x, player.location.direction.y, player.location.direction.z)
-
-val hitPoint = RayTrace.intersect(eyePos, lookDir, currentHitbox)
-if (hitPoint != null) {
-    println("Hit point: $hitPoint")
-}
-```
-
-## 🛠️ Build
-
-The project uses **Gradle Kotlin DSL** and **Paperweight Userdev**.
-
-```bash
-git clone https://github.com/ClCody/Slipstream.git
-cd Slipstream
-./gradlew build
-```
+*Benchmarked using JMH on OpenJDK 21. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for details.*
 
 ## 📄 License
 MIT License.

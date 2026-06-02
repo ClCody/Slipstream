@@ -21,7 +21,8 @@ class SlipstreamPacketHandler(
 
     // Очереди пакетов (Zero-Allocation)
     private val inboundQueue = ArrayDeque<Any>()
-    private val outboundQueue = ArrayDeque<Pair<Any, ChannelPromise>>()
+    private val outboundPacketQueue = ArrayDeque<Any>()
+    private val outboundPromiseQueue = ArrayDeque<ChannelPromise>()
 
     // Очередь одноразовых слушателей (awaitPacket) без COWAL! O(1) добавление и удаление.
     // Hybrid model: each awaiter receives an AwaitEvent; if event.consume() is called,
@@ -73,7 +74,7 @@ class SlipstreamPacketHandler(
             if (event.isConsumed) return
         }
 
-        // 2. Suspend buffering
+        // 2. Suspend buffering (если мы уже в режиме ожидания, всё летит в очередь)
         if (isInboundSuspended) {
             inboundQueue.addLast(msg)
             return
@@ -82,8 +83,8 @@ class SlipstreamPacketHandler(
         // 3. Синхронный роутинг
         if (!manager.handleInboundSync(player, msg)) return
 
-        // 4. Асинхронный роутинг
-        if (manager.hasSuspendInbound()) {
+        // 4. Асинхронный роутинг (Lazy Suspend)
+        if (manager.hasSuspendInbound() && manager.anyInterestedInbound(msg)) {
             isInboundSuspended = true
             val dispatcher = ctx.executor().asCoroutineDispatcher()
             
@@ -107,7 +108,8 @@ class SlipstreamPacketHandler(
 
     override fun write(ctx: ChannelHandlerContext, msg: Any, promise: ChannelPromise) {
         if (isOutboundSuspended) {
-            outboundQueue.addLast(msg to promise)
+            outboundPacketQueue.addLast(msg)
+            outboundPromiseQueue.addLast(promise)
             return
         }
 
@@ -116,7 +118,7 @@ class SlipstreamPacketHandler(
             return
         }
 
-        if (manager.hasSuspendOutbound()) {
+        if (manager.hasSuspendOutbound() && manager.anyInterestedOutbound(msg)) {
             isOutboundSuspended = true
             val dispatcher = ctx.executor().asCoroutineDispatcher()
             
@@ -126,15 +128,14 @@ class SlipstreamPacketHandler(
                 var didWrite = false
                 try {
                     while (true) {
-                    if (manager.handleOutboundSuspend(player, currentMsg)) {
-                        ctx.write(currentMsg, currentPromise)
-                        didWrite = true
-                    } else {
-                        currentPromise.setFailure(CancelledByPluginException("Outbound packet rejected by suspend listener", "Slipstream"))
-                    }
-                        val next = outboundQueue.pollFirst() ?: break
-                        currentMsg = next.first
-                        currentPromise = next.second
+                        if (manager.handleOutboundSuspend(player, currentMsg)) {
+                            ctx.write(currentMsg, currentPromise)
+                            didWrite = true
+                        } else {
+                            currentPromise.setFailure(CancelledByPluginException("Outbound packet rejected by suspend listener", "Slipstream"))
+                        }
+                        currentMsg = outboundPacketQueue.pollFirst() ?: break
+                        currentPromise = outboundPromiseQueue.pollFirst()!!
                     }
                 } finally {
                     if (didWrite) ctx.flush()

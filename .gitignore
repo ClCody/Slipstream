@@ -16,7 +16,7 @@ run/
 .paper-nms/
 
 # Документация (генерируемая)
-docs/
+# docs/ (is now source documentation)
 
 # Локальные настройки ОС
 .DS_Store

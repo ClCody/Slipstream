@@ -64,7 +64,7 @@ class SlipstreamManagerTest {
             }
         }
 
-        manager.registerListener(listener)
+        manager.registerListener(listener, PacketPriority.NORMAL)
         manager.handleInboundSync(mockPlayer, mockPacket)
         assertTrue(callCount == 1)
 
@@ -72,5 +72,43 @@ class SlipstreamManagerTest {
         manager.handleInboundSync(mockPlayer, mockPacket)
         // Если успешно отписали, колл-каунт больше не вырастет
         assertTrue(callCount == 1)
+    }
+
+    @Test
+    fun `test priorities execution order`() {
+        val results = mutableListOf<String>()
+
+        val normalListener = object : PacketListener {
+            override fun onPacketIn(player: Player, packet: Any): Boolean {
+                results.add("NORMAL")
+                return true
+            }
+        }
+
+        val lowestListener = object : PacketListener {
+            override fun onPacketIn(player: Player, packet: Any): Boolean {
+                results.add("LOWEST")
+                return true
+            }
+        }
+
+        val highestListener = object : PacketListener {
+            override fun onPacketIn(player: Player, packet: Any): Boolean {
+                results.add("HIGHEST")
+                return true
+            }
+        }
+
+        // Регистрируем в произвольном порядке
+        manager.registerListener(normalListener, PacketPriority.NORMAL)
+        manager.registerListener(highestListener, PacketPriority.HIGHEST)
+        manager.registerListener(lowestListener, PacketPriority.LOWEST)
+
+        manager.handleInboundSync(mockPlayer, mockPacket)
+
+        // Проверяем порядок выполнения: LOWEST -> NORMAL -> HIGHEST
+        assertTrue(results[0] == "LOWEST")
+        assertTrue(results[1] == "NORMAL")
+        assertTrue(results[2] == "HIGHEST")
     }
 }

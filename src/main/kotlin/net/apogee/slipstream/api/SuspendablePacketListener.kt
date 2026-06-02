@@ -11,6 +11,13 @@ import org.bukkit.entity.Player
 interface SuspendablePacketListener {
 
     /**
+     * Быстрая синхронная проверка: интересует ли нас этот пакет для асинхронной обработки.
+     * Если все листенеры вернут false, корутина не будет запущена (Lazy Suspend).
+     */
+    fun interestsInbound(packet: Any): Boolean = true
+    fun interestsOutbound(packet: Any): Boolean = true
+
+    /**
      * Вызывается асинхронно при получении пакета от клиента.
      */
     suspend fun onPacketInSuspend(player: Player, packet: Any): Boolean = true

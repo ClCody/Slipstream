@@ -1,6 +1,7 @@
 name: Slipstream
 version: "1.0.0-SNAPSHOT"
 main: net.apogee.slipstream.SlipstreamPlugin
+bootstrapper: net.apogee.slipstream.SlipstreamBootstrap
 api-version: "1.21"
 description: Next-gen packet analysis framework
 authors: [Apogee]
