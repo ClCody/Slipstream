@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
+import net.apogee.slipstream.api.AwaitEvent
+import net.apogee.slipstream.api.CancelledByPluginException
 import net.apogee.slipstream.api.SlipstreamManager
 import org.bukkit.entity.Player
 import java.util.ArrayDeque
@@ -22,7 +24,9 @@ class SlipstreamPacketHandler(
     private val outboundQueue = ArrayDeque<Pair<Any, ChannelPromise>>()
 
     // Очередь одноразовых слушателей (awaitPacket) без COWAL! O(1) добавление и удаление.
-    private val inboundAwaiters = ArrayDeque<(Any) -> Boolean>()
+    // Hybrid model: each awaiter receives an AwaitEvent; if event.consume() is called,
+    // the packet stops propagating through the pipeline.
+    private val inboundAwaiters = ArrayDeque<(AwaitEvent) -> Boolean>()
 
     private var isInboundSuspended = false
     private var isOutboundSuspended = false
@@ -33,9 +37,9 @@ class SlipstreamPacketHandler(
     }
 
     /**
-     * Безопасное добавление awaiter-а через Netty EventLoop
+     * Безопасное добавление awaiter-а через Netty EventLoop.
      */
-    fun addAwaiter(awaiter: (Any) -> Boolean) {
+    fun addAwaiter(awaiter: (AwaitEvent) -> Boolean) {
         val eventLoop = ctx?.executor()
         if (eventLoop != null && !eventLoop.inEventLoop()) {
             eventLoop.execute { inboundAwaiters.addLast(awaiter) }
@@ -44,7 +48,7 @@ class SlipstreamPacketHandler(
         }
     }
 
-    fun removeAwaiter(awaiter: (Any) -> Boolean) {
+    fun removeAwaiter(awaiter: (AwaitEvent) -> Boolean) {
         val eventLoop = ctx?.executor()
         if (eventLoop != null && !eventLoop.inEventLoop()) {
             eventLoop.execute { inboundAwaiters.remove(awaiter) }
@@ -54,18 +58,19 @@ class SlipstreamPacketHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        // 1. Awaiters (consume-model: if awaiter claims the packet, it stops here)
+        // 1. Awaiters (hybrid observe/consume model)
+        //    Each awaiter receives an AwaitEvent. If any calls consume(),
+        //    the packet stops propagating through the pipeline.
         if (inboundAwaiters.isNotEmpty()) {
+            val event = AwaitEvent(msg)
             val iterator = inboundAwaiters.iterator()
-            var consumed = false
             while (iterator.hasNext()) {
                 val awaiter = iterator.next()
-                if (awaiter(msg)) {
+                if (awaiter(event)) {
                     iterator.remove()
-                    consumed = true
                 }
             }
-            if (consumed) return
+            if (event.isConsumed) return
         }
 
         // 2. Suspend buffering
@@ -107,7 +112,7 @@ class SlipstreamPacketHandler(
         }
 
         if (!manager.handleOutboundSync(player, msg)) {
-            promise.cancel(false)
+            promise.setFailure(CancelledByPluginException("Outbound packet rejected by sync listener", "Slipstream"))
             return
         }
 
@@ -121,12 +126,12 @@ class SlipstreamPacketHandler(
                 var didWrite = false
                 try {
                     while (true) {
-                        if (manager.handleOutboundSuspend(player, currentMsg)) {
-                            ctx.write(currentMsg, currentPromise)
-                            didWrite = true
-                        } else {
-                            currentPromise.cancel(false)
-                        }
+                    if (manager.handleOutboundSuspend(player, currentMsg)) {
+                        ctx.write(currentMsg, currentPromise)
+                        didWrite = true
+                    } else {
+                        currentPromise.setFailure(CancelledByPluginException("Outbound packet rejected by suspend listener", "Slipstream"))
+                    }
                         val next = outboundQueue.pollFirst() ?: break
                         currentMsg = next.first
                         currentPromise = next.second
