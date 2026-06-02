@@ -13,7 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 class SlipstreamManager(val pluginScope: CoroutineScope) {
     private val syncListeners = CopyOnWriteArrayList<PacketListener>()
-    private val suspendListeners = CopyOnWriteArrayList<SuspendablePacketListener>()
+    private val inboundSuspendListeners = CopyOnWriteArrayList<SuspendablePacketListener>()
+    private val outboundSuspendListeners = CopyOnWriteArrayList<SuspendablePacketListener>()
     
     // Реестр хэндлеров игроков для O(1) awaitPacket магии
     private val handlers = ConcurrentHashMap<UUID, SlipstreamPacketHandler>()
@@ -33,7 +34,8 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     }
 
     fun registerSuspendListener(listener: SuspendablePacketListener) {
-        suspendListeners.addIfAbsent(listener)
+        inboundSuspendListeners.addIfAbsent(listener)
+        outboundSuspendListeners.addIfAbsent(listener)
     }
 
     fun unregisterListener(listener: PacketListener) {
@@ -41,11 +43,12 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     }
 
     fun unregisterSuspendListener(listener: SuspendablePacketListener) {
-        suspendListeners.remove(listener)
+        inboundSuspendListeners.remove(listener)
+        outboundSuspendListeners.remove(listener)
     }
 
-    fun hasSuspendInbound(): Boolean = suspendListeners.isNotEmpty()
-    fun hasSuspendOutbound(): Boolean = suspendListeners.isNotEmpty()
+    fun hasSuspendInbound(): Boolean = inboundSuspendListeners.isNotEmpty()
+    fun hasSuspendOutbound(): Boolean = outboundSuspendListeners.isNotEmpty()
 
     fun handleInboundSync(player: Player, packet: Any): Boolean {
         for (listener in syncListeners) {
@@ -66,7 +69,7 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     }
 
     suspend fun handleInboundSuspend(player: Player, packet: Any): Boolean {
-        for (listener in suspendListeners) {
+        for (listener in inboundSuspendListeners) {
             if (!listener.onPacketInSuspend(player, packet)) {
                 return false
             }
@@ -75,7 +78,7 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     }
 
     suspend fun handleOutboundSuspend(player: Player, packet: Any): Boolean {
-        for (listener in suspendListeners) {
+        for (listener in outboundSuspendListeners) {
             if (!listener.onPacketOutSuspend(player, packet)) {
                 return false
             }

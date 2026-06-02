@@ -53,6 +53,9 @@ class SlipstreamPlugin : JavaPlugin() {
         if (::injector.isInitialized) {
             injector.ejectAll()
         }
+        if (::stateTracker.isInitialized) {
+            stateTracker.cleanup()
+        }
         pluginScope.cancel()
     }
 }
