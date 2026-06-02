@@ -1,5 +1,12 @@
 # 📖 API Guide
 
+## 🚀 Getting the Manager
+To start using Slipstream, you need to get the `SlipstreamManager` instance. You can do this via the singleton:
+
+```kotlin
+val manager = SlipstreamPlugin.instance.manager
+```
+
 ## 📡 Listening for Packets
 
 ### Synchronous Listener

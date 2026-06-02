@@ -11,6 +11,11 @@ import net.apogee.slipstream.physics.ClientStateTracker
 import org.bukkit.plugin.java.JavaPlugin
 
 class SlipstreamPlugin : JavaPlugin() {
+    companion object {
+        lateinit var instance: SlipstreamPlugin
+            private set
+    }
+
     private val pluginScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     lateinit var manager: SlipstreamManager
@@ -22,6 +27,7 @@ class SlipstreamPlugin : JavaPlugin() {
         private set
 
     override fun onEnable() {
+        instance = this
         logger.info("Enabling Slipstream Framework...")
         
         // Инициализируем кросс-версионные маппинги (MethodHandles)

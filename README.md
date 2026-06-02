@@ -51,5 +51,56 @@ Slipstream is built for speed.
 
 *Benchmarked using JMH on OpenJDK 21. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for details.*
 
+## 💻 Usage Examples (API)
+
+### 1. Asynchronous Listeners (Suspend Listeners)
+Don't block the server and Netty! Make database queries right during packet processing. The packet order won't be disrupted:
+
+```kotlin
+val manager = SlipstreamPlugin.instance.manager
+
+manager.registerSuspendListener(object : SuspendablePacketListener {
+    override fun interestsInbound(packet: Any): Boolean = packet.isMovePacket()
+
+    override suspend fun onPacketInSuspend(player: Player, packet: Any): Boolean {
+        // The coroutine can suspend, the order of following packets is preserved!
+        val isBanned = database.checkPlayerSuspend(player.uniqueId)
+        return !isBanned // false = cancel packet
+    }
+})
+```
+
+### 2. Linear Packet Awaiting (Packet Awaiter)
+Forget about state machines for checks; wait for client responses in a single coroutine:
+
+```kotlin
+val manager = SlipstreamPlugin.instance.manager
+
+// Send a transaction to the client
+player.sendPacket(TransactionPacket(id = 1337))
+
+// The coroutine suspends until the client sends a response with the target ID
+val response = manager.awaitPacket<ServerboundTransactionPacket>(player) { it.id == 1337 }
+
+player.sendMessage("Your ping has been verified!")
+```
+
+### 3. Flexible Packet Access (ProtocolLib-style)
+Access any field by index with zero overhead:
+
+```kotlin
+val manager = SlipstreamPlugin.instance.manager
+
+manager.registerListener(object : PacketListener {
+    override fun onPacketIn(player: Player, packet: Any): Boolean {
+        val modifier = packet.modifier()
+        val x = modifier.readDouble(0) // Alphabetical sorting ensures index stability
+        
+        println("Player X coordinate: $x")
+        return true
+    }
+})
+```
+
 ## 📄 License
 MIT License.
