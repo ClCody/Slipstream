@@ -45,4 +45,26 @@ class ProtocolLibCompatTest {
         assertEquals(100, packet.value)
         assertEquals(false, result) // Cancelled
     }
+
+    @Test
+    fun `test packet type filtering`() {
+        class PositionPacket(val x: Double)
+        class ChatPacket(val msg: String)
+        
+        val posType = PacketType(PositionPacket::class.java)
+        val mockPlayer = mockk<Player>(relaxed = true)
+        
+        var posIntercepted = 0
+        
+        protocolManager.addPacketListener(object : PacketAdapter(posType) {
+            override fun onPacketReceiving(event: PacketEvent) {
+                posIntercepted++
+            }
+        })
+
+        manager.handleInboundSync(mockPlayer, PositionPacket(10.0))
+        manager.handleInboundSync(mockPlayer, ChatPacket("Hello"))
+
+        assertEquals(1, posIntercepted) // Only position should be intercepted
+    }
 }
