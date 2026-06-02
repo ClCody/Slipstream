@@ -42,7 +42,18 @@ val modifier = packet.modifier()
 val x = modifier.readDouble(0)
 modifier.writeDouble(0, x + 10.0) // On-the-fly mutation
 ```
-*Note: Fields are sorted alphabetically by their Mojang names to ensure stable indexing across versions.*
+
+## 🚉 ProtocolLib Compatibility Layer
+If you are coming from ProtocolLib, you can use a familiar syntax. This layer has **zero overhead** as it uses Kotlin value classes and MethodHandles under the hood.
+
+```kotlin
+val container = packet.asContainer()
+val x = container.getDoubles().read(0)
+container.getDoubles().write(0, x + 5.0)
+
+val message = container.getStrings().read(0)
+```
+*Note: Fields are sorted alphabetically by their Mojang names to ensure stable indexing.*
 
 ## ⏳ Packet Awaiter
 Linear, non-blocking packet awaiting.
