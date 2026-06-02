@@ -5,8 +5,6 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
-import net.apogee.slipstream.api.AwaitEvent
-import net.apogee.slipstream.api.CancelledByPluginException
 import net.apogee.slipstream.api.SlipstreamManager
 import org.bukkit.entity.Player
 import java.util.ArrayDeque
@@ -21,13 +19,10 @@ class SlipstreamPacketHandler(
 
     // Очереди пакетов (Zero-Allocation)
     private val inboundQueue = ArrayDeque<Any>()
-    private val outboundPacketQueue = ArrayDeque<Any>()
-    private val outboundPromiseQueue = ArrayDeque<ChannelPromise>()
+    private val outboundQueue = ArrayDeque<Pair<Any, ChannelPromise>>()
 
     // Очередь одноразовых слушателей (awaitPacket) без COWAL! O(1) добавление и удаление.
-    // Hybrid model: each awaiter receives an AwaitEvent; if event.consume() is called,
-    // the packet stops propagating through the pipeline.
-    private val inboundAwaiters = ArrayDeque<(AwaitEvent) -> Boolean>()
+    private val inboundAwaiters = ArrayDeque<(Any) -> Boolean>()
 
     private var isInboundSuspended = false
     private var isOutboundSuspended = false
@@ -38,9 +33,9 @@ class SlipstreamPacketHandler(
     }
 
     /**
-     * Безопасное добавление awaiter-а через Netty EventLoop.
+     * Безопасное добавление awaiter-а через Netty EventLoop
      */
-    fun addAwaiter(awaiter: (AwaitEvent) -> Boolean) {
+    fun addAwaiter(awaiter: (Any) -> Boolean) {
         val eventLoop = ctx?.executor()
         if (eventLoop != null && !eventLoop.inEventLoop()) {
             eventLoop.execute { inboundAwaiters.addLast(awaiter) }
@@ -49,7 +44,7 @@ class SlipstreamPacketHandler(
         }
     }
 
-    fun removeAwaiter(awaiter: (AwaitEvent) -> Boolean) {
+    fun removeAwaiter(awaiter: (Any) -> Boolean) {
         val eventLoop = ctx?.executor()
         if (eventLoop != null && !eventLoop.inEventLoop()) {
             eventLoop.execute { inboundAwaiters.remove(awaiter) }
@@ -59,22 +54,21 @@ class SlipstreamPacketHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        // 1. Awaiters (hybrid observe/consume model)
-        //    Each awaiter receives an AwaitEvent. If any calls consume(),
-        //    the packet stops propagating through the pipeline.
+        // 1. Awaiters (consume-model: if awaiter claims the packet, it stops here)
         if (inboundAwaiters.isNotEmpty()) {
-            val event = AwaitEvent(msg)
             val iterator = inboundAwaiters.iterator()
+            var consumed = false
             while (iterator.hasNext()) {
                 val awaiter = iterator.next()
-                if (awaiter(event)) {
+                if (awaiter(msg)) {
                     iterator.remove()
+                    consumed = true
                 }
             }
-            if (event.isConsumed) return
+            if (consumed) return
         }
 
-        // 2. Suspend buffering (если мы уже в режиме ожидания, всё летит в очередь)
+        // 2. Suspend buffering
         if (isInboundSuspended) {
             inboundQueue.addLast(msg)
             return
@@ -83,8 +77,8 @@ class SlipstreamPacketHandler(
         // 3. Синхронный роутинг
         if (!manager.handleInboundSync(player, msg)) return
 
-        // 4. Асинхронный роутинг (Lazy Suspend)
-        if (manager.hasSuspendInbound() && manager.anyInterestedInbound(msg)) {
+        // 4. Асинхронный роутинг
+        if (manager.hasSuspendInbound()) {
             isInboundSuspended = true
             val dispatcher = ctx.executor().asCoroutineDispatcher()
             
@@ -108,17 +102,16 @@ class SlipstreamPacketHandler(
 
     override fun write(ctx: ChannelHandlerContext, msg: Any, promise: ChannelPromise) {
         if (isOutboundSuspended) {
-            outboundPacketQueue.addLast(msg)
-            outboundPromiseQueue.addLast(promise)
+            outboundQueue.addLast(msg to promise)
             return
         }
 
         if (!manager.handleOutboundSync(player, msg)) {
-            promise.setFailure(CancelledByPluginException("Outbound packet rejected by sync listener", "Slipstream"))
+            promise.cancel(false)
             return
         }
 
-        if (manager.hasSuspendOutbound() && manager.anyInterestedOutbound(msg)) {
+        if (manager.hasSuspendOutbound()) {
             isOutboundSuspended = true
             val dispatcher = ctx.executor().asCoroutineDispatcher()
             
@@ -132,10 +125,11 @@ class SlipstreamPacketHandler(
                             ctx.write(currentMsg, currentPromise)
                             didWrite = true
                         } else {
-                            currentPromise.setFailure(CancelledByPluginException("Outbound packet rejected by suspend listener", "Slipstream"))
+                            currentPromise.cancel(false)
                         }
-                        currentMsg = outboundPacketQueue.pollFirst() ?: break
-                        currentPromise = outboundPromiseQueue.pollFirst()!!
+                        val next = outboundQueue.pollFirst() ?: break
+                        currentMsg = next.first
+                        currentPromise = next.second
                     }
                 } finally {
                     if (didWrite) ctx.flush()
