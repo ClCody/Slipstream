@@ -3,10 +3,11 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.7.5"
     id("xyz.jpenilla.run-paper") version "2.3.0"
     id("me.champeau.jmh") version "0.7.2"
+    `maven-publish`
 }
 
 group = "net.apogee.slipstream"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -25,6 +26,14 @@ dependencies {
     
     jmh("org.openjdk.jmh:jmh-core:1.37")
     jmh("org.openjdk.jmh:jmh-generator-annprocess:1.37")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
 
 jmh {
