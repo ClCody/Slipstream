@@ -25,6 +25,19 @@ No runtime reflection overhead. Zero Garbage Collector pressure. Native Coroutin
 
 ## 🚉 Migration from ProtocolLib
 
+Slipstream provides a full compatibility layer to make migration seamless. You can use the familiar `ProtocolLibrary`, `PacketAdapter`, and `PacketContainer` APIs with **zero performance penalty**.
+
+```kotlin
+val protocolManager = ProtocolLibrary.getProtocolManager()
+
+protocolManager.addPacketListener(object : PacketAdapter() {
+    override fun onPacketReceiving(event: PacketEvent) {
+        val x = event.packet.getDoubles().read(0)
+        println("Player is at X: $x")
+    }
+})
+```
+
 | Feature | ProtocolLib | Slipstream |
 | :--- | :--- | :--- |
 | **Access** | `StructureModifier` (Reflective) | `PacketModifier` (MethodHandles) |

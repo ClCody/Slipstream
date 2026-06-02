@@ -44,16 +44,34 @@ modifier.writeDouble(0, x + 10.0) // On-the-fly mutation
 ```
 
 ## 🚉 ProtocolLib Compatibility Layer
-If you are coming from ProtocolLib, you can use a familiar syntax. This layer has **zero overhead** as it uses Kotlin value classes and MethodHandles under the hood.
+If you are migrating a plugin from ProtocolLib, you can use our full compatibility layer. It provides a familiar API with **zero overhead**, as all components are implemented using Kotlin value classes and MethodHandles.
 
+### Direct Access (PacketContainer)
 ```kotlin
 val container = packet.asContainer()
 val x = container.getDoubles().read(0)
 container.getDoubles().write(0, x + 5.0)
-
-val message = container.getStrings().read(0)
 ```
-*Note: Fields are sorted alphabetically by their Mojang names to ensure stable indexing.*
+
+### Full ProtocolLib Mimicry
+You can even use the `ProtocolLibrary` entry point and `PacketAdapter`:
+
+```kotlin
+val protocolManager = ProtocolLibrary.getProtocolManager()
+
+protocolManager.addPacketListener(object : PacketAdapter() {
+    override fun onPacketReceiving(event: PacketEvent) {
+        val container = event.packet
+        val x = container.getDoubles().read(0)
+        
+        println("Intercepted packet from ${event.player.name} at X: $x")
+        
+        // Cancel packet just like in ProtocolLib
+        event.isCancelled = true
+    }
+})
+```
+*Note: This API is located in `net.apogee.slipstream.api.compat`.*
 
 ## ⏳ Packet Awaiter
 Linear, non-blocking packet awaiting.
