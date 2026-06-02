@@ -6,8 +6,12 @@ package net.apogee.slipstream.physics
  * без выделения памяти в куче (0 bytes allocation).
  */
 class MutableAABB(
-    var minX: Double = 0.0, var minY: Double = 0.0, var minZ: Double = 0.0,
-    var maxX: Double = 0.0, var maxY: Double = 0.0, var maxZ: Double = 0.0
+    @Volatile var minX: Double = 0.0,
+    @Volatile var minY: Double = 0.0,
+    @Volatile var minZ: Double = 0.0,
+    @Volatile var maxX: Double = 0.0,
+    @Volatile var maxY: Double = 0.0,
+    @Volatile var maxZ: Double = 0.0
 ) {
     fun updatePlayer(x: Double, y: Double, z: Double) {
         minX = x - PLAYER_WIDTH_HALF

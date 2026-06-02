@@ -1,7 +1,6 @@
 package net.apogee.slipstream
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import net.apogee.slipstream.api.SlipstreamManager
@@ -11,7 +10,7 @@ import net.apogee.slipstream.physics.ClientStateTracker
 import org.bukkit.plugin.java.JavaPlugin
 
 class SlipstreamPlugin : JavaPlugin() {
-    private val pluginScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val pluginScope = CoroutineScope(SupervisorJob())
 
     lateinit var manager: SlipstreamManager
         private set
@@ -52,6 +51,9 @@ class SlipstreamPlugin : JavaPlugin() {
         logger.info("Disabling Slipstream Framework...")
         if (::injector.isInitialized) {
             injector.ejectAll()
+        }
+        if (::stateTracker.isInitialized) {
+            stateTracker.cleanup()
         }
         pluginScope.cancel()
     }

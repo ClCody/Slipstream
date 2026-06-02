@@ -4,7 +4,11 @@ package net.apogee.slipstream.physics
  * Мутабельный легковесный вектор для математики Slipstream.
  * Используется в Ring Buffer для достижения абсолютного Zero-Allocation.
  */
-class MutableVec3d(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
+class MutableVec3d(
+    @Volatile var x: Double = 0.0,
+    @Volatile var y: Double = 0.0,
+    @Volatile var z: Double = 0.0
+) {
     
     fun update(x: Double, y: Double, z: Double) {
         this.x = x

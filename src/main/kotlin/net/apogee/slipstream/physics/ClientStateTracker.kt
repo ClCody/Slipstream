@@ -43,4 +43,11 @@ class ClientStateTracker : PacketListener, Listener {
         // Очищаем память, предотвращая утечки
         states.remove(event.player.uniqueId)
     }
+
+    /**
+     * Clears all tracked player states. Called on plugin disable to prevent memory leaks.
+     */
+    fun cleanup() {
+        states.clear()
+    }
 }

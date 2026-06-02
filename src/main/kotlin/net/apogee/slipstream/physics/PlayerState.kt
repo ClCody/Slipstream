@@ -6,8 +6,8 @@ package net.apogee.slipstream.physics
 class TrackedFrame {
     val pos = MutableVec3d()
     val boundingBox = MutableAABB()
-    var timestamp: Long = 0L
-    var transactionId: Short = 0 // Для будущей привязки к пингу/транзакциям
+    @Volatile var timestamp: Long = 0L
+    @Volatile var transactionId: Short = 0 // For future ping/transaction binding
 }
 
 /**
@@ -22,7 +22,7 @@ class PlayerState {
     // Пул из 20 объектов (создаются ОДИН раз при входе)
     val history = Array(20) { TrackedFrame() }
     
-    var historyIndex = 0
+    @Volatile var historyIndex = 0
         private set
 
     fun updatePosition(x: Double, y: Double, z: Double) {

@@ -55,12 +55,14 @@ class Injector(private val plugin: SlipstreamPlugin, private val manager: Slipst
 
     fun ejectPlayer(player: Player) {
         try {
-            manager.unregisterHandler(player)
             val channel = getChannel(player)
             val pipeline = channel.pipeline()
+            // Сначала удаляем handler из pipeline (пакеты перестают проходить через нас),
+            // затем убираем из реестра (awaitPacket больше не сработает)
             if (pipeline.get(CHANNEL_HANDLER_NAME) != null) {
                 pipeline.remove(CHANNEL_HANDLER_NAME)
             }
+            manager.unregisterHandler(player)
             plugin.logger.info("Successfully ejected Slipstream handler for ${player.name}")
         } catch (e: Exception) {
             // Игнорируем ошибки при отключении, если канал уже закрыт

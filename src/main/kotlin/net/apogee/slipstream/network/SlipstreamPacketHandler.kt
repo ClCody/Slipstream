@@ -54,18 +54,21 @@ class SlipstreamPacketHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        // 1. Отрабатываем локальные awaiters (O(1) мутации, 0 аллокаций)
+        // 1. Awaiters (consume-model: if awaiter claims the packet, it stops here)
         if (inboundAwaiters.isNotEmpty()) {
             val iterator = inboundAwaiters.iterator()
+            var consumed = false
             while (iterator.hasNext()) {
                 val awaiter = iterator.next()
                 if (awaiter(msg)) {
-                    iterator.remove() // Удаляем слушателя, если пакет подошел
+                    iterator.remove()
+                    consumed = true
                 }
             }
+            if (consumed) return
         }
 
-        // 2. Хардкорная буферизация
+        // 2. Suspend buffering
         if (isInboundSuspended) {
             inboundQueue.addLast(msg)
             return
@@ -103,7 +106,10 @@ class SlipstreamPacketHandler(
             return
         }
 
-        if (!manager.handleOutboundSync(player, msg)) return
+        if (!manager.handleOutboundSync(player, msg)) {
+            promise.cancel(false)
+            return
+        }
 
         if (manager.hasSuspendOutbound()) {
             isOutboundSuspended = true
@@ -112,17 +118,21 @@ class SlipstreamPacketHandler(
             manager.pluginScope.launch(dispatcher) {
                 var currentMsg = msg
                 var currentPromise = promise
+                var didWrite = false
                 try {
                     while (true) {
                         if (manager.handleOutboundSuspend(player, currentMsg)) {
                             ctx.write(currentMsg, currentPromise)
+                            didWrite = true
+                        } else {
+                            currentPromise.cancel(false)
                         }
                         val next = outboundQueue.pollFirst() ?: break
                         currentMsg = next.first
                         currentPromise = next.second
                     }
-                    ctx.flush()
                 } finally {
+                    if (didWrite) ctx.flush()
                     isOutboundSuspended = false
                 }
             }
