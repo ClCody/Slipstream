@@ -4,15 +4,26 @@ package net.apogee.slipstream.physics
  * Мутабельный Axis-Aligned Bounding Box (AABB).
  * В сочетании с пулом объектов (Ring Buffer) позволяет обновлять координаты хитбоксов
  * без выделения памяти в куче (0 bytes allocation).
+ *
+ * ## Thread Safety
+ *
+ * Запись ([updatePlayer]) и чтение ([copyTo]) синхронизированы для предотвращения
+ * torn-reads между Netty EventLoop (writer) и Server Thread (reader).
+ * Для zero-allocation чтения используйте [copyTo] с переиспользуемым буфером.
  */
 class MutableAABB(
-    @Volatile var minX: Double = 0.0,
-    @Volatile var minY: Double = 0.0,
-    @Volatile var minZ: Double = 0.0,
-    @Volatile var maxX: Double = 0.0,
-    @Volatile var maxY: Double = 0.0,
-    @Volatile var maxZ: Double = 0.0
+    var minX: Double = 0.0,
+    var minY: Double = 0.0,
+    var minZ: Double = 0.0,
+    var maxX: Double = 0.0,
+    var maxY: Double = 0.0,
+    var maxZ: Double = 0.0
 ) {
+    /**
+     * Atomically updates all 6 AABB fields.
+     * Synchronized to prevent torn-reads.
+     */
+    @Synchronized
     fun updatePlayer(x: Double, y: Double, z: Double) {
         minX = x - PLAYER_WIDTH_HALF
         minY = y
@@ -20,6 +31,20 @@ class MutableAABB(
         maxX = x + PLAYER_WIDTH_HALF
         maxY = y + PLAYER_HEIGHT
         maxZ = z + PLAYER_WIDTH_HALF
+    }
+
+    /**
+     * Atomically copies current state to the target AABB.
+     * Use with a reusable buffer for zero-allocation reads.
+     */
+    @Synchronized
+    fun copyTo(target: MutableAABB) {
+        target.minX = this.minX
+        target.minY = this.minY
+        target.minZ = this.minZ
+        target.maxX = this.maxX
+        target.maxY = this.maxY
+        target.maxZ = this.maxZ
     }
 
     fun intersects(other: MutableAABB): Boolean {
