@@ -14,6 +14,10 @@ object PacketMappers {
     var mappingResolver: Any? = null
 
     lateinit var serverboundMovePlayerPacketClass: Class<*>
+    lateinit var serverboundPlayerCommandPacketClass: Class<*>
+    lateinit var serverboundPongPacketClass: Class<*>
+    lateinit var clientboundUpdateAttributesPacketClass: Class<*>
+    lateinit var clientboundSetEntityDataPacketClass: Class<*>
     
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
@@ -36,6 +40,14 @@ object PacketMappers {
         val lookup = MethodHandles.lookup()
         
         serverboundMovePlayerPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundMovePlayerPacket")
+        serverboundPlayerCommandPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket")
+        serverboundPongPacketClass = try {
+            resolveClass("net.minecraft.network.protocol.common.ServerboundPongPacket")
+        } catch (e: ClassNotFoundException) {
+            resolveClass("net.minecraft.network.protocol.game.ServerboundPongPacket")
+        }
+        clientboundUpdateAttributesPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket")
+        clientboundSetEntityDataPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket")
         
         // В 1.21.x Mojang: getX(double default), getY(double default), getZ(double default), hasPosition()
         movePacketGetX = resolveMethod(serverboundMovePlayerPacketClass, "getX", "(D)D", Double::class.java, 1)

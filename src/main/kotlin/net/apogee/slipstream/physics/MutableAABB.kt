@@ -24,13 +24,13 @@ class MutableAABB(
      * Synchronized to prevent torn-reads.
      */
     @Synchronized
-    fun updatePlayer(x: Double, y: Double, z: Double) {
-        minX = x - PLAYER_WIDTH_HALF
+    fun updatePlayer(x: Double, y: Double, z: Double, widthHalf: Double = PLAYER_WIDTH_HALF, height: Double = PLAYER_HEIGHT) {
+        minX = x - widthHalf
         minY = y
-        minZ = z - PLAYER_WIDTH_HALF
-        maxX = x + PLAYER_WIDTH_HALF
-        maxY = y + PLAYER_HEIGHT
-        maxZ = z + PLAYER_WIDTH_HALF
+        minZ = z - widthHalf
+        maxX = x + widthHalf
+        maxY = y + height
+        maxZ = z + widthHalf
     }
 
     /**

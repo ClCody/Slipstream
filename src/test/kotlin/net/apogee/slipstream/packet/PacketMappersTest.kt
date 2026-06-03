@@ -15,6 +15,9 @@ class PacketMappersTest {
 
     @BeforeAll
     fun setup() {
+        // Bootstrap Minecraft registries before loading packet classes
+        net.minecraft.SharedConstants.tryDetectVersion()
+        net.minecraft.server.Bootstrap.bootStrap()
         // Инициализируем мапперы
         PacketMappers.init()
     }

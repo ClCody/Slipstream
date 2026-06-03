@@ -25,17 +25,45 @@ class PlayerState {
     @Volatile var historyIndex = 0
         private set
 
+    // Client State Variables
+    @Volatile var isSneaking: Boolean = false
+    @Volatile var isSprinting: Boolean = false
+    @Volatile var isSwimming: Boolean = false
+    @Volatile var isFallFlying: Boolean = false
+    @Volatile var isSpinAttacking: Boolean = false
+    @Volatile var isSitting: Boolean = false
+    @Volatile var scale: Double = 1.0
+
+    @Volatile var latestTransactionId: Int = 0
+
+    fun calculateWidthHalf(): Double {
+        return MutableAABB.PLAYER_WIDTH_HALF * scale
+    }
+
+    fun calculateHeight(): Double {
+        var baseHeight = MutableAABB.PLAYER_HEIGHT
+        if (isFallFlying || isSwimming || isSpinAttacking) {
+            baseHeight = 0.6
+        } else if (isSneaking || isSitting) {
+            baseHeight = 1.5
+        }
+        return baseHeight * scale
+    }
+
     fun updatePosition(x: Double, y: Double, z: Double) {
+        val widthHalf = calculateWidthHalf()
+        val height = calculateHeight()
+
         // Обновляем текущее состояние
         currentPos.update(x, y, z)
-        boundingBox.updatePlayer(x, y, z)
+        boundingBox.updatePlayer(x, y, z, widthHalf, height)
         
         // Берем готовый объект из пула истории и перезаписываем (Zero-Allocation)
         val frame = history[historyIndex]
         frame.pos.update(x, y, z)
-        frame.boundingBox.updatePlayer(x, y, z)
+        frame.boundingBox.updatePlayer(x, y, z, widthHalf, height)
         frame.timestamp = System.currentTimeMillis()
-        // frame.transactionId будет обновлен отдельным чеком пинга, если нужно
+        frame.transactionId = latestTransactionId.toShort()
         
         // Двигаем указатель по кругу
         historyIndex = (historyIndex + 1) % 20
