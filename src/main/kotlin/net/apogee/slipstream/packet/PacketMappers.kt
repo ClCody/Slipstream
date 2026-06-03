@@ -16,8 +16,13 @@ object PacketMappers {
     lateinit var serverboundMovePlayerPacketClass: Class<*>
     lateinit var serverboundPlayerCommandPacketClass: Class<*>
     lateinit var serverboundPongPacketClass: Class<*>
+    lateinit var serverboundPlayerInputPacketClass: Class<*>
+    lateinit var serverboundChatPacketClass: Class<*>
+    
     lateinit var clientboundUpdateAttributesPacketClass: Class<*>
     lateinit var clientboundSetEntityDataPacketClass: Class<*>
+    lateinit var clientboundSystemChatPacketClass: Class<*>
+    lateinit var clientboundPlayerInfoUpdatePacketClass: Class<*>
     
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
@@ -46,8 +51,13 @@ object PacketMappers {
         } catch (e: ClassNotFoundException) {
             resolveClass("net.minecraft.network.protocol.game.ServerboundPongPacket")
         }
+        serverboundPlayerInputPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundPlayerInputPacket")
+        serverboundChatPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundChatPacket")
+
         clientboundUpdateAttributesPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket")
         clientboundSetEntityDataPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket")
+        clientboundSystemChatPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSystemChatPacket")
+        clientboundPlayerInfoUpdatePacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket")
         
         // В 1.21.x Mojang: getX(double default), getY(double default), getZ(double default), hasPosition()
         movePacketGetX = resolveMethod(serverboundMovePlayerPacketClass, "getX", "(D)D", Double::class.java, 1)

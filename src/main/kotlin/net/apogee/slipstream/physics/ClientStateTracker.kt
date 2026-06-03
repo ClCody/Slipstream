@@ -1,10 +1,12 @@
 package net.apogee.slipstream.physics
 
 import net.apogee.slipstream.api.PacketListener
-import net.apogee.slipstream.packet.PacketMappers
-import net.apogee.slipstream.packet.modifier
 import net.apogee.slipstream.packet.wrapper.asMovePacket
+import net.apogee.slipstream.packet.wrapper.asPlayerCommandPacket
+import net.apogee.slipstream.packet.wrapper.asPongPacket
 import net.apogee.slipstream.packet.wrapper.isMovePacket
+import net.apogee.slipstream.packet.wrapper.isPlayerCommandPacket
+import net.apogee.slipstream.packet.wrapper.isPongPacket
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -29,7 +31,6 @@ class ClientStateTracker : PacketListener, Listener {
 
     override fun onPacketIn(player: Player, packet: Any): Boolean {
         val state = getState(player)
-        val clazz = packet.javaClass
 
         // Используем наш Bytecode Bridge для проверки и получения данных
         if (packet.isMovePacket()) {
@@ -57,23 +58,19 @@ class ClientStateTracker : PacketListener, Listener {
 
                 state.updatePosition(wrapper.x, wrapper.y, wrapper.z)
             }
-        } else if (clazz == PacketMappers.serverboundPlayerCommandPacketClass) {
-            val modifier = packet.modifier()
-            // Action is the only object field (enum), so index 0
-            val actionEnum = modifier.readObject(0) as? Enum<*>
-            if (actionEnum != null) {
-                when (actionEnum.name) {
-                    "PRESS_SHIFT_KEY" -> state.isSneaking = true
-                    "RELEASE_SHIFT_KEY" -> state.isSneaking = false
-                    "START_SPRINTING" -> state.isSprinting = true
-                    "STOP_SPRINTING" -> state.isSprinting = false
-                    "START_FALL_FLYING" -> state.isFallFlying = true
-                }
+        } else if (packet.isPlayerCommandPacket()) {
+            val wrapper = packet.asPlayerCommandPacket()
+            val actionEnum = wrapper.action
+            when (actionEnum.name) {
+                "PRESS_SHIFT_KEY" -> state.isSneaking = true
+                "RELEASE_SHIFT_KEY" -> state.isSneaking = false
+                "START_SPRINTING" -> state.isSprinting = true
+                "STOP_SPRINTING" -> state.isSprinting = false
+                "START_FALL_FLYING" -> state.isFallFlying = true
             }
-        } else if (clazz == PacketMappers.serverboundPongPacketClass) {
-            // Transaction ID is the only int field (index 0)
-            val modifier = packet.modifier()
-            state.latestTransactionId = modifier.readInt(0)
+        } else if (packet.isPongPacket()) {
+            val wrapper = packet.asPongPacket()
+            state.latestTransactionId = wrapper.id
         }
         
         return true
