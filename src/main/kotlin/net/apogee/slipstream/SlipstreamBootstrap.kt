@@ -9,14 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin
 class SlipstreamBootstrap : PluginBootstrap {
 
     override fun bootstrap(context: BootstrapContext) {
-        // Используем рефлексию для получения MappingResolver, чтобы избежать проблем с импортом
-        try {
-            val getMappingResolver = context.javaClass.getMethod("getMappingResolver")
-            PacketMappers.mappingResolver = getMappingResolver.invoke(context)
-            context.logger.info("Slipstream MappingResolver initialized via Reflection in Bootstrap.")
-        } catch (e: Exception) {
-            context.logger.warn("Failed to initialize MappingResolver via reflection: ${e.message}. Falling back to default names.")
-        }
+        context.logger.info("Slipstream initialized on Mojang-mapped environment.")
     }
 
     override fun createPlugin(context: PluginProviderContext): JavaPlugin {

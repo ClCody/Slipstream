@@ -2,6 +2,7 @@ package net.apogee.slipstream.packet
 
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodType
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 
@@ -13,6 +14,19 @@ object PacketMetadata {
     private val cache = ConcurrentHashMap<Class<*>, ClassData>()
     private val lookup = MethodHandles.lookup()
 
+    // Специальный хэндлер для final полей, которые нельзя мутировать через MethodHandles.
+    // Он просто ничего не делает (No-Op).
+    private val NO_OP_SETTER = lookup.findStatic(
+        PacketMetadata::class.java, 
+        "noOpSetter", 
+        MethodType.methodType(Void.TYPE, Any::class.java, Any::class.java)
+    )
+
+    @JvmStatic
+    private fun noOpSetter(instance: Any, value: Any?) {
+        // Ничего не делаем
+    }
+
     fun get(clazz: Class<*>): ClassData {
         return cache.getOrPut(clazz) { scanClass(clazz) }
     }
@@ -21,7 +35,8 @@ object PacketMetadata {
         val allFields = mutableListOf<Field>()
         var current: Class<*>? = clazz
         while (current != null && current != Any::class.java) {
-            allFields.addAll(current.declaredFields)
+            // Берем только инстанс-поля. Статические поля (типа STREAM_CODEC) нам не нужны.
+            allFields.addAll(current.declaredFields.filter { !java.lang.reflect.Modifier.isStatic(it.modifiers) })
             current = current.superclass
         }
         
@@ -38,8 +53,17 @@ object PacketMetadata {
 
         for (field in allFields) {
             field.isAccessible = true
+            
             val getter = lookup.unreflectGetter(field)
-            val setter = lookup.unreflectSetter(field)
+            
+            // MethodHandles не позволяют создавать Setter для final полей через unreflectSetter.
+            // Если поле final, мы используем NO_OP_SETTER, приведенный к нужному типу.
+            val setter = if (!java.lang.reflect.Modifier.isFinal(field.modifiers)) {
+                lookup.unreflectSetter(field)
+            } else {
+                NO_OP_SETTER.asType(MethodType.methodType(Void.TYPE, clazz, field.type))
+            }
+
             val typeData = TypeData(getter, setter)
 
             when (field.type) {
@@ -86,22 +110,29 @@ value class PacketModifier(val handle: Any) {
     private fun data() = PacketMetadata.get(handle.javaClass)
 
     // Чтение
-    fun readInt(index: Int): Int = data().ints[index].getter.invoke(handle) as Int
-    fun readDouble(index: Int): Double = data().doubles[index].getter.invoke(handle) as Double
-    fun readFloat(index: Int): Float = data().floats[index].getter.invoke(handle) as Float
-    fun readLong(index: Int): Long = data().longs[index].getter.invoke(handle) as Long
-    fun readBoolean(index: Int): Boolean = data().booleans[index].getter.invoke(handle) as Boolean
-    fun readString(index: Int): String = data().strings[index].getter.invoke(handle) as String
-    fun readObject(index: Int): Any? = data().objects[index].getter.invoke(handle)
+    fun readInt(index: Int): Int = try { data().ints[index].getter.invoke(handle) as Int } catch (e: Exception) { handleModifierError("readInt", index, e) }
+    fun readDouble(index: Int): Double = try { data().doubles[index].getter.invoke(handle) as Double } catch (e: Exception) { handleModifierError("readDouble", index, e) }
+    fun readFloat(index: Int): Float = try { data().floats[index].getter.invoke(handle) as Float } catch (e: Exception) { handleModifierError("readFloat", index, e) }
+    fun readLong(index: Int): Long = try { data().longs[index].getter.invoke(handle) as Long } catch (e: Exception) { handleModifierError("readLong", index, e) }
+    fun readBoolean(index: Int): Boolean = try { data().booleans[index].getter.invoke(handle) as Boolean } catch (e: Exception) { handleModifierError("readBoolean", index, e) }
+    fun readString(index: Int): String = try { data().strings[index].getter.invoke(handle) as String } catch (e: Exception) { handleModifierError("readString", index, e) }
+    fun readObject(index: Int): Any? = try { data().objects[index].getter.invoke(handle) } catch (e: Exception) { handleModifierError("readObject", index, e) }
 
     // Запись
-    fun writeInt(index: Int, value: Int) = data().ints[index].setter.invoke(handle, value)
-    fun writeDouble(index: Int, value: Double) = data().doubles[index].setter.invoke(handle, value)
-    fun writeFloat(index: Int, value: Float) = data().floats[index].setter.invoke(handle, value)
-    fun writeLong(index: Int, value: Long) = data().longs[index].setter.invoke(handle, value)
-    fun writeBoolean(index: Int, value: Boolean) = data().booleans[index].setter.invoke(handle, value)
-    fun writeString(index: Int, value: String) = data().strings[index].setter.invoke(handle, value)
-    fun writeObject(index: Int, value: Any?) = data().objects[index].setter.invoke(handle, value)
+    fun writeInt(index: Int, value: Int) = try { data().ints[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeInt", index, e) }
+    fun writeDouble(index: Int, value: Double) = try { data().doubles[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeDouble", index, e) }
+    fun writeFloat(index: Int, value: Float) = try { data().floats[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeFloat", index, e) }
+    fun writeLong(index: Int, value: Long) = try { data().longs[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeLong", index, e) }
+    fun writeBoolean(index: Int, value: Boolean) = try { data().booleans[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeBoolean", index, e) }
+    fun writeString(index: Int, value: String) = try { data().strings[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeString", index, e) }
+    fun writeObject(index: Int, value: Any?) = try { data().objects[index].setter.invoke(handle, value) } catch (e: Exception) { handleModifierError("writeObject", index, e) }
+
+    private fun handleModifierError(op: String, index: Int, e: Exception): Nothing {
+        val d = data()
+        System.err.println("[Slipstream] PacketModifier Error ($op) on ${handle.javaClass.name} at index $index")
+        System.err.println("[Slipstream] Arrays: ints=${d.ints.size}, doubles=${d.doubles.size}, floats=${d.floats.size}, longs=${d.longs.size}, bools=${d.booleans.size}, objs=${d.objects.size}")
+        throw e
+    }
 }
 
 fun Any.modifier() = PacketModifier(this)

@@ -115,8 +115,11 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     suspend fun handleInboundSuspend(player: Player, packet: Any): Boolean {
         val current = inboundSuspendListeners
         for (i in current.indices) {
-            if (!current[i].listener.onPacketInSuspend(player, packet)) {
-                return false
+            val listener = current[i].listener
+            if (listener.interestsInbound(packet)) {
+                if (!listener.onPacketInSuspend(player, packet)) {
+                    return false
+                }
             }
         }
         return true
@@ -125,8 +128,11 @@ class SlipstreamManager(val pluginScope: CoroutineScope) {
     suspend fun handleOutboundSuspend(player: Player, packet: Any): Boolean {
         val current = outboundSuspendListeners
         for (i in current.indices) {
-            if (!current[i].listener.onPacketOutSuspend(player, packet)) {
-                return false
+            val listener = current[i].listener
+            if (listener.interestsOutbound(packet)) {
+                if (!listener.onPacketOutSuspend(player, packet)) {
+                    return false
+                }
             }
         }
         return true

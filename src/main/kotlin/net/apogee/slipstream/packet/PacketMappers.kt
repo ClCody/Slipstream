@@ -6,10 +6,11 @@ import java.lang.reflect.Method
 
 /**
  * Реестр сверхбыстрых указателей на методы NMS пакетов.
+ * В 1.20.5+ Paper использует Mojang маппинги в рантайме, поэтому резолвер больше не нужен.
  */
 object PacketMappers {
     
-    // Устанавливается через SlipstreamBootstrap. Тип Any для обхода проблем с импортом.
+    // Больше не используется в 1.21+
     @JvmStatic
     var mappingResolver: Any? = null
 
@@ -18,6 +19,7 @@ object PacketMappers {
     lateinit var serverboundPongPacketClass: Class<*>
     lateinit var serverboundPlayerInputPacketClass: Class<*>
     lateinit var serverboundChatPacketClass: Class<*>
+    lateinit var serverboundSwingPacketClass: Class<*>
     
     lateinit var clientboundUpdateAttributesPacketClass: Class<*>
     lateinit var clientboundSetEntityDataPacketClass: Class<*>
@@ -45,10 +47,27 @@ object PacketMappers {
     lateinit var clientboundDisconnectPacketClass: Class<*>
     lateinit var clientboundResourcePackPushPacketClass: Class<*>
     
+    lateinit var clientboundSetEntityVelocityPacketClass: Class<*>
+    lateinit var serverboundInteractPacketClass: Class<*>
+    lateinit var serverboundUseItemOnPacketClass: Class<*>
+    
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
     lateinit var movePacketGetZ: MethodHandle
+    lateinit var movePacketGetYaw: MethodHandle
+    lateinit var movePacketGetPitch: MethodHandle
     lateinit var movePacketHasPos: MethodHandle
+    lateinit var movePacketHasRot: MethodHandle
+    lateinit var movePacketIsOnGround: MethodHandle
+
+    enum class VelocityFormat { 
+        /** entityId (int), xa, ya, za (ints, scaled by 8000) */
+        LEGACY_INTS, 
+        /** id (int), delta (Vec3 object) */
+        MOTION_RECORD 
+    }
+    
+    var velocityFormat: VelocityFormat = VelocityFormat.LEGACY_INTS
 
     // Карта для сопоставления оберток Kotlin с примитивами Java
     private val primitiveMap = mapOf(
@@ -65,73 +84,110 @@ object PacketMappers {
     fun init() {
         val lookup = MethodHandles.lookup()
         
-        serverboundMovePlayerPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundMovePlayerPacket")
-        serverboundPlayerCommandPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket")
+        serverboundMovePlayerPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundMovePlayerPacket")
+        serverboundPlayerCommandPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket")
         serverboundPongPacketClass = try {
-            resolveClass("net.minecraft.network.protocol.common.ServerboundPongPacket")
+            Class.forName("net.minecraft.network.protocol.common.ServerboundPongPacket")
         } catch (e: ClassNotFoundException) {
-            resolveClass("net.minecraft.network.protocol.game.ServerboundPongPacket")
+            Class.forName("net.minecraft.network.protocol.game.ServerboundPongPacket")
         }
-        serverboundPlayerInputPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundPlayerInputPacket")
-        serverboundChatPacketClass = resolveClass("net.minecraft.network.protocol.game.ServerboundChatPacket")
+        serverboundPlayerInputPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundPlayerInputPacket")
+        serverboundChatPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundChatPacket")
 
-        clientboundUpdateAttributesPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket")
-        clientboundSetEntityDataPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket")
-        clientboundSystemChatPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSystemChatPacket")
-        clientboundPlayerInfoUpdatePacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket")
+        clientboundUpdateAttributesPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket")
+        clientboundSetEntityDataPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket")
+        clientboundSystemChatPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSystemChatPacket")
+        clientboundPlayerInfoUpdatePacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket")
 
-        clientboundAddEntityPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundAddEntityPacket")
-        clientboundRemoveEntitiesPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket")
-        clientboundTeleportEntityPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket")
-        clientboundLevelEventPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundLevelEventPacket")
+        clientboundAddEntityPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundAddEntityPacket")
+        clientboundRemoveEntitiesPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket")
+        clientboundTeleportEntityPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket")
+        clientboundLevelEventPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundLevelEventPacket")
 
-        clientboundBossEventPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundBossEventPacket")
-        clientboundSetTitleTextPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket")
-        clientboundSetSubtitleTextPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket")
-        clientboundSetTitlesAnimationPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket")
+        clientboundBossEventPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundBossEventPacket")
+        clientboundSetTitleTextPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket")
+        clientboundSetSubtitleTextPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket")
+        clientboundSetTitlesAnimationPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket")
 
-        clientboundContainerSetSlotPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket")
-        clientboundContainerSetContentPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket")
-        clientboundContainerClosePacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerClosePacket")
+        clientboundContainerSetSlotPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket")
+        clientboundContainerSetContentPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket")
+        clientboundContainerClosePacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundContainerClosePacket")
+
+        clientboundSetEntityVelocityPacketClass = try {
+            val clazz = Class.forName("net.minecraft.network.protocol.game.ClientboundSetEntityVelocityPacket")
+            velocityFormat = VelocityFormat.LEGACY_INTS
+            clazz
+        } catch (e: ClassNotFoundException) {
+            try {
+                val clazz = Class.forName("net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket")
+                // Check if it uses legacy ints by checking field types
+                if (clazz.declaredFields.count { it.type == Integer.TYPE } >= 4) {
+                    velocityFormat = VelocityFormat.LEGACY_INTS
+                } else {
+                    velocityFormat = VelocityFormat.MOTION_RECORD
+                }
+                clazz
+            } catch (e2: ClassNotFoundException) {
+                try {
+                    val clazz = Class.forName("net.minecraft.network.protocol.common.ClientboundSetEntityVelocityPacket")
+                    velocityFormat = VelocityFormat.LEGACY_INTS
+                    clazz
+                } catch (e3: ClassNotFoundException) {
+                    val clazz = Class.forName("net.minecraft.network.protocol.game.PacketPlayOutEntityVelocity")
+                    velocityFormat = VelocityFormat.LEGACY_INTS
+                    clazz
+                }
+            }
+        }
+        
+        serverboundInteractPacketClass = try {
+            Class.forName("net.minecraft.network.protocol.game.ServerboundInteractPacket")
+        } catch (e: ClassNotFoundException) {
+            try {
+                Class.forName("net.minecraft.network.protocol.common.ServerboundInteractPacket")
+            } catch (e2: ClassNotFoundException) {
+                Class.forName("net.minecraft.network.protocol.game.PacketPlayInUseEntity")
+            }
+        }
+        
+        serverboundUseItemOnPacketClass = try {
+            Class.forName("net.minecraft.network.protocol.game.ServerboundUseItemOnPacket")
+        } catch (e: ClassNotFoundException) {
+            try {
+                Class.forName("net.minecraft.network.protocol.common.ServerboundUseItemOnPacket")
+            } catch (e2: ClassNotFoundException) {
+                Class.forName("net.minecraft.network.protocol.game.PacketPlayInUseItem")
+            }
+        }
 
         try {
-            clientboundDisconnectPacketClass = resolveClass("net.minecraft.network.protocol.common.ClientboundDisconnectPacket")
-            clientboundResourcePackPushPacketClass = resolveClass("net.minecraft.network.protocol.common.ClientboundResourcePackPushPacket")
+            clientboundDisconnectPacketClass = Class.forName("net.minecraft.network.protocol.common.ClientboundDisconnectPacket")
+            clientboundResourcePackPushPacketClass = Class.forName("net.minecraft.network.protocol.common.ClientboundResourcePackPushPacket")
         } catch (e: ClassNotFoundException) {
-            clientboundDisconnectPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundDisconnectPacket")
-            clientboundResourcePackPushPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundResourcePackPushPacket")
+            clientboundDisconnectPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundDisconnectPacket")
+            clientboundResourcePackPushPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundResourcePackPushPacket")
         }
         
         // В 1.21.x Mojang: getX(double default), getY(double default), getZ(double default), hasPosition()
         movePacketGetX = resolveMethod(serverboundMovePlayerPacketClass, "getX", "(D)D", Double::class.java, 1)
         movePacketGetY = resolveMethod(serverboundMovePlayerPacketClass, "getY", "(D)D", Double::class.java, 1)
         movePacketGetZ = resolveMethod(serverboundMovePlayerPacketClass, "getZ", "(D)D", Double::class.java, 1)
+        movePacketGetYaw = resolveMethod(serverboundMovePlayerPacketClass, "getYRot", "(F)F", Float::class.java, 1)
+        movePacketGetPitch = resolveMethod(serverboundMovePlayerPacketClass, "getXRot", "(F)F", Float::class.java, 1)
         movePacketHasPos = resolveMethod(serverboundMovePlayerPacketClass, "hasPosition", "()Z", Boolean::class.java, 0)
-    }
-
-    private fun resolveClass(mojangName: String): Class<*> {
-        val runtimeName = if (mappingResolver != null) {
-            mappingResolver!!.javaClass.getMethod("mapClassName", String::class.java, String::class.java)
-                .invoke(mappingResolver, "mojang", mojangName) as String
-        } else {
-            mojangName
-        }
-        return Class.forName(runtimeName)
+        movePacketHasRot = resolveMethod(serverboundMovePlayerPacketClass, "hasRotation", "()Z", Boolean::class.java, 0)
+        movePacketIsOnGround = resolveMethod(serverboundMovePlayerPacketClass, "isOnGround", "()Z", Boolean::class.java, 0)
+        
+        serverboundSwingPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundSwingPacket")
     }
 
     private fun resolveMethod(clazz: Class<*>, mojangName: String, descriptor: String, returnType: Class<*>, paramCount: Int): MethodHandle {
         val lookup = MethodHandles.lookup()
-        val runtimeName = if (mappingResolver != null) {
-            mappingResolver!!.javaClass.getMethod("mapMethodName", String::class.java, String::class.java, String::class.java, String::class.java)
-                .invoke(mappingResolver, "mojang", clazz.name, mojangName, descriptor) as String
-        } else {
-            mojangName
-        }
         
         val targetReturnType = primitiveMap[returnType] ?: returnType
         
-        val method = findMethodRecursive(clazz, runtimeName, targetReturnType, paramCount)
-            ?: throw IllegalStateException("Failed to find method $mojangName ($runtimeName) in ${clazz.name}")
+        val method = findMethodRecursive(clazz, mojangName, targetReturnType, paramCount)
+            ?: throw IllegalStateException("Failed to find method $mojangName in ${clazz.name}")
             
         method.isAccessible = true
         return lookup.unreflect(method)
@@ -157,11 +213,6 @@ object PacketMappers {
     }
 
     fun resolveFieldName(clazz: Class<*>, mojangName: String, descriptor: String): String {
-        return if (mappingResolver != null) {
-            mappingResolver!!.javaClass.getMethod("mapFieldName", String::class.java, String::class.java, String::class.java, String::class.java)
-                .invoke(mappingResolver, "mojang", clazz.name, mojangName, descriptor) as String
-        } else {
-            mojangName
-        }
+        return mojangName
     }
 }

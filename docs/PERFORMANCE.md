@@ -26,5 +26,8 @@ By caching `MethodHandle` objects in a `static final` context, the JVM JIT compi
 ### 3. Lazy Suspend Efficiency
 Most packets don't need async processing. Slipstream's **Lazy Suspend** ensures that we don't pay the cost of coroutine scheduling unless it is strictly required by a listener.
 
-### 4. Deterministic Indexing
-`PacketModifier` uses deterministic field sorting (alphabetical Mojang names). This ensures that `readDouble(0)` is always the same field on every version of Minecraft from 1.21 onwards.
+### 4. Deterministic Indexing & Metadata Caching
+The `PacketModifier` utilizes a high-performance `PacketMetadata` cache. 
+- **Alphabetical Sorting:** Fields are sorted alphabetically by their Mojang names before being indexed. This ensures that `readDouble(0)` always points to the same conceptual field (e.g., `x`) regardless of internal JVM field layout.
+- **No-Op Final Setters:** To prevent runtime exceptions, `PacketMetadata` automatically detects `final` fields and assigns them a `NO_OP_SETTER`, allowing for safe code execution even when attempting to write to immutable fields.
+- **Concurrent Access:** Metadata is cached in a `ConcurrentHashMap` using `MethodHandles`, allowing for lock-free reads during the packet processing hot-path.

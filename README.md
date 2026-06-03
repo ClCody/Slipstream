@@ -15,7 +15,7 @@ No runtime reflection overhead. Zero Garbage Collector pressure. Native Coroutin
 * 🧵 **Coroutine-First & Lazy Suspend:** Asynchronous packet processing directly in the Netty thread. Slipstream only launches coroutines when a listener is interested, otherwise, it stays 100% synchronous.
 * 📐 **High-Performance Physics:** Independent built-in math (`MutableAABB`, `MutableVec3d`) and ultra-fast RayTracing. Utilizes a **Ring Buffer** for 0-byte allocations during physics updates.
 * 🪄 **Full Packet Mutation:** Read and write any packet field by index (ProtocolLib-style) or via specialized zero-allocation wrappers.
-* 🗺️ **Cross-Version Mapping Resolver:** Built-in support for Mojang/Paper mappings, ensuring your plugin works across multiple versions (1.21+) without changes.
+* 🗺️ **Native Mojang Mappings:** Deeply integrated with Paper's native Mojang-mapped environment (1.21+). No complex remapping layers; indices are deterministically stable and performance-optimal.
 
 ## 📖 Documentation & Wiki
 

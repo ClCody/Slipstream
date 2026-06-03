@@ -22,6 +22,18 @@ value class WrapperMovePacket(val handle: Any) {
         
     val hasPos: Boolean
         get() = PacketMappers.movePacketHasPos.invoke(handle) as Boolean
+        
+    val hasRot: Boolean
+        get() = PacketMappers.movePacketHasRot.invoke(handle) as Boolean
+
+    val yaw: Float
+        get() = PacketMappers.movePacketGetYaw.invoke(handle, 0.0f) as Float
+        
+    val pitch: Float
+        get() = PacketMappers.movePacketGetPitch.invoke(handle, 0.0f) as Float
+        
+    val onGround: Boolean
+        get() = PacketMappers.movePacketIsOnGround.invoke(handle) as Boolean
 }
 
 // Удобные экстеншены для проверок без жесткой типизации NMS классов

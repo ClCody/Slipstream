@@ -3,11 +3,12 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.7.5"
     id("xyz.jpenilla.run-paper") version "2.3.0"
     id("me.champeau.jmh") version "0.7.2"
+    id("com.gradleup.shadow") version "8.3.0"
     `maven-publish`
 }
 
 group = "net.apogee.slipstream"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
@@ -17,6 +18,7 @@ repositories {
 dependencies {
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
     
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.1")
 
@@ -26,6 +28,10 @@ dependencies {
     
     jmh("org.openjdk.jmh:jmh-core:1.37")
     jmh("org.openjdk.jmh:jmh-generator-annprocess:1.37")
+}
+
+paperweight {
+    reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 }
 
 publishing {
@@ -50,8 +56,29 @@ tasks {
     test {
         useJUnitPlatform()
     }
+
+    jar {
+        // Tag the normal jar as dev to distinguish it from the shaded production jar
+        archiveClassifier.set("dev")
+    }
+
+    shadowJar {
+        archiveClassifier.set("") // The shaded jar is our main production artifact
+        
+        mergeServiceFiles() // КРИТИЧЕСКИ ВАЖНО для корутин!
+
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang"
+        }
+
+        // Exclude unnecessary metadata
+        exclude("META-INF/maven/**")
+        exclude("META-INF/proguard/**")
+    }
     
     assemble {
-        dependsOn(reobfJar)
+        // According to Paperweight docs for MOJANG_PRODUCTION:
+        // "you need to remove all dependsOn(reobfJar) lines"
+        dependsOn(shadowJar)
     }
 }

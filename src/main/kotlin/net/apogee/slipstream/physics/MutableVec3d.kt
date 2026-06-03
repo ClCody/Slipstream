@@ -10,7 +10,7 @@ package net.apogee.slipstream.physics
  * torn-reads (состояния, когда читатель видит новые x, но старые y/z).
  * Для zero-allocation чтения используйте [copyTo] с переиспользуемым буфером.
  */
-class MutableVec3d(
+class MutableVec3d @JvmOverloads constructor(
     var x: Double = 0.0,
     var y: Double = 0.0,
     var z: Double = 0.0

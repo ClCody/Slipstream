@@ -27,7 +27,7 @@ class PacketModifierTest {
 
     @Test
     fun `test packet container mimicry`() {
-        class MimicPacket(val count: Int, val name: String)
+        class MimicPacket(var count: Int, var name: String)
         val packet = MimicPacket(5, "Slipstream")
         
         val container = packet.asContainer()

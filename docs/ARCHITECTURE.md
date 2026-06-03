@@ -19,11 +19,16 @@ To minimize overhead, we use a **Lazy Suspend** strategy:
 ### 4. Zero-Allocation Outbound Queue
 When the pipeline is suspended (e.g., waiting for a database), Slipstream stores packets and their `ChannelPromise` objects in parallel primitive-friendly queues. This ensures **zero garbage** even during network stalls.
 
-### 5. Multi-Layer Mapping Resolver
-Our `PacketMappers` uses a robust resolution strategy:
-1. **Paper MappingResolver:** (via Bootstrap) Uses official Paper mappings for 1:1 accuracy.
-2. **Recursive Lookup:** Scans the entire class hierarchy (including private methods) to find the correct handle.
-3. **Primitive Mapping:** Automatically handles the mismatch between Kotlin types and Java primitives (e.g., `Double` vs `double`).
+### 5. Hybrid Access Model
+Slipstream uses a dual-layered approach to balance extreme performance with developer flexibility:
+- **Fast Path (Wrappers):** Pre-compiled `value class` wrappers for high-frequency packets (e.g., `WrapperMovePacket`). These use cached `MethodHandle` pointers to bypass reflection entirely, operating at near-native speeds.
+- **Generic Path (PacketModifier):** A ProtocolLib-style API that allows access to *any* packet by index. It uses `PacketMetadata` to scan and sort fields alphabetically by their Mojang names, ensuring index stability across versions.
+
+### 6. Native Mapping Integration
+In 1.21+ environments, Paper utilizes official Mojang mappings at runtime. Slipstream leverages this by:
+- **Direct Handle Resolution:** Resolving methods and fields directly by their Mojang names.
+- **Deterministic Indexing:** Field indices in `PacketModifier` are based on the alphabetical order of Mojang names, providing a consistent API even when field orders change in NMS.
+- **Zero Overhead:** No mapping remapping layer is required at runtime, reducing startup time and memory footprint.
 
 ## 📡 Pipeline Visualization
 ```text
