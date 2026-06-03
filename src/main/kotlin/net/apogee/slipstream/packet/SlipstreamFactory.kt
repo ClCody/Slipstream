@@ -66,6 +66,66 @@ object SlipstreamFactory {
         return WrapperPlayerInfoUpdatePacket(create(PacketMappers.clientboundPlayerInfoUpdatePacketClass))
     }
 
+    // --- Entity / World ---
+
+    fun createAddEntityPacket(): WrapperAddEntityPacket {
+        return WrapperAddEntityPacket(create(PacketMappers.clientboundAddEntityPacketClass))
+    }
+
+    fun createRemoveEntitiesPacket(): WrapperRemoveEntitiesPacket {
+        return WrapperRemoveEntitiesPacket(create(PacketMappers.clientboundRemoveEntitiesPacketClass))
+    }
+
+    fun createTeleportEntityPacket(): WrapperTeleportEntityPacket {
+        return WrapperTeleportEntityPacket(create(PacketMappers.clientboundTeleportEntityPacketClass))
+    }
+
+    fun createLevelEventPacket(): WrapperLevelEventPacket {
+        return WrapperLevelEventPacket(create(PacketMappers.clientboundLevelEventPacketClass))
+    }
+
+    // --- UI ---
+
+    fun createBossEventPacket(): WrapperBossEventPacket {
+        return WrapperBossEventPacket(create(PacketMappers.clientboundBossEventPacketClass))
+    }
+
+    fun createSetTitleTextPacket(): WrapperSetTitleTextPacket {
+        return WrapperSetTitleTextPacket(create(PacketMappers.clientboundSetTitleTextPacketClass))
+    }
+
+    fun createSetSubtitleTextPacket(): WrapperSetSubtitleTextPacket {
+        return WrapperSetSubtitleTextPacket(create(PacketMappers.clientboundSetSubtitleTextPacketClass))
+    }
+
+    fun createSetTitlesAnimationPacket(): WrapperSetTitlesAnimationPacket {
+        return WrapperSetTitlesAnimationPacket(create(PacketMappers.clientboundSetTitlesAnimationPacketClass))
+    }
+
+    // --- Inventory ---
+
+    fun createContainerSetSlotPacket(): WrapperContainerSetSlotPacket {
+        return WrapperContainerSetSlotPacket(create(PacketMappers.clientboundContainerSetSlotPacketClass))
+    }
+
+    fun createContainerSetContentPacket(): WrapperContainerSetContentPacket {
+        return WrapperContainerSetContentPacket(create(PacketMappers.clientboundContainerSetContentPacketClass))
+    }
+
+    fun createContainerClosePacket(): WrapperContainerClosePacket {
+        return WrapperContainerClosePacket(create(PacketMappers.clientboundContainerClosePacketClass))
+    }
+
+    // --- Utility ---
+
+    fun createDisconnectPacket(): WrapperDisconnectPacket {
+        return WrapperDisconnectPacket(create(PacketMappers.clientboundDisconnectPacketClass))
+    }
+
+    fun createResourcePackPushPacket(): WrapperResourcePackPushPacket {
+        return WrapperResourcePackPushPacket(create(PacketMappers.clientboundResourcePackPushPacketClass))
+    }
+
     fun createMovePlayerPacket(): WrapperMovePacket {
         return WrapperMovePacket(create(PacketMappers.serverboundMovePlayerPacketClass))
     }

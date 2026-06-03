@@ -24,6 +24,27 @@ object PacketMappers {
     lateinit var clientboundSystemChatPacketClass: Class<*>
     lateinit var clientboundPlayerInfoUpdatePacketClass: Class<*>
     
+    // Visualization / Entity
+    lateinit var clientboundAddEntityPacketClass: Class<*>
+    lateinit var clientboundRemoveEntitiesPacketClass: Class<*>
+    lateinit var clientboundTeleportEntityPacketClass: Class<*>
+    lateinit var clientboundLevelEventPacketClass: Class<*>
+
+    // UI
+    lateinit var clientboundBossEventPacketClass: Class<*>
+    lateinit var clientboundSetTitleTextPacketClass: Class<*>
+    lateinit var clientboundSetSubtitleTextPacketClass: Class<*>
+    lateinit var clientboundSetTitlesAnimationPacketClass: Class<*>
+    
+    // Inventory
+    lateinit var clientboundContainerSetSlotPacketClass: Class<*>
+    lateinit var clientboundContainerSetContentPacketClass: Class<*>
+    lateinit var clientboundContainerClosePacketClass: Class<*>
+
+    // Utility
+    lateinit var clientboundDisconnectPacketClass: Class<*>
+    lateinit var clientboundResourcePackPushPacketClass: Class<*>
+    
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
     lateinit var movePacketGetZ: MethodHandle
@@ -58,6 +79,28 @@ object PacketMappers {
         clientboundSetEntityDataPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket")
         clientboundSystemChatPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSystemChatPacket")
         clientboundPlayerInfoUpdatePacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket")
+
+        clientboundAddEntityPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundAddEntityPacket")
+        clientboundRemoveEntitiesPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket")
+        clientboundTeleportEntityPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket")
+        clientboundLevelEventPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundLevelEventPacket")
+
+        clientboundBossEventPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundBossEventPacket")
+        clientboundSetTitleTextPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket")
+        clientboundSetSubtitleTextPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket")
+        clientboundSetTitlesAnimationPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket")
+
+        clientboundContainerSetSlotPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket")
+        clientboundContainerSetContentPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket")
+        clientboundContainerClosePacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundContainerClosePacket")
+
+        try {
+            clientboundDisconnectPacketClass = resolveClass("net.minecraft.network.protocol.common.ClientboundDisconnectPacket")
+            clientboundResourcePackPushPacketClass = resolveClass("net.minecraft.network.protocol.common.ClientboundResourcePackPushPacket")
+        } catch (e: ClassNotFoundException) {
+            clientboundDisconnectPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundDisconnectPacket")
+            clientboundResourcePackPushPacketClass = resolveClass("net.minecraft.network.protocol.game.ClientboundResourcePackPushPacket")
+        }
         
         // В 1.21.x Mojang: getX(double default), getY(double default), getZ(double default), hasPosition()
         movePacketGetX = resolveMethod(serverboundMovePlayerPacketClass, "getX", "(D)D", Double::class.java, 1)
