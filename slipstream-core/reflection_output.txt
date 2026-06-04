@@ -1,0 +1,30 @@
+net.minecraft.network.protocol.game.ServerboundMovePlayerPacket fields:
+  - double x
+  - double y
+  - double z
+  - float yRot
+  - float xRot
+  - boolean onGround
+  - boolean hasPos
+  - boolean hasRot
+net.minecraft.network.protocol.game.ServerboundMovePlayerPacket methods:
+  - net.minecraft.network.protocol.PacketType type()
+  - void handle(net.minecraft.network.PacketListener)
+  - void handle(net.minecraft.network.protocol.game.ServerGamePacketListener)
+  - double getX(double)
+  - boolean hasPosition()
+  - float getXRot(float)
+  - boolean isOnGround()
+  - float getYRot(float)
+  - boolean hasRotation()
+  - double getY(double)
+  - double getZ(double)
+net.minecraft.network.protocol.game.ServerboundSwingPacket fields:
+  - net.minecraft.network.codec.StreamCodec STREAM_CODEC
+  - net.minecraft.world.InteractionHand hand
+net.minecraft.network.protocol.game.ServerboundSwingPacket methods:
+  - net.minecraft.network.protocol.PacketType type()
+  - void write(net.minecraft.network.FriendlyByteBuf)
+  - void handle(net.minecraft.network.PacketListener)
+  - void handle(net.minecraft.network.protocol.game.ServerGamePacketListener)
+  - net.minecraft.world.InteractionHand getHand()
