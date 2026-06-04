@@ -47,6 +47,7 @@ object PacketMappers {
     lateinit var clientboundDisconnectPacketClass: Class<*>
     lateinit var clientboundResourcePackPushPacketClass: Class<*>
     
+    lateinit var clientboundPingPacketClass: Class<*>
     lateinit var clientboundSetEntityVelocityPacketClass: Class<*>
     lateinit var serverboundInteractPacketClass: Class<*>
     lateinit var serverboundUseItemOnPacketClass: Class<*>
@@ -166,6 +167,12 @@ object PacketMappers {
         } catch (e: ClassNotFoundException) {
             clientboundDisconnectPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundDisconnectPacket")
             clientboundResourcePackPushPacketClass = Class.forName("net.minecraft.network.protocol.game.ClientboundResourcePackPushPacket")
+        }
+
+        clientboundPingPacketClass = try {
+            Class.forName("net.minecraft.network.protocol.common.ClientboundPingPacket")
+        } catch (e: Exception) {
+            Class.forName("net.minecraft.network.protocol.game.ClientboundPingPacket")
         }
         
         // В 1.21.x Mojang: getX(double default), getY(double default), getZ(double default), hasPosition()
