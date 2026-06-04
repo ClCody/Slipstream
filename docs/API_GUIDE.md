@@ -1,4 +1,4 @@
-# 📖 API Guide
+# 📖 API Guide (v2.0.0)
 
 ## 🚀 Getting the Manager
 To start using Slipstream, you need to get the `SlipstreamManager` instance. You can do this via the singleton:
@@ -9,14 +9,20 @@ val manager = SlipstreamPlugin.instance.manager
 
 ## 📡 Listening for Packets
 
+### The `wrapAs<T>()` Extension
+In Slipstream 2.0.0, we introduced a completely type-safe and zero-overhead way to identify and cast packets using inline reified functions. You don't need to pollute your global namespace with `isPacket` methods anymore.
+
+Simply use `packet.wrapAs<WrapperClass>()`. It will return `null` if the packet is not of the specified type.
+
 ### Synchronous Listener
 Best for lightweight checks and anti-cheat triggers.
 ```kotlin
+import net.apogee.slipstream.packet.wrapper.generated.wrapAs
+
 manager.registerListener(object : PacketListener {
     override fun onPacketIn(player: Player, packet: Any): Boolean {
-        if (packet.isMovePacket()) {
-            val wrapper = packet.asMovePacket()
-            println("Player moved to ${wrapper.x}")
+        packet.wrapAs<WrapperServerboundMovePlayerPacket>()?.let { move ->
+            println("Player moved to ${move.pos.x}") // WrapperBlockPos is zero-allocation!
         }
         return true 
     }
@@ -27,7 +33,8 @@ manager.registerListener(object : PacketListener {
 Perfect for I/O bound operations. Packet order for the player is strictly preserved.
 ```kotlin
 manager.registerSuspendListener(object : SuspendablePacketListener {
-    override fun interestsInbound(packet: Any): Boolean = packet.isMovePacket()
+    // Only suspend if it's a chat packet
+    override fun interestsInbound(packet: Any): Boolean = packet.wrapAs<WrapperServerboundChatPacket>() != null
 
     override suspend fun onPacketInSuspend(player: Player, packet: Any): Boolean {
         return database.checkStatus(player.uniqueId) // Safe suspend!
@@ -35,26 +42,28 @@ manager.registerSuspendListener(object : SuspendablePacketListener {
 })
 ```
 
-## 🪄 Packet Mutation (PacketModifier)
-Modify any packet field by index without specialized wrappers.
+## 🪄 Packet Mutation (Setters & Copy)
+Modifying packets is now type-safe and fully integrated into the wrappers.
+
+### Mutable Packets (Setters)
+If the NMS packet has mutable fields, Slipstream generates zero-allocation setters for them via `MethodHandles`.
 ```kotlin
-val modifier = packet.modifier()
-val x = modifier.readDouble(0)
-modifier.writeDouble(0, x + 10.0) // On-the-fly mutation
+packet.wrapAs<WrapperClientboundSetEntityDataPacket>()?.let { dataPacket ->
+    dataPacket.id = 1234 // Fast write via unreflectSetter
+}
+```
+
+### Immutable Packets (Java Records)
+For modern packets implemented as Java Records (1.20+), Slipstream generates a `copy()` method, identical to Kotlin data classes.
+```kotlin
+packet.wrapAs<WrapperServerboundSwingPacket>()?.let { swing ->
+    val newPacket = swing.copy(hand = InteractionHand.OFF_HAND)
+    // You must return or send newPacket since the original is immutable
+}
 ```
 
 ## 🚉 ProtocolLib Compatibility Layer
 If you are migrating a plugin from ProtocolLib, you can use our full compatibility layer. It provides a familiar API with **zero overhead**, as all components are implemented using Kotlin value classes and MethodHandles.
-
-### Direct Access (PacketContainer)
-```kotlin
-val container = packet.asContainer()
-val x = container.getDoubles().read(0)
-container.getDoubles().write(0, x + 5.0)
-```
-
-### Full ProtocolLib Mimicry
-You can even use the `ProtocolLibrary` entry point and `PacketAdapter`:
 
 ```kotlin
 val protocolManager = ProtocolLibrary.getProtocolManager()
@@ -71,13 +80,13 @@ protocolManager.addPacketListener(object : PacketAdapter() {
     }
 })
 ```
-*Note: This API is located in `net.apogee.slipstream.api.compat`.*
+*Note: This API is located in `net.apogee.slipstream.api.compat`. However, for maximum performance and type safety, we highly recommend migrating to the native `wrapAs<T>()` API.*
 
 ## ⏳ Packet Awaiter
 Linear, non-blocking packet awaiting.
 ```kotlin
-val response = manager.awaitPacket<ServerboundTransactionPacket>(player, consume = true) { 
-    it.packet.id == 1337 
+val response = manager.awaitPacket<WrapperServerboundPongPacket>(player, consume = true) { pong ->
+    pong.packet.id == 1337 
 }
 ```
 
