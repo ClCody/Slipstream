@@ -14,43 +14,44 @@ object PacketMappers {
     @JvmStatic
     var mappingResolver: Any? = null
 
-    lateinit var serverboundMovePlayerPacketClass: Class<*>
-    lateinit var serverboundPlayerCommandPacketClass: Class<*>
-    lateinit var serverboundPongPacketClass: Class<*>
-    lateinit var serverboundPlayerInputPacketClass: Class<*>
-    lateinit var serverboundChatPacketClass: Class<*>
-    lateinit var serverboundSwingPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundMovePlayerPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundPlayerCommandPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundPlayerActionPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundPongPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundPlayerInputPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundChatPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundSwingPacketClass: Class<*>
     
-    lateinit var clientboundUpdateAttributesPacketClass: Class<*>
-    lateinit var clientboundSetEntityDataPacketClass: Class<*>
-    lateinit var clientboundSystemChatPacketClass: Class<*>
-    lateinit var clientboundPlayerInfoUpdatePacketClass: Class<*>
+    @JvmStatic lateinit var clientboundUpdateAttributesPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSetEntityDataPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSystemChatPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundPlayerInfoUpdatePacketClass: Class<*>
     
     // Visualization / Entity
-    lateinit var clientboundAddEntityPacketClass: Class<*>
-    lateinit var clientboundRemoveEntitiesPacketClass: Class<*>
-    lateinit var clientboundTeleportEntityPacketClass: Class<*>
-    lateinit var clientboundLevelEventPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundAddEntityPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundRemoveEntitiesPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundTeleportEntityPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundLevelEventPacketClass: Class<*>
 
     // UI
-    lateinit var clientboundBossEventPacketClass: Class<*>
-    lateinit var clientboundSetTitleTextPacketClass: Class<*>
-    lateinit var clientboundSetSubtitleTextPacketClass: Class<*>
-    lateinit var clientboundSetTitlesAnimationPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundBossEventPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSetTitleTextPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSetSubtitleTextPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSetTitlesAnimationPacketClass: Class<*>
     
     // Inventory
-    lateinit var clientboundContainerSetSlotPacketClass: Class<*>
-    lateinit var clientboundContainerSetContentPacketClass: Class<*>
-    lateinit var clientboundContainerClosePacketClass: Class<*>
+    @JvmStatic lateinit var clientboundContainerSetSlotPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundContainerSetContentPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundContainerClosePacketClass: Class<*>
 
     // Utility
-    lateinit var clientboundDisconnectPacketClass: Class<*>
-    lateinit var clientboundResourcePackPushPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundDisconnectPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundResourcePackPushPacketClass: Class<*>
     
-    lateinit var clientboundPingPacketClass: Class<*>
-    lateinit var clientboundSetEntityVelocityPacketClass: Class<*>
-    lateinit var serverboundInteractPacketClass: Class<*>
-    lateinit var serverboundUseItemOnPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundPingPacketClass: Class<*>
+    @JvmStatic lateinit var clientboundSetEntityVelocityPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundInteractPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundUseItemOnPacketClass: Class<*>
     
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
@@ -87,6 +88,11 @@ object PacketMappers {
         
         serverboundMovePlayerPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundMovePlayerPacket")
         serverboundPlayerCommandPacketClass = Class.forName("net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket")
+        serverboundPlayerActionPacketClass = try {
+            Class.forName("net.minecraft.network.protocol.game.ServerboundPlayerActionPacket")
+        } catch (e: Exception) {
+            Class.forName("net.minecraft.network.protocol.game.PacketPlayInBlockDig")
+        }
         serverboundPongPacketClass = try {
             Class.forName("net.minecraft.network.protocol.common.ServerboundPongPacket")
         } catch (e: ClassNotFoundException) {
