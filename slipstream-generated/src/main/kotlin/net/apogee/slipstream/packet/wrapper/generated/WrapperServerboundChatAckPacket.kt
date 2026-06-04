@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundChatAckPacket(val handle: Any) {
@@ -10,15 +11,19 @@ value class WrapperServerboundChatAckPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundChatAckPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val offsetHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "offset", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Int::class.javaPrimitiveType!!))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val offset: Int
+        get() = offsetHandle.invoke(handle) as Int
+
+    fun copy(offset: Int = this.offset): WrapperServerboundChatAckPacket {
+        return WrapperServerboundChatAckPacket(constructorHandle.invoke(offset))
+    }
 
 }
-
-fun Any.isServerboundChatAckPacket(): Boolean = WrapperServerboundChatAckPacket.packetClass.isInstance(this)
-fun Any.asServerboundChatAckPacket(): WrapperServerboundChatAckPacket = WrapperServerboundChatAckPacket(this)

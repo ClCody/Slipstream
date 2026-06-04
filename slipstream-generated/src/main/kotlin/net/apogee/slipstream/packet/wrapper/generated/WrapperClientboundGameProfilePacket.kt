@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundGameProfilePacket(val handle: Any) {
@@ -10,21 +11,25 @@ value class WrapperClientboundGameProfilePacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.login.ClientboundGameProfilePacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val gameProfileHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "gameProfile", MethodType.methodType(Class.forName("com.mojang.authlib.GameProfile")))
         }
-        val isTerminalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isTerminal", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val strictErrorHandlingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "strictErrorHandling", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("com.mojang.authlib.GameProfile"), Boolean::class.javaPrimitiveType!!))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val gameProfile: Any
+        get() = gameProfileHandle.invoke(handle) as Any
 
-    val terminal: Boolean
-        get() = isTerminalHandle.invoke(handle) as Boolean
+    val strictErrorHandling: Boolean
+        get() = strictErrorHandlingHandle.invoke(handle) as Boolean
+
+    fun copy(gameProfile: Any = this.gameProfile, strictErrorHandling: Boolean = this.strictErrorHandling): WrapperClientboundGameProfilePacket {
+        return WrapperClientboundGameProfilePacket(constructorHandle.invoke(gameProfile, strictErrorHandling))
+    }
 
 }
-
-fun Any.isClientboundGameProfilePacket(): Boolean = WrapperClientboundGameProfilePacket.packetClass.isInstance(this)
-fun Any.asClientboundGameProfilePacket(): WrapperClientboundGameProfilePacket = WrapperClientboundGameProfilePacket(this)

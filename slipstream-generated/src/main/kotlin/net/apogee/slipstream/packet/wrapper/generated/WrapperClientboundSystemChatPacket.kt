@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundSystemChatPacket(val handle: Any) {
@@ -10,21 +11,25 @@ value class WrapperClientboundSystemChatPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundSystemChatPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val contentHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "content", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val isSkippableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSkippable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val overlayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "overlay", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("net.minecraft.network.chat.Component"), Boolean::class.javaPrimitiveType!!))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val content: WrapperComponent
+        get() = WrapperComponent(contentHandle.invoke(handle))
 
-    val skippable: Boolean
-        get() = isSkippableHandle.invoke(handle) as Boolean
+    val overlay: Boolean
+        get() = overlayHandle.invoke(handle) as Boolean
+
+    fun copy(content: WrapperComponent = this.content, overlay: Boolean = this.overlay): WrapperClientboundSystemChatPacket {
+        return WrapperClientboundSystemChatPacket(constructorHandle.invoke(content.handle, overlay))
+    }
 
 }
-
-fun Any.isClientboundSystemChatPacket(): Boolean = WrapperClientboundSystemChatPacket.packetClass.isInstance(this)
-fun Any.asClientboundSystemChatPacket(): WrapperClientboundSystemChatPacket = WrapperClientboundSystemChatPacket(this)

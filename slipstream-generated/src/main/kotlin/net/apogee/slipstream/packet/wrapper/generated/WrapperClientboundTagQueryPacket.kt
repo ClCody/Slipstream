@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundTagQueryPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundTagQueryPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundTagQueryPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTag", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag")))
         }
@@ -21,8 +25,11 @@ value class WrapperClientboundTagQueryPacket(val handle: Any) {
         }
     }
 
-    val tag: Any
-        get() = getTagHandle.invoke(handle) as Any
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
+    val tag: WrapperCompoundTag
+        get() = WrapperCompoundTag(getTagHandle.invoke(handle))
 
     val skippable: Boolean
         get() = isSkippableHandle.invoke(handle) as Boolean
@@ -31,6 +38,3 @@ value class WrapperClientboundTagQueryPacket(val handle: Any) {
         get() = getTransactionIdHandle.invoke(handle) as Int
 
 }
-
-fun Any.isClientboundTagQueryPacket(): Boolean = WrapperClientboundTagQueryPacket.packetClass.isInstance(this)
-fun Any.asClientboundTagQueryPacket(): WrapperClientboundTagQueryPacket = WrapperClientboundTagQueryPacket(this)

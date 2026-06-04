@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundPlayerCommandPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperServerboundPlayerCommandPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -21,6 +25,9 @@ value class WrapperServerboundPlayerCommandPacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val id: Int
         get() = getIdHandle.invoke(handle) as Int
 
@@ -31,6 +38,3 @@ value class WrapperServerboundPlayerCommandPacket(val handle: Any) {
         get() = getActionHandle.invoke(handle) as Any
 
 }
-
-fun Any.isServerboundPlayerCommandPacket(): Boolean = WrapperServerboundPlayerCommandPacket.packetClass.isInstance(this)
-fun Any.asServerboundPlayerCommandPacket(): WrapperServerboundPlayerCommandPacket = WrapperServerboundPlayerCommandPacket(this)

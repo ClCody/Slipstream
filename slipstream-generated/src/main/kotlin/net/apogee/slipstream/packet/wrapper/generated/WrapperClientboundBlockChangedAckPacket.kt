@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundBlockChangedAckPacket(val handle: Any) {
@@ -10,15 +11,19 @@ value class WrapperClientboundBlockChangedAckPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundBlockChangedAckPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val sequenceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "sequence", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Int::class.javaPrimitiveType!!))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val sequence: Int
+        get() = sequenceHandle.invoke(handle) as Int
+
+    fun copy(sequence: Int = this.sequence): WrapperClientboundBlockChangedAckPacket {
+        return WrapperClientboundBlockChangedAckPacket(constructorHandle.invoke(sequence))
+    }
 
 }
-
-fun Any.isClientboundBlockChangedAckPacket(): Boolean = WrapperClientboundBlockChangedAckPacket.packetClass.isInstance(this)
-fun Any.asClientboundBlockChangedAckPacket(): WrapperClientboundBlockChangedAckPacket = WrapperClientboundBlockChangedAckPacket(this)

@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundBlockEntityDataPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundBlockEntityDataPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getTypeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getType", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.BlockEntityType")))
         }
@@ -21,16 +25,16 @@ value class WrapperClientboundBlockEntityDataPacket(val handle: Any) {
         }
     }
 
-    val type: Any
-        get() = getTypeHandle.invoke(handle) as Any
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val tag: Any
-        get() = getTagHandle.invoke(handle) as Any
+    val getType: WrapperBlockEntityType
+        get() = WrapperBlockEntityType(getTypeHandle.invoke(handle))
 
-    val pos: Any
-        get() = getPosHandle.invoke(handle) as Any
+    val tag: WrapperCompoundTag
+        get() = WrapperCompoundTag(getTagHandle.invoke(handle))
+
+    val pos: WrapperBlockPos
+        get() = WrapperBlockPos(getPosHandle.invoke(handle))
 
 }
-
-fun Any.isClientboundBlockEntityDataPacket(): Boolean = WrapperClientboundBlockEntityDataPacket.packetClass.isInstance(this)
-fun Any.asClientboundBlockEntityDataPacket(): WrapperClientboundBlockEntityDataPacket = WrapperClientboundBlockEntityDataPacket(this)

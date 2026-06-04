@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundCookieResponsePacket(val handle: Any) {
@@ -10,15 +11,25 @@ value class WrapperServerboundCookieResponsePacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.cookie.ServerboundCookieResponsePacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val keyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "key", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
+        }
+        val payloadHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "payload", MethodType.methodType(ByteArray::class.java))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("net.minecraft.resources.ResourceLocation"), ByteArray::class.java))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val key: WrapperResourceLocation
+        get() = WrapperResourceLocation(keyHandle.invoke(handle))
+
+    val payload: ByteArray
+        get() = payloadHandle.invoke(handle) as ByteArray
+
+    fun copy(key: WrapperResourceLocation = this.key, payload: ByteArray = this.payload): WrapperServerboundCookieResponsePacket {
+        return WrapperServerboundCookieResponsePacket(constructorHandle.invoke(key.handle, payload))
+    }
 
 }
-
-fun Any.isServerboundCookieResponsePacket(): Boolean = WrapperServerboundCookieResponsePacket.packetClass.isInstance(this)
-fun Any.asServerboundCookieResponsePacket(): WrapperServerboundCookieResponsePacket = WrapperServerboundCookieResponsePacket(this)

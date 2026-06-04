@@ -13,6 +13,10 @@ paperweight {
     reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 }
 
+tasks.named("compileKotlin") {
+    dependsOn(":slipstream-generator:generateWrappers")
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {

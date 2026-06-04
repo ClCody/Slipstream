@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundUpdateAttributesPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundUpdateAttributesPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getEntityIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEntityId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -18,6 +22,9 @@ value class WrapperClientboundUpdateAttributesPacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val entityId: Int
         get() = getEntityIdHandle.invoke(handle) as Int
 
@@ -25,6 +32,3 @@ value class WrapperClientboundUpdateAttributesPacket(val handle: Any) {
         get() = getValuesHandle.invoke(handle) as Any
 
 }
-
-fun Any.isClientboundUpdateAttributesPacket(): Boolean = WrapperClientboundUpdateAttributesPacket.packetClass.isInstance(this)
-fun Any.asClientboundUpdateAttributesPacket(): WrapperClientboundUpdateAttributesPacket = WrapperClientboundUpdateAttributesPacket(this)

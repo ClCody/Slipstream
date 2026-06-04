@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundPlayerPositionPacket(val handle: Any) {
@@ -10,20 +11,17 @@ value class WrapperClientboundPlayerPositionPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
         val getIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getXRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getYRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val getYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
@@ -31,22 +29,25 @@ value class WrapperClientboundPlayerPositionPacket(val handle: Any) {
         val getRelativeArgumentsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRelativeArguments", MethodType.methodType(Class.forName("java.util.Set")))
         }
+        val getYRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getXRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
     }
 
-    val z: Double
-        get() = getZHandle.invoke(handle) as Double
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
 
     val id: Int
         get() = getIdHandle.invoke(handle) as Int
 
-    val xRot: Float
-        get() = getXRotHandle.invoke(handle) as Float
-
-    val yRot: Float
-        get() = getYRotHandle.invoke(handle) as Float
-
     val y: Double
         get() = getYHandle.invoke(handle) as Double
+
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
 
     val x: Double
         get() = getXHandle.invoke(handle) as Double
@@ -54,7 +55,10 @@ value class WrapperClientboundPlayerPositionPacket(val handle: Any) {
     val relativeArguments: Any
         get() = getRelativeArgumentsHandle.invoke(handle) as Any
 
-}
+    val yRot: Float
+        get() = getYRotHandle.invoke(handle) as Float
 
-fun Any.isClientboundPlayerPositionPacket(): Boolean = WrapperClientboundPlayerPositionPacket.packetClass.isInstance(this)
-fun Any.asClientboundPlayerPositionPacket(): WrapperClientboundPlayerPositionPacket = WrapperClientboundPlayerPositionPacket(this)
+    val xRot: Float
+        get() = getXRotHandle.invoke(handle) as Float
+
+}

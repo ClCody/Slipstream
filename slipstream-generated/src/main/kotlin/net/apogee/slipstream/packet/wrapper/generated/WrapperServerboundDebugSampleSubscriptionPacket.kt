@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundDebugSampleSubscriptionPacket(val handle: Any) {
@@ -10,15 +11,19 @@ value class WrapperServerboundDebugSampleSubscriptionPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundDebugSampleSubscriptionPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val sampleTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "sampleType", MethodType.methodType(Class.forName("net.minecraft.util.debugchart.RemoteDebugSampleType")))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("net.minecraft.util.debugchart.RemoteDebugSampleType")))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val sampleType: Any
+        get() = sampleTypeHandle.invoke(handle) as Any
+
+    fun copy(sampleType: Any = this.sampleType): WrapperServerboundDebugSampleSubscriptionPacket {
+        return WrapperServerboundDebugSampleSubscriptionPacket(constructorHandle.invoke(sampleType))
+    }
 
 }
-
-fun Any.isServerboundDebugSampleSubscriptionPacket(): Boolean = WrapperServerboundDebugSampleSubscriptionPacket.packetClass.isInstance(this)
-fun Any.asServerboundDebugSampleSubscriptionPacket(): WrapperServerboundDebugSampleSubscriptionPacket = WrapperServerboundDebugSampleSubscriptionPacket(this)

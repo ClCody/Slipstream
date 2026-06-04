@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundPlayerCombatKillPacket(val handle: Any) {
@@ -10,21 +11,25 @@ value class WrapperClientboundPlayerCombatKillPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val playerIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "playerId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val isSkippableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSkippable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val messageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "message", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.network.chat.Component")))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val playerId: Int
+        get() = playerIdHandle.invoke(handle) as Int
 
-    val skippable: Boolean
-        get() = isSkippableHandle.invoke(handle) as Boolean
+    val message: WrapperComponent
+        get() = WrapperComponent(messageHandle.invoke(handle))
+
+    fun copy(playerId: Int = this.playerId, message: WrapperComponent = this.message): WrapperClientboundPlayerCombatKillPacket {
+        return WrapperClientboundPlayerCombatKillPacket(constructorHandle.invoke(playerId, message.handle))
+    }
 
 }
-
-fun Any.isClientboundPlayerCombatKillPacket(): Boolean = WrapperClientboundPlayerCombatKillPacket.packetClass.isInstance(this)
-fun Any.asClientboundPlayerCombatKillPacket(): WrapperClientboundPlayerCombatKillPacket = WrapperClientboundPlayerCombatKillPacket(this)

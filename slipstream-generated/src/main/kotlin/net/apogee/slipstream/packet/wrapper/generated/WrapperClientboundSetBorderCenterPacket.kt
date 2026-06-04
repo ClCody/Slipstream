@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundSetBorderCenterPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundSetBorderCenterPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundSetBorderCenterPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getNewCenterXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNewCenterX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
@@ -18,6 +22,9 @@ value class WrapperClientboundSetBorderCenterPacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val newCenterX: Double
         get() = getNewCenterXHandle.invoke(handle) as Double
 
@@ -25,6 +32,3 @@ value class WrapperClientboundSetBorderCenterPacket(val handle: Any) {
         get() = getNewCenterZHandle.invoke(handle) as Double
 
 }
-
-fun Any.isClientboundSetBorderCenterPacket(): Boolean = WrapperClientboundSetBorderCenterPacket.packetClass.isInstance(this)
-fun Any.asClientboundSetBorderCenterPacket(): WrapperClientboundSetBorderCenterPacket = WrapperClientboundSetBorderCenterPacket(this)

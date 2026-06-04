@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundSoundPacket(val handle: Any) {
@@ -10,8 +11,8 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundSoundPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
         val getSeedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSeed", MethodType.methodType(Long::class.javaPrimitiveType!!))
@@ -22,11 +23,11 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
         val getYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val getSoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSound", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
         }
         val getVolumeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
@@ -34,10 +35,13 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
         val getPitchHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPitch", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
+        val getSoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSound", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
+        }
     }
 
-    val z: Double
-        get() = getZHandle.invoke(handle) as Double
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
 
     val seed: Long
         get() = getSeedHandle.invoke(handle) as Long
@@ -48,11 +52,11 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
     val y: Double
         get() = getYHandle.invoke(handle) as Double
 
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
+
     val x: Double
         get() = getXHandle.invoke(handle) as Double
-
-    val sound: Any
-        get() = getSoundHandle.invoke(handle) as Any
 
     val volume: Float
         get() = getVolumeHandle.invoke(handle) as Float
@@ -60,7 +64,7 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
     val pitch: Float
         get() = getPitchHandle.invoke(handle) as Float
 
-}
+    val sound: WrapperHolder
+        get() = WrapperHolder(getSoundHandle.invoke(handle))
 
-fun Any.isClientboundSoundPacket(): Boolean = WrapperClientboundSoundPacket.packetClass.isInstance(this)
-fun Any.asClientboundSoundPacket(): WrapperClientboundSoundPacket = WrapperClientboundSoundPacket(this)
+}

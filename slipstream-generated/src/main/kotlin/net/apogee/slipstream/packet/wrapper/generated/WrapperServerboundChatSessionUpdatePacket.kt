@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundChatSessionUpdatePacket(val handle: Any) {
@@ -10,15 +11,19 @@ value class WrapperServerboundChatSessionUpdatePacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundChatSessionUpdatePacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val chatSessionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "chatSession", MethodType.methodType(Class.forName("net.minecraft.network.chat.RemoteChatSession\$Data")))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("net.minecraft.network.chat.RemoteChatSession\$Data")))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val chatSession: WrapperData
+        get() = WrapperData(chatSessionHandle.invoke(handle))
+
+    fun copy(chatSession: WrapperData = this.chatSession): WrapperServerboundChatSessionUpdatePacket {
+        return WrapperServerboundChatSessionUpdatePacket(constructorHandle.invoke(chatSession.handle))
+    }
 
 }
-
-fun Any.isServerboundChatSessionUpdatePacket(): Boolean = WrapperServerboundChatSessionUpdatePacket.packetClass.isInstance(this)
-fun Any.asServerboundChatSessionUpdatePacket(): WrapperServerboundChatSessionUpdatePacket = WrapperServerboundChatSessionUpdatePacket(this)

@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundPaddleBoatPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperServerboundPaddleBoatPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundPaddleBoatPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getLeftHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLeft", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
@@ -18,6 +22,9 @@ value class WrapperServerboundPaddleBoatPacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val left: Boolean
         get() = getLeftHandle.invoke(handle) as Boolean
 
@@ -25,6 +32,3 @@ value class WrapperServerboundPaddleBoatPacket(val handle: Any) {
         get() = getRightHandle.invoke(handle) as Boolean
 
 }
-
-fun Any.isServerboundPaddleBoatPacket(): Boolean = WrapperServerboundPaddleBoatPacket.packetClass.isInstance(this)
-fun Any.asServerboundPaddleBoatPacket(): WrapperServerboundPaddleBoatPacket = WrapperServerboundPaddleBoatPacket(this)

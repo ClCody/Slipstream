@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundDisguisedChatPacket(val handle: Any) {
@@ -10,21 +11,25 @@ value class WrapperClientboundDisguisedChatPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundDisguisedChatPacket") }
         private val lookup = MethodHandles.lookup()
 
-        val hashCodeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hashCode", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val messageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "message", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val isSkippableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSkippable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val chatTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "chatType", MethodType.methodType(Class.forName("net.minecraft.network.chat.ChatType\$Bound")))
+        }
+        val constructorHandle: MethodHandle by lazy { 
+            lookup.findConstructor(packetClass, MethodType.methodType(Void.TYPE, Class.forName("net.minecraft.network.chat.Component"), Class.forName("net.minecraft.network.chat.ChatType\$Bound")))
         }
     }
 
-    val hCode: Int
-        get() = hashCodeHandle.invoke(handle) as Int
+    val message: WrapperComponent
+        get() = WrapperComponent(messageHandle.invoke(handle))
 
-    val skippable: Boolean
-        get() = isSkippableHandle.invoke(handle) as Boolean
+    val chatType: WrapperBound
+        get() = WrapperBound(chatTypeHandle.invoke(handle))
+
+    fun copy(message: WrapperComponent = this.message, chatType: WrapperBound = this.chatType): WrapperClientboundDisguisedChatPacket {
+        return WrapperClientboundDisguisedChatPacket(constructorHandle.invoke(message.handle, chatType.handle))
+    }
 
 }
-
-fun Any.isClientboundDisguisedChatPacket(): Boolean = WrapperClientboundDisguisedChatPacket.packetClass.isInstance(this)
-fun Any.asClientboundDisguisedChatPacket(): WrapperClientboundDisguisedChatPacket = WrapperClientboundDisguisedChatPacket(this)

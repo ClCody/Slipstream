@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperServerboundTeleportToEntityPacket(val handle: Any) {
@@ -10,16 +11,19 @@ value class WrapperServerboundTeleportToEntityPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundTeleportToEntityPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getEntityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.server.level.ServerLevel")))
         }
     }
 
-    fun getEntity(arg0: Any): Any {
-        return getEntityHandle.invoke(handle, arg0) as Any
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
+    fun getEntity(arg0: WrapperServerLevel): WrapperEntity {
+        return WrapperEntity(getEntityHandle.invoke(handle, arg0.handle))
     }
 
 }
-
-fun Any.isServerboundTeleportToEntityPacket(): Boolean = WrapperServerboundTeleportToEntityPacket.packetClass.isInstance(this)
-fun Any.asServerboundTeleportToEntityPacket(): WrapperServerboundTeleportToEntityPacket = WrapperServerboundTeleportToEntityPacket(this)

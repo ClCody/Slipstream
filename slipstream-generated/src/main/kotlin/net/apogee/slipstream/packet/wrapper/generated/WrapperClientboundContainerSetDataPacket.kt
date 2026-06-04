@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundContainerSetDataPacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundContainerSetDataPacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundContainerSetDataPacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -21,6 +25,9 @@ value class WrapperClientboundContainerSetDataPacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val value: Int
         get() = getValueHandle.invoke(handle) as Int
 
@@ -31,6 +38,3 @@ value class WrapperClientboundContainerSetDataPacket(val handle: Any) {
         get() = getContainerIdHandle.invoke(handle) as Int
 
 }
-
-fun Any.isClientboundContainerSetDataPacket(): Boolean = WrapperClientboundContainerSetDataPacket.packetClass.isInstance(this)
-fun Any.asClientboundContainerSetDataPacket(): WrapperClientboundContainerSetDataPacket = WrapperClientboundContainerSetDataPacket(this)

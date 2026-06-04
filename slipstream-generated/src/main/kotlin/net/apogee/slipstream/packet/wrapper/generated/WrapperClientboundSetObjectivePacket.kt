@@ -3,6 +3,7 @@ package net.apogee.slipstream.packet.wrapper.generated
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
+import java.lang.reflect.Field
 
 @JvmInline
 value class WrapperClientboundSetObjectivePacket(val handle: Any) {
@@ -10,6 +11,9 @@ value class WrapperClientboundSetObjectivePacket(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundSetObjectivePacket") }
         private val lookup = MethodHandles.lookup()
 
+        val typeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
+        }
         val getMethodHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMethod", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -27,11 +31,14 @@ value class WrapperClientboundSetObjectivePacket(val handle: Any) {
         }
     }
 
+    val type: WrapperPacketType
+        get() = WrapperPacketType(typeHandle.invoke(handle))
+
     val method: Int
         get() = getMethodHandle.invoke(handle) as Int
 
-    val displayName: Any
-        get() = getDisplayNameHandle.invoke(handle) as Any
+    val displayName: WrapperComponent
+        get() = WrapperComponent(getDisplayNameHandle.invoke(handle))
 
     val numberFormat: Any
         get() = getNumberFormatHandle.invoke(handle) as Any
@@ -43,6 +50,3 @@ value class WrapperClientboundSetObjectivePacket(val handle: Any) {
         get() = getObjectiveNameHandle.invoke(handle) as String
 
 }
-
-fun Any.isClientboundSetObjectivePacket(): Boolean = WrapperClientboundSetObjectivePacket.packetClass.isInstance(this)
-fun Any.asClientboundSetObjectivePacket(): WrapperClientboundSetObjectivePacket = WrapperClientboundSetObjectivePacket(this)
