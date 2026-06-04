@@ -1,0 +1,66 @@
+package net.apogee.slipstream.packet.wrapper.generated
+
+import java.lang.invoke.MethodHandle
+import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodType
+
+@JvmInline
+value class WrapperServerboundSetJigsawBlockPacket(val handle: Any) {
+    companion object {
+        val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ServerboundSetJigsawBlockPacket") }
+        private val lookup = MethodHandles.lookup()
+
+        val getNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getName", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
+        }
+        val getPoolHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPool", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
+        }
+        val getTargetHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTarget", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
+        }
+        val getPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val getFinalStateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFinalState", MethodType.methodType(String::class.java))
+        }
+        val getPlacementPriorityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlacementPriority", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getSelectionPriorityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSelectionPriority", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getJointHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getJoint", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.JigsawBlockEntity\$JointType")))
+        }
+    }
+
+    val name: Any
+        get() = getNameHandle.invoke(handle) as Any
+
+    val pool: Any
+        get() = getPoolHandle.invoke(handle) as Any
+
+    val target: Any
+        get() = getTargetHandle.invoke(handle) as Any
+
+    val pos: Any
+        get() = getPosHandle.invoke(handle) as Any
+
+    val finalState: String
+        get() = getFinalStateHandle.invoke(handle) as String
+
+    val placementPriority: Int
+        get() = getPlacementPriorityHandle.invoke(handle) as Int
+
+    val selectionPriority: Int
+        get() = getSelectionPriorityHandle.invoke(handle) as Int
+
+    val joint: Any
+        get() = getJointHandle.invoke(handle) as Any
+
+}
+
+fun Any.isServerboundSetJigsawBlockPacket(): Boolean = WrapperServerboundSetJigsawBlockPacket.packetClass.isInstance(this)
+fun Any.asServerboundSetJigsawBlockPacket(): WrapperServerboundSetJigsawBlockPacket = WrapperServerboundSetJigsawBlockPacket(this)

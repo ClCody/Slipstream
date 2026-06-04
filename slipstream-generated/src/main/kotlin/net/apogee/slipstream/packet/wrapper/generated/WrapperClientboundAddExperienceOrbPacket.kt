@@ -1,0 +1,48 @@
+package net.apogee.slipstream.packet.wrapper.generated
+
+import java.lang.invoke.MethodHandle
+import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodType
+
+@JvmInline
+value class WrapperClientboundAddExperienceOrbPacket(val handle: Any) {
+    companion object {
+        val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.protocol.game.ClientboundAddExperienceOrbPacket") }
+        private val lookup = MethodHandles.lookup()
+
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getId", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+    }
+
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
+
+    val value: Int
+        get() = getValueHandle.invoke(handle) as Int
+
+    val id: Int
+        get() = getIdHandle.invoke(handle) as Int
+
+    val y: Double
+        get() = getYHandle.invoke(handle) as Double
+
+    val x: Double
+        get() = getXHandle.invoke(handle) as Double
+
+}
+
+fun Any.isClientboundAddExperienceOrbPacket(): Boolean = WrapperClientboundAddExperienceOrbPacket.packetClass.isInstance(this)
+fun Any.asClientboundAddExperienceOrbPacket(): WrapperClientboundAddExperienceOrbPacket = WrapperClientboundAddExperienceOrbPacket(this)
