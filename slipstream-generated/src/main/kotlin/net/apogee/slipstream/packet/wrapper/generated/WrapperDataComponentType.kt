@@ -14,27 +14,27 @@ value class WrapperDataComponentType(val handle: Any) {
         val isTransientHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isTransient", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val streamCodecHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "streamCodec", MethodType.methodType(Class.forName("net.minecraft.network.codec.StreamCodec")))
+        }
         val codecOrThrowHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "codecOrThrow", MethodType.methodType(Class.forName("com.mojang.serialization.Codec")))
         }
         val codecHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "codec", MethodType.methodType(Class.forName("com.mojang.serialization.Codec")))
         }
-        val streamCodecHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "streamCodec", MethodType.methodType(Class.forName("net.minecraft.network.codec.StreamCodec")))
-        }
     }
 
     val transient: Boolean
         get() = isTransientHandle.invoke(handle) as Boolean
+
+    val streamCodec: WrapperStreamCodec
+        get() = WrapperStreamCodec(streamCodecHandle.invoke(handle))
 
     val codecOrThrow: Any
         get() = codecOrThrowHandle.invoke(handle) as Any
 
     val codec: Any
         get() = codecHandle.invoke(handle) as Any
-
-    val streamCodec: WrapperStreamCodec
-        get() = WrapperStreamCodec(streamCodecHandle.invoke(handle))
 
 }

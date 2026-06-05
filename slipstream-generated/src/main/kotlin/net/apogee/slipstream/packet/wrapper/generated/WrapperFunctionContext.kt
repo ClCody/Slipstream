@@ -14,11 +14,11 @@ value class WrapperFunctionContext(val handle: Any) {
         val blockZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "blockZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val blockYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "blockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val blockXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "blockX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val blockYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "blockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getBlenderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBlender", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.blending.Blender")))
@@ -28,11 +28,11 @@ value class WrapperFunctionContext(val handle: Any) {
     val blockZ: Int
         get() = blockZHandle.invoke(handle) as Int
 
-    val blockY: Int
-        get() = blockYHandle.invoke(handle) as Int
-
     val blockX: Int
         get() = blockXHandle.invoke(handle) as Int
+
+    val blockY: Int
+        get() = blockYHandle.invoke(handle) as Int
 
     val blender: WrapperBlender
         get() = WrapperBlender(getBlenderHandle.invoke(handle))

@@ -11,19 +11,19 @@ value class WrapperMetadataSectionSerializer(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.server.packs.metadata.MetadataSectionSerializer") }
         private val lookup = MethodHandles.lookup()
 
-        val fromJsonHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "fromJson", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("com.google.gson.JsonObject")))
-        }
         val getMetadataSectionNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMetadataSectionName", MethodType.methodType(String::class.java))
         }
-    }
-
-    fun fromJson(arg0: Any): Any {
-        return fromJsonHandle.invoke(handle, arg0) as Any
+        val fromJsonHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "fromJson", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("com.google.gson.JsonObject")))
+        }
     }
 
     val metadataSectionName: String
         get() = getMetadataSectionNameHandle.invoke(handle) as String
+
+    fun fromJson(arg0: Any): Any {
+        return fromJsonHandle.invoke(handle, arg0) as Any
+    }
 
 }

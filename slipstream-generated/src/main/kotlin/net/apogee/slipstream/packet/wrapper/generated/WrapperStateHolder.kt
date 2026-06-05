@@ -29,11 +29,11 @@ value class WrapperStateHolder(val handle: Any) {
         val trySetValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "trySetValue", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property"), Class.forName("java.lang.Comparable")))
         }
-        val cycleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "cycle", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property")))
-        }
         val getValuesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getValues", MethodType.methodType(Class.forName("java.util.Map")))
+        }
+        val cycleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "cycle", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property")))
         }
         val neighboursSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("neighbours")
@@ -65,12 +65,12 @@ value class WrapperStateHolder(val handle: Any) {
         return trySetValueHandle.invoke(handle, arg0.handle, arg1) as Any
     }
 
+    val values: Any
+        get() = getValuesHandle.invoke(handle) as Any
+
     fun cycle(arg0: WrapperProperty): Any {
         return cycleHandle.invoke(handle, arg0.handle) as Any
     }
-
-    val values: Any
-        get() = getValuesHandle.invoke(handle) as Any
 
     fun setNeighbours(value: Any) {
         neighboursSetterHandle.invoke(handle, value)

@@ -23,20 +23,20 @@ value class WrapperResourceLocation(val handle: Any) {
         val withSuffixHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "withSuffix", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation"), String::class.java))
         }
-        val withPathHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "withPath", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation"), String::class.java))
+        val toLanguageKeyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "toLanguageKey", MethodType.methodType(String::class.java, String::class.java, String::class.java))
         }
         val getNamespaceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNamespace", MethodType.methodType(String::class.java))
         }
-        val toDebugFileNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "toDebugFileName", MethodType.methodType(String::class.java))
-        }
         val toShortLanguageKeyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "toShortLanguageKey", MethodType.methodType(String::class.java))
         }
-        val toLanguageKeyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "toLanguageKey", MethodType.methodType(String::class.java, String::class.java, String::class.java))
+        val toDebugFileNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "toDebugFileName", MethodType.methodType(String::class.java))
+        }
+        val withPathHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "withPath", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation"), String::class.java))
         }
     }
 
@@ -55,21 +55,21 @@ value class WrapperResourceLocation(val handle: Any) {
         return WrapperResourceLocation(withSuffixHandle.invoke(handle, arg0))
     }
 
-    fun withPath(arg0: String): WrapperResourceLocation {
-        return WrapperResourceLocation(withPathHandle.invoke(handle, arg0))
+    fun toLanguageKey(arg0: String, arg1: String): String {
+        return toLanguageKeyHandle.invoke(handle, arg0, arg1) as String
     }
 
     val namespace: String
         get() = getNamespaceHandle.invoke(handle) as String
 
-    val toDebugFileName: String
-        get() = toDebugFileNameHandle.invoke(handle) as String
-
     val toShortLanguageKey: String
         get() = toShortLanguageKeyHandle.invoke(handle) as String
 
-    fun toLanguageKey(arg0: String, arg1: String): String {
-        return toLanguageKeyHandle.invoke(handle, arg0, arg1) as String
+    val toDebugFileName: String
+        get() = toDebugFileNameHandle.invoke(handle) as String
+
+    fun withPath(arg0: String): WrapperResourceLocation {
+        return WrapperResourceLocation(withPathHandle.invoke(handle, arg0))
     }
 
 }

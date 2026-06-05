@@ -11,19 +11,19 @@ value class WrapperEntityTypeTest(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.level.entity.EntityTypeTest") }
         private val lookup = MethodHandles.lookup()
 
-        val tryCastHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "tryCast", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("java.lang.Object")))
-        }
         val getBaseClassHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBaseClass", MethodType.methodType(Class.forName("java.lang.Class")))
         }
-    }
-
-    fun tryCast(arg0: Any): Any {
-        return tryCastHandle.invoke(handle, arg0) as Any
+        val tryCastHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "tryCast", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("java.lang.Object")))
+        }
     }
 
     val baseClass: Any
         get() = getBaseClassHandle.invoke(handle) as Any
+
+    fun tryCast(arg0: Any): Any {
+        return tryCastHandle.invoke(handle, arg0) as Any
+    }
 
 }

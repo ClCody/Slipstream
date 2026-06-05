@@ -14,9 +14,6 @@ value class WrapperClientboundBlockEventPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getB0Handle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getB0", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getB1Handle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getB1", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -26,13 +23,13 @@ value class WrapperClientboundBlockEventPacket(val handle: Any) {
         val getPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
+        val getB0Handle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getB0", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
-
-    val b0: Int
-        get() = getB0Handle.invoke(handle) as Int
 
     val b1: Int
         get() = getB1Handle.invoke(handle) as Int
@@ -42,5 +39,8 @@ value class WrapperClientboundBlockEventPacket(val handle: Any) {
 
     val pos: WrapperBlockPos
         get() = WrapperBlockPos(getPosHandle.invoke(handle))
+
+    val b0: Int
+        get() = getB0Handle.invoke(handle) as Int
 
 }

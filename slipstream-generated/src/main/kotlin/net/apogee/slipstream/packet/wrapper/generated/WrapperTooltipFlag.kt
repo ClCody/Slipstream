@@ -11,18 +11,18 @@ value class WrapperTooltipFlag(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.item.TooltipFlag") }
         private val lookup = MethodHandles.lookup()
 
-        val isAdvancedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAdvanced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val isCreativeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isCreative", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val isAdvancedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAdvanced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
     }
-
-    val advanced: Boolean
-        get() = isAdvancedHandle.invoke(handle) as Boolean
 
     val creative: Boolean
         get() = isCreativeHandle.invoke(handle) as Boolean
+
+    val advanced: Boolean
+        get() = isAdvancedHandle.invoke(handle) as Boolean
 
 }

@@ -32,23 +32,14 @@ value class WrapperContainer(val handle: Any) {
         val getViewersHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getViewers", MethodType.methodType(Class.forName("java.util.List")))
         }
-        val getMaxStackSizeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMaxStackSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getContainerSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getContainerSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val removeItemNoUpdateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeItemNoUpdate", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
+        val removeItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removeItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val canTakeItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canTakeItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.Container"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val countItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "countItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.Item")))
-        }
-        val hasAnyOfHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasAnyOf", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.Set")))
+        val getMaxStackSizeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMaxStackSize", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
         }
         val canPlaceItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canPlaceItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
@@ -56,8 +47,17 @@ value class WrapperContainer(val handle: Any) {
         val hasAnyMatchingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasAnyMatching", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate")))
         }
-        val removeItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        val countItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "countItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.Item")))
+        }
+        val hasAnyOfHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasAnyOf", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.Set")))
+        }
+        val removeItemNoUpdateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removeItemNoUpdate", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
+        }
+        val canTakeItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canTakeItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.Container"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
         }
     }
 
@@ -84,26 +84,15 @@ value class WrapperContainer(val handle: Any) {
     val viewers: Any
         get() = getViewersHandle.invoke(handle) as Any
 
-    val maxStackSize: Int
-        get() = getMaxStackSizeHandle.invoke(handle) as Int
-
     val containerSize: Int
         get() = getContainerSizeHandle.invoke(handle) as Int
 
-    fun removeItemNoUpdate(arg0: Int): WrapperItemStack {
-        return WrapperItemStack(removeItemNoUpdateHandle.invoke(handle, arg0))
+    fun removeItem(arg0: Int, arg1: Int): WrapperItemStack {
+        return WrapperItemStack(removeItemHandle.invoke(handle, arg0, arg1))
     }
 
-    fun canTakeItem(arg0: WrapperContainer, arg1: Int, arg2: WrapperItemStack): Boolean {
-        return canTakeItemHandle.invoke(handle, arg0.handle, arg1, arg2.handle) as Boolean
-    }
-
-    fun countItem(arg0: WrapperItem): Int {
-        return countItemHandle.invoke(handle, arg0.handle) as Int
-    }
-
-    fun hasAnyOf(arg0: Any): Boolean {
-        return hasAnyOfHandle.invoke(handle, arg0) as Boolean
+    fun getMaxStackSize(arg0: WrapperItemStack): Int {
+        return getMaxStackSizeHandle.invoke(handle, arg0.handle) as Int
     }
 
     fun canPlaceItem(arg0: Int, arg1: WrapperItemStack): Boolean {
@@ -114,8 +103,20 @@ value class WrapperContainer(val handle: Any) {
         return hasAnyMatchingHandle.invoke(handle, arg0) as Boolean
     }
 
-    fun removeItem(arg0: Int, arg1: Int): WrapperItemStack {
-        return WrapperItemStack(removeItemHandle.invoke(handle, arg0, arg1))
+    fun countItem(arg0: WrapperItem): Int {
+        return countItemHandle.invoke(handle, arg0.handle) as Int
+    }
+
+    fun hasAnyOf(arg0: Any): Boolean {
+        return hasAnyOfHandle.invoke(handle, arg0) as Boolean
+    }
+
+    fun removeItemNoUpdate(arg0: Int): WrapperItemStack {
+        return WrapperItemStack(removeItemNoUpdateHandle.invoke(handle, arg0))
+    }
+
+    fun canTakeItem(arg0: WrapperContainer, arg1: Int, arg2: WrapperItemStack): Boolean {
+        return canTakeItemHandle.invoke(handle, arg0.handle, arg1, arg2.handle) as Boolean
     }
 
 }

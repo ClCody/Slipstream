@@ -11,11 +11,11 @@ value class WrapperSpawnState(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.level.NaturalSpawner\$SpawnState") }
         private val lookup = MethodHandles.lookup()
 
-        val getMobCategoryCountsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMobCategoryCounts", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.objects.Object2IntMap")))
-        }
         val getSpawnableChunkCountHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSpawnableChunkCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getMobCategoryCountsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMobCategoryCounts", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.objects.Object2IntMap")))
         }
         val lastCheckedPosSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastCheckedPos")
@@ -34,11 +34,11 @@ value class WrapperSpawnState(val handle: Any) {
         }
     }
 
-    val mobCategoryCounts: Any
-        get() = getMobCategoryCountsHandle.invoke(handle) as Any
-
     val spawnableChunkCount: Int
         get() = getSpawnableChunkCountHandle.invoke(handle) as Int
+
+    val mobCategoryCounts: Any
+        get() = getMobCategoryCountsHandle.invoke(handle) as Any
 
     fun setLastCheckedPos(value: WrapperBlockPos) {
         lastCheckedPosSetterHandle.invoke(handle, value.handle)

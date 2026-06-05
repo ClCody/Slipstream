@@ -59,23 +59,23 @@ value class WrapperListTag(val handle: Any) {
         val sizeInBytesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "sizeInBytes", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val setTagHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "setTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
+        val getCompoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCompound", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Int::class.javaPrimitiveType!!))
         }
         val addTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "addTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
         }
-        val getIntArrayHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getIntArray", MethodType.methodType(IntArray::class.java, Int::class.javaPrimitiveType!!))
+        val setTagHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "setTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
         }
         val getLongArrayHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLongArray", MethodType.methodType(Class.forName("[J"), Int::class.javaPrimitiveType!!))
         }
+        val getIntArrayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getIntArray", MethodType.methodType(IntArray::class.java, Int::class.javaPrimitiveType!!))
+        }
         val getListHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getList", MethodType.methodType(Class.forName("net.minecraft.nbt.ListTag"), Int::class.javaPrimitiveType!!))
-        }
-        val getCompoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCompound", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Int::class.javaPrimitiveType!!))
         }
         val typeSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("type")
@@ -141,28 +141,28 @@ value class WrapperListTag(val handle: Any) {
     val sizeInBytes: Int
         get() = sizeInBytesHandle.invoke(handle) as Int
 
-    fun setTag(arg0: Int, arg1: WrapperTag): Boolean {
-        return setTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
+    fun getCompound(arg0: Int): WrapperCompoundTag {
+        return WrapperCompoundTag(getCompoundHandle.invoke(handle, arg0))
     }
 
     fun addTag(arg0: Int, arg1: WrapperTag): Boolean {
         return addTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
     }
 
-    fun getIntArray(arg0: Int): IntArray {
-        return getIntArrayHandle.invoke(handle, arg0) as IntArray
+    fun setTag(arg0: Int, arg1: WrapperTag): Boolean {
+        return setTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
     }
 
     fun getLongArray(arg0: Int): Any {
         return getLongArrayHandle.invoke(handle, arg0) as Any
     }
 
-    fun getList(arg0: Int): WrapperListTag {
-        return WrapperListTag(getListHandle.invoke(handle, arg0))
+    fun getIntArray(arg0: Int): IntArray {
+        return getIntArrayHandle.invoke(handle, arg0) as IntArray
     }
 
-    fun getCompound(arg0: Int): WrapperCompoundTag {
-        return WrapperCompoundTag(getCompoundHandle.invoke(handle, arg0))
+    fun getList(arg0: Int): WrapperListTag {
+        return WrapperListTag(getListHandle.invoke(handle, arg0))
     }
 
     fun setType(value: Byte) {

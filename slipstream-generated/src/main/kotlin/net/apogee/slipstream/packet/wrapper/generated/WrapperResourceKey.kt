@@ -17,14 +17,14 @@ value class WrapperResourceKey(val handle: Any) {
         val locationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "location", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
         }
-        val isForHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isFor", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceKey")))
+        val registryKeyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "registryKey", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
         }
         val registryHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "registry", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
         }
-        val registryKeyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "registryKey", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
+        val isForHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isFor", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceKey")))
         }
     }
 
@@ -35,14 +35,14 @@ value class WrapperResourceKey(val handle: Any) {
     val location: WrapperResourceLocation
         get() = WrapperResourceLocation(locationHandle.invoke(handle))
 
-    fun isFor(arg0: WrapperResourceKey): Boolean {
-        return isForHandle.invoke(handle, arg0.handle) as Boolean
-    }
+    val registryKey: WrapperResourceKey
+        get() = WrapperResourceKey(registryKeyHandle.invoke(handle))
 
     val registry: WrapperResourceLocation
         get() = WrapperResourceLocation(registryHandle.invoke(handle))
 
-    val registryKey: WrapperResourceKey
-        get() = WrapperResourceKey(registryKeyHandle.invoke(handle))
+    fun isFor(arg0: WrapperResourceKey): Boolean {
+        return isForHandle.invoke(handle, arg0.handle) as Boolean
+    }
 
 }

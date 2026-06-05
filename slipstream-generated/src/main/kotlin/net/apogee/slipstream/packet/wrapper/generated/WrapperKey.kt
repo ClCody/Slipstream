@@ -14,21 +14,21 @@ value class WrapperKey(val handle: Any) {
         val getIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getId", MethodType.methodType(String::class.java))
         }
-        val getCategoryHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCategory", MethodType.methodType(Class.forName("net.minecraft.world.level.GameRules\$Category")))
-        }
         val getDescriptionIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDescriptionId", MethodType.methodType(String::class.java))
+        }
+        val getCategoryHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCategory", MethodType.methodType(Class.forName("net.minecraft.world.level.GameRules\$Category")))
         }
     }
 
     val id: String
         get() = getIdHandle.invoke(handle) as String
 
-    val category: Any
-        get() = getCategoryHandle.invoke(handle) as Any
-
     val descriptionId: String
         get() = getDescriptionIdHandle.invoke(handle) as String
+
+    val category: Any
+        get() = getCategoryHandle.invoke(handle) as Any
 
 }

@@ -17,11 +17,11 @@ value class WrapperBlockInWorld(val handle: Any) {
         val getLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLevel", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelReader")))
         }
-        val getEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getEntity", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.BlockEntity")))
-        }
         val getPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val getEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getEntity", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.BlockEntity")))
         }
         val stateSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("state")
@@ -46,11 +46,11 @@ value class WrapperBlockInWorld(val handle: Any) {
     val level: WrapperLevelReader
         get() = WrapperLevelReader(getLevelHandle.invoke(handle))
 
-    val entity: WrapperBlockEntity
-        get() = WrapperBlockEntity(getEntityHandle.invoke(handle))
-
     val pos: WrapperBlockPos
         get() = WrapperBlockPos(getPosHandle.invoke(handle))
+
+    val entity: WrapperBlockEntity
+        get() = WrapperBlockEntity(getEntityHandle.invoke(handle))
 
     fun setState(value: WrapperBlockState) {
         stateSetterHandle.invoke(handle, value.handle)

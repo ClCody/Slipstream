@@ -17,29 +17,35 @@ value class WrapperPlayerList(val handle: Any) {
         val loadHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "load", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.server.level.ServerPlayer")))
         }
-        val getOpsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getOps", MethodType.methodType(Class.forName("net.minecraft.server.players.ServerOpList")))
-        }
         val respawnHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "respawn", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.server.level.ServerPlayer"), Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity\$RemovalReason"), Class.forName("org.bukkit.event.player.PlayerRespawnEvent\$RespawnReason"), Class.forName("org.bukkit.Location")))
+        }
+        val getViewDistanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getViewDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getPlayerStatsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerStats", MethodType.methodType(Class.forName("net.minecraft.stats.ServerStatsCounter"), Class.forName("java.util.UUID"), String::class.java))
+        }
+        val getSimulationDistanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSimulationDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getPlayerAdvancementsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPlayerAdvancements", MethodType.methodType(Class.forName("net.minecraft.server.PlayerAdvancements"), Class.forName("net.minecraft.server.level.ServerPlayer")))
         }
-        val isUsingWhitelistHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isUsingWhitelist", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getOpsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getOps", MethodType.methodType(Class.forName("net.minecraft.server.players.ServerOpList")))
         }
-        val getPlayerForLoginHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerForLogin", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("com.mojang.authlib.GameProfile"), Class.forName("net.minecraft.server.level.ClientInformation"), Class.forName("net.minecraft.server.level.ServerPlayer")))
+        val isAllowCommandsForAllPlayersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAllowCommandsForAllPlayers", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val verifyChatTrustedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "verifyChatTrusted", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.network.chat.PlayerChatMessage")))
+        val getPlayerCountHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val canPlayerLoginHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canPlayerLogin", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.server.network.ServerLoginPacketListenerImpl"), Class.forName("com.mojang.authlib.GameProfile")))
+        val canBypassPlayerLimitHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBypassPlayerLimit", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile")))
         }
-        val getWhiteListNamesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWhiteListNames", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
+        val getPlayersWithAddressHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayersWithAddress", MethodType.methodType(Class.forName("java.util.List"), String::class.java))
         }
         val getMaxPlayersHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMaxPlayers", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -50,59 +56,53 @@ value class WrapperPlayerList(val handle: Any) {
         val getWhiteListHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWhiteList", MethodType.methodType(Class.forName("net.minecraft.server.players.UserWhiteList")))
         }
-        val isOpHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isOp", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile")))
-        }
-        val getServerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getServer", MethodType.methodType(Class.forName("net.minecraft.server.MinecraftServer")))
-        }
-        val getPlayerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayer", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("java.util.UUID")))
-        }
-        val getPlayerCountHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getPlayerNamesArrayHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerNamesArray", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
-        }
-        val getSimulationDistanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSimulationDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getViewDistanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getViewDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getPlayerStatsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerStats", MethodType.methodType(Class.forName("net.minecraft.stats.ServerStatsCounter"), Class.forName("net.minecraft.server.level.ServerPlayer")))
-        }
-        val getPlayersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayers", MethodType.methodType(Class.forName("java.util.List")))
-        }
-        val getSingleplayerDataHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSingleplayerData", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag")))
+        val getPlayerByNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerByName", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), String::class.java))
         }
         val getOpNamesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOpNames", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
         }
-        val getBansHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBans", MethodType.methodType(Class.forName("net.minecraft.server.players.UserBanList")))
+        val canPlayerLoginHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canPlayerLogin", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.server.network.ServerLoginPacketListenerImpl"), Class.forName("com.mojang.authlib.GameProfile")))
+        }
+        val getPlayerForLoginHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerForLogin", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("com.mojang.authlib.GameProfile"), Class.forName("net.minecraft.server.level.ClientInformation"), Class.forName("net.minecraft.server.level.ServerPlayer")))
+        }
+        val verifyChatTrustedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "verifyChatTrusted", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.network.chat.PlayerChatMessage")))
+        }
+        val getWhiteListNamesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWhiteListNames", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
+        }
+        val isUsingWhitelistHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isUsingWhitelist", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val disconnectAllPlayersWithProfileHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "disconnectAllPlayersWithProfile", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile"), Class.forName("net.minecraft.server.level.ServerPlayer")))
+        }
+        val getPlayerNamesArrayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerNamesArray", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
         }
         val getIpBansHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getIpBans", MethodType.methodType(Class.forName("net.minecraft.server.players.IpBanList")))
         }
-        val canBypassPlayerLimitHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBypassPlayerLimit", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile")))
+        val getBansHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBans", MethodType.methodType(Class.forName("net.minecraft.server.players.UserBanList")))
         }
-        val getPlayersWithAddressHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayersWithAddress", MethodType.methodType(Class.forName("java.util.List"), String::class.java))
+        val getPlayersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayers", MethodType.methodType(Class.forName("java.util.List")))
         }
-        val getPlayerByNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerByName", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), String::class.java))
+        val getServerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getServer", MethodType.methodType(Class.forName("net.minecraft.server.MinecraftServer")))
         }
-        val isAllowCommandsForAllPlayersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAllowCommandsForAllPlayers", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val isOpHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isOp", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile")))
         }
-        val disconnectAllPlayersWithProfileHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "disconnectAllPlayersWithProfile", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("com.mojang.authlib.GameProfile"), Class.forName("net.minecraft.server.level.ServerPlayer")))
+        val getPlayerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayer", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("java.util.UUID")))
+        }
+        val getSingleplayerDataHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSingleplayerData", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag")))
         }
         val doWhiteListSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("doWhiteList")
@@ -154,34 +154,40 @@ value class WrapperPlayerList(val handle: Any) {
         return loadHandle.invoke(handle, arg0.handle) as Any
     }
 
-    val ops: WrapperServerOpList
-        get() = WrapperServerOpList(getOpsHandle.invoke(handle))
-
     fun respawn(arg0: WrapperServerPlayer, arg1: Boolean, arg2: Any, arg3: Any, arg4: Any): WrapperServerPlayer {
         return WrapperServerPlayer(respawnHandle.invoke(handle, arg0.handle, arg1, arg2, arg3, arg4))
     }
+
+    val viewDistance: Int
+        get() = getViewDistanceHandle.invoke(handle) as Int
+
+    fun getPlayerStats(arg0: Any, arg1: String): WrapperServerStatsCounter {
+        return WrapperServerStatsCounter(getPlayerStatsHandle.invoke(handle, arg0, arg1))
+    }
+
+    val simulationDistance: Int
+        get() = getSimulationDistanceHandle.invoke(handle) as Int
 
     fun getPlayerAdvancements(arg0: WrapperServerPlayer): WrapperPlayerAdvancements {
         return WrapperPlayerAdvancements(getPlayerAdvancementsHandle.invoke(handle, arg0.handle))
     }
 
-    val usingWhitelist: Boolean
-        get() = isUsingWhitelistHandle.invoke(handle) as Boolean
+    val ops: WrapperServerOpList
+        get() = WrapperServerOpList(getOpsHandle.invoke(handle))
 
-    fun getPlayerForLogin(arg0: Any, arg1: WrapperClientInformation, arg2: WrapperServerPlayer): WrapperServerPlayer {
-        return WrapperServerPlayer(getPlayerForLoginHandle.invoke(handle, arg0, arg1.handle, arg2.handle))
+    val allowCommandsForAllPlayers: Boolean
+        get() = isAllowCommandsForAllPlayersHandle.invoke(handle) as Boolean
+
+    val playerCount: Int
+        get() = getPlayerCountHandle.invoke(handle) as Int
+
+    fun canBypassPlayerLimit(arg0: Any): Boolean {
+        return canBypassPlayerLimitHandle.invoke(handle, arg0) as Boolean
     }
 
-    fun verifyChatTrusted(arg0: WrapperPlayerChatMessage): Boolean {
-        return verifyChatTrustedHandle.invoke(handle, arg0.handle) as Boolean
+    fun getPlayersWithAddress(arg0: String): Any {
+        return getPlayersWithAddressHandle.invoke(handle, arg0) as Any
     }
-
-    fun canPlayerLogin(arg0: WrapperServerLoginPacketListenerImpl, arg1: Any): WrapperServerPlayer {
-        return WrapperServerPlayer(canPlayerLoginHandle.invoke(handle, arg0.handle, arg1))
-    }
-
-    val whiteListNames: Any
-        get() = getWhiteListNamesHandle.invoke(handle) as Any
 
     val maxPlayers: Int
         get() = getMaxPlayersHandle.invoke(handle) as Int
@@ -193,66 +199,60 @@ value class WrapperPlayerList(val handle: Any) {
     val whiteList: WrapperUserWhiteList
         get() = WrapperUserWhiteList(getWhiteListHandle.invoke(handle))
 
-    fun isOp(arg0: Any): Boolean {
-        return isOpHandle.invoke(handle, arg0) as Boolean
+    fun getPlayerByName(arg0: String): WrapperServerPlayer {
+        return WrapperServerPlayer(getPlayerByNameHandle.invoke(handle, arg0))
     }
+
+    val opNames: Any
+        get() = getOpNamesHandle.invoke(handle) as Any
+
+    fun canPlayerLogin(arg0: WrapperServerLoginPacketListenerImpl, arg1: Any): WrapperServerPlayer {
+        return WrapperServerPlayer(canPlayerLoginHandle.invoke(handle, arg0.handle, arg1))
+    }
+
+    fun getPlayerForLogin(arg0: Any, arg1: WrapperClientInformation, arg2: WrapperServerPlayer): WrapperServerPlayer {
+        return WrapperServerPlayer(getPlayerForLoginHandle.invoke(handle, arg0, arg1.handle, arg2.handle))
+    }
+
+    fun verifyChatTrusted(arg0: WrapperPlayerChatMessage): Boolean {
+        return verifyChatTrustedHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val whiteListNames: Any
+        get() = getWhiteListNamesHandle.invoke(handle) as Any
+
+    val usingWhitelist: Boolean
+        get() = isUsingWhitelistHandle.invoke(handle) as Boolean
+
+    fun disconnectAllPlayersWithProfile(arg0: Any, arg1: WrapperServerPlayer): Boolean {
+        return disconnectAllPlayersWithProfileHandle.invoke(handle, arg0, arg1.handle) as Boolean
+    }
+
+    val playerNamesArray: Any
+        get() = getPlayerNamesArrayHandle.invoke(handle) as Any
+
+    val ipBans: WrapperIpBanList
+        get() = WrapperIpBanList(getIpBansHandle.invoke(handle))
+
+    val bans: WrapperUserBanList
+        get() = WrapperUserBanList(getBansHandle.invoke(handle))
+
+    val players: Any
+        get() = getPlayersHandle.invoke(handle) as Any
 
     val server: WrapperMinecraftServer
         get() = WrapperMinecraftServer(getServerHandle.invoke(handle))
+
+    fun isOp(arg0: Any): Boolean {
+        return isOpHandle.invoke(handle, arg0) as Boolean
+    }
 
     fun getPlayer(arg0: Any): WrapperServerPlayer {
         return WrapperServerPlayer(getPlayerHandle.invoke(handle, arg0))
     }
 
-    val playerCount: Int
-        get() = getPlayerCountHandle.invoke(handle) as Int
-
-    val playerNamesArray: Any
-        get() = getPlayerNamesArrayHandle.invoke(handle) as Any
-
-    val simulationDistance: Int
-        get() = getSimulationDistanceHandle.invoke(handle) as Int
-
-    val viewDistance: Int
-        get() = getViewDistanceHandle.invoke(handle) as Int
-
-    fun getPlayerStats(arg0: WrapperServerPlayer): WrapperServerStatsCounter {
-        return WrapperServerStatsCounter(getPlayerStatsHandle.invoke(handle, arg0.handle))
-    }
-
-    val players: Any
-        get() = getPlayersHandle.invoke(handle) as Any
-
     val singleplayerData: WrapperCompoundTag
         get() = WrapperCompoundTag(getSingleplayerDataHandle.invoke(handle))
-
-    val opNames: Any
-        get() = getOpNamesHandle.invoke(handle) as Any
-
-    val bans: WrapperUserBanList
-        get() = WrapperUserBanList(getBansHandle.invoke(handle))
-
-    val ipBans: WrapperIpBanList
-        get() = WrapperIpBanList(getIpBansHandle.invoke(handle))
-
-    fun canBypassPlayerLimit(arg0: Any): Boolean {
-        return canBypassPlayerLimitHandle.invoke(handle, arg0) as Boolean
-    }
-
-    fun getPlayersWithAddress(arg0: String): Any {
-        return getPlayersWithAddressHandle.invoke(handle, arg0) as Any
-    }
-
-    fun getPlayerByName(arg0: String): WrapperServerPlayer {
-        return WrapperServerPlayer(getPlayerByNameHandle.invoke(handle, arg0))
-    }
-
-    val allowCommandsForAllPlayers: Boolean
-        get() = isAllowCommandsForAllPlayersHandle.invoke(handle) as Boolean
-
-    fun disconnectAllPlayersWithProfile(arg0: Any, arg1: WrapperServerPlayer): Boolean {
-        return disconnectAllPlayersWithProfileHandle.invoke(handle, arg0, arg1.handle) as Boolean
-    }
 
     fun setDoWhiteList(value: Boolean) {
         doWhiteListSetterHandle.invoke(handle, value)

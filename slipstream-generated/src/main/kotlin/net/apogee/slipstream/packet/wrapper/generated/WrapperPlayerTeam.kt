@@ -17,44 +17,44 @@ value class WrapperPlayerTeam(val handle: Any) {
         val getDisplayNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val getDeathMessageVisibilityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDeathMessageVisibility", MethodType.methodType(Class.forName("net.minecraft.world.scores.Team\$Visibility")))
-        }
-        val getCollisionRuleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCollisionRule", MethodType.methodType(Class.forName("net.minecraft.world.scores.Team\$CollisionRule")))
-        }
-        val getFormattedNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFormattedName", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent"), Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val getPlayerPrefixHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerPrefix", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val getPlayerSuffixHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerSuffix", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val packOptionsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "packOptions", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getColorHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getColor", MethodType.methodType(Class.forName("net.minecraft.ChatFormatting")))
-        }
         val getScoreboardHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getScoreboard", MethodType.methodType(Class.forName("net.minecraft.world.scores.Scoreboard")))
         }
         val canSeeFriendlyInvisiblesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canSeeFriendlyInvisibles", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getPlayersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayers", MethodType.methodType(Class.forName("java.util.Collection")))
-        }
-        val getFormattedDisplayNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFormattedDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent")))
+        val getDeathMessageVisibilityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDeathMessageVisibility", MethodType.methodType(Class.forName("net.minecraft.world.scores.Team\$Visibility")))
         }
         val isAllowFriendlyFireHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAllowFriendlyFire", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val getFormattedDisplayNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFormattedDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent")))
+        }
         val getNameTagVisibilityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNameTagVisibility", MethodType.methodType(Class.forName("net.minecraft.world.scores.Team\$Visibility")))
+        }
+        val getColorHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getColor", MethodType.methodType(Class.forName("net.minecraft.ChatFormatting")))
+        }
+        val getPlayersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayers", MethodType.methodType(Class.forName("java.util.Collection")))
+        }
+        val getCollisionRuleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCollisionRule", MethodType.methodType(Class.forName("net.minecraft.world.scores.Team\$CollisionRule")))
+        }
+        val getPlayerSuffixHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerSuffix", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val getFormattedNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFormattedName", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent"), Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val packOptionsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "packOptions", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getPlayerPrefixHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerPrefix", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
         val displayNameSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("displayName")
@@ -109,45 +109,45 @@ value class WrapperPlayerTeam(val handle: Any) {
     val displayName: WrapperComponent
         get() = WrapperComponent(getDisplayNameHandle.invoke(handle))
 
-    val deathMessageVisibility: Any
-        get() = getDeathMessageVisibilityHandle.invoke(handle) as Any
-
-    val collisionRule: Any
-        get() = getCollisionRuleHandle.invoke(handle) as Any
-
-    fun getFormattedName(arg0: WrapperComponent): WrapperMutableComponent {
-        return WrapperMutableComponent(getFormattedNameHandle.invoke(handle, arg0.handle))
-    }
-
-    val playerPrefix: WrapperComponent
-        get() = WrapperComponent(getPlayerPrefixHandle.invoke(handle))
-
-    val playerSuffix: WrapperComponent
-        get() = WrapperComponent(getPlayerSuffixHandle.invoke(handle))
-
-    val packOptions: Int
-        get() = packOptionsHandle.invoke(handle) as Int
-
-    val color: Any
-        get() = getColorHandle.invoke(handle) as Any
-
     val scoreboard: WrapperScoreboard
         get() = WrapperScoreboard(getScoreboardHandle.invoke(handle))
 
     val canSeeFriendlyInvisibles: Boolean
         get() = canSeeFriendlyInvisiblesHandle.invoke(handle) as Boolean
 
-    val players: Any
-        get() = getPlayersHandle.invoke(handle) as Any
-
-    val formattedDisplayName: WrapperMutableComponent
-        get() = WrapperMutableComponent(getFormattedDisplayNameHandle.invoke(handle))
+    val deathMessageVisibility: Any
+        get() = getDeathMessageVisibilityHandle.invoke(handle) as Any
 
     val allowFriendlyFire: Boolean
         get() = isAllowFriendlyFireHandle.invoke(handle) as Boolean
 
+    val formattedDisplayName: WrapperMutableComponent
+        get() = WrapperMutableComponent(getFormattedDisplayNameHandle.invoke(handle))
+
     val nameTagVisibility: Any
         get() = getNameTagVisibilityHandle.invoke(handle) as Any
+
+    val color: Any
+        get() = getColorHandle.invoke(handle) as Any
+
+    val players: Any
+        get() = getPlayersHandle.invoke(handle) as Any
+
+    val collisionRule: Any
+        get() = getCollisionRuleHandle.invoke(handle) as Any
+
+    val playerSuffix: WrapperComponent
+        get() = WrapperComponent(getPlayerSuffixHandle.invoke(handle))
+
+    fun getFormattedName(arg0: WrapperComponent): WrapperMutableComponent {
+        return WrapperMutableComponent(getFormattedNameHandle.invoke(handle, arg0.handle))
+    }
+
+    val packOptions: Int
+        get() = packOptionsHandle.invoke(handle) as Int
+
+    val playerPrefix: WrapperComponent
+        get() = WrapperComponent(getPlayerPrefixHandle.invoke(handle))
 
     fun setDisplayName(value: WrapperComponent) {
         displayNameSetterHandle.invoke(handle, value.handle)

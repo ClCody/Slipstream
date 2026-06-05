@@ -14,27 +14,27 @@ value class WrapperServerboundSignUpdatePacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getLinesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLines", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
+        val isFrontTextHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isFrontText", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
-        val isFrontTextHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isFrontText", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getLinesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLines", MethodType.methodType(Class.forName("[Ljava.lang.String;")))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val lines: Any
-        get() = getLinesHandle.invoke(handle) as Any
+    val frontText: Boolean
+        get() = isFrontTextHandle.invoke(handle) as Boolean
 
     val pos: WrapperBlockPos
         get() = WrapperBlockPos(getPosHandle.invoke(handle))
 
-    val frontText: Boolean
-        get() = isFrontTextHandle.invoke(handle) as Boolean
+    val lines: Any
+        get() = getLinesHandle.invoke(handle) as Any
 
 }

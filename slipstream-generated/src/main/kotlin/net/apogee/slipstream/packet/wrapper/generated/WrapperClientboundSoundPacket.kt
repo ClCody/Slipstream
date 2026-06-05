@@ -23,17 +23,17 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
         val getYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val getVolumeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getPitchHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPitch", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getVolumeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSound", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
@@ -52,17 +52,17 @@ value class WrapperClientboundSoundPacket(val handle: Any) {
     val y: Double
         get() = getYHandle.invoke(handle) as Double
 
-    val z: Double
-        get() = getZHandle.invoke(handle) as Double
-
     val x: Double
         get() = getXHandle.invoke(handle) as Double
 
-    val volume: Float
-        get() = getVolumeHandle.invoke(handle) as Float
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
 
     val pitch: Float
         get() = getPitchHandle.invoke(handle) as Float
+
+    val volume: Float
+        get() = getVolumeHandle.invoke(handle) as Float
 
     val sound: WrapperHolder
         get() = WrapperHolder(getSoundHandle.invoke(handle))

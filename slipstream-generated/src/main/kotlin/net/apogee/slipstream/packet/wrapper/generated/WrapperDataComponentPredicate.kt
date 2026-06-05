@@ -12,24 +12,24 @@ value class WrapperDataComponentPredicate(val handle: Any) {
         private val lookup = MethodHandles.lookup()
 
         val testHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "test", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.component.DataComponentHolder")))
-        }
-        val asPatchHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "asPatch", MethodType.methodType(Class.forName("net.minecraft.core.component.DataComponentPatch")))
+            lookup.findVirtual(packetClass, "test", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.component.DataComponentMap")))
         }
         val alwaysMatchesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "alwaysMatches", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val asPatchHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "asPatch", MethodType.methodType(Class.forName("net.minecraft.core.component.DataComponentPatch")))
+        }
     }
 
-    fun test(arg0: WrapperDataComponentHolder): Boolean {
+    fun test(arg0: WrapperDataComponentMap): Boolean {
         return testHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    val asPatch: WrapperDataComponentPatch
-        get() = WrapperDataComponentPatch(asPatchHandle.invoke(handle))
-
     val alwaysMatches: Boolean
         get() = alwaysMatchesHandle.invoke(handle) as Boolean
+
+    val asPatch: WrapperDataComponentPatch
+        get() = WrapperDataComponentPatch(asPatchHandle.invoke(handle))
 
 }

@@ -14,26 +14,8 @@ value class WrapperAbstractArrow(val handle: Any) {
         val getSlotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSlot", MethodType.methodType(Class.forName("net.minecraft.world.entity.SlotAccess"), Int::class.javaPrimitiveType!!))
         }
-        val getBaseDamageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBaseDamage", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val isNoPhysicsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isNoPhysics", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val shotFromCrossbowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shotFromCrossbow", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getPickupItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPickupItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val isCritArrowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isCritArrow", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val canHitEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canHitEntity", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getPierceLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPierceLevel", MethodType.methodType(Byte::class.javaPrimitiveType!!))
+        val isPickableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isPickable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val isAttackableHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAttackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -41,17 +23,35 @@ value class WrapperAbstractArrow(val handle: Any) {
         val getWeaponItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWeaponItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val isPickableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isPickable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val preHitTargetOrDeflectSelfHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "preHitTargetOrDeflectSelf", MethodType.methodType(Class.forName("net.minecraft.world.entity.projectile.ProjectileDeflection"), Class.forName("net.minecraft.world.phys.HitResult")))
         }
         val shouldRenderAtSqrDistanceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "shouldRenderAtSqrDistance", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
+        val canHitEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canHitEntity", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val isNoPhysicsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isNoPhysics", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getBaseDamageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBaseDamage", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val isCritArrowHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isCritArrow", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val shotFromCrossbowHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shotFromCrossbow", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getPickupItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPickupItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
         val getPickupItemStackOriginHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPickupItemStackOrigin", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val preHitTargetOrDeflectSelfHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "preHitTargetOrDeflectSelf", MethodType.methodType(Class.forName("net.minecraft.world.entity.projectile.ProjectileDeflection"), Class.forName("net.minecraft.world.phys.HitResult")))
+        val getPierceLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPierceLevel", MethodType.methodType(Byte::class.javaPrimitiveType!!))
         }
         val lastStateSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastState")
@@ -119,27 +119,8 @@ value class WrapperAbstractArrow(val handle: Any) {
         return WrapperSlotAccess(getSlotHandle.invoke(handle, arg0))
     }
 
-    val baseDamage: Double
-        get() = getBaseDamageHandle.invoke(handle) as Double
-
-    val noPhysics: Boolean
-        get() = isNoPhysicsHandle.invoke(handle) as Boolean
-
-    val shotFromCrossbow: Boolean
-        get() = shotFromCrossbowHandle.invoke(handle) as Boolean
-
-    val pickupItem: WrapperItemStack
-        get() = WrapperItemStack(getPickupItemHandle.invoke(handle))
-
-    val critArrow: Boolean
-        get() = isCritArrowHandle.invoke(handle) as Boolean
-
-    fun canHitEntity(arg0: WrapperEntity): Boolean {
-        return canHitEntityHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val pierceLevel: Byte
-        get() = getPierceLevelHandle.invoke(handle) as Byte
+    val pickable: Boolean
+        get() = isPickableHandle.invoke(handle) as Boolean
 
     val attackable: Boolean
         get() = isAttackableHandle.invoke(handle) as Boolean
@@ -147,19 +128,38 @@ value class WrapperAbstractArrow(val handle: Any) {
     val weaponItem: WrapperItemStack
         get() = WrapperItemStack(getWeaponItemHandle.invoke(handle))
 
-    val pickable: Boolean
-        get() = isPickableHandle.invoke(handle) as Boolean
+    fun preHitTargetOrDeflectSelf(arg0: WrapperHitResult): Any {
+        return preHitTargetOrDeflectSelfHandle.invoke(handle, arg0.handle) as Any
+    }
 
     fun shouldRenderAtSqrDistance(arg0: Double): Boolean {
         return shouldRenderAtSqrDistanceHandle.invoke(handle, arg0) as Boolean
     }
 
+    fun canHitEntity(arg0: WrapperEntity): Boolean {
+        return canHitEntityHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val noPhysics: Boolean
+        get() = isNoPhysicsHandle.invoke(handle) as Boolean
+
+    val baseDamage: Double
+        get() = getBaseDamageHandle.invoke(handle) as Double
+
+    val critArrow: Boolean
+        get() = isCritArrowHandle.invoke(handle) as Boolean
+
+    val shotFromCrossbow: Boolean
+        get() = shotFromCrossbowHandle.invoke(handle) as Boolean
+
+    val pickupItem: WrapperItemStack
+        get() = WrapperItemStack(getPickupItemHandle.invoke(handle))
+
     val pickupItemStackOrigin: WrapperItemStack
         get() = WrapperItemStack(getPickupItemStackOriginHandle.invoke(handle))
 
-    fun preHitTargetOrDeflectSelf(arg0: WrapperHitResult): Any {
-        return preHitTargetOrDeflectSelfHandle.invoke(handle, arg0.handle) as Any
-    }
+    val pierceLevel: Byte
+        get() = getPierceLevelHandle.invoke(handle) as Byte
 
     fun setLastState(value: WrapperBlockState) {
         lastStateSetterHandle.invoke(handle, value.handle)

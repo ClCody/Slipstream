@@ -20,11 +20,11 @@ value class WrapperCustomBossEvents(val handle: Any) {
         val createHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "create", MethodType.methodType(Class.forName("net.minecraft.server.bossevents.CustomBossEvent"), Class.forName("net.minecraft.resources.ResourceLocation"), Class.forName("net.minecraft.network.chat.Component")))
         }
-        val getIdsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getIds", MethodType.methodType(Class.forName("java.util.Collection")))
-        }
         val getEventsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEvents", MethodType.methodType(Class.forName("java.util.Collection")))
+        }
+        val getIdsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getIds", MethodType.methodType(Class.forName("java.util.Collection")))
         }
     }
 
@@ -40,10 +40,10 @@ value class WrapperCustomBossEvents(val handle: Any) {
         return WrapperCustomBossEvent(createHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
-    val ids: Any
-        get() = getIdsHandle.invoke(handle) as Any
-
     val events: Any
         get() = getEventsHandle.invoke(handle) as Any
+
+    val ids: Any
+        get() = getIdsHandle.invoke(handle) as Any
 
 }

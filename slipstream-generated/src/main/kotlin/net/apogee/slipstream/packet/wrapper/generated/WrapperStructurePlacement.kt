@@ -14,37 +14,37 @@ value class WrapperStructurePlacement(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType")))
         }
-        val applyInteractionsWithOtherStructuresHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "applyInteractionsWithOtherStructures", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.chunk.ChunkGeneratorStructureState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        val applyAdditionalChunkRestrictionsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "applyAdditionalChunkRestrictions", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Long::class.javaPrimitiveType!!, Class.forName("java.lang.Integer")))
         }
         val isStructureChunkHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isStructureChunk", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.chunk.ChunkGeneratorStructureState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceKey")))
         }
+        val applyInteractionsWithOtherStructuresHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "applyInteractionsWithOtherStructures", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.chunk.ChunkGeneratorStructureState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
         val getLocatePosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLocatePos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.world.level.ChunkPos")))
-        }
-        val applyAdditionalChunkRestrictionsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "applyAdditionalChunkRestrictions", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Long::class.javaPrimitiveType!!, Class.forName("java.lang.Integer")))
         }
     }
 
     val type: WrapperStructurePlacementType
         get() = WrapperStructurePlacementType(typeHandle.invoke(handle))
 
-    fun applyInteractionsWithOtherStructures(arg0: WrapperChunkGeneratorStructureState, arg1: Int, arg2: Int): Boolean {
-        return applyInteractionsWithOtherStructuresHandle.invoke(handle, arg0.handle, arg1, arg2) as Boolean
+    fun applyAdditionalChunkRestrictions(arg0: Int, arg1: Int, arg2: Long, arg3: Any): Boolean {
+        return applyAdditionalChunkRestrictionsHandle.invoke(handle, arg0, arg1, arg2, arg3) as Boolean
     }
 
     fun isStructureChunk(arg0: WrapperChunkGeneratorStructureState, arg1: Int, arg2: Int, arg3: WrapperResourceKey): Boolean {
         return isStructureChunkHandle.invoke(handle, arg0.handle, arg1, arg2, arg3.handle) as Boolean
     }
 
-    fun getLocatePos(arg0: WrapperChunkPos): WrapperBlockPos {
-        return WrapperBlockPos(getLocatePosHandle.invoke(handle, arg0.handle))
+    fun applyInteractionsWithOtherStructures(arg0: WrapperChunkGeneratorStructureState, arg1: Int, arg2: Int): Boolean {
+        return applyInteractionsWithOtherStructuresHandle.invoke(handle, arg0.handle, arg1, arg2) as Boolean
     }
 
-    fun applyAdditionalChunkRestrictions(arg0: Int, arg1: Int, arg2: Long, arg3: Any): Boolean {
-        return applyAdditionalChunkRestrictionsHandle.invoke(handle, arg0, arg1, arg2, arg3) as Boolean
+    fun getLocatePos(arg0: WrapperChunkPos): WrapperBlockPos {
+        return WrapperBlockPos(getLocatePosHandle.invoke(handle, arg0.handle))
     }
 
 }

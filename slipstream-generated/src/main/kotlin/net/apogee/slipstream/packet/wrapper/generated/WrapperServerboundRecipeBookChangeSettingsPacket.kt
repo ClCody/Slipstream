@@ -17,11 +17,11 @@ value class WrapperServerboundRecipeBookChangeSettingsPacket(val handle: Any) {
         val isOpenHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isOpen", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val isFilteringHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isFiltering", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getBookTypeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBookType", MethodType.methodType(Class.forName("net.minecraft.world.inventory.RecipeBookType")))
+        }
+        val isFilteringHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isFiltering", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperServerboundRecipeBookChangeSettingsPacket(val handle: Any) {
     val open: Boolean
         get() = isOpenHandle.invoke(handle) as Boolean
 
-    val filtering: Boolean
-        get() = isFilteringHandle.invoke(handle) as Boolean
-
     val bookType: Any
         get() = getBookTypeHandle.invoke(handle) as Any
+
+    val filtering: Boolean
+        get() = isFilteringHandle.invoke(handle) as Boolean
 
 }

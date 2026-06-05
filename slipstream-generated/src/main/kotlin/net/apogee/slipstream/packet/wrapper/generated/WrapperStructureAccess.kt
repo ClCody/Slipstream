@@ -14,23 +14,23 @@ value class WrapperStructureAccess(val handle: Any) {
         val getAllReferencesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAllReferences", MethodType.methodType(Class.forName("java.util.Map")))
         }
-        val getReferencesForStructureHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getReferencesForStructure", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.longs.LongSet"), Class.forName("net.minecraft.world.level.levelgen.structure.Structure")))
-        }
         val getStartForStructureHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStartForStructure", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.StructureStart"), Class.forName("net.minecraft.world.level.levelgen.structure.Structure")))
+        }
+        val getReferencesForStructureHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getReferencesForStructure", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.longs.LongSet"), Class.forName("net.minecraft.world.level.levelgen.structure.Structure")))
         }
     }
 
     val allReferences: Any
         get() = getAllReferencesHandle.invoke(handle) as Any
 
-    fun getReferencesForStructure(arg0: WrapperStructure): Any {
-        return getReferencesForStructureHandle.invoke(handle, arg0.handle) as Any
-    }
-
     fun getStartForStructure(arg0: WrapperStructure): WrapperStructureStart {
         return WrapperStructureStart(getStartForStructureHandle.invoke(handle, arg0.handle))
+    }
+
+    fun getReferencesForStructure(arg0: WrapperStructure): Any {
+        return getReferencesForStructureHandle.invoke(handle, arg0.handle) as Any
     }
 
 }

@@ -14,27 +14,6 @@ value class WrapperServerLevelData(val handle: Any) {
         val getLevelNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLevelName", MethodType.methodType(String::class.java))
         }
-        val getWanderingTraderSpawnDelayHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWanderingTraderSpawnDelay", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getWanderingTraderSpawnChanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWanderingTraderSpawnChance", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getWanderingTraderIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWanderingTraderId", MethodType.methodType(Class.forName("java.util.UUID")))
-        }
-        val isInitializedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInitialized", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getScheduledEventsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getScheduledEvents", MethodType.methodType(Class.forName("net.minecraft.world.level.timers.TimerQueue")))
-        }
-        val getRainTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRainTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getThunderTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getThunderTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getWorldBorderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWorldBorder", MethodType.methodType(Class.forName("net.minecraft.world.level.border.WorldBorder\$Settings")))
         }
@@ -44,34 +23,34 @@ value class WrapperServerLevelData(val handle: Any) {
         val getClearWeatherTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getClearWeatherTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
+        val isInitializedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInitialized", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getWanderingTraderSpawnChanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWanderingTraderSpawnChance", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getWanderingTraderSpawnDelayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWanderingTraderSpawnDelay", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
         val isAllowCommandsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAllowCommands", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getWanderingTraderIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWanderingTraderId", MethodType.methodType(Class.forName("java.util.UUID")))
+        }
+        val getScheduledEventsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getScheduledEvents", MethodType.methodType(Class.forName("net.minecraft.world.level.timers.TimerQueue")))
+        }
+        val getThunderTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getThunderTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getRainTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRainTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
     }
 
     val levelName: String
         get() = getLevelNameHandle.invoke(handle) as String
-
-    val wanderingTraderSpawnDelay: Int
-        get() = getWanderingTraderSpawnDelayHandle.invoke(handle) as Int
-
-    val wanderingTraderSpawnChance: Int
-        get() = getWanderingTraderSpawnChanceHandle.invoke(handle) as Int
-
-    val wanderingTraderId: Any
-        get() = getWanderingTraderIdHandle.invoke(handle) as Any
-
-    val initialized: Boolean
-        get() = isInitializedHandle.invoke(handle) as Boolean
-
-    val scheduledEvents: WrapperTimerQueue
-        get() = WrapperTimerQueue(getScheduledEventsHandle.invoke(handle))
-
-    val rainTime: Int
-        get() = getRainTimeHandle.invoke(handle) as Int
-
-    val thunderTime: Int
-        get() = getThunderTimeHandle.invoke(handle) as Int
 
     val worldBorder: WrapperSettings
         get() = WrapperSettings(getWorldBorderHandle.invoke(handle))
@@ -82,7 +61,28 @@ value class WrapperServerLevelData(val handle: Any) {
     val clearWeatherTime: Int
         get() = getClearWeatherTimeHandle.invoke(handle) as Int
 
+    val initialized: Boolean
+        get() = isInitializedHandle.invoke(handle) as Boolean
+
+    val wanderingTraderSpawnChance: Int
+        get() = getWanderingTraderSpawnChanceHandle.invoke(handle) as Int
+
+    val wanderingTraderSpawnDelay: Int
+        get() = getWanderingTraderSpawnDelayHandle.invoke(handle) as Int
+
     val allowCommands: Boolean
         get() = isAllowCommandsHandle.invoke(handle) as Boolean
+
+    val wanderingTraderId: Any
+        get() = getWanderingTraderIdHandle.invoke(handle) as Any
+
+    val scheduledEvents: WrapperTimerQueue
+        get() = WrapperTimerQueue(getScheduledEventsHandle.invoke(handle))
+
+    val thunderTime: Int
+        get() = getThunderTimeHandle.invoke(handle) as Int
+
+    val rainTime: Int
+        get() = getRainTimeHandle.invoke(handle) as Int
 
 }

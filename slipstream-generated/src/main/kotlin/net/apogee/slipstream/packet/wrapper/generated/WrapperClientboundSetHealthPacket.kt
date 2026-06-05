@@ -17,11 +17,11 @@ value class WrapperClientboundSetHealthPacket(val handle: Any) {
         val getSaturationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSaturation", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getFoodHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFood", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getHealthHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getHealth", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getFoodHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFood", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperClientboundSetHealthPacket(val handle: Any) {
     val saturation: Float
         get() = getSaturationHandle.invoke(handle) as Float
 
-    val food: Int
-        get() = getFoodHandle.invoke(handle) as Int
-
     val health: Float
         get() = getHealthHandle.invoke(handle) as Float
+
+    val food: Int
+        get() = getFoodHandle.invoke(handle) as Int
 
 }

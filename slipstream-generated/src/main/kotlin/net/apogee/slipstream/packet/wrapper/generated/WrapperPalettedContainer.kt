@@ -20,23 +20,23 @@ value class WrapperPalettedContainer(val handle: Any) {
         val getAndSetHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAndSet", MethodType.methodType(Class.forName("java.lang.Object"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("java.lang.Object")))
         }
-        val packHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "pack", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.PalettedContainerRO\$PackedData"), Class.forName("net.minecraft.core.IdMap"), Class.forName("net.minecraft.world.level.chunk.PalettedContainer\$Strategy")))
-        }
         val getAndSetUncheckedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAndSetUnchecked", MethodType.methodType(Class.forName("java.lang.Object"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("java.lang.Object")))
-        }
-        val recreateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "recreate", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.PalettedContainer")))
         }
         val getSerializedSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSerializedSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
+        val maybeHasHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "maybeHas", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate")))
+        }
         val onResizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "onResize", MethodType.methodType(Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("java.lang.Object")))
         }
-        val maybeHasHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "maybeHas", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate")))
+        val packHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "pack", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.PalettedContainerRO\$PackedData"), Class.forName("net.minecraft.core.IdMap"), Class.forName("net.minecraft.world.level.chunk.PalettedContainer\$Strategy")))
+        }
+        val recreateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "recreate", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.PalettedContainer")))
         }
         val dataSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("data")
@@ -56,27 +56,27 @@ value class WrapperPalettedContainer(val handle: Any) {
         return getAndSetHandle.invoke(handle, arg0, arg1, arg2, arg3) as Any
     }
 
-    fun pack(arg0: WrapperIdMap, arg1: WrapperStrategy): WrapperPackedData {
-        return WrapperPackedData(packHandle.invoke(handle, arg0.handle, arg1.handle))
-    }
-
     fun getAndSetUnchecked(arg0: Int, arg1: Int, arg2: Int, arg3: Any): Any {
         return getAndSetUncheckedHandle.invoke(handle, arg0, arg1, arg2, arg3) as Any
     }
 
-    val recreate: WrapperPalettedContainer
-        get() = WrapperPalettedContainer(recreateHandle.invoke(handle))
-
     val serializedSize: Int
         get() = getSerializedSizeHandle.invoke(handle) as Int
+
+    fun maybeHas(arg0: Any): Boolean {
+        return maybeHasHandle.invoke(handle, arg0) as Boolean
+    }
 
     fun onResize(arg0: Int, arg1: Any): Int {
         return onResizeHandle.invoke(handle, arg0, arg1) as Int
     }
 
-    fun maybeHas(arg0: Any): Boolean {
-        return maybeHasHandle.invoke(handle, arg0) as Boolean
+    fun pack(arg0: WrapperIdMap, arg1: WrapperStrategy): WrapperPackedData {
+        return WrapperPackedData(packHandle.invoke(handle, arg0.handle, arg1.handle))
     }
+
+    val recreate: WrapperPalettedContainer
+        get() = WrapperPalettedContainer(recreateHandle.invoke(handle))
 
     fun setData(value: Any) {
         dataSetterHandle.invoke(handle, value)

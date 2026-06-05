@@ -17,11 +17,11 @@ value class WrapperEntityAttachments(val handle: Any) {
         val scaleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "scale", MethodType.methodType(Class.forName("net.minecraft.world.entity.EntityAttachments"), Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
         }
-        val getNullableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNullable", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.entity.EntityAttachment"), Int::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
-        }
         val getClampedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getClamped", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.entity.EntityAttachment"), Int::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val getNullableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNullable", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.entity.EntityAttachment"), Int::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
         }
     }
 
@@ -33,12 +33,12 @@ value class WrapperEntityAttachments(val handle: Any) {
         return WrapperEntityAttachments(scaleHandle.invoke(handle, arg0, arg1, arg2))
     }
 
-    fun getNullable(arg0: Any, arg1: Int, arg2: Float): WrapperVec3 {
-        return WrapperVec3(getNullableHandle.invoke(handle, arg0, arg1, arg2))
-    }
-
     fun getClamped(arg0: Any, arg1: Int, arg2: Float): WrapperVec3 {
         return WrapperVec3(getClampedHandle.invoke(handle, arg0, arg1, arg2))
+    }
+
+    fun getNullable(arg0: Any, arg1: Int, arg2: Float): WrapperVec3 {
+        return WrapperVec3(getNullableHandle.invoke(handle, arg0, arg1, arg2))
     }
 
 }

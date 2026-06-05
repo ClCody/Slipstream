@@ -14,23 +14,23 @@ value class WrapperLevelTicks(val handle: Any) {
         val countHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "count", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val willTickThisTickHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "willTickThisTick", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos"), Class.forName("java.lang.Object")))
-        }
         val hasScheduledTickHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasScheduledTick", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos"), Class.forName("java.lang.Object")))
+        }
+        val willTickThisTickHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "willTickThisTick", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos"), Class.forName("java.lang.Object")))
         }
     }
 
     val count: Int
         get() = countHandle.invoke(handle) as Int
 
-    fun willTickThisTick(arg0: WrapperBlockPos, arg1: Any): Boolean {
-        return willTickThisTickHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
     fun hasScheduledTick(arg0: WrapperBlockPos, arg1: Any): Boolean {
         return hasScheduledTickHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
+    fun willTickThisTick(arg0: WrapperBlockPos, arg1: Any): Boolean {
+        return willTickThisTickHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
 }

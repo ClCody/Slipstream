@@ -14,11 +14,11 @@ value class WrapperPositionalRandomFactory(val handle: Any) {
         val atHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "at", MethodType.methodType(Class.forName("net.minecraft.util.RandomSource"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val fromHashOfHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "fromHashOf", MethodType.methodType(Class.forName("net.minecraft.util.RandomSource"), String::class.java))
-        }
         val fromSeedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "fromSeed", MethodType.methodType(Class.forName("net.minecraft.util.RandomSource"), Long::class.javaPrimitiveType!!))
+        }
+        val fromHashOfHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "fromHashOf", MethodType.methodType(Class.forName("net.minecraft.util.RandomSource"), Class.forName("net.minecraft.resources.ResourceLocation")))
         }
     }
 
@@ -26,12 +26,12 @@ value class WrapperPositionalRandomFactory(val handle: Any) {
         return WrapperRandomSource(atHandle.invoke(handle, arg0.handle))
     }
 
-    fun fromHashOf(arg0: String): WrapperRandomSource {
-        return WrapperRandomSource(fromHashOfHandle.invoke(handle, arg0))
-    }
-
     fun fromSeed(arg0: Long): WrapperRandomSource {
         return WrapperRandomSource(fromSeedHandle.invoke(handle, arg0))
+    }
+
+    fun fromHashOf(arg0: WrapperResourceLocation): WrapperRandomSource {
+        return WrapperRandomSource(fromHashOfHandle.invoke(handle, arg0.handle))
     }
 
 }

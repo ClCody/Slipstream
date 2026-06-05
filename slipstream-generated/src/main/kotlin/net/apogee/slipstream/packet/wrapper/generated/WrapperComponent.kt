@@ -32,23 +32,23 @@ value class WrapperComponent(val handle: Any) {
         val getContentsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getContents", MethodType.methodType(Class.forName("net.minecraft.network.chat.ComponentContents")))
         }
-        val getStyleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getStyle", MethodType.methodType(Class.forName("net.minecraft.network.chat.Style")))
-        }
-        val plainCopyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "plainCopy", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent")))
-        }
-        val toFlatListHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "toFlatList", MethodType.methodType(Class.forName("java.util.List"), Class.forName("net.minecraft.network.chat.Style")))
-        }
-        val tryCollapseToStringHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "tryCollapseToString", MethodType.methodType(String::class.java))
+        val getVisualOrderTextHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVisualOrderText", MethodType.methodType(Class.forName("net.minecraft.util.FormattedCharSequence")))
         }
         val getSiblingsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSiblings", MethodType.methodType(Class.forName("java.util.List")))
         }
-        val getVisualOrderTextHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVisualOrderText", MethodType.methodType(Class.forName("net.minecraft.util.FormattedCharSequence")))
+        val tryCollapseToStringHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "tryCollapseToString", MethodType.methodType(String::class.java))
+        }
+        val getStyleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getStyle", MethodType.methodType(Class.forName("net.minecraft.network.chat.Style")))
+        }
+        val toFlatListHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "toFlatList", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val plainCopyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "plainCopy", MethodType.methodType(Class.forName("net.minecraft.network.chat.MutableComponent")))
         }
     }
 
@@ -75,23 +75,22 @@ value class WrapperComponent(val handle: Any) {
     val contents: WrapperComponentContents
         get() = WrapperComponentContents(getContentsHandle.invoke(handle))
 
-    val style: WrapperStyle
-        get() = WrapperStyle(getStyleHandle.invoke(handle))
-
-    val plainCopy: WrapperMutableComponent
-        get() = WrapperMutableComponent(plainCopyHandle.invoke(handle))
-
-    fun toFlatList(arg0: WrapperStyle): Any {
-        return toFlatListHandle.invoke(handle, arg0.handle) as Any
-    }
-
-    val tryCollapseToString: String
-        get() = tryCollapseToStringHandle.invoke(handle) as String
+    val visualOrderText: WrapperFormattedCharSequence
+        get() = WrapperFormattedCharSequence(getVisualOrderTextHandle.invoke(handle))
 
     val siblings: Any
         get() = getSiblingsHandle.invoke(handle) as Any
 
-    val visualOrderText: WrapperFormattedCharSequence
-        get() = WrapperFormattedCharSequence(getVisualOrderTextHandle.invoke(handle))
+    val tryCollapseToString: String
+        get() = tryCollapseToStringHandle.invoke(handle) as String
+
+    val style: WrapperStyle
+        get() = WrapperStyle(getStyleHandle.invoke(handle))
+
+    val toFlatList: Any
+        get() = toFlatListHandle.invoke(handle) as Any
+
+    val plainCopy: WrapperMutableComponent
+        get() = WrapperMutableComponent(plainCopyHandle.invoke(handle))
 
 }

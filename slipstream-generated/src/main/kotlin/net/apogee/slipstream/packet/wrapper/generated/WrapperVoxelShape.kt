@@ -12,10 +12,10 @@ value class WrapperVoxelShape(val handle: Any) {
         private val lookup = MethodHandles.lookup()
 
         val minHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "min", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Direction\$Axis")))
+            lookup.findVirtual(packetClass, "min", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Direction\$Axis"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
         val maxHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "max", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Direction\$Axis"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "max", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Direction\$Axis")))
         }
         val isEmptyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isEmpty", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -32,6 +32,12 @@ value class WrapperVoxelShape(val handle: Any) {
         val moveHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "move", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
+        val closestPointToHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "closestPointTo", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.phys.Vec3")))
+        }
+        val getCoordsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCoords", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.doubles.DoubleList"), Class.forName("net.minecraft.core.Direction\$Axis")))
+        }
         val `moonrise$occludesFullBlockIfCachedHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$occludesFullBlockIfCached", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
@@ -41,26 +47,8 @@ value class WrapperVoxelShape(val handle: Any) {
         val `moonrise$getFaceShapeClampedHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$getFaceShapeClamped", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.core.Direction")))
         }
-        val `moonrise$getSingleAABBRepresentationHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$getSingleAABBRepresentation", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB")))
-        }
-        val getFaceShapeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFaceShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.core.Direction")))
-        }
-        val clipHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "clip", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult"), Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.core.BlockPos")))
-        }
-        val closestPointToHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "closestPointTo", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.phys.Vec3")))
-        }
-        val `moonrise$isFullBlockHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$isFullBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val `moonrise$occludesFullBlockHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$occludesFullBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val toAabbsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "toAabbs", MethodType.methodType(Class.forName("java.util.List")))
+        val `moonrise$offsetXHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$offsetX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val `moonrise$offsetYHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$offsetY", MethodType.methodType(Double::class.javaPrimitiveType!!))
@@ -68,11 +56,26 @@ value class WrapperVoxelShape(val handle: Any) {
         val `moonrise$offsetZHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$offsetZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val `moonrise$offsetXHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$offsetX", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
         val singleEncompassingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "singleEncompassing", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape")))
+        }
+        val `moonrise$isFullBlockHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$isFullBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val `moonrise$occludesFullBlockHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$occludesFullBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getFaceShapeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFaceShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.core.Direction")))
+        }
+        val clipHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "clip", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult"), Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val toAabbsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "toAabbs", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val `moonrise$getSingleAABBRepresentationHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$getSingleAABBRepresentation", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB")))
         }
         val `moonrise$rootCoordinatesXHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$rootCoordinatesX", MethodType.methodType(Class.forName("[D")))
@@ -80,14 +83,11 @@ value class WrapperVoxelShape(val handle: Any) {
         val `moonrise$rootCoordinatesYHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$rootCoordinatesY", MethodType.methodType(Class.forName("[D")))
         }
-        val `moonrise$orUnoptimizedHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$orUnoptimized", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.world.phys.shapes.VoxelShape")))
-        }
         val `moonrise$rootCoordinatesZHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$rootCoordinatesZ", MethodType.methodType(Class.forName("[D")))
         }
-        val getCoordsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCoords", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.doubles.DoubleList"), Class.forName("net.minecraft.core.Direction\$Axis")))
+        val `moonrise$orUnoptimizedHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$orUnoptimized", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.world.phys.shapes.VoxelShape")))
         }
         val facesSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("faces")
@@ -171,12 +171,12 @@ value class WrapperVoxelShape(val handle: Any) {
         }
     }
 
-    fun min(arg0: Any): Double {
-        return minHandle.invoke(handle, arg0) as Double
+    fun min(arg0: Any, arg1: Double, arg2: Double): Double {
+        return minHandle.invoke(handle, arg0, arg1, arg2) as Double
     }
 
-    fun max(arg0: Any, arg1: Double, arg2: Double): Double {
-        return maxHandle.invoke(handle, arg0, arg1, arg2) as Double
+    fun max(arg0: Any): Double {
+        return maxHandle.invoke(handle, arg0) as Double
     }
 
     val empty: Boolean
@@ -196,6 +196,14 @@ value class WrapperVoxelShape(val handle: Any) {
         return WrapperVoxelShape(moveHandle.invoke(handle, arg0, arg1, arg2))
     }
 
+    fun closestPointTo(arg0: WrapperVec3): Any {
+        return closestPointToHandle.invoke(handle, arg0.handle) as Any
+    }
+
+    fun getCoords(arg0: Any): Any {
+        return getCoordsHandle.invoke(handle, arg0) as Any
+    }
+
     val `moonrise$occludesFullBlockIfCached`: Boolean
         get() = `moonrise$occludesFullBlockIfCachedHandle`.invoke(handle) as Boolean
 
@@ -206,8 +214,23 @@ value class WrapperVoxelShape(val handle: Any) {
         return WrapperVoxelShape(`moonrise$getFaceShapeClampedHandle`.invoke(handle, arg0))
     }
 
-    val `moonrise$getSingleAABBRepresentation`: WrapperAABB
-        get() = WrapperAABB(`moonrise$getSingleAABBRepresentationHandle`.invoke(handle))
+    val `moonrise$offsetX`: Double
+        get() = `moonrise$offsetXHandle`.invoke(handle) as Double
+
+    val `moonrise$offsetY`: Double
+        get() = `moonrise$offsetYHandle`.invoke(handle) as Double
+
+    val `moonrise$offsetZ`: Double
+        get() = `moonrise$offsetZHandle`.invoke(handle) as Double
+
+    val singleEncompassing: WrapperVoxelShape
+        get() = WrapperVoxelShape(singleEncompassingHandle.invoke(handle))
+
+    val `moonrise$isFullBlock`: Boolean
+        get() = `moonrise$isFullBlockHandle`.invoke(handle) as Boolean
+
+    val `moonrise$occludesFullBlock`: Boolean
+        get() = `moonrise$occludesFullBlockHandle`.invoke(handle) as Boolean
 
     fun getFaceShape(arg0: Any): WrapperVoxelShape {
         return WrapperVoxelShape(getFaceShapeHandle.invoke(handle, arg0))
@@ -217,30 +240,11 @@ value class WrapperVoxelShape(val handle: Any) {
         return WrapperBlockHitResult(clipHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle))
     }
 
-    fun closestPointTo(arg0: WrapperVec3): Any {
-        return closestPointToHandle.invoke(handle, arg0.handle) as Any
-    }
-
-    val `moonrise$isFullBlock`: Boolean
-        get() = `moonrise$isFullBlockHandle`.invoke(handle) as Boolean
-
-    val `moonrise$occludesFullBlock`: Boolean
-        get() = `moonrise$occludesFullBlockHandle`.invoke(handle) as Boolean
-
     val toAabbs: Any
         get() = toAabbsHandle.invoke(handle) as Any
 
-    val `moonrise$offsetY`: Double
-        get() = `moonrise$offsetYHandle`.invoke(handle) as Double
-
-    val `moonrise$offsetZ`: Double
-        get() = `moonrise$offsetZHandle`.invoke(handle) as Double
-
-    val `moonrise$offsetX`: Double
-        get() = `moonrise$offsetXHandle`.invoke(handle) as Double
-
-    val singleEncompassing: WrapperVoxelShape
-        get() = WrapperVoxelShape(singleEncompassingHandle.invoke(handle))
+    val `moonrise$getSingleAABBRepresentation`: WrapperAABB
+        get() = WrapperAABB(`moonrise$getSingleAABBRepresentationHandle`.invoke(handle))
 
     val `moonrise$rootCoordinatesX`: Any
         get() = `moonrise$rootCoordinatesXHandle`.invoke(handle) as Any
@@ -248,15 +252,11 @@ value class WrapperVoxelShape(val handle: Any) {
     val `moonrise$rootCoordinatesY`: Any
         get() = `moonrise$rootCoordinatesYHandle`.invoke(handle) as Any
 
-    fun `moonrise$orUnoptimized`(arg0: WrapperVoxelShape): WrapperVoxelShape {
-        return WrapperVoxelShape(`moonrise$orUnoptimizedHandle`.invoke(handle, arg0.handle))
-    }
-
     val `moonrise$rootCoordinatesZ`: Any
         get() = `moonrise$rootCoordinatesZHandle`.invoke(handle) as Any
 
-    fun getCoords(arg0: Any): Any {
-        return getCoordsHandle.invoke(handle, arg0) as Any
+    fun `moonrise$orUnoptimized`(arg0: WrapperVoxelShape): WrapperVoxelShape {
+        return WrapperVoxelShape(`moonrise$orUnoptimizedHandle`.invoke(handle, arg0.handle))
     }
 
     fun setFaces(value: Any) {

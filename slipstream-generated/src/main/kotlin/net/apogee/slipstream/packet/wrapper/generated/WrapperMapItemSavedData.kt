@@ -20,20 +20,11 @@ value class WrapperMapItemSavedData(val handle: Any) {
         val isTrackedCountOverLimitHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isTrackedCountOverLimit", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val getBannersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBanners", MethodType.methodType(Class.forName("java.util.Collection")))
-        }
         val scaledHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "scaled", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData")))
         }
-        val lockedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "locked", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData")))
-        }
-        val getHoldingPlayerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getHoldingPlayer", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData\$HoldingPlayer"), Class.forName("net.minecraft.world.entity.player.Player")))
-        }
-        val getDecorationsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDecorations", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        val getBannersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBanners", MethodType.methodType(Class.forName("java.util.Collection")))
         }
         val toggleBannerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "toggleBanner", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.LevelAccessor"), Class.forName("net.minecraft.core.BlockPos")))
@@ -43,6 +34,15 @@ value class WrapperMapItemSavedData(val handle: Any) {
         }
         val isExplorationMapHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isExplorationMap", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getHoldingPlayerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getHoldingPlayer", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData\$HoldingPlayer"), Class.forName("net.minecraft.world.entity.player.Player")))
+        }
+        val getDecorationsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDecorations", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        }
+        val lockedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "locked", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData")))
         }
         val centerXSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("centerX")
@@ -123,21 +123,11 @@ value class WrapperMapItemSavedData(val handle: Any) {
         return isTrackedCountOverLimitHandle.invoke(handle, arg0) as Boolean
     }
 
-    val banners: Any
-        get() = getBannersHandle.invoke(handle) as Any
-
     val scaled: WrapperMapItemSavedData
         get() = WrapperMapItemSavedData(scaledHandle.invoke(handle))
 
-    val locked: WrapperMapItemSavedData
-        get() = WrapperMapItemSavedData(lockedHandle.invoke(handle))
-
-    fun getHoldingPlayer(arg0: WrapperPlayer): WrapperHoldingPlayer {
-        return WrapperHoldingPlayer(getHoldingPlayerHandle.invoke(handle, arg0.handle))
-    }
-
-    val decorations: Any
-        get() = getDecorationsHandle.invoke(handle) as Any
+    val banners: Any
+        get() = getBannersHandle.invoke(handle) as Any
 
     fun toggleBanner(arg0: WrapperLevelAccessor, arg1: WrapperBlockPos): Boolean {
         return toggleBannerHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
@@ -149,6 +139,16 @@ value class WrapperMapItemSavedData(val handle: Any) {
 
     val explorationMap: Boolean
         get() = isExplorationMapHandle.invoke(handle) as Boolean
+
+    fun getHoldingPlayer(arg0: WrapperPlayer): WrapperHoldingPlayer {
+        return WrapperHoldingPlayer(getHoldingPlayerHandle.invoke(handle, arg0.handle))
+    }
+
+    val decorations: Any
+        get() = getDecorationsHandle.invoke(handle) as Any
+
+    val locked: WrapperMapItemSavedData
+        get() = WrapperMapItemSavedData(lockedHandle.invoke(handle))
 
     fun setCenterX(value: Int) {
         centerXSetterHandle.invoke(handle, value)

@@ -12,7 +12,7 @@ value class WrapperLootTable(val handle: Any) {
         private val lookup = MethodHandles.lookup()
 
         val getRandomItemsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRandomItems", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.objects.ObjectArrayList"), Class.forName("net.minecraft.world.level.storage.loot.LootParams")))
+            lookup.findVirtual(packetClass, "getRandomItems", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.objects.ObjectArrayList"), Class.forName("net.minecraft.world.level.storage.loot.LootParams"), Class.forName("net.minecraft.util.RandomSource")))
         }
         val getParamSetHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getParamSet", MethodType.methodType(Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParamSet")))
@@ -24,8 +24,8 @@ value class WrapperLootTable(val handle: Any) {
         }
     }
 
-    fun getRandomItems(arg0: WrapperLootParams): Any {
-        return getRandomItemsHandle.invoke(handle, arg0.handle) as Any
+    fun getRandomItems(arg0: WrapperLootParams, arg1: WrapperRandomSource): Any {
+        return getRandomItemsHandle.invoke(handle, arg0.handle, arg1.handle) as Any
     }
 
     val paramSet: WrapperLootContextParamSet

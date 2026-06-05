@@ -14,26 +14,26 @@ value class WrapperClientboundInitializeBorderPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getNewCenterXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNewCenterX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getWarningBlocksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWarningBlocks", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getWarningTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWarningTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getWarningBlocksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWarningBlocks", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getNewCenterZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNewCenterZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getNewCenterXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNewCenterX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getLerpTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLerpTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
         }
-        val getNewSizeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNewSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getNewCenterZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNewCenterZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getOldSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOldSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getNewSizeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNewSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getNewAbsoluteMaxSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNewAbsoluteMaxSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -43,26 +43,26 @@ value class WrapperClientboundInitializeBorderPacket(val handle: Any) {
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val newCenterX: Double
-        get() = getNewCenterXHandle.invoke(handle) as Double
+    val warningBlocks: Int
+        get() = getWarningBlocksHandle.invoke(handle) as Int
 
     val warningTime: Int
         get() = getWarningTimeHandle.invoke(handle) as Int
 
-    val warningBlocks: Int
-        get() = getWarningBlocksHandle.invoke(handle) as Int
-
-    val newCenterZ: Double
-        get() = getNewCenterZHandle.invoke(handle) as Double
+    val newCenterX: Double
+        get() = getNewCenterXHandle.invoke(handle) as Double
 
     val lerpTime: Long
         get() = getLerpTimeHandle.invoke(handle) as Long
 
-    val newSize: Double
-        get() = getNewSizeHandle.invoke(handle) as Double
+    val newCenterZ: Double
+        get() = getNewCenterZHandle.invoke(handle) as Double
 
     val oldSize: Double
         get() = getOldSizeHandle.invoke(handle) as Double
+
+    val newSize: Double
+        get() = getNewSizeHandle.invoke(handle) as Double
 
     val newAbsoluteMaxSize: Int
         get() = getNewAbsoluteMaxSizeHandle.invoke(handle) as Int

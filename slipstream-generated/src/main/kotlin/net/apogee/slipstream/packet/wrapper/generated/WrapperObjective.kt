@@ -20,11 +20,11 @@ value class WrapperObjective(val handle: Any) {
         val numberFormatHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "numberFormat", MethodType.methodType(Class.forName("net.minecraft.network.chat.numbers.NumberFormat")))
         }
-        val getRenderTypeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRenderType", MethodType.methodType(Class.forName("net.minecraft.world.scores.criteria.ObjectiveCriteria\$RenderType")))
-        }
         val getScoreboardHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getScoreboard", MethodType.methodType(Class.forName("net.minecraft.world.scores.Scoreboard")))
+        }
+        val getRenderTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRenderType", MethodType.methodType(Class.forName("net.minecraft.world.scores.criteria.ObjectiveCriteria\$RenderType")))
         }
         val getFormattedDisplayNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFormattedDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
@@ -32,11 +32,11 @@ value class WrapperObjective(val handle: Any) {
         val numberFormatOrDefaultHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "numberFormatOrDefault", MethodType.methodType(Class.forName("net.minecraft.network.chat.numbers.NumberFormat"), Class.forName("net.minecraft.network.chat.numbers.NumberFormat")))
         }
-        val getCriteriaHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCriteria", MethodType.methodType(Class.forName("net.minecraft.world.scores.criteria.ObjectiveCriteria")))
-        }
         val displayAutoUpdateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "displayAutoUpdate", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getCriteriaHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCriteria", MethodType.methodType(Class.forName("net.minecraft.world.scores.criteria.ObjectiveCriteria")))
         }
         val displayNameSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("displayName")
@@ -74,11 +74,11 @@ value class WrapperObjective(val handle: Any) {
     val numberFormat: WrapperNumberFormat
         get() = WrapperNumberFormat(numberFormatHandle.invoke(handle))
 
-    val renderType: Any
-        get() = getRenderTypeHandle.invoke(handle) as Any
-
     val scoreboard: WrapperScoreboard
         get() = WrapperScoreboard(getScoreboardHandle.invoke(handle))
+
+    val renderType: Any
+        get() = getRenderTypeHandle.invoke(handle) as Any
 
     val formattedDisplayName: WrapperComponent
         get() = WrapperComponent(getFormattedDisplayNameHandle.invoke(handle))
@@ -87,11 +87,11 @@ value class WrapperObjective(val handle: Any) {
         return WrapperNumberFormat(numberFormatOrDefaultHandle.invoke(handle, arg0.handle))
     }
 
-    val criteria: WrapperObjectiveCriteria
-        get() = WrapperObjectiveCriteria(getCriteriaHandle.invoke(handle))
-
     val displayAutoUpdate: Boolean
         get() = displayAutoUpdateHandle.invoke(handle) as Boolean
+
+    val criteria: WrapperObjectiveCriteria
+        get() = WrapperObjectiveCriteria(getCriteriaHandle.invoke(handle))
 
     fun setDisplayName(value: WrapperComponent) {
         displayNameSetterHandle.invoke(handle, value.handle)

@@ -14,11 +14,11 @@ value class WrapperBlender(val handle: Any) {
         val blendOffsetAndFactorHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "blendOffsetAndFactor", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.blending.Blender\$BlendingOutput"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val blendDensityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "blendDensity", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.levelgen.DensityFunction\$FunctionContext"), Double::class.javaPrimitiveType!!))
-        }
         val getBiomeResolverHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBiomeResolver", MethodType.methodType(Class.forName("net.minecraft.world.level.biome.BiomeResolver"), Class.forName("net.minecraft.world.level.biome.BiomeResolver")))
+        }
+        val blendDensityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "blendDensity", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.levelgen.DensityFunction\$FunctionContext"), Double::class.javaPrimitiveType!!))
         }
     }
 
@@ -26,12 +26,12 @@ value class WrapperBlender(val handle: Any) {
         return WrapperBlendingOutput(blendOffsetAndFactorHandle.invoke(handle, arg0, arg1))
     }
 
-    fun blendDensity(arg0: WrapperFunctionContext, arg1: Double): Double {
-        return blendDensityHandle.invoke(handle, arg0.handle, arg1) as Double
-    }
-
     fun getBiomeResolver(arg0: WrapperBiomeResolver): WrapperBiomeResolver {
         return WrapperBiomeResolver(getBiomeResolverHandle.invoke(handle, arg0.handle))
+    }
+
+    fun blendDensity(arg0: WrapperFunctionContext, arg1: Double): Double {
+        return blendDensityHandle.invoke(handle, arg0.handle, arg1) as Double
     }
 
 }

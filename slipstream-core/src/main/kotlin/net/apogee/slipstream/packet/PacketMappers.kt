@@ -52,6 +52,7 @@ object PacketMappers {
     @JvmStatic lateinit var clientboundSetEntityVelocityPacketClass: Class<*>
     @JvmStatic lateinit var serverboundInteractPacketClass: Class<*>
     @JvmStatic lateinit var serverboundUseItemOnPacketClass: Class<*>
+    @JvmStatic lateinit var serverboundUseItemPacketClass: Class<*>
     
     lateinit var movePacketGetX: MethodHandle
     lateinit var movePacketGetY: MethodHandle
@@ -165,6 +166,12 @@ object PacketMappers {
             } catch (e2: ClassNotFoundException) {
                 Class.forName("net.minecraft.network.protocol.game.PacketPlayInUseItem")
             }
+        }
+
+        serverboundUseItemPacketClass = try {
+            Class.forName("net.minecraft.network.protocol.game.ServerboundUseItemPacket")
+        } catch (e: ClassNotFoundException) {
+            Class.forName("net.minecraft.network.protocol.game.PacketPlayInBlockPlace")
         }
 
         try {

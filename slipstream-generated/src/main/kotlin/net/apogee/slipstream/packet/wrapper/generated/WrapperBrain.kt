@@ -14,44 +14,44 @@ value class WrapperBrain(val handle: Any) {
         val isActiveHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isActive", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.schedule.Activity")))
         }
+        val getMemoryHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMemory", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
+        }
         val hasMemoryValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasMemoryValue", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
-        }
-        val getMemoriesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMemories", MethodType.methodType(Class.forName("java.util.Map")))
-        }
-        val isMemoryValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isMemoryValue", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType"), Class.forName("java.lang.Object")))
-        }
-        val getMemoryInternalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMemoryInternal", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
-        }
-        val getTimeUntilExpiryHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTimeUntilExpiry", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
         }
         val getScheduleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSchedule", MethodType.methodType(Class.forName("net.minecraft.world.entity.schedule.Schedule")))
         }
+        val getMemoriesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMemories", MethodType.methodType(Class.forName("java.util.Map")))
+        }
         val checkMemoryHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "checkMemory", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType"), Class.forName("net.minecraft.world.entity.ai.memory.MemoryStatus")))
         }
-        val getMemoryHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMemory", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
+        val getMemoryInternalHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMemoryInternal", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
         }
-        val serializeStartHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "serializeStart", MethodType.methodType(Class.forName("com.mojang.serialization.DataResult"), Class.forName("com.mojang.serialization.DynamicOps")))
+        val isMemoryValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isMemoryValue", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType"), Class.forName("java.lang.Object")))
+        }
+        val getTimeUntilExpiryHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTimeUntilExpiry", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.ai.memory.MemoryModuleType")))
         }
         val getRunningBehaviorsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRunningBehaviors", MethodType.methodType(Class.forName("java.util.List")))
         }
-        val getActiveNonCoreActivityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getActiveNonCoreActivity", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
         val copyWithoutBehaviorsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "copyWithoutBehaviors", MethodType.methodType(Class.forName("net.minecraft.world.entity.ai.Brain")))
         }
+        val getActiveNonCoreActivityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getActiveNonCoreActivity", MethodType.methodType(Class.forName("java.util.Optional")))
+        }
         val getActiveActivitiesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getActiveActivities", MethodType.methodType(Class.forName("java.util.Set")))
+        }
+        val serializeStartHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "serializeStart", MethodType.methodType(Class.forName("com.mojang.serialization.DataResult"), Class.forName("com.mojang.serialization.DynamicOps")))
         }
         val scheduleSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("schedule")
@@ -79,51 +79,51 @@ value class WrapperBrain(val handle: Any) {
         return isActiveHandle.invoke(handle, arg0.handle) as Boolean
     }
 
+    fun getMemory(arg0: WrapperMemoryModuleType): Any {
+        return getMemoryHandle.invoke(handle, arg0.handle) as Any
+    }
+
     fun hasMemoryValue(arg0: WrapperMemoryModuleType): Boolean {
         return hasMemoryValueHandle.invoke(handle, arg0.handle) as Boolean
     }
 
+    val schedule: WrapperSchedule
+        get() = WrapperSchedule(getScheduleHandle.invoke(handle))
+
     val memories: Any
         get() = getMemoriesHandle.invoke(handle) as Any
 
-    fun isMemoryValue(arg0: WrapperMemoryModuleType, arg1: Any): Boolean {
-        return isMemoryValueHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    fun checkMemory(arg0: WrapperMemoryModuleType, arg1: Any): Boolean {
+        return checkMemoryHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
     fun getMemoryInternal(arg0: WrapperMemoryModuleType): Any {
         return getMemoryInternalHandle.invoke(handle, arg0.handle) as Any
     }
 
+    fun isMemoryValue(arg0: WrapperMemoryModuleType, arg1: Any): Boolean {
+        return isMemoryValueHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
     fun getTimeUntilExpiry(arg0: WrapperMemoryModuleType): Long {
         return getTimeUntilExpiryHandle.invoke(handle, arg0.handle) as Long
-    }
-
-    val schedule: WrapperSchedule
-        get() = WrapperSchedule(getScheduleHandle.invoke(handle))
-
-    fun checkMemory(arg0: WrapperMemoryModuleType, arg1: Any): Boolean {
-        return checkMemoryHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
-    fun getMemory(arg0: WrapperMemoryModuleType): Any {
-        return getMemoryHandle.invoke(handle, arg0.handle) as Any
-    }
-
-    fun serializeStart(arg0: Any): Any {
-        return serializeStartHandle.invoke(handle, arg0) as Any
     }
 
     val runningBehaviors: Any
         get() = getRunningBehaviorsHandle.invoke(handle) as Any
 
-    val activeNonCoreActivity: Any
-        get() = getActiveNonCoreActivityHandle.invoke(handle) as Any
-
     val copyWithoutBehaviors: WrapperBrain
         get() = WrapperBrain(copyWithoutBehaviorsHandle.invoke(handle))
 
+    val activeNonCoreActivity: Any
+        get() = getActiveNonCoreActivityHandle.invoke(handle) as Any
+
     val activeActivities: Any
         get() = getActiveActivitiesHandle.invoke(handle) as Any
+
+    fun serializeStart(arg0: Any): Any {
+        return serializeStartHandle.invoke(handle, arg0) as Any
+    }
 
     fun setSchedule(value: WrapperSchedule) {
         scheduleSetterHandle.invoke(handle, value.handle)

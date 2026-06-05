@@ -14,11 +14,11 @@ value class WrapperPlayerAdvancements(val handle: Any) {
         val revokeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "revoke", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.advancements.AdvancementHolder"), String::class.java))
         }
-        val awardHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "award", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.advancements.AdvancementHolder"), String::class.java))
-        }
         val getOrStartProgressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOrStartProgress", MethodType.methodType(Class.forName("net.minecraft.advancements.AdvancementProgress"), Class.forName("net.minecraft.advancements.AdvancementHolder")))
+        }
+        val awardHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "award", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.advancements.AdvancementHolder"), String::class.java))
         }
         val treeSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("tree")
@@ -46,12 +46,12 @@ value class WrapperPlayerAdvancements(val handle: Any) {
         return revokeHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
-    fun award(arg0: WrapperAdvancementHolder, arg1: String): Boolean {
-        return awardHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
     fun getOrStartProgress(arg0: WrapperAdvancementHolder): WrapperAdvancementProgress {
         return WrapperAdvancementProgress(getOrStartProgressHandle.invoke(handle, arg0.handle))
+    }
+
+    fun award(arg0: WrapperAdvancementHolder, arg1: String): Boolean {
+        return awardHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
     fun setTree(value: WrapperAdvancementTree) {

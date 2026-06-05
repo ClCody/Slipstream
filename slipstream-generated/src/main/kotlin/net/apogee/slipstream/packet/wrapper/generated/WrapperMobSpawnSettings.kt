@@ -14,11 +14,11 @@ value class WrapperMobSpawnSettings(val handle: Any) {
         val getMobsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMobs", MethodType.methodType(Class.forName("net.minecraft.util.random.WeightedRandomList"), Class.forName("net.minecraft.world.entity.MobCategory")))
         }
-        val getMobSpawnCostHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMobSpawnCost", MethodType.methodType(Class.forName("net.minecraft.world.level.biome.MobSpawnSettings\$MobSpawnCost"), Class.forName("net.minecraft.world.entity.EntityType")))
-        }
         val getCreatureProbabilityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCreatureProbability", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getMobSpawnCostHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMobSpawnCost", MethodType.methodType(Class.forName("net.minecraft.world.level.biome.MobSpawnSettings\$MobSpawnCost"), Class.forName("net.minecraft.world.entity.EntityType")))
         }
     }
 
@@ -26,11 +26,11 @@ value class WrapperMobSpawnSettings(val handle: Any) {
         return WrapperWeightedRandomList(getMobsHandle.invoke(handle, arg0))
     }
 
+    val creatureProbability: Float
+        get() = getCreatureProbabilityHandle.invoke(handle) as Float
+
     fun getMobSpawnCost(arg0: WrapperEntityType): WrapperMobSpawnCost {
         return WrapperMobSpawnCost(getMobSpawnCostHandle.invoke(handle, arg0.handle))
     }
-
-    val creatureProbability: Float
-        get() = getCreatureProbabilityHandle.invoke(handle) as Float
 
 }

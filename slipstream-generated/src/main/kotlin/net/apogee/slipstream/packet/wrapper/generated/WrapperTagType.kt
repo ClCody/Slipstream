@@ -20,11 +20,11 @@ value class WrapperTagType(val handle: Any) {
         val parseHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "parse", MethodType.methodType(Class.forName("net.minecraft.nbt.StreamTagVisitor\$ValueResult"), Class.forName("java.io.DataInput"), Class.forName("net.minecraft.nbt.StreamTagVisitor"), Class.forName("net.minecraft.nbt.NbtAccounter")))
         }
-        val isValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isValue", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getPrettyNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPrettyName", MethodType.methodType(String::class.java))
+        }
+        val isValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isValue", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -39,10 +39,10 @@ value class WrapperTagType(val handle: Any) {
         return parseHandle.invoke(handle, arg0, arg1.handle, arg2.handle) as Any
     }
 
-    val value: Boolean
-        get() = isValueHandle.invoke(handle) as Boolean
-
     val prettyName: String
         get() = getPrettyNameHandle.invoke(handle) as String
+
+    val value: Boolean
+        get() = isValueHandle.invoke(handle) as Boolean
 
 }

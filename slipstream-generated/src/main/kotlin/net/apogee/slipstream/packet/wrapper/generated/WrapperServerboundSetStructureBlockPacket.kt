@@ -29,8 +29,11 @@ value class WrapperServerboundSetStructureBlockPacket(val handle: Any) {
         val getDataHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getData", MethodType.methodType(String::class.java))
         }
-        val getIntegrityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getIntegrity", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val getUpdateTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getUpdateType", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.StructureBlockEntity\$UpdateType")))
+        }
+        val isShowBoundingBoxHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isShowBoundingBox", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val isIgnoreEntitiesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isIgnoreEntities", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -38,23 +41,20 @@ value class WrapperServerboundSetStructureBlockPacket(val handle: Any) {
         val getRotationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRotation", MethodType.methodType(Class.forName("net.minecraft.world.level.block.Rotation")))
         }
-        val isShowBoundingBoxHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isShowBoundingBox", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getIntegrityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getIntegrity", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getUpdateTypeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getUpdateType", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.StructureBlockEntity\$UpdateType")))
+        val getPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
         val getModeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMode", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.properties.StructureMode")))
         }
-        val isShowAirHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isShowAir", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getMirrorHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMirror", MethodType.methodType(Class.forName("net.minecraft.world.level.block.Mirror")))
         }
-        val getPosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        val isShowAirHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isShowAir", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -76,8 +76,11 @@ value class WrapperServerboundSetStructureBlockPacket(val handle: Any) {
     val data: String
         get() = getDataHandle.invoke(handle) as String
 
-    val integrity: Float
-        get() = getIntegrityHandle.invoke(handle) as Float
+    val updateType: Any
+        get() = getUpdateTypeHandle.invoke(handle) as Any
+
+    val showBoundingBox: Boolean
+        get() = isShowBoundingBoxHandle.invoke(handle) as Boolean
 
     val ignoreEntities: Boolean
         get() = isIgnoreEntitiesHandle.invoke(handle) as Boolean
@@ -85,22 +88,19 @@ value class WrapperServerboundSetStructureBlockPacket(val handle: Any) {
     val rotation: Any
         get() = getRotationHandle.invoke(handle) as Any
 
-    val showBoundingBox: Boolean
-        get() = isShowBoundingBoxHandle.invoke(handle) as Boolean
+    val integrity: Float
+        get() = getIntegrityHandle.invoke(handle) as Float
 
-    val updateType: Any
-        get() = getUpdateTypeHandle.invoke(handle) as Any
+    val pos: WrapperBlockPos
+        get() = WrapperBlockPos(getPosHandle.invoke(handle))
 
     val mode: Any
         get() = getModeHandle.invoke(handle) as Any
 
-    val showAir: Boolean
-        get() = isShowAirHandle.invoke(handle) as Boolean
-
     val mirror: Any
         get() = getMirrorHandle.invoke(handle) as Any
 
-    val pos: WrapperBlockPos
-        get() = WrapperBlockPos(getPosHandle.invoke(handle))
+    val showAir: Boolean
+        get() = isShowAirHandle.invoke(handle) as Boolean
 
 }

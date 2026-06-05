@@ -18,7 +18,7 @@ value class WrapperVec3i(val handle: Any) {
             lookup.findVirtual(packetClass, "compareTo", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Vec3i")))
         }
         val offsetHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "offset", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "offset", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Class.forName("net.minecraft.core.Vec3i")))
         }
         val toShortStringHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "toShortString", MethodType.methodType(String::class.java))
@@ -30,22 +30,10 @@ value class WrapperVec3i(val handle: Any) {
             lookup.findVirtual(packetClass, "subtract", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Class.forName("net.minecraft.core.Vec3i")))
         }
         val relativeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "relative", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Class.forName("net.minecraft.core.Direction\$Axis"), Int::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "relative", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Class.forName("net.minecraft.core.Direction"), Int::class.javaPrimitiveType!!))
         }
-        val isInsideBuildHeightAndWorldBoundsHorizontalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInsideBuildHeightAndWorldBoundsHorizontal", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.LevelHeightAccessor")))
-        }
-        val getYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getX", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val closerToCenterThanHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "closerToCenterThan", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Position"), Double::class.javaPrimitiveType!!))
+        val distToCenterSqrHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "distToCenterSqr", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Position")))
         }
         val distManhattanHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "distManhattan", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Vec3i")))
@@ -53,35 +41,47 @@ value class WrapperVec3i(val handle: Any) {
         val distToLowCornerSqrHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "distToLowCornerSqr", MethodType.methodType(Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
-        val distToCenterSqrHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "distToCenterSqr", MethodType.methodType(Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
+        val closerToCenterThanHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "closerToCenterThan", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Position"), Double::class.javaPrimitiveType!!))
+        }
+        val isInsideBuildHeightAndWorldBoundsHorizontalHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInsideBuildHeightAndWorldBoundsHorizontal", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.LevelHeightAccessor")))
+        }
+        val getYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val belowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "below", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "below", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
         }
         val northHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "north", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
         }
-        val westHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "west", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
+        val southHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "south", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!))
         }
         val eastHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "east", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "east", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
+        }
+        val aboveHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "above", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
+        }
+        val westHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "west", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!))
         }
         val crossHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "cross", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Class.forName("net.minecraft.core.Vec3i")))
         }
-        val aboveHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "above", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i"), Int::class.javaPrimitiveType!!))
-        }
-        val southHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "south", MethodType.methodType(Class.forName("net.minecraft.core.Vec3i")))
+        val closerThanHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "closerThan", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Vec3i"), Double::class.javaPrimitiveType!!))
         }
         val distSqrHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "distSqr", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Vec3i")))
-        }
-        val closerThanHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "closerThan", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Vec3i"), Double::class.javaPrimitiveType!!))
         }
         val xSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("x")
@@ -108,8 +108,8 @@ value class WrapperVec3i(val handle: Any) {
         return compareToHandle.invoke(handle, arg0.handle) as Int
     }
 
-    fun offset(arg0: Int, arg1: Int, arg2: Int): WrapperVec3i {
-        return WrapperVec3i(offsetHandle.invoke(handle, arg0, arg1, arg2))
+    fun offset(arg0: WrapperVec3i): WrapperVec3i {
+        return WrapperVec3i(offsetHandle.invoke(handle, arg0.handle))
     }
 
     val toShortString: String
@@ -127,21 +127,8 @@ value class WrapperVec3i(val handle: Any) {
         return WrapperVec3i(relativeHandle.invoke(handle, arg0, arg1))
     }
 
-    fun isInsideBuildHeightAndWorldBoundsHorizontal(arg0: WrapperLevelHeightAccessor): Boolean {
-        return isInsideBuildHeightAndWorldBoundsHorizontalHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val y: Int
-        get() = getYHandle.invoke(handle) as Int
-
-    val z: Int
-        get() = getZHandle.invoke(handle) as Int
-
-    val x: Int
-        get() = getXHandle.invoke(handle) as Int
-
-    fun closerToCenterThan(arg0: WrapperPosition, arg1: Double): Boolean {
-        return closerToCenterThanHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    fun distToCenterSqr(arg0: WrapperPosition): Double {
+        return distToCenterSqrHandle.invoke(handle, arg0.handle) as Double
     }
 
     fun distManhattan(arg0: WrapperVec3i): Int {
@@ -152,41 +139,53 @@ value class WrapperVec3i(val handle: Any) {
         return distToLowCornerSqrHandle.invoke(handle, arg0, arg1, arg2) as Double
     }
 
-    fun distToCenterSqr(arg0: Double, arg1: Double, arg2: Double): Double {
-        return distToCenterSqrHandle.invoke(handle, arg0, arg1, arg2) as Double
+    fun closerToCenterThan(arg0: WrapperPosition, arg1: Double): Boolean {
+        return closerToCenterThanHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
-    fun below(arg0: Int): WrapperVec3i {
-        return WrapperVec3i(belowHandle.invoke(handle, arg0))
+    fun isInsideBuildHeightAndWorldBoundsHorizontal(arg0: WrapperLevelHeightAccessor): Boolean {
+        return isInsideBuildHeightAndWorldBoundsHorizontalHandle.invoke(handle, arg0.handle) as Boolean
     }
+
+    val y: Int
+        get() = getYHandle.invoke(handle) as Int
+
+    val x: Int
+        get() = getXHandle.invoke(handle) as Int
+
+    val z: Int
+        get() = getZHandle.invoke(handle) as Int
+
+    val below: WrapperVec3i
+        get() = WrapperVec3i(belowHandle.invoke(handle))
 
     val north: WrapperVec3i
         get() = WrapperVec3i(northHandle.invoke(handle))
 
-    val west: WrapperVec3i
-        get() = WrapperVec3i(westHandle.invoke(handle))
+    fun south(arg0: Int): WrapperVec3i {
+        return WrapperVec3i(southHandle.invoke(handle, arg0))
+    }
 
-    fun east(arg0: Int): WrapperVec3i {
-        return WrapperVec3i(eastHandle.invoke(handle, arg0))
+    val east: WrapperVec3i
+        get() = WrapperVec3i(eastHandle.invoke(handle))
+
+    val above: WrapperVec3i
+        get() = WrapperVec3i(aboveHandle.invoke(handle))
+
+    fun west(arg0: Int): WrapperVec3i {
+        return WrapperVec3i(westHandle.invoke(handle, arg0))
     }
 
     fun cross(arg0: WrapperVec3i): WrapperVec3i {
         return WrapperVec3i(crossHandle.invoke(handle, arg0.handle))
     }
 
-    fun above(arg0: Int): WrapperVec3i {
-        return WrapperVec3i(aboveHandle.invoke(handle, arg0))
+    fun closerThan(arg0: WrapperVec3i, arg1: Double): Boolean {
+        return closerThanHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
-
-    val south: WrapperVec3i
-        get() = WrapperVec3i(southHandle.invoke(handle))
 
     fun distSqr(arg0: WrapperVec3i): Double {
         return distSqrHandle.invoke(handle, arg0.handle) as Double
-    }
-
-    fun closerThan(arg0: WrapperVec3i, arg1: Double): Boolean {
-        return closerThanHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
     fun setX(value: Int) {

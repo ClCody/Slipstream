@@ -221,8 +221,8 @@ inline fun <reified T : Any> Any.wrapAs(): T? {
         WrapperCompoundTag::class -> if (WrapperCompoundTag.packetClass.isInstance(this)) WrapperCompoundTag(this) as T else null
         WrapperBlock::class -> if (WrapperBlock.packetClass.isInstance(this)) WrapperBlock(this) as T else null
         WrapperBlockState::class -> if (WrapperBlockState.packetClass.isInstance(this)) WrapperBlockState(this) as T else null
-        WrapperConnection::class -> if (WrapperConnection.packetClass.isInstance(this)) WrapperConnection(this) as T else null
         WrapperItemStack::class -> if (WrapperItemStack.packetClass.isInstance(this)) WrapperItemStack(this) as T else null
+        WrapperConnection::class -> if (WrapperConnection.packetClass.isInstance(this)) WrapperConnection(this) as T else null
         WrapperItem::class -> if (WrapperItem.packetClass.isInstance(this)) WrapperItem(this) as T else null
         WrapperHolder::class -> if (WrapperHolder.packetClass.isInstance(this)) WrapperHolder(this) as T else null
         WrapperPacked::class -> if (WrapperPacked.packetClass.isInstance(this)) WrapperPacked(this) as T else null
@@ -232,8 +232,8 @@ inline fun <reified T : Any> Any.wrapAs(): T? {
         WrapperParticleOptions::class -> if (WrapperParticleOptions.packetClass.isInstance(this)) WrapperParticleOptions(this) as T else null
         WrapperChunkPos::class -> if (WrapperChunkPos.packetClass.isInstance(this)) WrapperChunkPos(this) as T else null
         WrapperType::class -> if (WrapperType.packetClass.isInstance(this)) WrapperType(this) as T else null
-        WrapperClientboundLevelChunkPacketData::class -> if (WrapperClientboundLevelChunkPacketData.packetClass.isInstance(this)) WrapperClientboundLevelChunkPacketData(this) as T else null
         WrapperClientboundLightUpdatePacketData::class -> if (WrapperClientboundLightUpdatePacketData.packetClass.isInstance(this)) WrapperClientboundLightUpdatePacketData(this) as T else null
+        WrapperClientboundLevelChunkPacketData::class -> if (WrapperClientboundLevelChunkPacketData.packetClass.isInstance(this)) WrapperClientboundLevelChunkPacketData(this) as T else null
         WrapperCommonPlayerSpawnInfo::class -> if (WrapperCommonPlayerSpawnInfo.packetClass.isInstance(this)) WrapperCommonPlayerSpawnInfo(this) as T else null
         WrapperMapId::class -> if (WrapperMapId.packetClass.isInstance(this)) WrapperMapId(this) as T else null
         WrapperMerchantOffers::class -> if (WrapperMerchantOffers.packetClass.isInstance(this)) WrapperMerchantOffers(this) as T else null
@@ -256,14 +256,14 @@ inline fun <reified T : Any> Any.wrapAs(): T? {
         WrapperMutableComponent::class -> if (WrapperMutableComponent.packetClass.isInstance(this)) WrapperMutableComponent(this) as T else null
         WrapperContentConsumer::class -> if (WrapperContentConsumer.packetClass.isInstance(this)) WrapperContentConsumer(this) as T else null
         WrapperComponentContents::class -> if (WrapperComponentContents.packetClass.isInstance(this)) WrapperComponentContents(this) as T else null
-        WrapperStyle::class -> if (WrapperStyle.packetClass.isInstance(this)) WrapperStyle(this) as T else null
         WrapperFormattedCharSequence::class -> if (WrapperFormattedCharSequence.packetClass.isInstance(this)) WrapperFormattedCharSequence(this) as T else null
+        WrapperStyle::class -> if (WrapperStyle.packetClass.isInstance(this)) WrapperStyle(this) as T else null
         WrapperTagKey::class -> if (WrapperTagKey.packetClass.isInstance(this)) WrapperTagKey(this) as T else null
         WrapperEntityDimensions::class -> if (WrapperEntityDimensions.packetClass.isInstance(this)) WrapperEntityDimensions(this) as T else null
-        WrapperPlayer::class -> if (WrapperPlayer.packetClass.isInstance(this)) WrapperPlayer(this) as T else null
-        WrapperReference::class -> if (WrapperReference.packetClass.isInstance(this)) WrapperReference(this) as T else null
         WrapperFeatureFlagSet::class -> if (WrapperFeatureFlagSet.packetClass.isInstance(this)) WrapperFeatureFlagSet(this) as T else null
         WrapperAABB::class -> if (WrapperAABB.packetClass.isInstance(this)) WrapperAABB(this) as T else null
+        WrapperReference::class -> if (WrapperReference.packetClass.isInstance(this)) WrapperReference(this) as T else null
+        WrapperPlayer::class -> if (WrapperPlayer.packetClass.isInstance(this)) WrapperPlayer(this) as T else null
         WrapperMutableBlockPos::class -> if (WrapperMutableBlockPos.packetClass.isInstance(this)) WrapperMutableBlockPos(this) as T else null
         WrapperBlockEntity::class -> if (WrapperBlockEntity.packetClass.isInstance(this)) WrapperBlockEntity(this) as T else null
         WrapperBlockGetter::class -> if (WrapperBlockGetter.packetClass.isInstance(this)) WrapperBlockGetter(this) as T else null
@@ -271,127 +271,123 @@ inline fun <reified T : Any> Any.wrapAs(): T? {
         WrapperStreamTagVisitor::class -> if (WrapperStreamTagVisitor.packetClass.isInstance(this)) WrapperStreamTagVisitor(this) as T else null
         WrapperTagType::class -> if (WrapperTagType.packetClass.isInstance(this)) WrapperTagType(this) as T else null
         WrapperListTag::class -> if (WrapperListTag.packetClass.isInstance(this)) WrapperListTag(this) as T else null
-        WrapperLevelReader::class -> if (WrapperLevelReader.packetClass.isInstance(this)) WrapperLevelReader(this) as T else null
+        WrapperBlockPlaceContext::class -> if (WrapperBlockPlaceContext.packetClass.isInstance(this)) WrapperBlockPlaceContext(this) as T else null
         WrapperExplosion::class -> if (WrapperExplosion.packetClass.isInstance(this)) WrapperExplosion(this) as T else null
         WrapperStateDefinition::class -> if (WrapperStateDefinition.packetClass.isInstance(this)) WrapperStateDefinition(this) as T else null
-        WrapperBlockPlaceContext::class -> if (WrapperBlockPlaceContext.packetClass.isInstance(this)) WrapperBlockPlaceContext(this) as T else null
-        WrapperPacketListener::class -> if (WrapperPacketListener.packetClass.isInstance(this)) WrapperPacketListener(this) as T else null
-        WrapperServerPlayer::class -> if (WrapperServerPlayer.packetClass.isInstance(this)) WrapperServerPlayer(this) as T else null
-        WrapperDisconnectionDetails::class -> if (WrapperDisconnectionDetails.packetClass.isInstance(this)) WrapperDisconnectionDetails(this) as T else null
+        WrapperLevelReader::class -> if (WrapperLevelReader.packetClass.isInstance(this)) WrapperLevelReader(this) as T else null
         WrapperDataComponentType::class -> if (WrapperDataComponentType.packetClass.isInstance(this)) WrapperDataComponentType(this) as T else null
         WrapperProvider::class -> if (WrapperProvider.packetClass.isInstance(this)) WrapperProvider(this) as T else null
         WrapperInteractionResultHolder::class -> if (WrapperInteractionResultHolder.packetClass.isInstance(this)) WrapperInteractionResultHolder(this) as T else null
+        WrapperHolderSet::class -> if (WrapperHolderSet.packetClass.isInstance(this)) WrapperHolderSet(this) as T else null
+        WrapperDataComponentPatch::class -> if (WrapperDataComponentPatch.packetClass.isInstance(this)) WrapperDataComponentPatch(this) as T else null
         WrapperDataComponentMap::class -> if (WrapperDataComponentMap.packetClass.isInstance(this)) WrapperDataComponentMap(this) as T else null
-        WrapperLivingEntity::class -> if (WrapperLivingEntity.packetClass.isInstance(this)) WrapperLivingEntity(this) as T else null
-        WrapperItemEnchantments::class -> if (WrapperItemEnchantments.packetClass.isInstance(this)) WrapperItemEnchantments(this) as T else null
-        WrapperSoundEvent::class -> if (WrapperSoundEvent.packetClass.isInstance(this)) WrapperSoundEvent(this) as T else null
+        WrapperBlockInWorld::class -> if (WrapperBlockInWorld.packetClass.isInstance(this)) WrapperBlockInWorld(this) as T else null
+        WrapperSlot::class -> if (WrapperSlot.packetClass.isInstance(this)) WrapperSlot(this) as T else null
         WrapperItemLike::class -> if (WrapperItemLike.packetClass.isInstance(this)) WrapperItemLike(this) as T else null
+        WrapperLivingEntity::class -> if (WrapperLivingEntity.packetClass.isInstance(this)) WrapperLivingEntity(this) as T else null
+        WrapperSlotAccess::class -> if (WrapperSlotAccess.packetClass.isInstance(this)) WrapperSlotAccess(this) as T else null
+        WrapperSoundEvent::class -> if (WrapperSoundEvent.packetClass.isInstance(this)) WrapperSoundEvent(this) as T else null
         WrapperDamageSource::class -> if (WrapperDamageSource.packetClass.isInstance(this)) WrapperDamageSource(this) as T else null
+        WrapperItemEnchantments::class -> if (WrapperItemEnchantments.packetClass.isInstance(this)) WrapperItemEnchantments(this) as T else null
         WrapperTooltipContext::class -> if (WrapperTooltipContext.packetClass.isInstance(this)) WrapperTooltipContext(this) as T else null
         WrapperTooltipFlag::class -> if (WrapperTooltipFlag.packetClass.isInstance(this)) WrapperTooltipFlag(this) as T else null
-        WrapperBlockInWorld::class -> if (WrapperBlockInWorld.packetClass.isInstance(this)) WrapperBlockInWorld(this) as T else null
-        WrapperItemFrame::class -> if (WrapperItemFrame.packetClass.isInstance(this)) WrapperItemFrame(this) as T else null
-        WrapperDataComponentPatch::class -> if (WrapperDataComponentPatch.packetClass.isInstance(this)) WrapperDataComponentPatch(this) as T else null
-        WrapperSlot::class -> if (WrapperSlot.packetClass.isInstance(this)) WrapperSlot(this) as T else null
-        WrapperSlotAccess::class -> if (WrapperSlotAccess.packetClass.isInstance(this)) WrapperSlotAccess(this) as T else null
         WrapperUseOnContext::class -> if (WrapperUseOnContext.packetClass.isInstance(this)) WrapperUseOnContext(this) as T else null
+        WrapperItemFrame::class -> if (WrapperItemFrame.packetClass.isInstance(this)) WrapperItemFrame(this) as T else null
+        WrapperPacketListener::class -> if (WrapperPacketListener.packetClass.isInstance(this)) WrapperPacketListener(this) as T else null
+        WrapperDisconnectionDetails::class -> if (WrapperDisconnectionDetails.packetClass.isInstance(this)) WrapperDisconnectionDetails(this) as T else null
+        WrapperServerPlayer::class -> if (WrapperServerPlayer.packetClass.isInstance(this)) WrapperServerPlayer(this) as T else null
         WrapperItemAttributeModifiers::class -> if (WrapperItemAttributeModifiers.packetClass.isInstance(this)) WrapperItemAttributeModifiers(this) as T else null
         WrapperHolderOwner::class -> if (WrapperHolderOwner.packetClass.isInstance(this)) WrapperHolderOwner(this) as T else null
         WrapperHitResult::class -> if (WrapperHitResult.packetClass.isInstance(this)) WrapperHitResult(this) as T else null
-        WrapperTrackedEntity::class -> if (WrapperTrackedEntity.packetClass.isInstance(this)) WrapperTrackedEntity(this) as T else null
-        WrapperDamageSources::class -> if (WrapperDamageSources.packetClass.isInstance(this)) WrapperDamageSources(this) as T else null
-        WrapperMinecraftServer::class -> if (WrapperMinecraftServer.packetClass.isInstance(this)) WrapperMinecraftServer(this) as T else null
-        WrapperRegistryAccess::class -> if (WrapperRegistryAccess.packetClass.isInstance(this)) WrapperRegistryAccess(this) as T else null
-        WrapperVec2::class -> if (WrapperVec2.packetClass.isInstance(this)) WrapperVec2(this) as T else null
-        WrapperEntityAttachments::class -> if (WrapperEntityAttachments.packetClass.isInstance(this)) WrapperEntityAttachments(this) as T else null
-        WrapperDimensionTransition::class -> if (WrapperDimensionTransition.packetClass.isInstance(this)) WrapperDimensionTransition(this) as T else null
-        WrapperItemEntity::class -> if (WrapperItemEntity.packetClass.isInstance(this)) WrapperItemEntity(this) as T else null
-        WrapperPacket::class -> if (WrapperPacket.packetClass.isInstance(this)) WrapperPacket(this) as T else null
-        WrapperServerEntity::class -> if (WrapperServerEntity.packetClass.isInstance(this)) WrapperServerEntity(this) as T else null
-        WrapperCommandSourceStack::class -> if (WrapperCommandSourceStack.packetClass.isInstance(this)) WrapperCommandSourceStack(this) as T else null
         WrapperSynchedEntityData::class -> if (WrapperSynchedEntityData.packetClass.isInstance(this)) WrapperSynchedEntityData(this) as T else null
+        WrapperCommandSourceStack::class -> if (WrapperCommandSourceStack.packetClass.isInstance(this)) WrapperCommandSourceStack(this) as T else null
         WrapperVecDeltaCodec::class -> if (WrapperVecDeltaCodec.packetClass.isInstance(this)) WrapperVecDeltaCodec(this) as T else null
         WrapperPlayerTeam::class -> if (WrapperPlayerTeam.packetClass.isInstance(this)) WrapperPlayerTeam(this) as T else null
-        WrapperRandomSource::class -> if (WrapperRandomSource.packetClass.isInstance(this)) WrapperRandomSource(this) as T else null
-        WrapperProjectile::class -> if (WrapperProjectile.packetClass.isInstance(this)) WrapperProjectile(this) as T else null
         WrapperTeam::class -> if (WrapperTeam.packetClass.isInstance(this)) WrapperTeam(this) as T else null
-        WrapperFoundRectangle::class -> if (WrapperFoundRectangle.packetClass.isInstance(this)) WrapperFoundRectangle(this) as T else null
+        WrapperProjectile::class -> if (WrapperProjectile.packetClass.isInstance(this)) WrapperProjectile(this) as T else null
         WrapperFluidState::class -> if (WrapperFluidState.packetClass.isInstance(this)) WrapperFluidState(this) as T else null
-        WrapperCollisionContext::class -> if (WrapperCollisionContext.packetClass.isInstance(this)) WrapperCollisionContext(this) as T else null
-        WrapperDimensionType::class -> if (WrapperDimensionType.packetClass.isInstance(this)) WrapperDimensionType(this) as T else null
-        WrapperGameRules::class -> if (WrapperGameRules.packetClass.isInstance(this)) WrapperGameRules(this) as T else null
-        WrapperChunkAccess::class -> if (WrapperChunkAccess.packetClass.isInstance(this)) WrapperChunkAccess(this) as T else null
+        WrapperEntityAttachments::class -> if (WrapperEntityAttachments.packetClass.isInstance(this)) WrapperEntityAttachments(this) as T else null
+        WrapperVec2::class -> if (WrapperVec2.packetClass.isInstance(this)) WrapperVec2(this) as T else null
+        WrapperItemEntity::class -> if (WrapperItemEntity.packetClass.isInstance(this)) WrapperItemEntity(this) as T else null
+        WrapperDimensionTransition::class -> if (WrapperDimensionTransition.packetClass.isInstance(this)) WrapperDimensionTransition(this) as T else null
+        WrapperPacket::class -> if (WrapperPacket.packetClass.isInstance(this)) WrapperPacket(this) as T else null
+        WrapperServerEntity::class -> if (WrapperServerEntity.packetClass.isInstance(this)) WrapperServerEntity(this) as T else null
+        WrapperFoundRectangle::class -> if (WrapperFoundRectangle.packetClass.isInstance(this)) WrapperFoundRectangle(this) as T else null
+        WrapperTrackedEntity::class -> if (WrapperTrackedEntity.packetClass.isInstance(this)) WrapperTrackedEntity(this) as T else null
+        WrapperDamageSources::class -> if (WrapperDamageSources.packetClass.isInstance(this)) WrapperDamageSources(this) as T else null
+        WrapperRegistryAccess::class -> if (WrapperRegistryAccess.packetClass.isInstance(this)) WrapperRegistryAccess(this) as T else null
+        WrapperMinecraftServer::class -> if (WrapperMinecraftServer.packetClass.isInstance(this)) WrapperMinecraftServer(this) as T else null
+        WrapperRandomSource::class -> if (WrapperRandomSource.packetClass.isInstance(this)) WrapperRandomSource(this) as T else null
         WrapperLevelChunk::class -> if (WrapperLevelChunk.packetClass.isInstance(this)) WrapperLevelChunk(this) as T else null
-        WrapperChunkStatus::class -> if (WrapperChunkStatus.packetClass.isInstance(this)) WrapperChunkStatus(this) as T else null
-        WrapperDifficultyInstance::class -> if (WrapperDifficultyInstance.packetClass.isInstance(this)) WrapperDifficultyInstance(this) as T else null
-        WrapperClipContext::class -> if (WrapperClipContext.packetClass.isInstance(this)) WrapperClipContext(this) as T else null
-        WrapperMapItemSavedData::class -> if (WrapperMapItemSavedData.packetClass.isInstance(this)) WrapperMapItemSavedData(this) as T else null
-        WrapperWorldBorder::class -> if (WrapperWorldBorder.packetClass.isInstance(this)) WrapperWorldBorder(this) as T else null
         WrapperVoxelShape::class -> if (WrapperVoxelShape.packetClass.isInstance(this)) WrapperVoxelShape(this) as T else null
+        WrapperWorldBorder::class -> if (WrapperWorldBorder.packetClass.isInstance(this)) WrapperWorldBorder(this) as T else null
         WrapperTickRateManager::class -> if (WrapperTickRateManager.packetClass.isInstance(this)) WrapperTickRateManager(this) as T else null
         WrapperLevelLightEngine::class -> if (WrapperLevelLightEngine.packetClass.isInstance(this)) WrapperLevelLightEngine(this) as T else null
-        WrapperPotionBrewing::class -> if (WrapperPotionBrewing.packetClass.isInstance(this)) WrapperPotionBrewing(this) as T else null
-        WrapperLevelData::class -> if (WrapperLevelData.packetClass.isInstance(this)) WrapperLevelData(this) as T else null
-        WrapperRecipeManager::class -> if (WrapperRecipeManager.packetClass.isInstance(this)) WrapperRecipeManager(this) as T else null
-        WrapperBiomeManager::class -> if (WrapperBiomeManager.packetClass.isInstance(this)) WrapperBiomeManager(this) as T else null
         WrapperScoreboard::class -> if (WrapperScoreboard.packetClass.isInstance(this)) WrapperScoreboard(this) as T else null
         WrapperCrashReportCategory::class -> if (WrapperCrashReportCategory.packetClass.isInstance(this)) WrapperCrashReportCategory(this) as T else null
         WrapperCrashReport::class -> if (WrapperCrashReport.packetClass.isInstance(this)) WrapperCrashReport(this) as T else null
+        WrapperLevelData::class -> if (WrapperLevelData.packetClass.isInstance(this)) WrapperLevelData(this) as T else null
+        WrapperRecipeManager::class -> if (WrapperRecipeManager.packetClass.isInstance(this)) WrapperRecipeManager(this) as T else null
+        WrapperBiomeManager::class -> if (WrapperBiomeManager.packetClass.isInstance(this)) WrapperBiomeManager(this) as T else null
+        WrapperPotionBrewing::class -> if (WrapperPotionBrewing.packetClass.isInstance(this)) WrapperPotionBrewing(this) as T else null
+        WrapperChunkAccess::class -> if (WrapperChunkAccess.packetClass.isInstance(this)) WrapperChunkAccess(this) as T else null
+        WrapperChunkStatus::class -> if (WrapperChunkStatus.packetClass.isInstance(this)) WrapperChunkStatus(this) as T else null
+        WrapperExplosionDamageCalculator::class -> if (WrapperExplosionDamageCalculator.packetClass.isInstance(this)) WrapperExplosionDamageCalculator(this) as T else null
+        WrapperCollisionContext::class -> if (WrapperCollisionContext.packetClass.isInstance(this)) WrapperCollisionContext(this) as T else null
+        WrapperMapItemSavedData::class -> if (WrapperMapItemSavedData.packetClass.isInstance(this)) WrapperMapItemSavedData(this) as T else null
+        WrapperDifficultyInstance::class -> if (WrapperDifficultyInstance.packetClass.isInstance(this)) WrapperDifficultyInstance(this) as T else null
+        WrapperDimensionType::class -> if (WrapperDimensionType.packetClass.isInstance(this)) WrapperDimensionType(this) as T else null
         WrapperEntityTypeTest::class -> if (WrapperEntityTypeTest.packetClass.isInstance(this)) WrapperEntityTypeTest(this) as T else null
+        WrapperGameRules::class -> if (WrapperGameRules.packetClass.isInstance(this)) WrapperGameRules(this) as T else null
+        WrapperClipContext::class -> if (WrapperClipContext.packetClass.isInstance(this)) WrapperClipContext(this) as T else null
         WrapperParticleType::class -> if (WrapperParticleType.packetClass.isInstance(this)) WrapperParticleType(this) as T else null
         WrapperFriendlyByteBuf::class -> if (WrapperFriendlyByteBuf.packetClass.isInstance(this)) WrapperFriendlyByteBuf(this) as T else null
         WrapperMerchantOffer::class -> if (WrapperMerchantOffer.packetClass.isInstance(this)) WrapperMerchantOffer(this) as T else null
         WrapperAbstractContainerMenu::class -> if (WrapperAbstractContainerMenu.packetClass.isInstance(this)) WrapperAbstractContainerMenu(this) as T else null
         WrapperInventory::class -> if (WrapperInventory.packetClass.isInstance(this)) WrapperInventory(this) as T else null
         WrapperPacked::class -> if (WrapperPacked.packetClass.isInstance(this)) WrapperPacked(this) as T else null
+        WrapperPosition::class -> if (WrapperPosition.packetClass.isInstance(this)) WrapperPosition(this) as T else null
         WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
-        WrapperStructureManager::class -> if (WrapperStructureManager.packetClass.isInstance(this)) WrapperStructureManager(this) as T else null
-        WrapperDimensionDataStorage::class -> if (WrapperDimensionDataStorage.packetClass.isInstance(this)) WrapperDimensionDataStorage(this) as T else null
-        WrapperPoiManager::class -> if (WrapperPoiManager.packetClass.isInstance(this)) WrapperPoiManager(this) as T else null
-        WrapperEndDragonFight::class -> if (WrapperEndDragonFight.packetClass.isInstance(this)) WrapperEndDragonFight(this) as T else null
-        WrapperPortalForcer::class -> if (WrapperPortalForcer.packetClass.isInstance(this)) WrapperPortalForcer(this) as T else null
-        WrapperSectionPos::class -> if (WrapperSectionPos.packetClass.isInstance(this)) WrapperSectionPos(this) as T else null
-        WrapperPathTypeCache::class -> if (WrapperPathTypeCache.packetClass.isInstance(this)) WrapperPathTypeCache(this) as T else null
-        WrapperRandomSequences::class -> if (WrapperRandomSequences.packetClass.isInstance(this)) WrapperRandomSequences(this) as T else null
+        WrapperServerChunkCache::class -> if (WrapperServerChunkCache.packetClass.isInstance(this)) WrapperServerChunkCache(this) as T else null
+        WrapperServerScoreboard::class -> if (WrapperServerScoreboard.packetClass.isInstance(this)) WrapperServerScoreboard(this) as T else null
+        WrapperLevelTicks::class -> if (WrapperLevelTicks.packetClass.isInstance(this)) WrapperLevelTicks(this) as T else null
         WrapperRaids::class -> if (WrapperRaids.packetClass.isInstance(this)) WrapperRaids(this) as T else null
         WrapperRaid::class -> if (WrapperRaid.packetClass.isInstance(this)) WrapperRaid(this) as T else null
-        WrapperExplosionDamageCalculator::class -> if (WrapperExplosionDamageCalculator.packetClass.isInstance(this)) WrapperExplosionDamageCalculator(this) as T else null
-        WrapperServerChunkCache::class -> if (WrapperServerChunkCache.packetClass.isInstance(this)) WrapperServerChunkCache(this) as T else null
-        WrapperLevelTicks::class -> if (WrapperLevelTicks.packetClass.isInstance(this)) WrapperLevelTicks(this) as T else null
-        WrapperServerScoreboard::class -> if (WrapperServerScoreboard.packetClass.isInstance(this)) WrapperServerScoreboard(this) as T else null
         WrapperStructureTemplateManager::class -> if (WrapperStructureTemplateManager.packetClass.isInstance(this)) WrapperStructureTemplateManager(this) as T else null
+        WrapperLevelEntityGetter::class -> if (WrapperLevelEntityGetter.packetClass.isInstance(this)) WrapperLevelEntityGetter(this) as T else null
+        WrapperDimensionDataStorage::class -> if (WrapperDimensionDataStorage.packetClass.isInstance(this)) WrapperDimensionDataStorage(this) as T else null
+        WrapperStructureManager::class -> if (WrapperStructureManager.packetClass.isInstance(this)) WrapperStructureManager(this) as T else null
+        WrapperPoiManager::class -> if (WrapperPoiManager.packetClass.isInstance(this)) WrapperPoiManager(this) as T else null
+        WrapperSectionPos::class -> if (WrapperSectionPos.packetClass.isInstance(this)) WrapperSectionPos(this) as T else null
+        WrapperEndDragonFight::class -> if (WrapperEndDragonFight.packetClass.isInstance(this)) WrapperEndDragonFight(this) as T else null
+        WrapperPortalForcer::class -> if (WrapperPortalForcer.packetClass.isInstance(this)) WrapperPortalForcer(this) as T else null
+        WrapperRandomSequences::class -> if (WrapperRandomSequences.packetClass.isInstance(this)) WrapperRandomSequences(this) as T else null
+        WrapperPathTypeCache::class -> if (WrapperPathTypeCache.packetClass.isInstance(this)) WrapperPathTypeCache(this) as T else null
         WrapperLevelHeightAccessor::class -> if (WrapperLevelHeightAccessor.packetClass.isInstance(this)) WrapperLevelHeightAccessor(this) as T else null
-        WrapperPosition::class -> if (WrapperPosition.packetClass.isInstance(this)) WrapperPosition(this) as T else null
         WrapperType::class -> if (WrapperType.packetClass.isInstance(this)) WrapperType(this) as T else null
-        WrapperTextColor::class -> if (WrapperTextColor.packetClass.isInstance(this)) WrapperTextColor(this) as T else null
+        WrapperFormattedCharSink::class -> if (WrapperFormattedCharSink.packetClass.isInstance(this)) WrapperFormattedCharSink(this) as T else null
         WrapperClickEvent::class -> if (WrapperClickEvent.packetClass.isInstance(this)) WrapperClickEvent(this) as T else null
         WrapperHoverEvent::class -> if (WrapperHoverEvent.packetClass.isInstance(this)) WrapperHoverEvent(this) as T else null
-        WrapperFormattedCharSink::class -> if (WrapperFormattedCharSink.packetClass.isInstance(this)) WrapperFormattedCharSink(this) as T else null
+        WrapperTextColor::class -> if (WrapperTextColor.packetClass.isInstance(this)) WrapperTextColor(this) as T else null
+        WrapperFeatureFlag::class -> if (WrapperFeatureFlag.packetClass.isInstance(this)) WrapperFeatureFlag(this) as T else null
         WrapperMenuProvider::class -> if (WrapperMenuProvider.packetClass.isInstance(this)) WrapperMenuProvider(this) as T else null
+        WrapperPlayerEnderChestContainer::class -> if (WrapperPlayerEnderChestContainer.packetClass.isInstance(this)) WrapperPlayerEnderChestContainer(this) as T else null
         WrapperAbilities::class -> if (WrapperAbilities.packetClass.isInstance(this)) WrapperAbilities(this) as T else null
         WrapperFoodProperties::class -> if (WrapperFoodProperties.packetClass.isInstance(this)) WrapperFoodProperties(this) as T else null
-        WrapperFallsounds::class -> if (WrapperFallsounds.packetClass.isInstance(this)) WrapperFallsounds(this) as T else null
-        WrapperItemCooldowns::class -> if (WrapperItemCooldowns.packetClass.isInstance(this)) WrapperItemCooldowns(this) as T else null
         WrapperFoodData::class -> if (WrapperFoodData.packetClass.isInstance(this)) WrapperFoodData(this) as T else null
-        WrapperPlayerEnderChestContainer::class -> if (WrapperPlayerEnderChestContainer.packetClass.isInstance(this)) WrapperPlayerEnderChestContainer(this) as T else null
-        WrapperFeatureFlag::class -> if (WrapperFeatureFlag.packetClass.isInstance(this)) WrapperFeatureFlag(this) as T else null
+        WrapperItemCooldowns::class -> if (WrapperItemCooldowns.packetClass.isInstance(this)) WrapperItemCooldowns(this) as T else null
+        WrapperFallsounds::class -> if (WrapperFallsounds.packetClass.isInstance(this)) WrapperFallsounds(this) as T else null
         WrapperClipBlockStateContext::class -> if (WrapperClipBlockStateContext.packetClass.isInstance(this)) WrapperClipBlockStateContext(this) as T else null
         WrapperNbtAccounter::class -> if (WrapperNbtAccounter.packetClass.isInstance(this)) WrapperNbtAccounter(this) as T else null
-        WrapperHolderLookup::class -> if (WrapperHolderLookup.packetClass.isInstance(this)) WrapperHolderLookup(this) as T else null
-        WrapperColorResolver::class -> if (WrapperColorResolver.packetClass.isInstance(this)) WrapperColorResolver(this) as T else null
         WrapperProperty::class -> if (WrapperProperty.packetClass.isInstance(this)) WrapperProperty(this) as T else null
         WrapperStateHolder::class -> if (WrapperStateHolder.packetClass.isInstance(this)) WrapperStateHolder(this) as T else null
-        WrapperServerStatsCounter::class -> if (WrapperServerStatsCounter.packetClass.isInstance(this)) WrapperServerStatsCounter(this) as T else null
-        WrapperPostDimensionTransition::class -> if (WrapperPostDimensionTransition.packetClass.isInstance(this)) WrapperPostDimensionTransition(this) as T else null
-        WrapperRemoteChatSession::class -> if (WrapperRemoteChatSession.packetClass.isInstance(this)) WrapperRemoteChatSession(this) as T else null
-        WrapperPlayerAdvancements::class -> if (WrapperPlayerAdvancements.packetClass.isInstance(this)) WrapperPlayerAdvancements(this) as T else null
-        WrapperServerRecipeBook::class -> if (WrapperServerRecipeBook.packetClass.isInstance(this)) WrapperServerRecipeBook(this) as T else null
-        WrapperTextFilter::class -> if (WrapperTextFilter.packetClass.isInstance(this)) WrapperTextFilter(this) as T else null
-        WrapperChunkTrackingView::class -> if (WrapperChunkTrackingView.packetClass.isInstance(this)) WrapperChunkTrackingView(this) as T else null
+        WrapperColorResolver::class -> if (WrapperColorResolver.packetClass.isInstance(this)) WrapperColorResolver(this) as T else null
+        WrapperHolderLookup::class -> if (WrapperHolderLookup.packetClass.isInstance(this)) WrapperHolderLookup(this) as T else null
         WrapperStreamCodec::class -> if (WrapperStreamCodec.packetClass.isInstance(this)) WrapperStreamCodec(this) as T else null
         WrapperRegistryOps::class -> if (WrapperRegistryOps.packetClass.isInstance(this)) WrapperRegistryOps(this) as T else null
         WrapperProvider::class -> if (WrapperProvider.packetClass.isInstance(this)) WrapperProvider(this) as T else null
         WrapperRegistryLookup::class -> if (WrapperRegistryLookup.packetClass.isInstance(this)) WrapperRegistryLookup(this) as T else null
+        WrapperSplitResult::class -> if (WrapperSplitResult.packetClass.isInstance(this)) WrapperSplitResult(this) as T else null
         WrapperTypedDataComponent::class -> if (WrapperTypedDataComponent.packetClass.isInstance(this)) WrapperTypedDataComponent(this) as T else null
         WrapperAttributeMap::class -> if (WrapperAttributeMap.packetClass.isInstance(this)) WrapperAttributeMap(this) as T else null
         WrapperAttributeInstance::class -> if (WrapperAttributeInstance.packetClass.isInstance(this)) WrapperAttributeInstance(this) as T else null
@@ -400,192 +396,197 @@ inline fun <reified T : Any> Any.wrapAs(): T? {
         WrapperEntityHitResult::class -> if (WrapperEntityHitResult.packetClass.isInstance(this)) WrapperEntityHitResult(this) as T else null
         WrapperCombatTracker::class -> if (WrapperCombatTracker.packetClass.isInstance(this)) WrapperCombatTracker(this) as T else null
         WrapperDamageType::class -> if (WrapperDamageType.packetClass.isInstance(this)) WrapperDamageType(this) as T else null
-        WrapperSplitResult::class -> if (WrapperSplitResult.packetClass.isInstance(this)) WrapperSplitResult(this) as T else null
+        WrapperServerStatsCounter::class -> if (WrapperServerStatsCounter.packetClass.isInstance(this)) WrapperServerStatsCounter(this) as T else null
+        WrapperServerRecipeBook::class -> if (WrapperServerRecipeBook.packetClass.isInstance(this)) WrapperServerRecipeBook(this) as T else null
+        WrapperPlayerAdvancements::class -> if (WrapperPlayerAdvancements.packetClass.isInstance(this)) WrapperPlayerAdvancements(this) as T else null
+        WrapperRemoteChatSession::class -> if (WrapperRemoteChatSession.packetClass.isInstance(this)) WrapperRemoteChatSession(this) as T else null
+        WrapperChunkTrackingView::class -> if (WrapperChunkTrackingView.packetClass.isInstance(this)) WrapperChunkTrackingView(this) as T else null
+        WrapperPostDimensionTransition::class -> if (WrapperPostDimensionTransition.packetClass.isInstance(this)) WrapperPostDimensionTransition(this) as T else null
+        WrapperTextFilter::class -> if (WrapperTextFilter.packetClass.isInstance(this)) WrapperTextFilter(this) as T else null
+        WrapperEntityDataAccessor::class -> if (WrapperEntityDataAccessor.packetClass.isInstance(this)) WrapperEntityDataAccessor(this) as T else null
+        WrapperDataItem::class -> if (WrapperDataItem.packetClass.isInstance(this)) WrapperDataItem(this) as T else null
+        WrapperCommandSigningContext::class -> if (WrapperCommandSigningContext.packetClass.isInstance(this)) WrapperCommandSigningContext(this) as T else null
+        WrapperCommandSource::class -> if (WrapperCommandSource.packetClass.isInstance(this)) WrapperCommandSource(this) as T else null
+        WrapperFluid::class -> if (WrapperFluid.packetClass.isInstance(this)) WrapperFluid(this) as T else null
         WrapperWitherSkull::class -> if (WrapperWitherSkull.packetClass.isInstance(this)) WrapperWitherSkull(this) as T else null
-        WrapperFireball::class -> if (WrapperFireball.packetClass.isInstance(this)) WrapperFireball(this) as T else null
-        WrapperAbstractArrow::class -> if (WrapperAbstractArrow.packetClass.isInstance(this)) WrapperAbstractArrow(this) as T else null
         WrapperFireworkRocketEntity::class -> if (WrapperFireworkRocketEntity.packetClass.isInstance(this)) WrapperFireworkRocketEntity(this) as T else null
+        WrapperAbstractArrow::class -> if (WrapperAbstractArrow.packetClass.isInstance(this)) WrapperAbstractArrow(this) as T else null
+        WrapperFireball::class -> if (WrapperFireball.packetClass.isInstance(this)) WrapperFireball(this) as T else null
+        WrapperRegistry::class -> if (WrapperRegistry.packetClass.isInstance(this)) WrapperRegistry(this) as T else null
+        WrapperServerTickRateManager::class -> if (WrapperServerTickRateManager.packetClass.isInstance(this)) WrapperServerTickRateManager(this) as T else null
+        WrapperPlayerList::class -> if (WrapperPlayerList.packetClass.isInstance(this)) WrapperPlayerList(this) as T else null
+        WrapperServerAdvancementManager::class -> if (WrapperServerAdvancementManager.packetClass.isInstance(this)) WrapperServerAdvancementManager(this) as T else null
         WrapperServerPlayerGameMode::class -> if (WrapperServerPlayerGameMode.packetClass.isInstance(this)) WrapperServerPlayerGameMode(this) as T else null
-        WrapperModCheck::class -> if (WrapperModCheck.packetClass.isInstance(this)) WrapperModCheck(this) as T else null
-        WrapperSystemReport::class -> if (WrapperSystemReport.packetClass.isInstance(this)) WrapperSystemReport(this) as T else null
-        WrapperServerConnectionListener::class -> if (WrapperServerConnectionListener.packetClass.isInstance(this)) WrapperServerConnectionListener(this) as T else null
-        WrapperTickTask::class -> if (WrapperTickTask.packetClass.isInstance(this)) WrapperTickTask(this) as T else null
-        WrapperGameProfileCache::class -> if (WrapperGameProfileCache.packetClass.isInstance(this)) WrapperGameProfileCache(this) as T else null
+        WrapperHolder::class -> if (WrapperHolder.packetClass.isInstance(this)) WrapperHolder(this) as T else null
+        WrapperSignatureValidator::class -> if (WrapperSignatureValidator.packetClass.isInstance(this)) WrapperSignatureValidator(this) as T else null
         WrapperServerFunctionManager::class -> if (WrapperServerFunctionManager.packetClass.isInstance(this)) WrapperServerFunctionManager(this) as T else null
+        WrapperModCheck::class -> if (WrapperModCheck.packetClass.isInstance(this)) WrapperModCheck(this) as T else null
+        WrapperServerConnectionListener::class -> if (WrapperServerConnectionListener.packetClass.isInstance(this)) WrapperServerConnectionListener(this) as T else null
+        WrapperGameProfileCache::class -> if (WrapperGameProfileCache.packetClass.isInstance(this)) WrapperGameProfileCache(this) as T else null
+        WrapperSystemReport::class -> if (WrapperSystemReport.packetClass.isInstance(this)) WrapperSystemReport(this) as T else null
+        WrapperTickTask::class -> if (WrapperTickTask.packetClass.isInstance(this)) WrapperTickTask(this) as T else null
         WrapperPackRepository::class -> if (WrapperPackRepository.packetClass.isInstance(this)) WrapperPackRepository(this) as T else null
         WrapperCommandStorage::class -> if (WrapperCommandStorage.packetClass.isInstance(this)) WrapperCommandStorage(this) as T else null
         WrapperLevelResource::class -> if (WrapperLevelResource.packetClass.isInstance(this)) WrapperLevelResource(this) as T else null
-        WrapperResourceManager::class -> if (WrapperResourceManager.packetClass.isInstance(this)) WrapperResourceManager(this) as T else null
-        WrapperProfileResults::class -> if (WrapperProfileResults.packetClass.isInstance(this)) WrapperProfileResults(this) as T else null
         WrapperChatDecorator::class -> if (WrapperChatDecorator.packetClass.isInstance(this)) WrapperChatDecorator(this) as T else null
         WrapperServerLinks::class -> if (WrapperServerLinks.packetClass.isInstance(this)) WrapperServerLinks(this) as T else null
-        WrapperWorldData::class -> if (WrapperWorldData.packetClass.isInstance(this)) WrapperWorldData(this) as T else null
-        WrapperServerTickRateManager::class -> if (WrapperServerTickRateManager.packetClass.isInstance(this)) WrapperServerTickRateManager(this) as T else null
-        WrapperHolder::class -> if (WrapperHolder.packetClass.isInstance(this)) WrapperHolder(this) as T else null
+        WrapperProfileResults::class -> if (WrapperProfileResults.packetClass.isInstance(this)) WrapperProfileResults(this) as T else null
+        WrapperResourceManager::class -> if (WrapperResourceManager.packetClass.isInstance(this)) WrapperResourceManager(this) as T else null
         WrapperLayeredRegistryAccess::class -> if (WrapperLayeredRegistryAccess.packetClass.isInstance(this)) WrapperLayeredRegistryAccess(this) as T else null
-        WrapperCommands::class -> if (WrapperCommands.packetClass.isInstance(this)) WrapperCommands(this) as T else null
-        WrapperServerAdvancementManager::class -> if (WrapperServerAdvancementManager.packetClass.isInstance(this)) WrapperServerAdvancementManager(this) as T else null
         WrapperCustomBossEvents::class -> if (WrapperCustomBossEvents.packetClass.isInstance(this)) WrapperCustomBossEvents(this) as T else null
-        WrapperPlayerList::class -> if (WrapperPlayerList.packetClass.isInstance(this)) WrapperPlayerList(this) as T else null
-        WrapperSignatureValidator::class -> if (WrapperSignatureValidator.packetClass.isInstance(this)) WrapperSignatureValidator(this) as T else null
-        WrapperRegistry::class -> if (WrapperRegistry.packetClass.isInstance(this)) WrapperRegistry(this) as T else null
-        WrapperCommandSigningContext::class -> if (WrapperCommandSigningContext.packetClass.isInstance(this)) WrapperCommandSigningContext(this) as T else null
-        WrapperCommandSource::class -> if (WrapperCommandSource.packetClass.isInstance(this)) WrapperCommandSource(this) as T else null
-        WrapperEntityDataAccessor::class -> if (WrapperEntityDataAccessor.packetClass.isInstance(this)) WrapperEntityDataAccessor(this) as T else null
-        WrapperDataItem::class -> if (WrapperDataItem.packetClass.isInstance(this)) WrapperDataItem(this) as T else null
+        WrapperWorldData::class -> if (WrapperWorldData.packetClass.isInstance(this)) WrapperWorldData(this) as T else null
+        WrapperCommands::class -> if (WrapperCommands.packetClass.isInstance(this)) WrapperCommands(this) as T else null
         WrapperPositionalRandomFactory::class -> if (WrapperPositionalRandomFactory.packetClass.isInstance(this)) WrapperPositionalRandomFactory(this) as T else null
-        WrapperFluid::class -> if (WrapperFluid.packetClass.isInstance(this)) WrapperFluid(this) as T else null
-        WrapperMonsterSettings::class -> if (WrapperMonsterSettings.packetClass.isInstance(this)) WrapperMonsterSettings(this) as T else null
-        WrapperKey::class -> if (WrapperKey.packetClass.isInstance(this)) WrapperKey(this) as T else null
-        WrapperValue::class -> if (WrapperValue.packetClass.isInstance(this)) WrapperValue(this) as T else null
-        WrapperUpgradeData::class -> if (WrapperUpgradeData.packetClass.isInstance(this)) WrapperUpgradeData(this) as T else null
-        WrapperBlendingData::class -> if (WrapperBlendingData.packetClass.isInstance(this)) WrapperBlendingData(this) as T else null
-        WrapperBiomeGenerationSettings::class -> if (WrapperBiomeGenerationSettings.packetClass.isInstance(this)) WrapperBiomeGenerationSettings(this) as T else null
-        WrapperChunkSkyLightSources::class -> if (WrapperChunkSkyLightSources.packetClass.isInstance(this)) WrapperChunkSkyLightSources(this) as T else null
-        WrapperHeightmap::class -> if (WrapperHeightmap.packetClass.isInstance(this)) WrapperHeightmap(this) as T else null
-        WrapperLevelChunkSection::class -> if (WrapperLevelChunkSection.packetClass.isInstance(this)) WrapperLevelChunkSection(this) as T else null
-        WrapperGameEventListenerRegistry::class -> if (WrapperGameEventListenerRegistry.packetClass.isInstance(this)) WrapperGameEventListenerRegistry(this) as T else null
         WrapperTicksToSave::class -> if (WrapperTicksToSave.packetClass.isInstance(this)) WrapperTicksToSave(this) as T else null
-        WrapperNoiseChunk::class -> if (WrapperNoiseChunk.packetClass.isInstance(this)) WrapperNoiseChunk(this) as T else null
-        WrapperStructure::class -> if (WrapperStructure.packetClass.isInstance(this)) WrapperStructure(this) as T else null
-        WrapperStructureStart::class -> if (WrapperStructureStart.packetClass.isInstance(this)) WrapperStructureStart(this) as T else null
-        WrapperBelowZeroRetrogen::class -> if (WrapperBelowZeroRetrogen.packetClass.isInstance(this)) WrapperBelowZeroRetrogen(this) as T else null
+        WrapperGameEventListenerRegistry::class -> if (WrapperGameEventListenerRegistry.packetClass.isInstance(this)) WrapperGameEventListenerRegistry(this) as T else null
         WrapperChunkAndHolder::class -> if (WrapperChunkAndHolder.packetClass.isInstance(this)) WrapperChunkAndHolder(this) as T else null
-        WrapperHoldingPlayer::class -> if (WrapperHoldingPlayer.packetClass.isInstance(this)) WrapperHoldingPlayer(this) as T else null
-        WrapperLevelAccessor::class -> if (WrapperLevelAccessor.packetClass.isInstance(this)) WrapperLevelAccessor(this) as T else null
         WrapperSettings::class -> if (WrapperSettings.packetClass.isInstance(this)) WrapperSettings(this) as T else null
         WrapperLayerLightEventListener::class -> if (WrapperLayerLightEventListener.packetClass.isInstance(this)) WrapperLayerLightEventListener(this) as T else null
-        WrapperRecipeInput::class -> if (WrapperRecipeInput.packetClass.isInstance(this)) WrapperRecipeInput(this) as T else null
-        WrapperNonNullList::class -> if (WrapperNonNullList.packetClass.isInstance(this)) WrapperNonNullList(this) as T else null
-        WrapperRecipeHolder::class -> if (WrapperRecipeHolder.packetClass.isInstance(this)) WrapperRecipeHolder(this) as T else null
-        WrapperNoiseBiomeSource::class -> if (WrapperNoiseBiomeSource.packetClass.isInstance(this)) WrapperNoiseBiomeSource(this) as T else null
+        WrapperScoreAccess::class -> if (WrapperScoreAccess.packetClass.isInstance(this)) WrapperScoreAccess(this) as T else null
+        WrapperScoreHolder::class -> if (WrapperScoreHolder.packetClass.isInstance(this)) WrapperScoreHolder(this) as T else null
         WrapperObjective::class -> if (WrapperObjective.packetClass.isInstance(this)) WrapperObjective(this) as T else null
         WrapperObjectiveCriteria::class -> if (WrapperObjectiveCriteria.packetClass.isInstance(this)) WrapperObjectiveCriteria(this) as T else null
         WrapperNumberFormat::class -> if (WrapperNumberFormat.packetClass.isInstance(this)) WrapperNumberFormat(this) as T else null
         WrapperReadOnlyScoreInfo::class -> if (WrapperReadOnlyScoreInfo.packetClass.isInstance(this)) WrapperReadOnlyScoreInfo(this) as T else null
-        WrapperScoreHolder::class -> if (WrapperScoreHolder.packetClass.isInstance(this)) WrapperScoreHolder(this) as T else null
-        WrapperScoreAccess::class -> if (WrapperScoreAccess.packetClass.isInstance(this)) WrapperScoreAccess(this) as T else null
         WrapperReportType::class -> if (WrapperReportType.packetClass.isInstance(this)) WrapperReportType(this) as T else null
-        WrapperStreamDecoder::class -> if (WrapperStreamDecoder.packetClass.isInstance(this)) WrapperStreamDecoder(this) as T else null
+        WrapperRecipeInput::class -> if (WrapperRecipeInput.packetClass.isInstance(this)) WrapperRecipeInput(this) as T else null
+        WrapperRecipeHolder::class -> if (WrapperRecipeHolder.packetClass.isInstance(this)) WrapperRecipeHolder(this) as T else null
+        WrapperNonNullList::class -> if (WrapperNonNullList.packetClass.isInstance(this)) WrapperNonNullList(this) as T else null
+        WrapperNoiseBiomeSource::class -> if (WrapperNoiseBiomeSource.packetClass.isInstance(this)) WrapperNoiseBiomeSource(this) as T else null
+        WrapperHeightmap::class -> if (WrapperHeightmap.packetClass.isInstance(this)) WrapperHeightmap(this) as T else null
+        WrapperBlendingData::class -> if (WrapperBlendingData.packetClass.isInstance(this)) WrapperBlendingData(this) as T else null
+        WrapperUpgradeData::class -> if (WrapperUpgradeData.packetClass.isInstance(this)) WrapperUpgradeData(this) as T else null
+        WrapperBiomeGenerationSettings::class -> if (WrapperBiomeGenerationSettings.packetClass.isInstance(this)) WrapperBiomeGenerationSettings(this) as T else null
+        WrapperChunkSkyLightSources::class -> if (WrapperChunkSkyLightSources.packetClass.isInstance(this)) WrapperChunkSkyLightSources(this) as T else null
+        WrapperStructureStart::class -> if (WrapperStructureStart.packetClass.isInstance(this)) WrapperStructureStart(this) as T else null
+        WrapperStructure::class -> if (WrapperStructure.packetClass.isInstance(this)) WrapperStructure(this) as T else null
+        WrapperNoiseChunk::class -> if (WrapperNoiseChunk.packetClass.isInstance(this)) WrapperNoiseChunk(this) as T else null
+        WrapperBelowZeroRetrogen::class -> if (WrapperBelowZeroRetrogen.packetClass.isInstance(this)) WrapperBelowZeroRetrogen(this) as T else null
+        WrapperLevelChunkSection::class -> if (WrapperLevelChunkSection.packetClass.isInstance(this)) WrapperLevelChunkSection(this) as T else null
+        WrapperLevelAccessor::class -> if (WrapperLevelAccessor.packetClass.isInstance(this)) WrapperLevelAccessor(this) as T else null
+        WrapperHoldingPlayer::class -> if (WrapperHoldingPlayer.packetClass.isInstance(this)) WrapperHoldingPlayer(this) as T else null
+        WrapperMonsterSettings::class -> if (WrapperMonsterSettings.packetClass.isInstance(this)) WrapperMonsterSettings(this) as T else null
+        WrapperKey::class -> if (WrapperKey.packetClass.isInstance(this)) WrapperKey(this) as T else null
+        WrapperValue::class -> if (WrapperValue.packetClass.isInstance(this)) WrapperValue(this) as T else null
         WrapperGlobalPos::class -> if (WrapperGlobalPos.packetClass.isInstance(this)) WrapperGlobalPos(this) as T else null
+        WrapperStreamDecoder::class -> if (WrapperStreamDecoder.packetClass.isInstance(this)) WrapperStreamDecoder(this) as T else null
         WrapperItemCost::class -> if (WrapperItemCost.packetClass.isInstance(this)) WrapperItemCost(this) as T else null
         WrapperContainer::class -> if (WrapperContainer.packetClass.isInstance(this)) WrapperContainer(this) as T else null
-        WrapperWorldGenRegion::class -> if (WrapperWorldGenRegion.packetClass.isInstance(this)) WrapperWorldGenRegion(this) as T else null
-        WrapperServerLevelAccessor::class -> if (WrapperServerLevelAccessor.packetClass.isInstance(this)) WrapperServerLevelAccessor(this) as T else null
-        WrapperStructurePlacement::class -> if (WrapperStructurePlacement.packetClass.isInstance(this)) WrapperStructurePlacement(this) as T else null
-        WrapperStructureAccess::class -> if (WrapperStructureAccess.packetClass.isInstance(this)) WrapperStructureAccess(this) as T else null
-        WrapperSavedData::class -> if (WrapperSavedData.packetClass.isInstance(this)) WrapperSavedData(this) as T else null
-        WrapperFactory::class -> if (WrapperFactory.packetClass.isInstance(this)) WrapperFactory(this) as T else null
-        WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
-        WrapperBlockPatternMatch::class -> if (WrapperBlockPatternMatch.packetClass.isInstance(this)) WrapperBlockPatternMatch(this) as T else null
-        WrapperRaider::class -> if (WrapperRaider.packetClass.isInstance(this)) WrapperRaider(this) as T else null
+        WrapperThreadedLevelLightEngine::class -> if (WrapperThreadedLevelLightEngine.packetClass.isInstance(this)) WrapperThreadedLevelLightEngine(this) as T else null
         WrapperLightChunk::class -> if (WrapperLightChunk.packetClass.isInstance(this)) WrapperLightChunk(this) as T else null
-        WrapperChunkGeneratorStructureState::class -> if (WrapperChunkGeneratorStructureState.packetClass.isInstance(this)) WrapperChunkGeneratorStructureState(this) as T else null
-        WrapperChunkScanAccess::class -> if (WrapperChunkScanAccess.packetClass.isInstance(this)) WrapperChunkScanAccess(this) as T else null
         WrapperChunkGenerator::class -> if (WrapperChunkGenerator.packetClass.isInstance(this)) WrapperChunkGenerator(this) as T else null
         WrapperRandomState::class -> if (WrapperRandomState.packetClass.isInstance(this)) WrapperRandomState(this) as T else null
+        WrapperChunkGeneratorStructureState::class -> if (WrapperChunkGeneratorStructureState.packetClass.isInstance(this)) WrapperChunkGeneratorStructureState(this) as T else null
+        WrapperChunkScanAccess::class -> if (WrapperChunkScanAccess.packetClass.isInstance(this)) WrapperChunkScanAccess(this) as T else null
         WrapperSpawnState::class -> if (WrapperSpawnState.packetClass.isInstance(this)) WrapperSpawnState(this) as T else null
-        WrapperThreadedLevelLightEngine::class -> if (WrapperThreadedLevelLightEngine.packetClass.isInstance(this)) WrapperThreadedLevelLightEngine(this) as T else null
+        WrapperFactory::class -> if (WrapperFactory.packetClass.isInstance(this)) WrapperFactory(this) as T else null
+        WrapperRaider::class -> if (WrapperRaider.packetClass.isInstance(this)) WrapperRaider(this) as T else null
         WrapperStructureTemplate::class -> if (WrapperStructureTemplate.packetClass.isInstance(this)) WrapperStructureTemplate(this) as T else null
+        WrapperEntityAccess::class -> if (WrapperEntityAccess.packetClass.isInstance(this)) WrapperEntityAccess(this) as T else null
+        WrapperSavedData::class -> if (WrapperSavedData.packetClass.isInstance(this)) WrapperSavedData(this) as T else null
+        WrapperStructurePlacement::class -> if (WrapperStructurePlacement.packetClass.isInstance(this)) WrapperStructurePlacement(this) as T else null
+        WrapperStructureAccess::class -> if (WrapperStructureAccess.packetClass.isInstance(this)) WrapperStructureAccess(this) as T else null
+        WrapperWorldGenRegion::class -> if (WrapperWorldGenRegion.packetClass.isInstance(this)) WrapperWorldGenRegion(this) as T else null
+        WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
+        WrapperBlockPatternMatch::class -> if (WrapperBlockPatternMatch.packetClass.isInstance(this)) WrapperBlockPatternMatch(this) as T else null
         WrapperAction::class -> if (WrapperAction.packetClass.isInstance(this)) WrapperAction(this) as T else null
         WrapperEnderChestBlockEntity::class -> if (WrapperEnderChestBlockEntity.packetClass.isInstance(this)) WrapperEnderChestBlockEntity(this) as T else null
-        WrapperBiome::class -> if (WrapperBiome.packetClass.isInstance(this)) WrapperBiome(this) as T else null
         WrapperValue::class -> if (WrapperValue.packetClass.isInstance(this)) WrapperValue(this) as T else null
-        WrapperProfilePublicKey::class -> if (WrapperProfilePublicKey.packetClass.isInstance(this)) WrapperProfilePublicKey(this) as T else null
-        WrapperAdvancementHolder::class -> if (WrapperAdvancementHolder.packetClass.isInstance(this)) WrapperAdvancementHolder(this) as T else null
-        WrapperAdvancementProgress::class -> if (WrapperAdvancementProgress.packetClass.isInstance(this)) WrapperAdvancementProgress(this) as T else null
+        WrapperBiome::class -> if (WrapperBiome.packetClass.isInstance(this)) WrapperBiome(this) as T else null
         WrapperCodecOperation::class -> if (WrapperCodecOperation.packetClass.isInstance(this)) WrapperCodecOperation(this) as T else null
         WrapperHolderGetter::class -> if (WrapperHolderGetter.packetClass.isInstance(this)) WrapperHolderGetter(this) as T else null
         WrapperAttributeModifier::class -> if (WrapperAttributeModifier.packetClass.isInstance(this)) WrapperAttributeModifier(this) as T else null
         WrapperActivity::class -> if (WrapperActivity.packetClass.isInstance(this)) WrapperActivity(this) as T else null
         WrapperMemoryModuleType::class -> if (WrapperMemoryModuleType.packetClass.isInstance(this)) WrapperMemoryModuleType(this) as T else null
         WrapperSchedule::class -> if (WrapperSchedule.packetClass.isInstance(this)) WrapperSchedule(this) as T else null
-        WrapperPack::class -> if (WrapperPack.packetClass.isInstance(this)) WrapperPack(this) as T else null
-        WrapperServerLevelData::class -> if (WrapperServerLevelData.packetClass.isInstance(this)) WrapperServerLevelData(this) as T else null
-        WrapperWorldOptions::class -> if (WrapperWorldOptions.packetClass.isInstance(this)) WrapperWorldOptions(this) as T else null
-        WrapperWorldDataConfiguration::class -> if (WrapperWorldDataConfiguration.packetClass.isInstance(this)) WrapperWorldDataConfiguration(this) as T else null
-        WrapperLevelSettings::class -> if (WrapperLevelSettings.packetClass.isInstance(this)) WrapperLevelSettings(this) as T else null
-        WrapperLootTable::class -> if (WrapperLootTable.packetClass.isInstance(this)) WrapperLootTable(this) as T else null
-        WrapperAdvancementTree::class -> if (WrapperAdvancementTree.packetClass.isInstance(this)) WrapperAdvancementTree(this) as T else null
-        WrapperCustomBossEvent::class -> if (WrapperCustomBossEvent.packetClass.isInstance(this)) WrapperCustomBossEvent(this) as T else null
-        WrapperServerOpList::class -> if (WrapperServerOpList.packetClass.isInstance(this)) WrapperServerOpList(this) as T else null
-        WrapperPlayerChatMessage::class -> if (WrapperPlayerChatMessage.packetClass.isInstance(this)) WrapperPlayerChatMessage(this) as T else null
-        WrapperServerLoginPacketListenerImpl::class -> if (WrapperServerLoginPacketListenerImpl.packetClass.isInstance(this)) WrapperServerLoginPacketListenerImpl(this) as T else null
-        WrapperUserWhiteList::class -> if (WrapperUserWhiteList.packetClass.isInstance(this)) WrapperUserWhiteList(this) as T else null
-        WrapperUserBanList::class -> if (WrapperUserBanList.packetClass.isInstance(this)) WrapperUserBanList(this) as T else null
-        WrapperIpBanList::class -> if (WrapperIpBanList.packetClass.isInstance(this)) WrapperIpBanList(this) as T else null
-        WrapperNamed::class -> if (WrapperNamed.packetClass.isInstance(this)) WrapperNamed(this) as T else null
-        WrapperIdMap::class -> if (WrapperIdMap.packetClass.isInstance(this)) WrapperIdMap(this) as T else null
+        WrapperAdvancementHolder::class -> if (WrapperAdvancementHolder.packetClass.isInstance(this)) WrapperAdvancementHolder(this) as T else null
+        WrapperAdvancementProgress::class -> if (WrapperAdvancementProgress.packetClass.isInstance(this)) WrapperAdvancementProgress(this) as T else null
+        WrapperProfilePublicKey::class -> if (WrapperProfilePublicKey.packetClass.isInstance(this)) WrapperProfilePublicKey(this) as T else null
         WrapperEntityDataSerializer::class -> if (WrapperEntityDataSerializer.packetClass.isInstance(this)) WrapperEntityDataSerializer(this) as T else null
         WrapperDataValue::class -> if (WrapperDataValue.packetClass.isInstance(this)) WrapperDataValue(this) as T else null
-        WrapperIntProvider::class -> if (WrapperIntProvider.packetClass.isInstance(this)) WrapperIntProvider(this) as T else null
-        WrapperPlacedFeature::class -> if (WrapperPlacedFeature.packetClass.isInstance(this)) WrapperPlacedFeature(this) as T else null
-        WrapperPalettedContainer::class -> if (WrapperPalettedContainer.packetClass.isInstance(this)) WrapperPalettedContainer(this) as T else null
-        WrapperPalettedContainerRO::class -> if (WrapperPalettedContainerRO.packetClass.isInstance(this)) WrapperPalettedContainerRO(this) as T else null
-        WrapperContext::class -> if (WrapperContext.packetClass.isInstance(this)) WrapperContext(this) as T else null
+        WrapperPlayerChatMessage::class -> if (WrapperPlayerChatMessage.packetClass.isInstance(this)) WrapperPlayerChatMessage(this) as T else null
+        WrapperIdMap::class -> if (WrapperIdMap.packetClass.isInstance(this)) WrapperIdMap(this) as T else null
+        WrapperNamed::class -> if (WrapperNamed.packetClass.isInstance(this)) WrapperNamed(this) as T else null
+        WrapperServerOpList::class -> if (WrapperServerOpList.packetClass.isInstance(this)) WrapperServerOpList(this) as T else null
+        WrapperUserWhiteList::class -> if (WrapperUserWhiteList.packetClass.isInstance(this)) WrapperUserWhiteList(this) as T else null
+        WrapperServerLoginPacketListenerImpl::class -> if (WrapperServerLoginPacketListenerImpl.packetClass.isInstance(this)) WrapperServerLoginPacketListenerImpl(this) as T else null
+        WrapperIpBanList::class -> if (WrapperIpBanList.packetClass.isInstance(this)) WrapperIpBanList(this) as T else null
+        WrapperUserBanList::class -> if (WrapperUserBanList.packetClass.isInstance(this)) WrapperUserBanList(this) as T else null
+        WrapperAdvancementTree::class -> if (WrapperAdvancementTree.packetClass.isInstance(this)) WrapperAdvancementTree(this) as T else null
+        WrapperLootTable::class -> if (WrapperLootTable.packetClass.isInstance(this)) WrapperLootTable(this) as T else null
+        WrapperPack::class -> if (WrapperPack.packetClass.isInstance(this)) WrapperPack(this) as T else null
+        WrapperCustomBossEvent::class -> if (WrapperCustomBossEvent.packetClass.isInstance(this)) WrapperCustomBossEvent(this) as T else null
+        WrapperServerLevelData::class -> if (WrapperServerLevelData.packetClass.isInstance(this)) WrapperServerLevelData(this) as T else null
+        WrapperWorldDataConfiguration::class -> if (WrapperWorldDataConfiguration.packetClass.isInstance(this)) WrapperWorldDataConfiguration(this) as T else null
+        WrapperLevelSettings::class -> if (WrapperLevelSettings.packetClass.isInstance(this)) WrapperLevelSettings(this) as T else null
+        WrapperWorldOptions::class -> if (WrapperWorldOptions.packetClass.isInstance(this)) WrapperWorldOptions(this) as T else null
         WrapperSerializableTickContainer::class -> if (WrapperSerializableTickContainer.packetClass.isInstance(this)) WrapperSerializableTickContainer(this) as T else null
-        WrapperBlender::class -> if (WrapperBlender.packetClass.isInstance(this)) WrapperBlender(this) as T else null
-        WrapperAquifer::class -> if (WrapperAquifer.packetClass.isInstance(this)) WrapperAquifer(this) as T else null
+        WrapperContext::class -> if (WrapperContext.packetClass.isInstance(this)) WrapperContext(this) as T else null
+        WrapperChunkHolder::class -> if (WrapperChunkHolder.packetClass.isInstance(this)) WrapperChunkHolder(this) as T else null
+        WrapperDataLayer::class -> if (WrapperDataLayer.packetClass.isInstance(this)) WrapperDataLayer(this) as T else null
+        WrapperNumberFormatType::class -> if (WrapperNumberFormatType.packetClass.isInstance(this)) WrapperNumberFormatType(this) as T else null
+        WrapperRecipe::class -> if (WrapperRecipe.packetClass.isInstance(this)) WrapperRecipe(this) as T else null
+        WrapperPlacedFeature::class -> if (WrapperPlacedFeature.packetClass.isInstance(this)) WrapperPlacedFeature(this) as T else null
+        WrapperBoundingBox::class -> if (WrapperBoundingBox.packetClass.isInstance(this)) WrapperBoundingBox(this) as T else null
+        WrapperStructurePieceSerializationContext::class -> if (WrapperStructurePieceSerializationContext.packetClass.isInstance(this)) WrapperStructurePieceSerializationContext(this) as T else null
         WrapperStructureType::class -> if (WrapperStructureType.packetClass.isInstance(this)) WrapperStructureType(this) as T else null
         WrapperBiomeSource::class -> if (WrapperBiomeSource.packetClass.isInstance(this)) WrapperBiomeSource(this) as T else null
-        WrapperBoundingBox::class -> if (WrapperBoundingBox.packetClass.isInstance(this)) WrapperBoundingBox(this) as T else null
-        WrapperHolderSet::class -> if (WrapperHolderSet.packetClass.isInstance(this)) WrapperHolderSet(this) as T else null
         WrapperGenerationContext::class -> if (WrapperGenerationContext.packetClass.isInstance(this)) WrapperGenerationContext(this) as T else null
-        WrapperStructurePieceSerializationContext::class -> if (WrapperStructurePieceSerializationContext.packetClass.isInstance(this)) WrapperStructurePieceSerializationContext(this) as T else null
-        WrapperChunkHolder::class -> if (WrapperChunkHolder.packetClass.isInstance(this)) WrapperChunkHolder(this) as T else null
+        WrapperAquifer::class -> if (WrapperAquifer.packetClass.isInstance(this)) WrapperAquifer(this) as T else null
+        WrapperBlender::class -> if (WrapperBlender.packetClass.isInstance(this)) WrapperBlender(this) as T else null
+        WrapperPalettedContainerRO::class -> if (WrapperPalettedContainerRO.packetClass.isInstance(this)) WrapperPalettedContainerRO(this) as T else null
+        WrapperPalettedContainer::class -> if (WrapperPalettedContainer.packetClass.isInstance(this)) WrapperPalettedContainer(this) as T else null
         WrapperChunkSource::class -> if (WrapperChunkSource.packetClass.isInstance(this)) WrapperChunkSource(this) as T else null
         WrapperLevelTickAccess::class -> if (WrapperLevelTickAccess.packetClass.isInstance(this)) WrapperLevelTickAccess(this) as T else null
-        WrapperDataLayer::class -> if (WrapperDataLayer.packetClass.isInstance(this)) WrapperDataLayer(this) as T else null
-        WrapperRecipe::class -> if (WrapperRecipe.packetClass.isInstance(this)) WrapperRecipe(this) as T else null
-        WrapperNumberFormatType::class -> if (WrapperNumberFormatType.packetClass.isInstance(this)) WrapperNumberFormatType(this) as T else null
+        WrapperIntProvider::class -> if (WrapperIntProvider.packetClass.isInstance(this)) WrapperIntProvider(this) as T else null
         WrapperDataComponentPredicate::class -> if (WrapperDataComponentPredicate.packetClass.isInstance(this)) WrapperDataComponentPredicate(this) as T else null
-        WrapperStructurePlacementType::class -> if (WrapperStructurePlacementType.packetClass.isInstance(this)) WrapperStructurePlacementType(this) as T else null
-        WrapperConcentricRingsStructurePlacement::class -> if (WrapperConcentricRingsStructurePlacement.packetClass.isInstance(this)) WrapperConcentricRingsStructurePlacement(this) as T else null
         WrapperWeightedRandomList::class -> if (WrapperWeightedRandomList.packetClass.isInstance(this)) WrapperWeightedRandomList(this) as T else null
         WrapperNoiseColumn::class -> if (WrapperNoiseColumn.packetClass.isInstance(this)) WrapperNoiseColumn(this) as T else null
         WrapperSampler::class -> if (WrapperSampler.packetClass.isInstance(this)) WrapperSampler(this) as T else null
         WrapperNoiseRouter::class -> if (WrapperNoiseRouter.packetClass.isInstance(this)) WrapperNoiseRouter(this) as T else null
-        WrapperNormalNoise::class -> if (WrapperNormalNoise.packetClass.isInstance(this)) WrapperNormalNoise(this) as T else null
         WrapperSurfaceSystem::class -> if (WrapperSurfaceSystem.packetClass.isInstance(this)) WrapperSurfaceSystem(this) as T else null
+        WrapperNormalNoise::class -> if (WrapperNormalNoise.packetClass.isInstance(this)) WrapperNormalNoise(this) as T else null
+        WrapperConcentricRingsStructurePlacement::class -> if (WrapperConcentricRingsStructurePlacement.packetClass.isInstance(this)) WrapperConcentricRingsStructurePlacement(this) as T else null
+        WrapperServerLevelAccessor::class -> if (WrapperServerLevelAccessor.packetClass.isInstance(this)) WrapperServerLevelAccessor(this) as T else null
         WrapperStructurePlaceSettings::class -> if (WrapperStructurePlaceSettings.packetClass.isInstance(this)) WrapperStructurePlaceSettings(this) as T else null
+        WrapperStructurePlacementType::class -> if (WrapperStructurePlacementType.packetClass.isInstance(this)) WrapperStructurePlacementType(this) as T else null
         WrapperBiomeSpecialEffects::class -> if (WrapperBiomeSpecialEffects.packetClass.isInstance(this)) WrapperBiomeSpecialEffects(this) as T else null
         WrapperMobSpawnSettings::class -> if (WrapperMobSpawnSettings.packetClass.isInstance(this)) WrapperMobSpawnSettings(this) as T else null
         WrapperAdvancement::class -> if (WrapperAdvancement.packetClass.isInstance(this)) WrapperAdvancement(this) as T else null
         WrapperCriterionProgress::class -> if (WrapperCriterionProgress.packetClass.isInstance(this)) WrapperCriterionProgress(this) as T else null
-        WrapperPackLocationInfo::class -> if (WrapperPackLocationInfo.packetClass.isInstance(this)) WrapperPackLocationInfo(this) as T else null
-        WrapperPackResources::class -> if (WrapperPackResources.packetClass.isInstance(this)) WrapperPackResources(this) as T else null
-        WrapperPackSelectionConfig::class -> if (WrapperPackSelectionConfig.packetClass.isInstance(this)) WrapperPackSelectionConfig(this) as T else null
-        WrapperPackSource::class -> if (WrapperPackSource.packetClass.isInstance(this)) WrapperPackSource(this) as T else null
-        WrapperTimerQueue::class -> if (WrapperTimerQueue.packetClass.isInstance(this)) WrapperTimerQueue(this) as T else null
-        WrapperDataPackConfig::class -> if (WrapperDataPackConfig.packetClass.isInstance(this)) WrapperDataPackConfig(this) as T else null
-        WrapperLootParams::class -> if (WrapperLootParams.packetClass.isInstance(this)) WrapperLootParams(this) as T else null
-        WrapperLootContextParamSet::class -> if (WrapperLootContextParamSet.packetClass.isInstance(this)) WrapperLootContextParamSet(this) as T else null
-        WrapperAdvancementNode::class -> if (WrapperAdvancementNode.packetClass.isInstance(this)) WrapperAdvancementNode(this) as T else null
         WrapperSignedMessageLink::class -> if (WrapperSignedMessageLink.packetClass.isInstance(this)) WrapperSignedMessageLink(this) as T else null
         WrapperSignedMessageBody::class -> if (WrapperSignedMessageBody.packetClass.isInstance(this)) WrapperSignedMessageBody(this) as T else null
         WrapperIpBanListEntry::class -> if (WrapperIpBanListEntry.packetClass.isInstance(this)) WrapperIpBanListEntry(this) as T else null
-        WrapperIntProviderType::class -> if (WrapperIntProviderType.packetClass.isInstance(this)) WrapperIntProviderType(this) as T else null
+        WrapperAdvancementNode::class -> if (WrapperAdvancementNode.packetClass.isInstance(this)) WrapperAdvancementNode(this) as T else null
+        WrapperLootParams::class -> if (WrapperLootParams.packetClass.isInstance(this)) WrapperLootParams(this) as T else null
+        WrapperLootContextParamSet::class -> if (WrapperLootContextParamSet.packetClass.isInstance(this)) WrapperLootContextParamSet(this) as T else null
+        WrapperPackLocationInfo::class -> if (WrapperPackLocationInfo.packetClass.isInstance(this)) WrapperPackLocationInfo(this) as T else null
+        WrapperPackResources::class -> if (WrapperPackResources.packetClass.isInstance(this)) WrapperPackResources(this) as T else null
+        WrapperPackSource::class -> if (WrapperPackSource.packetClass.isInstance(this)) WrapperPackSource(this) as T else null
+        WrapperPackSelectionConfig::class -> if (WrapperPackSelectionConfig.packetClass.isInstance(this)) WrapperPackSelectionConfig(this) as T else null
+        WrapperTimerQueue::class -> if (WrapperTimerQueue.packetClass.isInstance(this)) WrapperTimerQueue(this) as T else null
+        WrapperDataPackConfig::class -> if (WrapperDataPackConfig.packetClass.isInstance(this)) WrapperDataPackConfig(this) as T else null
+        WrapperRecipeSerializer::class -> if (WrapperRecipeSerializer.packetClass.isInstance(this)) WrapperRecipeSerializer(this) as T else null
+        WrapperWorldgenRandom::class -> if (WrapperWorldgenRandom.packetClass.isInstance(this)) WrapperWorldgenRandom(this) as T else null
+        WrapperFunctionContext::class -> if (WrapperFunctionContext.packetClass.isInstance(this)) WrapperFunctionContext(this) as T else null
+        WrapperBlendingOutput::class -> if (WrapperBlendingOutput.packetClass.isInstance(this)) WrapperBlendingOutput(this) as T else null
+        WrapperBiomeResolver::class -> if (WrapperBiomeResolver.packetClass.isInstance(this)) WrapperBiomeResolver(this) as T else null
         WrapperPackedData::class -> if (WrapperPackedData.packetClass.isInstance(this)) WrapperPackedData(this) as T else null
         WrapperStrategy::class -> if (WrapperStrategy.packetClass.isInstance(this)) WrapperStrategy(this) as T else null
-        WrapperBlendingOutput::class -> if (WrapperBlendingOutput.packetClass.isInstance(this)) WrapperBlendingOutput(this) as T else null
-        WrapperFunctionContext::class -> if (WrapperFunctionContext.packetClass.isInstance(this)) WrapperFunctionContext(this) as T else null
-        WrapperBiomeResolver::class -> if (WrapperBiomeResolver.packetClass.isInstance(this)) WrapperBiomeResolver(this) as T else null
-        WrapperWorldgenRandom::class -> if (WrapperWorldgenRandom.packetClass.isInstance(this)) WrapperWorldgenRandom(this) as T else null
-        WrapperRecipeSerializer::class -> if (WrapperRecipeSerializer.packetClass.isInstance(this)) WrapperRecipeSerializer(this) as T else null
-        WrapperDataComponentHolder::class -> if (WrapperDataComponentHolder.packetClass.isInstance(this)) WrapperDataComponentHolder(this) as T else null
+        WrapperIntProviderType::class -> if (WrapperIntProviderType.packetClass.isInstance(this)) WrapperIntProviderType(this) as T else null
         WrapperDensityFunction::class -> if (WrapperDensityFunction.packetClass.isInstance(this)) WrapperDensityFunction(this) as T else null
-        WrapperNoiseParameters::class -> if (WrapperNoiseParameters.packetClass.isInstance(this)) WrapperNoiseParameters(this) as T else null
         WrapperRuleSource::class -> if (WrapperRuleSource.packetClass.isInstance(this)) WrapperRuleSource(this) as T else null
         WrapperCarvingContext::class -> if (WrapperCarvingContext.packetClass.isInstance(this)) WrapperCarvingContext(this) as T else null
+        WrapperNoiseParameters::class -> if (WrapperNoiseParameters.packetClass.isInstance(this)) WrapperNoiseParameters(this) as T else null
         WrapperStructureProcessor::class -> if (WrapperStructureProcessor.packetClass.isInstance(this)) WrapperStructureProcessor(this) as T else null
         WrapperPalette::class -> if (WrapperPalette.packetClass.isInstance(this)) WrapperPalette(this) as T else null
         WrapperMobSpawnCost::class -> if (WrapperMobSpawnCost.packetClass.isInstance(this)) WrapperMobSpawnCost(this) as T else null
         WrapperAdvancementRewards::class -> if (WrapperAdvancementRewards.packetClass.isInstance(this)) WrapperAdvancementRewards(this) as T else null
         WrapperAdvancementRequirements::class -> if (WrapperAdvancementRequirements.packetClass.isInstance(this)) WrapperAdvancementRequirements(this) as T else null
+        WrapperLastSeenMessages::class -> if (WrapperLastSeenMessages.packetClass.isInstance(this)) WrapperLastSeenMessages(this) as T else null
+        WrapperLootContextParam::class -> if (WrapperLootContextParam.packetClass.isInstance(this)) WrapperLootContextParam(this) as T else null
         WrapperIoSupplier::class -> if (WrapperIoSupplier.packetClass.isInstance(this)) WrapperIoSupplier(this) as T else null
         WrapperMetadataSectionSerializer::class -> if (WrapperMetadataSectionSerializer.packetClass.isInstance(this)) WrapperMetadataSectionSerializer(this) as T else null
-        WrapperLootContextParam::class -> if (WrapperLootContextParam.packetClass.isInstance(this)) WrapperLootContextParam(this) as T else null
-        WrapperLastSeenMessages::class -> if (WrapperLastSeenMessages.packetClass.isInstance(this)) WrapperLastSeenMessages(this) as T else null
         WrapperConfiguration::class -> if (WrapperConfiguration.packetClass.isInstance(this)) WrapperConfiguration(this) as T else null
         WrapperVisitor::class -> if (WrapperVisitor.packetClass.isInstance(this)) WrapperVisitor(this) as T else null
         WrapperKeyDispatchDataCodec::class -> if (WrapperKeyDispatchDataCodec.packetClass.isInstance(this)) WrapperKeyDispatchDataCodec(this) as T else null

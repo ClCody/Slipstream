@@ -17,11 +17,11 @@ value class WrapperClientboundSetBorderLerpSizePacket(val handle: Any) {
         val getLerpTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLerpTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
         }
-        val getNewSizeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNewSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
         val getOldSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOldSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getNewSizeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNewSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperClientboundSetBorderLerpSizePacket(val handle: Any) {
     val lerpTime: Long
         get() = getLerpTimeHandle.invoke(handle) as Long
 
-    val newSize: Double
-        get() = getNewSizeHandle.invoke(handle) as Double
-
     val oldSize: Double
         get() = getOldSizeHandle.invoke(handle) as Double
+
+    val newSize: Double
+        get() = getNewSizeHandle.invoke(handle) as Double
 
 }

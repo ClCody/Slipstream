@@ -26,23 +26,11 @@ value class WrapperSectionPos(val handle: Any) {
         val originHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "origin", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
-        val asLongHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "asLong", MethodType.methodType(Long::class.javaPrimitiveType!!))
-        }
-        val relativeToBlockZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "relativeToBlockZ", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
-        }
-        val relativeToBlockXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "relativeToBlockX", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
-        }
-        val relativeToBlockYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "relativeToBlockY", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
+        val minBlockXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "minBlockX", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val maxBlockXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "maxBlockX", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val minBlockYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "minBlockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val maxBlockYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "maxBlockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -50,23 +38,35 @@ value class WrapperSectionPos(val handle: Any) {
         val minBlockZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "minBlockZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
+        val minBlockYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "minBlockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
         val maxBlockZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "maxBlockZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val minBlockXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "minBlockX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val relativeToBlockXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "relativeToBlockX", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
         }
-        val centerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "center", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        val relativeToBlockYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "relativeToBlockY", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
         }
-        val blocksInsideHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "blocksInside", MethodType.methodType(Class.forName("java.util.stream.Stream")))
+        val relativeToBlockZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "relativeToBlockZ", MethodType.methodType(Int::class.javaPrimitiveType!!, Short::class.javaPrimitiveType!!))
         }
         val relativeToBlockPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "relativeToBlockPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos"), Short::class.javaPrimitiveType!!))
         }
+        val blocksInsideHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "blocksInside", MethodType.methodType(Class.forName("java.util.stream.Stream")))
+        }
+        val asLongHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "asLong", MethodType.methodType(Long::class.javaPrimitiveType!!))
+        }
         val chunkHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "chunk", MethodType.methodType(Class.forName("net.minecraft.world.level.ChunkPos")))
+        }
+        val centerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "center", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
     }
 
@@ -86,12 +86,23 @@ value class WrapperSectionPos(val handle: Any) {
     val origin: WrapperBlockPos
         get() = WrapperBlockPos(originHandle.invoke(handle))
 
-    val asLong: Long
-        get() = asLongHandle.invoke(handle) as Long
+    val minBlockX: Int
+        get() = minBlockXHandle.invoke(handle) as Int
 
-    fun relativeToBlockZ(arg0: Short): Int {
-        return relativeToBlockZHandle.invoke(handle, arg0) as Int
-    }
+    val maxBlockX: Int
+        get() = maxBlockXHandle.invoke(handle) as Int
+
+    val maxBlockY: Int
+        get() = maxBlockYHandle.invoke(handle) as Int
+
+    val minBlockZ: Int
+        get() = minBlockZHandle.invoke(handle) as Int
+
+    val minBlockY: Int
+        get() = minBlockYHandle.invoke(handle) as Int
+
+    val maxBlockZ: Int
+        get() = maxBlockZHandle.invoke(handle) as Int
 
     fun relativeToBlockX(arg0: Short): Int {
         return relativeToBlockXHandle.invoke(handle, arg0) as Int
@@ -101,35 +112,24 @@ value class WrapperSectionPos(val handle: Any) {
         return relativeToBlockYHandle.invoke(handle, arg0) as Int
     }
 
-    val maxBlockX: Int
-        get() = maxBlockXHandle.invoke(handle) as Int
-
-    val minBlockY: Int
-        get() = minBlockYHandle.invoke(handle) as Int
-
-    val maxBlockY: Int
-        get() = maxBlockYHandle.invoke(handle) as Int
-
-    val minBlockZ: Int
-        get() = minBlockZHandle.invoke(handle) as Int
-
-    val maxBlockZ: Int
-        get() = maxBlockZHandle.invoke(handle) as Int
-
-    val minBlockX: Int
-        get() = minBlockXHandle.invoke(handle) as Int
-
-    val center: WrapperBlockPos
-        get() = WrapperBlockPos(centerHandle.invoke(handle))
-
-    val blocksInside: Any
-        get() = blocksInsideHandle.invoke(handle) as Any
+    fun relativeToBlockZ(arg0: Short): Int {
+        return relativeToBlockZHandle.invoke(handle, arg0) as Int
+    }
 
     fun relativeToBlockPos(arg0: Short): WrapperBlockPos {
         return WrapperBlockPos(relativeToBlockPosHandle.invoke(handle, arg0))
     }
 
+    val blocksInside: Any
+        get() = blocksInsideHandle.invoke(handle) as Any
+
+    val asLong: Long
+        get() = asLongHandle.invoke(handle) as Long
+
     val chunk: WrapperChunkPos
         get() = WrapperChunkPos(chunkHandle.invoke(handle))
+
+    val center: WrapperBlockPos
+        get() = WrapperBlockPos(centerHandle.invoke(handle))
 
 }

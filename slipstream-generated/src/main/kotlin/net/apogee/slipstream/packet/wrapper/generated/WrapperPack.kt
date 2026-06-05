@@ -20,32 +20,32 @@ value class WrapperPack(val handle: Any) {
         val openHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "open", MethodType.methodType(Class.forName("net.minecraft.server.packs.PackResources")))
         }
-        val getDefaultPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDefaultPosition", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.Pack\$Position")))
+        val getDescriptionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDescription", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val getCompatibilityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCompatibility", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.PackCompatibility")))
+        val getPackSourceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPackSource", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.PackSource")))
         }
         val selectionConfigHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "selectionConfig", MethodType.methodType(Class.forName("net.minecraft.server.packs.PackSelectionConfig")))
         }
-        val getPackSourceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPackSource", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.PackSource")))
+        val getCompatibilityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCompatibility", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.PackCompatibility")))
+        }
+        val getDefaultPositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDefaultPosition", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.Pack\$Position")))
+        }
+        val getRequestedFeaturesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRequestedFeatures", MethodType.methodType(Class.forName("net.minecraft.world.flag.FeatureFlagSet")))
+        }
+        val isRequiredHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isRequired", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getChatLinkHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChatLink", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component"), Boolean::class.javaPrimitiveType!!))
         }
         val isFixedPositionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isFixedPosition", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getDescriptionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDescription", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val isRequiredHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isRequired", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getRequestedFeaturesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRequestedFeatures", MethodType.methodType(Class.forName("net.minecraft.world.flag.FeatureFlagSet")))
         }
         val getTitleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTitle", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
@@ -61,17 +61,26 @@ value class WrapperPack(val handle: Any) {
     val open: WrapperPackResources
         get() = WrapperPackResources(openHandle.invoke(handle))
 
-    val defaultPosition: Any
-        get() = getDefaultPositionHandle.invoke(handle) as Any
+    val description: WrapperComponent
+        get() = WrapperComponent(getDescriptionHandle.invoke(handle))
 
-    val compatibility: Any
-        get() = getCompatibilityHandle.invoke(handle) as Any
+    val packSource: WrapperPackSource
+        get() = WrapperPackSource(getPackSourceHandle.invoke(handle))
 
     val selectionConfig: WrapperPackSelectionConfig
         get() = WrapperPackSelectionConfig(selectionConfigHandle.invoke(handle))
 
-    val packSource: WrapperPackSource
-        get() = WrapperPackSource(getPackSourceHandle.invoke(handle))
+    val compatibility: Any
+        get() = getCompatibilityHandle.invoke(handle) as Any
+
+    val defaultPosition: Any
+        get() = getDefaultPositionHandle.invoke(handle) as Any
+
+    val requestedFeatures: WrapperFeatureFlagSet
+        get() = WrapperFeatureFlagSet(getRequestedFeaturesHandle.invoke(handle))
+
+    val required: Boolean
+        get() = isRequiredHandle.invoke(handle) as Boolean
 
     fun getChatLink(arg0: Boolean): WrapperComponent {
         return WrapperComponent(getChatLinkHandle.invoke(handle, arg0))
@@ -79,15 +88,6 @@ value class WrapperPack(val handle: Any) {
 
     val fixedPosition: Boolean
         get() = isFixedPositionHandle.invoke(handle) as Boolean
-
-    val description: WrapperComponent
-        get() = WrapperComponent(getDescriptionHandle.invoke(handle))
-
-    val required: Boolean
-        get() = isRequiredHandle.invoke(handle) as Boolean
-
-    val requestedFeatures: WrapperFeatureFlagSet
-        get() = WrapperFeatureFlagSet(getRequestedFeaturesHandle.invoke(handle))
 
     val title: WrapperComponent
         get() = WrapperComponent(getTitleHandle.invoke(handle))

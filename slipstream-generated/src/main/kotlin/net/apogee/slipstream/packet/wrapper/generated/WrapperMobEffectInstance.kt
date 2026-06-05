@@ -29,23 +29,29 @@ value class WrapperMobEffectInstance(val handle: Any) {
         val getDurationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDuration", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val isInfiniteDurationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInfiniteDuration", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val mapDurationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "mapDuration", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("it.unimi.dsi.fastutil.ints.Int2IntFunction")))
-        }
-        val getBlendFactorHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlendFactor", MethodType.methodType(Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.LivingEntity"), Float::class.javaPrimitiveType!!))
+        val getDescriptionIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDescriptionId", MethodType.methodType(String::class.java))
         }
         val getAmplifierHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAmplifier", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val isAmbientHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAmbient", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val isInfiniteDurationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInfiniteDuration", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getBlendFactorHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlendFactor", MethodType.methodType(Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.LivingEntity"), Float::class.javaPrimitiveType!!))
+        }
+        val mapDurationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "mapDuration", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("it.unimi.dsi.fastutil.ints.Int2IntFunction")))
+        }
+        val endsWithinHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "endsWithin", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val getEffectHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEffect", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
+        }
+        val isAmbientHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAmbient", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val isVisibleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isVisible", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -55,12 +61,6 @@ value class WrapperMobEffectInstance(val handle: Any) {
         }
         val getParticleOptionsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getParticleOptions", MethodType.methodType(Class.forName("net.minecraft.core.particles.ParticleOptions")))
-        }
-        val endsWithinHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "endsWithin", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getDescriptionIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDescriptionId", MethodType.methodType(String::class.java))
         }
         val durationSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("duration")
@@ -116,25 +116,32 @@ value class WrapperMobEffectInstance(val handle: Any) {
     val duration: Int
         get() = getDurationHandle.invoke(handle) as Int
 
+    val descriptionId: String
+        get() = getDescriptionIdHandle.invoke(handle) as String
+
+    val amplifier: Int
+        get() = getAmplifierHandle.invoke(handle) as Int
+
     val infiniteDuration: Boolean
         get() = isInfiniteDurationHandle.invoke(handle) as Boolean
-
-    fun mapDuration(arg0: Any): Int {
-        return mapDurationHandle.invoke(handle, arg0) as Int
-    }
 
     fun getBlendFactor(arg0: WrapperLivingEntity, arg1: Float): Float {
         return getBlendFactorHandle.invoke(handle, arg0.handle, arg1) as Float
     }
 
-    val amplifier: Int
-        get() = getAmplifierHandle.invoke(handle) as Int
+    fun mapDuration(arg0: Any): Int {
+        return mapDurationHandle.invoke(handle, arg0) as Int
+    }
 
-    val ambient: Boolean
-        get() = isAmbientHandle.invoke(handle) as Boolean
+    fun endsWithin(arg0: Int): Boolean {
+        return endsWithinHandle.invoke(handle, arg0) as Boolean
+    }
 
     val effect: WrapperHolder
         get() = WrapperHolder(getEffectHandle.invoke(handle))
+
+    val ambient: Boolean
+        get() = isAmbientHandle.invoke(handle) as Boolean
 
     val visible: Boolean
         get() = isVisibleHandle.invoke(handle) as Boolean
@@ -144,13 +151,6 @@ value class WrapperMobEffectInstance(val handle: Any) {
 
     val particleOptions: WrapperParticleOptions
         get() = WrapperParticleOptions(getParticleOptionsHandle.invoke(handle))
-
-    fun endsWithin(arg0: Int): Boolean {
-        return endsWithinHandle.invoke(handle, arg0) as Boolean
-    }
-
-    val descriptionId: String
-        get() = getDescriptionIdHandle.invoke(handle) as String
 
     fun setDuration(value: Int) {
         durationSetterHandle.invoke(handle, value)

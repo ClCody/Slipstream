@@ -17,11 +17,11 @@ value class WrapperClientboundTagQueryPacket(val handle: Any) {
         val getTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTag", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag")))
         }
-        val isSkippableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSkippable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getTransactionIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTransactionId", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val isSkippableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSkippable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperClientboundTagQueryPacket(val handle: Any) {
     val tag: WrapperCompoundTag
         get() = WrapperCompoundTag(getTagHandle.invoke(handle))
 
-    val skippable: Boolean
-        get() = isSkippableHandle.invoke(handle) as Boolean
-
     val transactionId: Int
         get() = getTransactionIdHandle.invoke(handle) as Int
+
+    val skippable: Boolean
+        get() = isSkippableHandle.invoke(handle) as Boolean
 
 }

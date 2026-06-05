@@ -11,21 +11,28 @@ value class WrapperResourceManager(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.server.packs.resources.ResourceManager") }
         private val lookup = MethodHandles.lookup()
 
+        val listPacksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "listPacks", MethodType.methodType(Class.forName("java.util.stream.Stream")))
+        }
+        val listResourceStacksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "listResourceStacks", MethodType.methodType(Class.forName("java.util.Map"), String::class.java, Class.forName("java.util.function.Predicate")))
+        }
         val getResourceStackHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getResourceStack", MethodType.methodType(Class.forName("java.util.List"), Class.forName("net.minecraft.resources.ResourceLocation")))
         }
         val getNamespacesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNamespaces", MethodType.methodType(Class.forName("java.util.Set")))
         }
-        val listResourceStacksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "listResourceStacks", MethodType.methodType(Class.forName("java.util.Map"), String::class.java, Class.forName("java.util.function.Predicate")))
-        }
         val listResourcesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "listResources", MethodType.methodType(Class.forName("java.util.Map"), String::class.java, Class.forName("java.util.function.Predicate")))
         }
-        val listPacksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "listPacks", MethodType.methodType(Class.forName("java.util.stream.Stream")))
-        }
+    }
+
+    val listPacks: Any
+        get() = listPacksHandle.invoke(handle) as Any
+
+    fun listResourceStacks(arg0: String, arg1: Any): Any {
+        return listResourceStacksHandle.invoke(handle, arg0, arg1) as Any
     }
 
     fun getResourceStack(arg0: WrapperResourceLocation): Any {
@@ -35,15 +42,8 @@ value class WrapperResourceManager(val handle: Any) {
     val namespaces: Any
         get() = getNamespacesHandle.invoke(handle) as Any
 
-    fun listResourceStacks(arg0: String, arg1: Any): Any {
-        return listResourceStacksHandle.invoke(handle, arg0, arg1) as Any
-    }
-
     fun listResources(arg0: String, arg1: Any): Any {
         return listResourcesHandle.invoke(handle, arg0, arg1) as Any
     }
-
-    val listPacks: Any
-        get() = listPacksHandle.invoke(handle) as Any
 
 }

@@ -17,11 +17,11 @@ value class WrapperClientboundLightUpdatePacket(val handle: Any) {
         val getLightDataHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLightData", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.ClientboundLightUpdatePacketData")))
         }
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperClientboundLightUpdatePacket(val handle: Any) {
     val lightData: WrapperClientboundLightUpdatePacketData
         get() = WrapperClientboundLightUpdatePacketData(getLightDataHandle.invoke(handle))
 
-    val z: Int
-        get() = getZHandle.invoke(handle) as Int
-
     val x: Int
         get() = getXHandle.invoke(handle) as Int
+
+    val z: Int
+        get() = getZHandle.invoke(handle) as Int
 
 }

@@ -14,22 +14,22 @@ value class WrapperClientboundRotateHeadPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getYHeadRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getYHeadRot", MethodType.methodType(Byte::class.javaPrimitiveType!!))
-        }
         val getEntityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.level.Level")))
+        }
+        val getYHeadRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getYHeadRot", MethodType.methodType(Byte::class.javaPrimitiveType!!))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val yHeadRot: Byte
-        get() = getYHeadRotHandle.invoke(handle) as Byte
-
     fun getEntity(arg0: WrapperLevel): WrapperEntity {
         return WrapperEntity(getEntityHandle.invoke(handle, arg0.handle))
     }
+
+    val yHeadRot: Byte
+        get() = getYHeadRotHandle.invoke(handle) as Byte
 
 }

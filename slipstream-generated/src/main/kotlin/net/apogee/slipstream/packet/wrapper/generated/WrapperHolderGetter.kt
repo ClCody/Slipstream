@@ -12,19 +12,19 @@ value class WrapperHolderGetter(val handle: Any) {
         private val lookup = MethodHandles.lookup()
 
         val getHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "get", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.resources.ResourceKey")))
+            lookup.findVirtual(packetClass, "get", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.tags.TagKey")))
         }
         val getOrThrowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getOrThrow", MethodType.methodType(Class.forName("net.minecraft.core.HolderSet\$Named"), Class.forName("net.minecraft.tags.TagKey")))
+            lookup.findVirtual(packetClass, "getOrThrow", MethodType.methodType(Class.forName("net.minecraft.core.Holder\$Reference"), Class.forName("net.minecraft.resources.ResourceKey")))
         }
     }
 
-    fun get(arg0: WrapperResourceKey): Any {
+    fun get(arg0: WrapperTagKey): Any {
         return getHandle.invoke(handle, arg0.handle) as Any
     }
 
-    fun getOrThrow(arg0: WrapperTagKey): WrapperNamed {
-        return WrapperNamed(getOrThrowHandle.invoke(handle, arg0.handle))
+    fun getOrThrow(arg0: WrapperResourceKey): WrapperReference {
+        return WrapperReference(getOrThrowHandle.invoke(handle, arg0.handle))
     }
 
 }

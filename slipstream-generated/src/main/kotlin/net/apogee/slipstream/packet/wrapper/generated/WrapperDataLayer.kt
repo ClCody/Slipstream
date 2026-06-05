@@ -23,14 +23,14 @@ value class WrapperDataLayer(val handle: Any) {
         val getDataHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getData", MethodType.methodType(ByteArray::class.java))
         }
-        val layerToStringHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "layerToString", MethodType.methodType(String::class.java, Int::class.javaPrimitiveType!!))
+        val isDefinitelyHomogenousHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isDefinitelyHomogenous", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val isDefinitelyFilledWithHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isDefinitelyFilledWith", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val isDefinitelyHomogenousHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isDefinitelyHomogenous", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val layerToStringHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "layerToString", MethodType.methodType(String::class.java, Int::class.javaPrimitiveType!!))
         }
         val dataSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("data")
@@ -57,16 +57,16 @@ value class WrapperDataLayer(val handle: Any) {
     val data: ByteArray
         get() = getDataHandle.invoke(handle) as ByteArray
 
-    fun layerToString(arg0: Int): String {
-        return layerToStringHandle.invoke(handle, arg0) as String
-    }
+    val definitelyHomogenous: Boolean
+        get() = isDefinitelyHomogenousHandle.invoke(handle) as Boolean
 
     fun isDefinitelyFilledWith(arg0: Int): Boolean {
         return isDefinitelyFilledWithHandle.invoke(handle, arg0) as Boolean
     }
 
-    val definitelyHomogenous: Boolean
-        get() = isDefinitelyHomogenousHandle.invoke(handle) as Boolean
+    fun layerToString(arg0: Int): String {
+        return layerToStringHandle.invoke(handle, arg0) as String
+    }
 
     fun setData(value: ByteArray) {
         dataSetterHandle.invoke(handle, value)

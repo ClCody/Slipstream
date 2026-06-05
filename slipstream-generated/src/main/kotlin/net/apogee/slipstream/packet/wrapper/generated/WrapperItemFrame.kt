@@ -20,29 +20,32 @@ value class WrapperItemFrame(val handle: Any) {
         val getRotationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRotation", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getPlaceSoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlaceSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
+        val hurtHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
+        }
+        val interactHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "interact", MethodType.methodType(Class.forName("net.minecraft.world.InteractionResult"), Class.forName("net.minecraft.world.entity.player.Player"), Class.forName("net.minecraft.world.InteractionHand")))
+        }
+        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val spawnAtLocationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "spawnAtLocation", MethodType.methodType(Class.forName("net.minecraft.world.entity.item.ItemEntity"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val getPickResultHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPickResult", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
         val getAddEntityPacketHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAddEntityPacket", MethodType.methodType(Class.forName("net.minecraft.network.protocol.Packet"), Class.forName("net.minecraft.server.level.ServerEntity")))
         }
-        val hurtHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
+        val getPickResultHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPickResult", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val getBreakSoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBreakSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
+        val shouldRenderAtSqrDistanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldRenderAtSqrDistance", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
-        val getRotateItemSoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRotateItemSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
+        val survivesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "survives", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getFramedMapIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFramedMapId", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapId"), Class.forName("net.minecraft.world.item.ItemStack")))
+        val getPlaceSoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlaceSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
         }
         val getRemoveItemSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRemoveItemSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
@@ -50,23 +53,20 @@ value class WrapperItemFrame(val handle: Any) {
         val getAddItemSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAddItemSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
         }
-        val getAnalogOutputHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAnalogOutput", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val hasFramedMapHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasFramedMap", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val interactHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "interact", MethodType.methodType(Class.forName("net.minecraft.world.InteractionResult"), Class.forName("net.minecraft.world.entity.player.Player"), Class.forName("net.minecraft.world.InteractionHand")))
+        val getFramedMapIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFramedMapId", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapId"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val shouldRenderAtSqrDistanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldRenderAtSqrDistance", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
+        val getAnalogOutputHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAnalogOutput", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val getBreakSoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBreakSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
         }
-        val survivesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "survives", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getRotateItemSoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRotateItemSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
         }
         val dropChanceSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("dropChance")
@@ -95,33 +95,37 @@ value class WrapperItemFrame(val handle: Any) {
     val rotation: Int
         get() = getRotationHandle.invoke(handle) as Int
 
-    val placeSound: WrapperSoundEvent
-        get() = WrapperSoundEvent(getPlaceSoundHandle.invoke(handle))
+    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
+        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
+    fun interact(arg0: WrapperPlayer, arg1: Any): Any {
+        return interactHandle.invoke(handle, arg0.handle, arg1) as Any
+    }
+
+    val visualRotationYInDegrees: Float
+        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
 
     fun spawnAtLocation(arg0: WrapperItemStack): WrapperItemEntity {
         return WrapperItemEntity(spawnAtLocationHandle.invoke(handle, arg0.handle))
     }
 
-    val pickResult: WrapperItemStack
-        get() = WrapperItemStack(getPickResultHandle.invoke(handle))
-
     fun getAddEntityPacket(arg0: WrapperServerEntity): WrapperPacket {
         return WrapperPacket(getAddEntityPacketHandle.invoke(handle, arg0.handle))
     }
 
-    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
-        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    val pickResult: WrapperItemStack
+        get() = WrapperItemStack(getPickResultHandle.invoke(handle))
+
+    fun shouldRenderAtSqrDistance(arg0: Double): Boolean {
+        return shouldRenderAtSqrDistanceHandle.invoke(handle, arg0) as Boolean
     }
 
-    val breakSound: WrapperSoundEvent
-        get() = WrapperSoundEvent(getBreakSoundHandle.invoke(handle))
+    val survives: Boolean
+        get() = survivesHandle.invoke(handle) as Boolean
 
-    val rotateItemSound: WrapperSoundEvent
-        get() = WrapperSoundEvent(getRotateItemSoundHandle.invoke(handle))
-
-    fun getFramedMapId(arg0: WrapperItemStack): WrapperMapId {
-        return WrapperMapId(getFramedMapIdHandle.invoke(handle, arg0.handle))
-    }
+    val placeSound: WrapperSoundEvent
+        get() = WrapperSoundEvent(getPlaceSoundHandle.invoke(handle))
 
     val removeItemSound: WrapperSoundEvent
         get() = WrapperSoundEvent(getRemoveItemSoundHandle.invoke(handle))
@@ -129,25 +133,21 @@ value class WrapperItemFrame(val handle: Any) {
     val addItemSound: WrapperSoundEvent
         get() = WrapperSoundEvent(getAddItemSoundHandle.invoke(handle))
 
-    val analogOutput: Int
-        get() = getAnalogOutputHandle.invoke(handle) as Int
-
     val framedMap: Boolean
         get() = hasFramedMapHandle.invoke(handle) as Boolean
 
-    fun interact(arg0: WrapperPlayer, arg1: Any): Any {
-        return interactHandle.invoke(handle, arg0.handle, arg1) as Any
+    fun getFramedMapId(arg0: WrapperItemStack): WrapperMapId {
+        return WrapperMapId(getFramedMapIdHandle.invoke(handle, arg0.handle))
     }
 
-    fun shouldRenderAtSqrDistance(arg0: Double): Boolean {
-        return shouldRenderAtSqrDistanceHandle.invoke(handle, arg0) as Boolean
-    }
+    val analogOutput: Int
+        get() = getAnalogOutputHandle.invoke(handle) as Int
 
-    val visualRotationYInDegrees: Float
-        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
+    val breakSound: WrapperSoundEvent
+        get() = WrapperSoundEvent(getBreakSoundHandle.invoke(handle))
 
-    val survives: Boolean
-        get() = survivesHandle.invoke(handle) as Boolean
+    val rotateItemSound: WrapperSoundEvent
+        get() = WrapperSoundEvent(getRotateItemSoundHandle.invoke(handle))
 
     fun setDropChance(value: Float) {
         dropChanceSetterHandle.invoke(handle, value)

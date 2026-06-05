@@ -11,8 +11,14 @@ value class WrapperExplosion(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.level.Explosion") }
         private val lookup = MethodHandles.lookup()
 
-        val getHitPlayersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getHitPlayers", MethodType.methodType(Class.forName("java.util.Map")))
+        val canTriggerBlocksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canTriggerBlocks", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getDirectSourceEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDirectSourceEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getIndirectSourceEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getIndirectSourceEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
         }
         val getExplosionSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getExplosionSound", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
@@ -22,15 +28,6 @@ value class WrapperExplosion(val handle: Any) {
         }
         val radiusHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "radius", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getIndirectSourceEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getIndirectSourceEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val getDirectSourceEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDirectSourceEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val canTriggerBlocksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canTriggerBlocks", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getSmallExplosionParticlesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSmallExplosionParticles", MethodType.methodType(Class.forName("net.minecraft.core.particles.ParticleOptions")))
@@ -46,6 +43,9 @@ value class WrapperExplosion(val handle: Any) {
         }
         val interactsWithBlocksHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "interactsWithBlocks", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getHitPlayersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getHitPlayers", MethodType.methodType(Class.forName("java.util.Map")))
         }
         val wasCanceledSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("wasCanceled")
@@ -79,8 +79,14 @@ value class WrapperExplosion(val handle: Any) {
         }
     }
 
-    val hitPlayers: Any
-        get() = getHitPlayersHandle.invoke(handle) as Any
+    val canTriggerBlocks: Boolean
+        get() = canTriggerBlocksHandle.invoke(handle) as Boolean
+
+    val directSourceEntity: WrapperEntity
+        get() = WrapperEntity(getDirectSourceEntityHandle.invoke(handle))
+
+    val indirectSourceEntity: WrapperLivingEntity
+        get() = WrapperLivingEntity(getIndirectSourceEntityHandle.invoke(handle))
 
     val explosionSound: WrapperHolder
         get() = WrapperHolder(getExplosionSoundHandle.invoke(handle))
@@ -90,15 +96,6 @@ value class WrapperExplosion(val handle: Any) {
 
     val radius: Float
         get() = radiusHandle.invoke(handle) as Float
-
-    val indirectSourceEntity: WrapperLivingEntity
-        get() = WrapperLivingEntity(getIndirectSourceEntityHandle.invoke(handle))
-
-    val directSourceEntity: WrapperEntity
-        get() = WrapperEntity(getDirectSourceEntityHandle.invoke(handle))
-
-    val canTriggerBlocks: Boolean
-        get() = canTriggerBlocksHandle.invoke(handle) as Boolean
 
     val smallExplosionParticles: WrapperParticleOptions
         get() = WrapperParticleOptions(getSmallExplosionParticlesHandle.invoke(handle))
@@ -114,6 +111,9 @@ value class WrapperExplosion(val handle: Any) {
 
     val interactsWithBlocks: Boolean
         get() = interactsWithBlocksHandle.invoke(handle) as Boolean
+
+    val hitPlayers: Any
+        get() = getHitPlayersHandle.invoke(handle) as Any
 
     fun setWasCanceled(value: Boolean) {
         wasCanceledSetterHandle.invoke(handle, value)

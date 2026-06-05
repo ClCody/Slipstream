@@ -20,11 +20,11 @@ value class WrapperNamed(val handle: Any) {
         val unwrapHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "unwrap", MethodType.methodType(Class.forName("com.mojang.datafixers.util.Either")))
         }
-        val unwrapKeyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "unwrapKey", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
         val canSerializeInHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canSerializeIn", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.HolderOwner")))
+        }
+        val unwrapKeyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "unwrapKey", MethodType.methodType(Class.forName("java.util.Optional")))
         }
         val contentsSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("contents")
@@ -43,12 +43,12 @@ value class WrapperNamed(val handle: Any) {
     val unwrap: Any
         get() = unwrapHandle.invoke(handle) as Any
 
-    val unwrapKey: Any
-        get() = unwrapKeyHandle.invoke(handle) as Any
-
     fun canSerializeIn(arg0: WrapperHolderOwner): Boolean {
         return canSerializeInHandle.invoke(handle, arg0.handle) as Boolean
     }
+
+    val unwrapKey: Any
+        get() = unwrapKeyHandle.invoke(handle) as Any
 
     fun setContents(value: Any) {
         contentsSetterHandle.invoke(handle, value)

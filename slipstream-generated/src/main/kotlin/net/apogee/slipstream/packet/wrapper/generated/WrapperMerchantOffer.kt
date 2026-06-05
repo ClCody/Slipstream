@@ -23,20 +23,38 @@ value class WrapperMerchantOffer(val handle: Any) {
         val satisfiedByHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "satisfiedBy", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val assembleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "assemble", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
         val asBukkitHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "asBukkit", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.inventory.CraftMerchantRecipe")))
         }
+        val getSpecialPriceDiffHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSpecialPriceDiff", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val assembleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "assemble", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val needsRestockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "needsRestock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getItemCostBHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getItemCostB", MethodType.methodType(Class.forName("java.util.Optional")))
+        }
+        val shouldRewardExpHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldRewardExp", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isOutOfStockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isOutOfStock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getBaseCostAHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBaseCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getPriceMultiplierHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPriceMultiplier", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getItemCostAHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getItemCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.trading.ItemCost")))
+        }
         val getCostBHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCostB", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getCostAHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getMaxUsesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMaxUses", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getUsesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getUses", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -47,29 +65,11 @@ value class WrapperMerchantOffer(val handle: Any) {
         val getXpHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getXp", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getItemCostAHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getItemCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.trading.ItemCost")))
+        val getCostAHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val needsRestockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "needsRestock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getPriceMultiplierHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPriceMultiplier", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val isOutOfStockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isOutOfStock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getItemCostBHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getItemCostB", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
-        val shouldRewardExpHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldRewardExp", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getBaseCostAHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBaseCostA", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getSpecialPriceDiffHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSpecialPriceDiff", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val getMaxUsesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMaxUses", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val baseCostASetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("baseCostA")
@@ -142,20 +142,38 @@ value class WrapperMerchantOffer(val handle: Any) {
         return satisfiedByHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
     }
 
-    val assemble: WrapperItemStack
-        get() = WrapperItemStack(assembleHandle.invoke(handle))
-
     val asBukkit: Any
         get() = asBukkitHandle.invoke(handle) as Any
 
+    val specialPriceDiff: Int
+        get() = getSpecialPriceDiffHandle.invoke(handle) as Int
+
+    val assemble: WrapperItemStack
+        get() = WrapperItemStack(assembleHandle.invoke(handle))
+
+    val needsRestock: Boolean
+        get() = needsRestockHandle.invoke(handle) as Boolean
+
+    val itemCostB: Any
+        get() = getItemCostBHandle.invoke(handle) as Any
+
+    val shouldRewardExp: Boolean
+        get() = shouldRewardExpHandle.invoke(handle) as Boolean
+
+    val outOfStock: Boolean
+        get() = isOutOfStockHandle.invoke(handle) as Boolean
+
+    val baseCostA: WrapperItemStack
+        get() = WrapperItemStack(getBaseCostAHandle.invoke(handle))
+
+    val priceMultiplier: Float
+        get() = getPriceMultiplierHandle.invoke(handle) as Float
+
+    val itemCostA: WrapperItemCost
+        get() = WrapperItemCost(getItemCostAHandle.invoke(handle))
+
     val costB: WrapperItemStack
         get() = WrapperItemStack(getCostBHandle.invoke(handle))
-
-    val costA: WrapperItemStack
-        get() = WrapperItemStack(getCostAHandle.invoke(handle))
-
-    val maxUses: Int
-        get() = getMaxUsesHandle.invoke(handle) as Int
 
     val uses: Int
         get() = getUsesHandle.invoke(handle) as Int
@@ -166,29 +184,11 @@ value class WrapperMerchantOffer(val handle: Any) {
     val xp: Int
         get() = getXpHandle.invoke(handle) as Int
 
-    val itemCostA: WrapperItemCost
-        get() = WrapperItemCost(getItemCostAHandle.invoke(handle))
+    val costA: WrapperItemStack
+        get() = WrapperItemStack(getCostAHandle.invoke(handle))
 
-    val needsRestock: Boolean
-        get() = needsRestockHandle.invoke(handle) as Boolean
-
-    val priceMultiplier: Float
-        get() = getPriceMultiplierHandle.invoke(handle) as Float
-
-    val outOfStock: Boolean
-        get() = isOutOfStockHandle.invoke(handle) as Boolean
-
-    val itemCostB: Any
-        get() = getItemCostBHandle.invoke(handle) as Any
-
-    val shouldRewardExp: Boolean
-        get() = shouldRewardExpHandle.invoke(handle) as Boolean
-
-    val baseCostA: WrapperItemStack
-        get() = WrapperItemStack(getBaseCostAHandle.invoke(handle))
-
-    val specialPriceDiff: Int
-        get() = getSpecialPriceDiffHandle.invoke(handle) as Int
+    val maxUses: Int
+        get() = getMaxUsesHandle.invoke(handle) as Int
 
     fun setBaseCostA(value: WrapperItemCost) {
         baseCostASetterHandle.invoke(handle, value.handle)

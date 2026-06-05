@@ -14,21 +14,21 @@ value class WrapperServerboundEntityTagQueryPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getEntityIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getEntityId", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getTransactionIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTransactionId", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getEntityIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getEntityId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val entityId: Int
-        get() = getEntityIdHandle.invoke(handle) as Int
-
     val transactionId: Int
         get() = getTransactionIdHandle.invoke(handle) as Int
+
+    val entityId: Int
+        get() = getEntityIdHandle.invoke(handle) as Int
 
 }

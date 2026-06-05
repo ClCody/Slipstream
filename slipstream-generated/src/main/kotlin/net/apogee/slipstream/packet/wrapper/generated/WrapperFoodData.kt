@@ -14,17 +14,17 @@ value class WrapperFoodData(val handle: Any) {
         val needsFoodHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "needsFood", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getExhaustionLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getExhaustionLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getLastFoodLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastFoodLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getFoodLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFoodLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getSaturationLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSaturationLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getExhaustionLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getExhaustionLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getLastFoodLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastFoodLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val foodLevelSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("foodLevel")
@@ -76,17 +76,17 @@ value class WrapperFoodData(val handle: Any) {
     val needsFood: Boolean
         get() = needsFoodHandle.invoke(handle) as Boolean
 
-    val exhaustionLevel: Float
-        get() = getExhaustionLevelHandle.invoke(handle) as Float
-
-    val lastFoodLevel: Int
-        get() = getLastFoodLevelHandle.invoke(handle) as Int
-
     val foodLevel: Int
         get() = getFoodLevelHandle.invoke(handle) as Int
 
     val saturationLevel: Float
         get() = getSaturationLevelHandle.invoke(handle) as Float
+
+    val exhaustionLevel: Float
+        get() = getExhaustionLevelHandle.invoke(handle) as Float
+
+    val lastFoodLevel: Int
+        get() = getLastFoodLevelHandle.invoke(handle) as Int
 
     fun setFoodLevel(value: Int) {
         foodLevelSetterHandle.invoke(handle, value)

@@ -14,11 +14,11 @@ value class WrapperServerboundUseItemOnPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getHitResultHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getHitResult", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult")))
-        }
         val getSequenceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSequence", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getHitResultHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getHitResult", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult")))
         }
         val getHandHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getHand", MethodType.methodType(Class.forName("net.minecraft.world.InteractionHand")))
@@ -33,11 +33,11 @@ value class WrapperServerboundUseItemOnPacket(val handle: Any) {
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val hitResult: WrapperBlockHitResult
-        get() = WrapperBlockHitResult(getHitResultHandle.invoke(handle))
-
     val sequence: Int
         get() = getSequenceHandle.invoke(handle) as Int
+
+    val hitResult: WrapperBlockHitResult
+        get() = WrapperBlockHitResult(getHitResultHandle.invoke(handle))
 
     val hand: Any
         get() = getHandHandle.invoke(handle) as Any

@@ -23,11 +23,11 @@ value class WrapperBlockPlaceContext(val handle: Any) {
         val getClickedPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getClickedPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
-        val replacingClickedOnBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "replacingClickedOnBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getNearestLookingDirectionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNearestLookingDirection", MethodType.methodType(Class.forName("net.minecraft.core.Direction")))
+        }
+        val replacingClickedOnBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "replacingClickedOnBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val replaceClickedSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("replaceClicked")
@@ -48,11 +48,11 @@ value class WrapperBlockPlaceContext(val handle: Any) {
     val clickedPos: WrapperBlockPos
         get() = WrapperBlockPos(getClickedPosHandle.invoke(handle))
 
-    val replacingClickedOnBlock: Boolean
-        get() = replacingClickedOnBlockHandle.invoke(handle) as Boolean
-
     val nearestLookingDirection: Any
         get() = getNearestLookingDirectionHandle.invoke(handle) as Any
+
+    val replacingClickedOnBlock: Boolean
+        get() = replacingClickedOnBlockHandle.invoke(handle) as Boolean
 
     fun setReplaceClicked(value: Boolean) {
         replaceClickedSetterHandle.invoke(handle, value)

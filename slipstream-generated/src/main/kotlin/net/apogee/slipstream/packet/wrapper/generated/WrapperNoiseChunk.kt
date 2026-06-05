@@ -11,23 +11,23 @@ value class WrapperNoiseChunk(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.level.levelgen.NoiseChunk") }
         private val lookup = MethodHandles.lookup()
 
+        val aquiferHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "aquifer", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.Aquifer")))
+        }
         val blockZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "blockZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val blockYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "blockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val blockXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "blockX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val blockYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "blockY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val forIndexHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "forIndex", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.NoiseChunk"), Int::class.javaPrimitiveType!!))
         }
         val getBlenderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBlender", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.blending.Blender")))
-        }
-        val aquiferHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "aquifer", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.Aquifer")))
         }
         val preliminarySurfaceLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "preliminarySurfaceLevel", MethodType.methodType(Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
@@ -99,14 +99,17 @@ value class WrapperNoiseChunk(val handle: Any) {
         }
     }
 
+    val aquifer: WrapperAquifer
+        get() = WrapperAquifer(aquiferHandle.invoke(handle))
+
     val blockZ: Int
         get() = blockZHandle.invoke(handle) as Int
 
-    val blockY: Int
-        get() = blockYHandle.invoke(handle) as Int
-
     val blockX: Int
         get() = blockXHandle.invoke(handle) as Int
+
+    val blockY: Int
+        get() = blockYHandle.invoke(handle) as Int
 
     fun forIndex(arg0: Int): WrapperNoiseChunk {
         return WrapperNoiseChunk(forIndexHandle.invoke(handle, arg0))
@@ -114,9 +117,6 @@ value class WrapperNoiseChunk(val handle: Any) {
 
     val blender: WrapperBlender
         get() = WrapperBlender(getBlenderHandle.invoke(handle))
-
-    val aquifer: WrapperAquifer
-        get() = WrapperAquifer(aquiferHandle.invoke(handle))
 
     fun preliminarySurfaceLevel(arg0: Int, arg1: Int): Int {
         return preliminarySurfaceLevelHandle.invoke(handle, arg0, arg1) as Int

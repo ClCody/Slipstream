@@ -17,14 +17,14 @@ value class WrapperClientboundHelloPacket(val handle: Any) {
         val getPublicKeyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPublicKey", MethodType.methodType(Class.forName("java.security.PublicKey")))
         }
+        val shouldAuthenticateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldAuthenticate", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
         val getServerIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getServerId", MethodType.methodType(String::class.java))
         }
         val getChallengeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChallenge", MethodType.methodType(ByteArray::class.java))
-        }
-        val shouldAuthenticateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldAuthenticate", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -34,13 +34,13 @@ value class WrapperClientboundHelloPacket(val handle: Any) {
     val publicKey: Any
         get() = getPublicKeyHandle.invoke(handle) as Any
 
+    val shouldAuthenticate: Boolean
+        get() = shouldAuthenticateHandle.invoke(handle) as Boolean
+
     val serverId: String
         get() = getServerIdHandle.invoke(handle) as String
 
     val challenge: ByteArray
         get() = getChallengeHandle.invoke(handle) as ByteArray
-
-    val shouldAuthenticate: Boolean
-        get() = shouldAuthenticateHandle.invoke(handle) as Boolean
 
 }

@@ -11,23 +11,23 @@ value class WrapperServerTickRateManager(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.server.ServerTickRateManager") }
         private val lookup = MethodHandles.lookup()
 
-        val stopSteppingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stopStepping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val stepGameIfPausedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stepGameIfPaused", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val stopSprintingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stopSprinting", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val requestGameToSprintHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "requestGameToSprint", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
         val isSprintingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isSprinting", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val checkShouldSprintThisTickHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "checkShouldSprintThisTick", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val requestGameToSprintHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "requestGameToSprint", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
+        val stopSteppingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stopStepping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val stopSprintingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stopSprinting", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
+        }
+        val stepGameIfPausedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stepGameIfPaused", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val remainingSprintTicksSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("remainingSprintTicks")
@@ -56,25 +56,26 @@ value class WrapperServerTickRateManager(val handle: Any) {
         }
     }
 
-    val stopStepping: Boolean
-        get() = stopSteppingHandle.invoke(handle) as Boolean
-
-    fun stepGameIfPaused(arg0: Int): Boolean {
-        return stepGameIfPausedHandle.invoke(handle, arg0) as Boolean
-    }
-
-    val stopSprinting: Boolean
-        get() = stopSprintingHandle.invoke(handle) as Boolean
-
-    fun requestGameToSprint(arg0: Int): Boolean {
-        return requestGameToSprintHandle.invoke(handle, arg0) as Boolean
-    }
-
     val sprinting: Boolean
         get() = isSprintingHandle.invoke(handle) as Boolean
 
     val checkShouldSprintThisTick: Boolean
         get() = checkShouldSprintThisTickHandle.invoke(handle) as Boolean
+
+    fun requestGameToSprint(arg0: Int): Boolean {
+        return requestGameToSprintHandle.invoke(handle, arg0) as Boolean
+    }
+
+    val stopStepping: Boolean
+        get() = stopSteppingHandle.invoke(handle) as Boolean
+
+    fun stopSprinting(arg0: Boolean): Boolean {
+        return stopSprintingHandle.invoke(handle, arg0) as Boolean
+    }
+
+    fun stepGameIfPaused(arg0: Int): Boolean {
+        return stepGameIfPausedHandle.invoke(handle, arg0) as Boolean
+    }
 
     fun setRemainingSprintTicks(value: Long) {
         remainingSprintTicksSetterHandle.invoke(handle, value)

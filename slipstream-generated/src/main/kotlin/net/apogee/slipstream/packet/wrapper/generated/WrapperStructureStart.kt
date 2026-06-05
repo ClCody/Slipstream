@@ -14,11 +14,14 @@ value class WrapperStructureStart(val handle: Any) {
         val isValidHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getPiecesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPieces", MethodType.methodType(Class.forName("java.util.List")))
+        val getBoundingBoxHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBoundingBox", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox")))
         }
         val createTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "createTag", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext"), Class.forName("net.minecraft.world.level.ChunkPos")))
+        }
+        val getPiecesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPieces", MethodType.methodType(Class.forName("java.util.List")))
         }
         val getStructureHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStructure", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.Structure")))
@@ -31,9 +34,6 @@ value class WrapperStructureStart(val handle: Any) {
         }
         val canBeReferencedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canBeReferenced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getBoundingBoxHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBoundingBox", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox")))
         }
         val referencesSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("references")
@@ -60,12 +60,15 @@ value class WrapperStructureStart(val handle: Any) {
     val valid: Boolean
         get() = isValidHandle.invoke(handle) as Boolean
 
-    val pieces: Any
-        get() = getPiecesHandle.invoke(handle) as Any
+    val boundingBox: WrapperBoundingBox
+        get() = WrapperBoundingBox(getBoundingBoxHandle.invoke(handle))
 
     fun createTag(arg0: WrapperStructurePieceSerializationContext, arg1: WrapperChunkPos): WrapperCompoundTag {
         return WrapperCompoundTag(createTagHandle.invoke(handle, arg0.handle, arg1.handle))
     }
+
+    val pieces: Any
+        get() = getPiecesHandle.invoke(handle) as Any
 
     val structure: WrapperStructure
         get() = WrapperStructure(getStructureHandle.invoke(handle))
@@ -78,9 +81,6 @@ value class WrapperStructureStart(val handle: Any) {
 
     val canBeReferenced: Boolean
         get() = canBeReferencedHandle.invoke(handle) as Boolean
-
-    val boundingBox: WrapperBoundingBox
-        get() = WrapperBoundingBox(getBoundingBoxHandle.invoke(handle))
 
     fun setReferences(value: Int) {
         referencesSetterHandle.invoke(handle, value)

@@ -26,6 +26,30 @@ value class WrapperItemEntity(val handle: Any) {
         val getItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
+        val hurtHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
+        }
+        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getBlockPosBelowThatAffectsMyMovementHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockPosBelowThatAffectsMyMovement", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val getSoundSourceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSoundSource", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundSource")))
+        }
+        val dampensVibrationsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "dampensVibrations", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val changeDimensionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "changeDimension", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.level.portal.DimensionTransition")))
+        }
+        val isAttackableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAttackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val hasPickUpDelayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasPickUpDelay", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
         val getAgeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAge", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
@@ -34,30 +58,6 @@ value class WrapperItemEntity(val handle: Any) {
         }
         val fireImmuneHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "fireImmune", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val changeDimensionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "changeDimension", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.level.portal.DimensionTransition")))
-        }
-        val isAttackableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAttackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getSoundSourceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSoundSource", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundSource")))
-        }
-        val dampensVibrationsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "dampensVibrations", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val hurtHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
-        }
-        val hasPickUpDelayHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasPickUpDelay", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getBlockPosBelowThatAffectsMyMovementHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockPosBelowThatAffectsMyMovement", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
         val ageSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("age")
@@ -122,6 +122,32 @@ value class WrapperItemEntity(val handle: Any) {
     val item: WrapperItemStack
         get() = WrapperItemStack(getItemHandle.invoke(handle))
 
+    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
+        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
+    val visualRotationYInDegrees: Float
+        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
+
+    val blockPosBelowThatAffectsMyMovement: WrapperBlockPos
+        get() = WrapperBlockPos(getBlockPosBelowThatAffectsMyMovementHandle.invoke(handle))
+
+    val soundSource: Any
+        get() = getSoundSourceHandle.invoke(handle) as Any
+
+    val dampensVibrations: Boolean
+        get() = dampensVibrationsHandle.invoke(handle) as Boolean
+
+    fun changeDimension(arg0: WrapperDimensionTransition): WrapperEntity {
+        return WrapperEntity(changeDimensionHandle.invoke(handle, arg0.handle))
+    }
+
+    val attackable: Boolean
+        get() = isAttackableHandle.invoke(handle) as Boolean
+
+    val pickUpDelay: Boolean
+        get() = hasPickUpDelayHandle.invoke(handle) as Boolean
+
     val age: Int
         get() = getAgeHandle.invoke(handle) as Int
 
@@ -131,32 +157,6 @@ value class WrapperItemEntity(val handle: Any) {
 
     val fireImmune: Boolean
         get() = fireImmuneHandle.invoke(handle) as Boolean
-
-    fun changeDimension(arg0: WrapperDimensionTransition): WrapperEntity {
-        return WrapperEntity(changeDimensionHandle.invoke(handle, arg0.handle))
-    }
-
-    val attackable: Boolean
-        get() = isAttackableHandle.invoke(handle) as Boolean
-
-    val soundSource: Any
-        get() = getSoundSourceHandle.invoke(handle) as Any
-
-    val dampensVibrations: Boolean
-        get() = dampensVibrationsHandle.invoke(handle) as Boolean
-
-    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
-        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
-    val pickUpDelay: Boolean
-        get() = hasPickUpDelayHandle.invoke(handle) as Boolean
-
-    val visualRotationYInDegrees: Float
-        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
-
-    val blockPosBelowThatAffectsMyMovement: WrapperBlockPos
-        get() = WrapperBlockPos(getBlockPosBelowThatAffectsMyMovementHandle.invoke(handle))
 
     fun setAge(value: Int) {
         ageSetterHandle.invoke(handle, value)

@@ -17,11 +17,11 @@ value class WrapperServerboundContainerClickPacket(val handle: Any) {
         val getClickTypeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getClickType", MethodType.methodType(Class.forName("net.minecraft.world.inventory.ClickType")))
         }
-        val getChangedSlotsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getChangedSlots", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.ints.Int2ObjectMap")))
-        }
         val getButtonNumHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getButtonNum", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getChangedSlotsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getChangedSlots", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.ints.Int2ObjectMap")))
         }
         val getContainerIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getContainerId", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -43,11 +43,11 @@ value class WrapperServerboundContainerClickPacket(val handle: Any) {
     val clickType: Any
         get() = getClickTypeHandle.invoke(handle) as Any
 
-    val changedSlots: Any
-        get() = getChangedSlotsHandle.invoke(handle) as Any
-
     val buttonNum: Int
         get() = getButtonNumHandle.invoke(handle) as Int
+
+    val changedSlots: Any
+        get() = getChangedSlotsHandle.invoke(handle) as Any
 
     val containerId: Int
         get() = getContainerIdHandle.invoke(handle) as Int

@@ -14,20 +14,20 @@ value class WrapperFireworkRocketEntity(val handle: Any) {
         val getItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val isShotAtAngleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isShotAtAngle", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val shouldRenderHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldRender", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
         val isAttackableHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAttackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val shouldRenderHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldRender", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
         val shouldRenderAtSqrDistanceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "shouldRenderAtSqrDistance", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
         val calculateHorizontalHurtKnockbackDirectionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "calculateHorizontalHurtKnockbackDirection", MethodType.methodType(Class.forName("it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair"), Class.forName("net.minecraft.world.entity.LivingEntity"), Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val isShotAtAngleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isShotAtAngle", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val lifeSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("life")
@@ -54,15 +54,12 @@ value class WrapperFireworkRocketEntity(val handle: Any) {
     val item: WrapperItemStack
         get() = WrapperItemStack(getItemHandle.invoke(handle))
 
-    val shotAtAngle: Boolean
-        get() = isShotAtAngleHandle.invoke(handle) as Boolean
-
-    val attackable: Boolean
-        get() = isAttackableHandle.invoke(handle) as Boolean
-
     fun shouldRender(arg0: Double, arg1: Double, arg2: Double): Boolean {
         return shouldRenderHandle.invoke(handle, arg0, arg1, arg2) as Boolean
     }
+
+    val attackable: Boolean
+        get() = isAttackableHandle.invoke(handle) as Boolean
 
     fun shouldRenderAtSqrDistance(arg0: Double): Boolean {
         return shouldRenderAtSqrDistanceHandle.invoke(handle, arg0) as Boolean
@@ -71,6 +68,9 @@ value class WrapperFireworkRocketEntity(val handle: Any) {
     fun calculateHorizontalHurtKnockbackDirection(arg0: WrapperLivingEntity, arg1: WrapperDamageSource): Any {
         return calculateHorizontalHurtKnockbackDirectionHandle.invoke(handle, arg0.handle, arg1.handle) as Any
     }
+
+    val shotAtAngle: Boolean
+        get() = isShotAtAngleHandle.invoke(handle) as Boolean
 
     fun setLife(value: Int) {
         lifeSetterHandle.invoke(handle, value)

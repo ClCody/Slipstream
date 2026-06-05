@@ -29,14 +29,14 @@ value class WrapperReference(val handle: Any) {
         val tagsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "tags", MethodType.methodType(Class.forName("java.util.stream.Stream")))
         }
+        val canSerializeInHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canSerializeIn", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.HolderOwner")))
+        }
         val unwrapKeyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "unwrapKey", MethodType.methodType(Class.forName("java.util.Optional")))
         }
         val isBoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isBound", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val canSerializeInHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canSerializeIn", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.HolderOwner")))
         }
         val tagsSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("tags")
@@ -74,15 +74,15 @@ value class WrapperReference(val handle: Any) {
     val tags: Any
         get() = tagsHandle.invoke(handle) as Any
 
+    fun canSerializeIn(arg0: WrapperHolderOwner): Boolean {
+        return canSerializeInHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
     val unwrapKey: Any
         get() = unwrapKeyHandle.invoke(handle) as Any
 
     val bound: Boolean
         get() = isBoundHandle.invoke(handle) as Boolean
-
-    fun canSerializeIn(arg0: WrapperHolderOwner): Boolean {
-        return canSerializeInHandle.invoke(handle, arg0.handle) as Boolean
-    }
 
     fun setTags(value: Any) {
         tagsSetterHandle.invoke(handle, value)

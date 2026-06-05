@@ -14,11 +14,11 @@ value class WrapperServerLoginPacketListenerImpl(val handle: Any) {
         val getProtocolHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getProtocol", MethodType.methodType(Class.forName("net.minecraft.network.ConnectionProtocol")))
         }
-        val isAcceptingMessagesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAcceptingMessages", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val isTransferredHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isTransferred", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isAcceptingMessagesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAcceptingMessages", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getUserNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getUserName", MethodType.methodType(String::class.java))
@@ -63,11 +63,11 @@ value class WrapperServerLoginPacketListenerImpl(val handle: Any) {
     val protocol: Any
         get() = getProtocolHandle.invoke(handle) as Any
 
-    val acceptingMessages: Boolean
-        get() = isAcceptingMessagesHandle.invoke(handle) as Boolean
-
     val transferred: Boolean
         get() = isTransferredHandle.invoke(handle) as Boolean
+
+    val acceptingMessages: Boolean
+        get() = isAcceptingMessagesHandle.invoke(handle) as Boolean
 
     val userName: String
         get() = getUserNameHandle.invoke(handle) as String

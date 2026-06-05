@@ -14,21 +14,21 @@ value class WrapperClientboundOpenSignEditorPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getPosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
-        }
         val isFrontTextHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isFrontText", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val pos: WrapperBlockPos
-        get() = WrapperBlockPos(getPosHandle.invoke(handle))
-
     val frontText: Boolean
         get() = isFrontTextHandle.invoke(handle) as Boolean
+
+    val pos: WrapperBlockPos
+        get() = WrapperBlockPos(getPosHandle.invoke(handle))
 
 }

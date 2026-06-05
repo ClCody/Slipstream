@@ -17,14 +17,14 @@ value class WrapperServerFunctionManager(val handle: Any) {
         val getTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTag", MethodType.methodType(Class.forName("java.util.Collection"), Class.forName("net.minecraft.resources.ResourceLocation")))
         }
-        val getFunctionNamesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFunctionNames", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        val getDispatcherHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDispatcher", MethodType.methodType(Class.forName("com.mojang.brigadier.CommandDispatcher")))
         }
         val getGameLoopSenderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getGameLoopSender", MethodType.methodType(Class.forName("net.minecraft.commands.CommandSourceStack")))
         }
-        val getDispatcherHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDispatcher", MethodType.methodType(Class.forName("com.mojang.brigadier.CommandDispatcher")))
+        val getFunctionNamesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFunctionNames", MethodType.methodType(Class.forName("java.lang.Iterable")))
         }
         val getTagNamesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTagNames", MethodType.methodType(Class.forName("java.lang.Iterable")))
@@ -54,14 +54,14 @@ value class WrapperServerFunctionManager(val handle: Any) {
         return getTagHandle.invoke(handle, arg0.handle) as Any
     }
 
-    val functionNames: Any
-        get() = getFunctionNamesHandle.invoke(handle) as Any
+    val dispatcher: Any
+        get() = getDispatcherHandle.invoke(handle) as Any
 
     val gameLoopSender: WrapperCommandSourceStack
         get() = WrapperCommandSourceStack(getGameLoopSenderHandle.invoke(handle))
 
-    val dispatcher: Any
-        get() = getDispatcherHandle.invoke(handle) as Any
+    val functionNames: Any
+        get() = getFunctionNamesHandle.invoke(handle) as Any
 
     val tagNames: Any
         get() = getTagNamesHandle.invoke(handle) as Any

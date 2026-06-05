@@ -26,11 +26,11 @@ value class WrapperHolderSet(val handle: Any) {
         val unwrapHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "unwrap", MethodType.methodType(Class.forName("com.mojang.datafixers.util.Either")))
         }
-        val unwrapKeyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "unwrapKey", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
         val canSerializeInHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canSerializeIn", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.HolderOwner")))
+        }
+        val unwrapKeyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "unwrapKey", MethodType.methodType(Class.forName("java.util.Optional")))
         }
         val getRandomElementHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRandomElement", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.util.RandomSource")))
@@ -54,12 +54,12 @@ value class WrapperHolderSet(val handle: Any) {
     val unwrap: Any
         get() = unwrapHandle.invoke(handle) as Any
 
-    val unwrapKey: Any
-        get() = unwrapKeyHandle.invoke(handle) as Any
-
     fun canSerializeIn(arg0: WrapperHolderOwner): Boolean {
         return canSerializeInHandle.invoke(handle, arg0.handle) as Boolean
     }
+
+    val unwrapKey: Any
+        get() = unwrapKeyHandle.invoke(handle) as Any
 
     fun getRandomElement(arg0: WrapperRandomSource): Any {
         return getRandomElementHandle.invoke(handle, arg0.handle) as Any

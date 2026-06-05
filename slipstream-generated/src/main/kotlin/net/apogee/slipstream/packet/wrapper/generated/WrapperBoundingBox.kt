@@ -17,11 +17,17 @@ value class WrapperBoundingBox(val handle: Any) {
         val moveHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "move", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Class.forName("net.minecraft.core.Vec3i")))
         }
+        val intersectingChunksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "intersectingChunks", MethodType.methodType(Class.forName("java.util.stream.Stream")))
+        }
+        val encapsulateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "encapsulate", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Class.forName("net.minecraft.core.BlockPos")))
+        }
         val intersectsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "intersects", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val inflatedByHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "inflatedBy", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        val getZSpanHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZSpan", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getXSpanHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getXSpan", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -29,41 +35,35 @@ value class WrapperBoundingBox(val handle: Any) {
         val getYSpanHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getYSpan", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getZSpanHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZSpan", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val inflatedByHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "inflatedBy", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val isInsideHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isInside", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val movedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moved", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val encapsulateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "encapsulate", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox")))
-        }
-        val intersectingChunksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "intersectingChunks", MethodType.methodType(Class.forName("java.util.stream.Stream")))
-        }
         val getCenterHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCenter", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
-        }
-        val minYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "minY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val minZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "minZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val maxYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "maxY", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val minYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "minY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val maxZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "maxZ", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val maxXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "maxX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val maxYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "maxY", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val minXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "minX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val maxXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "maxX", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val movedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moved", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val minXSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("minX")
@@ -104,13 +104,19 @@ value class WrapperBoundingBox(val handle: Any) {
         return WrapperBoundingBox(moveHandle.invoke(handle, arg0.handle))
     }
 
+    val intersectingChunks: Any
+        get() = intersectingChunksHandle.invoke(handle) as Any
+
+    fun encapsulate(arg0: WrapperBlockPos): WrapperBoundingBox {
+        return WrapperBoundingBox(encapsulateHandle.invoke(handle, arg0.handle))
+    }
+
     fun intersects(arg0: Int, arg1: Int, arg2: Int, arg3: Int): Boolean {
         return intersectsHandle.invoke(handle, arg0, arg1, arg2, arg3) as Boolean
     }
 
-    fun inflatedBy(arg0: Int, arg1: Int, arg2: Int): WrapperBoundingBox {
-        return WrapperBoundingBox(inflatedByHandle.invoke(handle, arg0, arg1, arg2))
-    }
+    val zSpan: Int
+        get() = getZSpanHandle.invoke(handle) as Int
 
     val xSpan: Int
         get() = getXSpanHandle.invoke(handle) as Int
@@ -118,44 +124,38 @@ value class WrapperBoundingBox(val handle: Any) {
     val ySpan: Int
         get() = getYSpanHandle.invoke(handle) as Int
 
-    val zSpan: Int
-        get() = getZSpanHandle.invoke(handle) as Int
+    fun inflatedBy(arg0: Int, arg1: Int, arg2: Int): WrapperBoundingBox {
+        return WrapperBoundingBox(inflatedByHandle.invoke(handle, arg0, arg1, arg2))
+    }
 
     fun isInside(arg0: Int, arg1: Int, arg2: Int): Boolean {
         return isInsideHandle.invoke(handle, arg0, arg1, arg2) as Boolean
     }
 
-    fun moved(arg0: Int, arg1: Int, arg2: Int): WrapperBoundingBox {
-        return WrapperBoundingBox(movedHandle.invoke(handle, arg0, arg1, arg2))
-    }
-
-    fun encapsulate(arg0: WrapperBoundingBox): WrapperBoundingBox {
-        return WrapperBoundingBox(encapsulateHandle.invoke(handle, arg0.handle))
-    }
-
-    val intersectingChunks: Any
-        get() = intersectingChunksHandle.invoke(handle) as Any
-
     val center: WrapperBlockPos
         get() = WrapperBlockPos(getCenterHandle.invoke(handle))
-
-    val minY: Int
-        get() = minYHandle.invoke(handle) as Int
 
     val minZ: Int
         get() = minZHandle.invoke(handle) as Int
 
-    val maxY: Int
-        get() = maxYHandle.invoke(handle) as Int
+    val minY: Int
+        get() = minYHandle.invoke(handle) as Int
 
     val maxZ: Int
         get() = maxZHandle.invoke(handle) as Int
 
-    val maxX: Int
-        get() = maxXHandle.invoke(handle) as Int
+    val maxY: Int
+        get() = maxYHandle.invoke(handle) as Int
 
     val minX: Int
         get() = minXHandle.invoke(handle) as Int
+
+    val maxX: Int
+        get() = maxXHandle.invoke(handle) as Int
+
+    fun moved(arg0: Int, arg1: Int, arg2: Int): WrapperBoundingBox {
+        return WrapperBoundingBox(movedHandle.invoke(handle, arg0, arg1, arg2))
+    }
 
     fun setMinX(value: Int) {
         minXSetterHandle.invoke(handle, value)

@@ -14,32 +14,32 @@ value class WrapperLevelSettings(val handle: Any) {
         val copyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "copy", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings")))
         }
+        val gameTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "gameType", MethodType.methodType(Class.forName("net.minecraft.world.level.GameType")))
+        }
         val gameRulesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "gameRules", MethodType.methodType(Class.forName("net.minecraft.world.level.GameRules")))
-        }
-        val allowCommandsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "allowCommands", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val withDifficultyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "withDifficulty", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.Difficulty")))
-        }
-        val withGameTypeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "withGameType", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.level.GameType")))
-        }
-        val withDataConfigurationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "withDataConfiguration", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.level.WorldDataConfiguration")))
         }
         val getDataConfigurationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDataConfiguration", MethodType.methodType(Class.forName("net.minecraft.world.level.WorldDataConfiguration")))
         }
-        val gameTypeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "gameType", MethodType.methodType(Class.forName("net.minecraft.world.level.GameType")))
+        val levelNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "levelName", MethodType.methodType(String::class.java))
+        }
+        val withGameTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "withGameType", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.level.GameType")))
+        }
+        val withDifficultyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "withDifficulty", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.Difficulty")))
+        }
+        val allowCommandsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "allowCommands", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val withDataConfigurationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "withDataConfiguration", MethodType.methodType(Class.forName("net.minecraft.world.level.LevelSettings"), Class.forName("net.minecraft.world.level.WorldDataConfiguration")))
         }
         val difficultyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "difficulty", MethodType.methodType(Class.forName("net.minecraft.world.Difficulty")))
-        }
-        val levelNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "levelName", MethodType.methodType(String::class.java))
         }
         val hardcoreHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hardcore", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -59,35 +59,35 @@ value class WrapperLevelSettings(val handle: Any) {
     val copy: WrapperLevelSettings
         get() = WrapperLevelSettings(copyHandle.invoke(handle))
 
+    val gameType: Any
+        get() = gameTypeHandle.invoke(handle) as Any
+
     val gameRules: WrapperGameRules
         get() = WrapperGameRules(gameRulesHandle.invoke(handle))
 
-    val allowCommands: Boolean
-        get() = allowCommandsHandle.invoke(handle) as Boolean
+    val dataConfiguration: WrapperWorldDataConfiguration
+        get() = WrapperWorldDataConfiguration(getDataConfigurationHandle.invoke(handle))
 
-    fun withDifficulty(arg0: Any): WrapperLevelSettings {
-        return WrapperLevelSettings(withDifficultyHandle.invoke(handle, arg0))
-    }
+    val levelName: String
+        get() = levelNameHandle.invoke(handle) as String
 
     fun withGameType(arg0: Any): WrapperLevelSettings {
         return WrapperLevelSettings(withGameTypeHandle.invoke(handle, arg0))
     }
 
+    fun withDifficulty(arg0: Any): WrapperLevelSettings {
+        return WrapperLevelSettings(withDifficultyHandle.invoke(handle, arg0))
+    }
+
+    val allowCommands: Boolean
+        get() = allowCommandsHandle.invoke(handle) as Boolean
+
     fun withDataConfiguration(arg0: WrapperWorldDataConfiguration): WrapperLevelSettings {
         return WrapperLevelSettings(withDataConfigurationHandle.invoke(handle, arg0.handle))
     }
 
-    val dataConfiguration: WrapperWorldDataConfiguration
-        get() = WrapperWorldDataConfiguration(getDataConfigurationHandle.invoke(handle))
-
-    val gameType: Any
-        get() = gameTypeHandle.invoke(handle) as Any
-
     val difficulty: Any
         get() = difficultyHandle.invoke(handle) as Any
-
-    val levelName: String
-        get() = levelNameHandle.invoke(handle) as String
 
     val hardcore: Boolean
         get() = hardcoreHandle.invoke(handle) as Boolean

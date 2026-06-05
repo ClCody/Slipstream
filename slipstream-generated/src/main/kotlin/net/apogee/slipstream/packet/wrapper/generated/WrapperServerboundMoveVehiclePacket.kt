@@ -17,17 +17,17 @@ value class WrapperServerboundMoveVehiclePacket(val handle: Any) {
         val getYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getXRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
         val getYRotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getXRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
     }
 
@@ -37,16 +37,16 @@ value class WrapperServerboundMoveVehiclePacket(val handle: Any) {
     val y: Double
         get() = getYHandle.invoke(handle) as Double
 
-    val z: Double
-        get() = getZHandle.invoke(handle) as Double
+    val xRot: Float
+        get() = getXRotHandle.invoke(handle) as Float
 
     val x: Double
         get() = getXHandle.invoke(handle) as Double
 
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
+
     val yRot: Float
         get() = getYRotHandle.invoke(handle) as Float
-
-    val xRot: Float
-        get() = getXRotHandle.invoke(handle) as Float
 
 }

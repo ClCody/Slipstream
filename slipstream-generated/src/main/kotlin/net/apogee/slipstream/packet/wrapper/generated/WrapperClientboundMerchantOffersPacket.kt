@@ -17,20 +17,20 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
         val getContainerIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getContainerId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getVillagerLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVillagerLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val showProgressHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "showProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getVillagerXpHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getVillagerXp", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val showProgressHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "showProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getOffersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getOffers", MethodType.methodType(Class.forName("net.minecraft.world.item.trading.MerchantOffers")))
+        val getVillagerLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVillagerLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val canRestockHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canRestock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getOffersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getOffers", MethodType.methodType(Class.forName("net.minecraft.world.item.trading.MerchantOffers")))
         }
     }
 
@@ -40,19 +40,19 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
     val containerId: Int
         get() = getContainerIdHandle.invoke(handle) as Int
 
-    val villagerLevel: Int
-        get() = getVillagerLevelHandle.invoke(handle) as Int
+    val showProgress: Boolean
+        get() = showProgressHandle.invoke(handle) as Boolean
 
     val villagerXp: Int
         get() = getVillagerXpHandle.invoke(handle) as Int
 
-    val showProgress: Boolean
-        get() = showProgressHandle.invoke(handle) as Boolean
-
-    val offers: WrapperMerchantOffers
-        get() = WrapperMerchantOffers(getOffersHandle.invoke(handle))
+    val villagerLevel: Int
+        get() = getVillagerLevelHandle.invoke(handle) as Int
 
     val canRestock: Boolean
         get() = canRestockHandle.invoke(handle) as Boolean
+
+    val offers: WrapperMerchantOffers
+        get() = WrapperMerchantOffers(getOffersHandle.invoke(handle))
 
 }

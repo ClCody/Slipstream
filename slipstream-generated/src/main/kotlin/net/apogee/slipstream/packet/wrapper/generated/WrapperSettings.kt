@@ -14,20 +14,20 @@ value class WrapperSettings(val handle: Any) {
         val getSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val getSizeLerpTargetHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSizeLerpTarget", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val getSizeLerpTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSizeLerpTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
-        }
-        val getSafeZoneHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSafeZone", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getWarningBlocksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWarningBlocks", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getWarningTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWarningTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getWarningBlocksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWarningBlocks", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val getSafeZoneHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSafeZone", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getSizeLerpTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSizeLerpTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
+        }
+        val getSizeLerpTargetHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSizeLerpTarget", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getCenterZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCenterZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
@@ -43,20 +43,20 @@ value class WrapperSettings(val handle: Any) {
     val size: Double
         get() = getSizeHandle.invoke(handle) as Double
 
-    val sizeLerpTarget: Double
-        get() = getSizeLerpTargetHandle.invoke(handle) as Double
-
-    val sizeLerpTime: Long
-        get() = getSizeLerpTimeHandle.invoke(handle) as Long
-
-    val safeZone: Double
-        get() = getSafeZoneHandle.invoke(handle) as Double
+    val warningBlocks: Int
+        get() = getWarningBlocksHandle.invoke(handle) as Int
 
     val warningTime: Int
         get() = getWarningTimeHandle.invoke(handle) as Int
 
-    val warningBlocks: Int
-        get() = getWarningBlocksHandle.invoke(handle) as Int
+    val safeZone: Double
+        get() = getSafeZoneHandle.invoke(handle) as Double
+
+    val sizeLerpTime: Long
+        get() = getSizeLerpTimeHandle.invoke(handle) as Long
+
+    val sizeLerpTarget: Double
+        get() = getSizeLerpTargetHandle.invoke(handle) as Double
 
     val centerZ: Double
         get() = getCenterZHandle.invoke(handle) as Double
