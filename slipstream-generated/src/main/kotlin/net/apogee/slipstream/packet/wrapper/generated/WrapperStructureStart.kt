@@ -20,20 +20,20 @@ value class WrapperStructureStart(val handle: Any) {
         val createTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "createTag", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext"), Class.forName("net.minecraft.world.level.ChunkPos")))
         }
-        val getPiecesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPieces", MethodType.methodType(Class.forName("java.util.List")))
+        val getReferencesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getReferences", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val canBeReferencedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBeReferenced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getStructureHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStructure", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.Structure")))
         }
-        val getReferencesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getReferences", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getChunkPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChunkPos", MethodType.methodType(Class.forName("net.minecraft.world.level.ChunkPos")))
         }
-        val canBeReferencedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBeReferenced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getPiecesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPieces", MethodType.methodType(Class.forName("java.util.List")))
         }
         val referencesSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("references")
@@ -67,20 +67,20 @@ value class WrapperStructureStart(val handle: Any) {
         return WrapperCompoundTag(createTagHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
-    val pieces: Any
-        get() = getPiecesHandle.invoke(handle) as Any
+    val references: Int
+        get() = getReferencesHandle.invoke(handle) as Int
+
+    val canBeReferenced: Boolean
+        get() = canBeReferencedHandle.invoke(handle) as Boolean
 
     val structure: WrapperStructure
         get() = WrapperStructure(getStructureHandle.invoke(handle))
 
-    val references: Int
-        get() = getReferencesHandle.invoke(handle) as Int
-
     val chunkPos: WrapperChunkPos
         get() = WrapperChunkPos(getChunkPosHandle.invoke(handle))
 
-    val canBeReferenced: Boolean
-        get() = canBeReferencedHandle.invoke(handle) as Boolean
+    val pieces: Any
+        get() = getPiecesHandle.invoke(handle) as Any
 
     fun setReferences(value: Int) {
         referencesSetterHandle.invoke(handle, value)

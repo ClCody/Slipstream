@@ -20,11 +20,11 @@ value class WrapperPalette(val handle: Any) {
         val getSerializedSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSerializedSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val idForHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "idFor", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.lang.Object")))
-        }
         val valueForHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "valueFor", MethodType.methodType(Class.forName("java.lang.Object"), Int::class.javaPrimitiveType!!))
+        }
+        val idForHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "idFor", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.lang.Object")))
         }
         val maybeHasHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "maybeHas", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate")))
@@ -40,12 +40,12 @@ value class WrapperPalette(val handle: Any) {
     val serializedSize: Int
         get() = getSerializedSizeHandle.invoke(handle) as Int
 
-    fun idFor(arg0: Any): Int {
-        return idForHandle.invoke(handle, arg0) as Int
-    }
-
     fun valueFor(arg0: Int): Any {
         return valueForHandle.invoke(handle, arg0) as Any
+    }
+
+    fun idFor(arg0: Any): Int {
+        return idForHandle.invoke(handle, arg0) as Int
     }
 
     fun maybeHas(arg0: Any): Boolean {

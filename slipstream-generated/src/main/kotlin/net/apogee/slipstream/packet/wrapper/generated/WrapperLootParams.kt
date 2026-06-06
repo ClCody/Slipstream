@@ -17,14 +17,14 @@ value class WrapperLootParams(val handle: Any) {
         val getLuckHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLuck", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val hasParamHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasParam", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParam")))
-        }
         val getParamOrNullHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getParamOrNull", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParam")))
         }
         val getOptionalParameterHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOptionalParameter", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParam")))
+        }
+        val hasParamHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasParam", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParam")))
         }
         val getParameterHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getParameter", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.storage.loot.parameters.LootContextParam")))
@@ -37,16 +37,16 @@ value class WrapperLootParams(val handle: Any) {
     val luck: Float
         get() = getLuckHandle.invoke(handle) as Float
 
-    fun hasParam(arg0: WrapperLootContextParam): Boolean {
-        return hasParamHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
     fun getParamOrNull(arg0: WrapperLootContextParam): Any {
         return getParamOrNullHandle.invoke(handle, arg0.handle) as Any
     }
 
     fun getOptionalParameter(arg0: WrapperLootContextParam): Any {
         return getOptionalParameterHandle.invoke(handle, arg0.handle) as Any
+    }
+
+    fun hasParam(arg0: WrapperLootContextParam): Boolean {
+        return hasParamHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     fun getParameter(arg0: WrapperLootContextParam): Any {

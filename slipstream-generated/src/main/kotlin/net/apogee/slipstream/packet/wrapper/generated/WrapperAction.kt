@@ -11,18 +11,18 @@ value class WrapperAction(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.chat.HoverEvent\$Action") }
         private val lookup = MethodHandles.lookup()
 
-        val getSerializedNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSerializedName", MethodType.methodType(String::class.java))
-        }
         val isAllowedFromServerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAllowedFromServer", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val getSerializedNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSerializedName", MethodType.methodType(String::class.java))
+        }
     }
-
-    val serializedName: String
-        get() = getSerializedNameHandle.invoke(handle) as String
 
     val allowedFromServer: Boolean
         get() = isAllowedFromServerHandle.invoke(handle) as Boolean
+
+    val serializedName: String
+        get() = getSerializedNameHandle.invoke(handle) as String
 
 }

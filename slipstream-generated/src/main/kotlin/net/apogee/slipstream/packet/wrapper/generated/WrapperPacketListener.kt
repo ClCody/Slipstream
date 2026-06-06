@@ -14,35 +14,35 @@ value class WrapperPacketListener(val handle: Any) {
         val protocolHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "protocol", MethodType.methodType(Class.forName("net.minecraft.network.ConnectionProtocol")))
         }
+        val flowHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "flow", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
+        }
         val shouldHandleMessageHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "shouldHandleMessage", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.network.protocol.Packet")))
-        }
-        val isAcceptingMessagesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAcceptingMessages", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val createDisconnectionInfoHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "createDisconnectionInfo", MethodType.methodType(Class.forName("net.minecraft.network.DisconnectionDetails"), Class.forName("net.minecraft.network.chat.Component"), Class.forName("java.lang.Throwable")))
         }
-        val flowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "flow", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
+        val isAcceptingMessagesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAcceptingMessages", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
     val protocol: Any
         get() = protocolHandle.invoke(handle) as Any
 
+    val flow: Any
+        get() = flowHandle.invoke(handle) as Any
+
     fun shouldHandleMessage(arg0: WrapperPacket): Boolean {
         return shouldHandleMessageHandle.invoke(handle, arg0.handle) as Boolean
     }
-
-    val acceptingMessages: Boolean
-        get() = isAcceptingMessagesHandle.invoke(handle) as Boolean
 
     fun createDisconnectionInfo(arg0: WrapperComponent, arg1: Any): WrapperDisconnectionDetails {
         return WrapperDisconnectionDetails(createDisconnectionInfoHandle.invoke(handle, arg0.handle, arg1))
     }
 
-    val flow: Any
-        get() = flowHandle.invoke(handle) as Any
+    val acceptingMessages: Boolean
+        get() = isAcceptingMessagesHandle.invoke(handle) as Boolean
 
 }

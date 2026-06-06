@@ -20,20 +20,17 @@ value class WrapperAdvancementProgress(val handle: Any) {
         val getPercentHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPercent", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getRemainingCriteriaHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRemainingCriteria", MethodType.methodType(Class.forName("java.lang.Iterable")))
-        }
         val getFirstProgressDateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFirstProgressDate", MethodType.methodType(Class.forName("java.time.Instant")))
+        }
+        val getRemainingCriteriaHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRemainingCriteria", MethodType.methodType(Class.forName("java.lang.Iterable")))
         }
         val getCompletedCriteriaHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCompletedCriteria", MethodType.methodType(Class.forName("java.lang.Iterable")))
         }
-        val getCriterionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCriterion", MethodType.methodType(Class.forName("net.minecraft.advancements.CriterionProgress"), String::class.java))
-        }
-        val getProgressTextHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getProgressText", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        val hasProgressHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val grantProgressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "grantProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
@@ -41,8 +38,11 @@ value class WrapperAdvancementProgress(val handle: Any) {
         val revokeProgressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "revokeProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
         }
-        val hasProgressHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getCriterionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCriterion", MethodType.methodType(Class.forName("net.minecraft.advancements.CriterionProgress"), String::class.java))
+        }
+        val getProgressTextHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getProgressText", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
         val requirementsSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("requirements")
@@ -61,21 +61,17 @@ value class WrapperAdvancementProgress(val handle: Any) {
     val percent: Float
         get() = getPercentHandle.invoke(handle) as Float
 
-    val remainingCriteria: Any
-        get() = getRemainingCriteriaHandle.invoke(handle) as Any
-
     val firstProgressDate: Any
         get() = getFirstProgressDateHandle.invoke(handle) as Any
+
+    val remainingCriteria: Any
+        get() = getRemainingCriteriaHandle.invoke(handle) as Any
 
     val completedCriteria: Any
         get() = getCompletedCriteriaHandle.invoke(handle) as Any
 
-    fun getCriterion(arg0: String): WrapperCriterionProgress {
-        return WrapperCriterionProgress(getCriterionHandle.invoke(handle, arg0))
-    }
-
-    val progressText: WrapperComponent
-        get() = WrapperComponent(getProgressTextHandle.invoke(handle))
+    val progress: Boolean
+        get() = hasProgressHandle.invoke(handle) as Boolean
 
     fun grantProgress(arg0: String): Boolean {
         return grantProgressHandle.invoke(handle, arg0) as Boolean
@@ -85,8 +81,12 @@ value class WrapperAdvancementProgress(val handle: Any) {
         return revokeProgressHandle.invoke(handle, arg0) as Boolean
     }
 
-    val progress: Boolean
-        get() = hasProgressHandle.invoke(handle) as Boolean
+    fun getCriterion(arg0: String): WrapperCriterionProgress {
+        return WrapperCriterionProgress(getCriterionHandle.invoke(handle, arg0))
+    }
+
+    val progressText: WrapperComponent
+        get() = WrapperComponent(getProgressTextHandle.invoke(handle))
 
     fun setRequirements(value: WrapperAdvancementRequirements) {
         requirementsSetterHandle.invoke(handle, value.handle)

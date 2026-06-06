@@ -14,11 +14,11 @@ value class WrapperIntProvider(val handle: Any) {
         val getTypeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getType", MethodType.methodType(Class.forName("net.minecraft.util.valueproviders.IntProviderType")))
         }
-        val getMinValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMinValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getMaxValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMaxValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getMinValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMinValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val sampleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "sample", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.util.RandomSource")))
@@ -28,11 +28,11 @@ value class WrapperIntProvider(val handle: Any) {
     val type: WrapperIntProviderType
         get() = WrapperIntProviderType(getTypeHandle.invoke(handle))
 
-    val minValue: Int
-        get() = getMinValueHandle.invoke(handle) as Int
-
     val maxValue: Int
         get() = getMaxValueHandle.invoke(handle) as Int
+
+    val minValue: Int
+        get() = getMinValueHandle.invoke(handle) as Int
 
     fun sample(arg0: WrapperRandomSource): Int {
         return sampleHandle.invoke(handle, arg0.handle) as Int

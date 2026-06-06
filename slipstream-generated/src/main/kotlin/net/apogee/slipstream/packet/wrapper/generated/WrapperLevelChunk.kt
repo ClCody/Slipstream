@@ -17,44 +17,44 @@ value class WrapperLevelChunk(val handle: Any) {
         val getLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLevel", MethodType.methodType(Class.forName("net.minecraft.world.level.Level")))
         }
-        val `moonrise$getBlockHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$getBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getFullStatusHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFullStatus", MethodType.methodType(Class.forName("net.minecraft.server.level.FullChunkStatus")))
+        val getBlockStateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockState", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val getFluidIfLoadedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFluidIfLoaded", MethodType.methodType(Class.forName("net.minecraft.world.level.material.FluidState"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val getInhabitedTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getInhabitedTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
-        }
-        val getBlockTicksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockTicks", MethodType.methodType(Class.forName("net.minecraft.world.ticks.TickContainerAccess")))
-        }
-        val getFluidTicksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFluidTicks", MethodType.methodType(Class.forName("net.minecraft.world.ticks.TickContainerAccess")))
-        }
-        val getBlockEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockEntity", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.BlockEntity"), Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.world.level.chunk.LevelChunk\$EntityCreationType")))
-        }
-        val setBlockStateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "setBlockState", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.world.level.block.state.BlockState"), Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
-        }
-        val getBlockEntitiesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockEntities", MethodType.methodType(Class.forName("java.util.Map")))
+        val `moonrise$getBlockHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$getBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val getBlockStateIfLoadedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBlockStateIfLoaded", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val getBlockStateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockState", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        val getBlockEntitiesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockEntities", MethodType.methodType(Class.forName("java.util.Map")))
+        }
+        val getBlockEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockEntity", MethodType.methodType(Class.forName("net.minecraft.world.level.block.entity.BlockEntity"), Class.forName("net.minecraft.core.BlockPos")))
         }
         val getFluidStateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFluidState", MethodType.methodType(Class.forName("net.minecraft.world.level.material.FluidState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+            lookup.findVirtual(packetClass, "getFluidState", MethodType.methodType(Class.forName("net.minecraft.world.level.material.FluidState"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val `moonrise$isPostProcessingDoneHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$isPostProcessingDone", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val setBlockStateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "setBlockState", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.world.level.block.state.BlockState"), Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
+        }
+        val getFullStatusHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFullStatus", MethodType.methodType(Class.forName("net.minecraft.server.level.FullChunkStatus")))
+        }
+        val getFluidTicksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFluidTicks", MethodType.methodType(Class.forName("net.minecraft.world.ticks.TickContainerAccess")))
+        }
+        val getBlockTicksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockTicks", MethodType.methodType(Class.forName("net.minecraft.world.ticks.TickContainerAccess")))
+        }
+        val getInhabitedTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getInhabitedTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
+        }
+        val isUnsavedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isUnsaved", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getPersistedStatusHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPersistedStatus", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.status.ChunkStatus")))
@@ -62,20 +62,20 @@ value class WrapperLevelChunk(val handle: Any) {
         val getBlockStateFinalHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBlockStateFinal", MethodType.methodType(Class.forName("net.minecraft.world.level.block.state.BlockState"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
+        val getBlockEntityNbtForSavingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockEntityNbtForSaving", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.core.HolderLookup\$Provider")))
+        }
         val getTicksForSerializationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTicksForSerialization", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.ChunkAccess\$TicksToSave")))
         }
         val getListenerRegistryHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getListenerRegistry", MethodType.methodType(Class.forName("net.minecraft.world.level.gameevent.GameEventListenerRegistry"), Int::class.javaPrimitiveType!!))
         }
-        val getBlockEntityNbtForSavingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockEntityNbtForSaving", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.core.HolderLookup\$Provider")))
-        }
         val `moonrise$getChunkAndHolderHandle`: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "moonrise\$getChunkAndHolder", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerChunkCache\$ChunkAndHolder")))
         }
-        val isUnsavedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isUnsaved", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val `moonrise$isPostProcessingDoneHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$isPostProcessingDone", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val loadedSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("loaded")
@@ -125,57 +125,61 @@ value class WrapperLevelChunk(val handle: Any) {
     val level: WrapperLevel
         get() = WrapperLevel(getLevelHandle.invoke(handle))
 
-    fun `moonrise$getBlock`(arg0: Int, arg1: Int, arg2: Int): WrapperBlockState {
-        return WrapperBlockState(`moonrise$getBlockHandle`.invoke(handle, arg0, arg1, arg2))
+    fun getBlockState(arg0: Int, arg1: Int, arg2: Int): WrapperBlockState {
+        return WrapperBlockState(getBlockStateHandle.invoke(handle, arg0, arg1, arg2))
     }
-
-    val fullStatus: Any
-        get() = getFullStatusHandle.invoke(handle) as Any
 
     fun getFluidIfLoaded(arg0: WrapperBlockPos): WrapperFluidState {
         return WrapperFluidState(getFluidIfLoadedHandle.invoke(handle, arg0.handle))
     }
 
-    val inhabitedTime: Long
-        get() = getInhabitedTimeHandle.invoke(handle) as Long
+    fun `moonrise$getBlock`(arg0: Int, arg1: Int, arg2: Int): WrapperBlockState {
+        return WrapperBlockState(`moonrise$getBlockHandle`.invoke(handle, arg0, arg1, arg2))
+    }
 
-    val blockTicks: Any
-        get() = getBlockTicksHandle.invoke(handle) as Any
+    fun getBlockStateIfLoaded(arg0: WrapperBlockPos): WrapperBlockState {
+        return WrapperBlockState(getBlockStateIfLoadedHandle.invoke(handle, arg0.handle))
+    }
 
-    val fluidTicks: Any
-        get() = getFluidTicksHandle.invoke(handle) as Any
+    val blockEntities: Any
+        get() = getBlockEntitiesHandle.invoke(handle) as Any
 
-    fun getBlockEntity(arg0: WrapperBlockPos, arg1: Any): WrapperBlockEntity {
-        return WrapperBlockEntity(getBlockEntityHandle.invoke(handle, arg0.handle, arg1))
+    fun getBlockEntity(arg0: WrapperBlockPos): WrapperBlockEntity {
+        return WrapperBlockEntity(getBlockEntityHandle.invoke(handle, arg0.handle))
+    }
+
+    fun getFluidState(arg0: WrapperBlockPos): WrapperFluidState {
+        return WrapperFluidState(getFluidStateHandle.invoke(handle, arg0.handle))
     }
 
     fun setBlockState(arg0: WrapperBlockPos, arg1: WrapperBlockState, arg2: Boolean, arg3: Boolean): WrapperBlockState {
         return WrapperBlockState(setBlockStateHandle.invoke(handle, arg0.handle, arg1.handle, arg2, arg3))
     }
 
-    val blockEntities: Any
-        get() = getBlockEntitiesHandle.invoke(handle) as Any
+    val fullStatus: Any
+        get() = getFullStatusHandle.invoke(handle) as Any
 
-    fun getBlockStateIfLoaded(arg0: WrapperBlockPos): WrapperBlockState {
-        return WrapperBlockState(getBlockStateIfLoadedHandle.invoke(handle, arg0.handle))
-    }
+    val fluidTicks: Any
+        get() = getFluidTicksHandle.invoke(handle) as Any
 
-    fun getBlockState(arg0: Int, arg1: Int, arg2: Int): WrapperBlockState {
-        return WrapperBlockState(getBlockStateHandle.invoke(handle, arg0, arg1, arg2))
-    }
+    val blockTicks: Any
+        get() = getBlockTicksHandle.invoke(handle) as Any
 
-    fun getFluidState(arg0: Int, arg1: Int, arg2: Int): WrapperFluidState {
-        return WrapperFluidState(getFluidStateHandle.invoke(handle, arg0, arg1, arg2))
-    }
+    val inhabitedTime: Long
+        get() = getInhabitedTimeHandle.invoke(handle) as Long
 
-    val `moonrise$isPostProcessingDone`: Boolean
-        get() = `moonrise$isPostProcessingDoneHandle`.invoke(handle) as Boolean
+    val unsaved: Boolean
+        get() = isUnsavedHandle.invoke(handle) as Boolean
 
     val persistedStatus: WrapperChunkStatus
         get() = WrapperChunkStatus(getPersistedStatusHandle.invoke(handle))
 
     fun getBlockStateFinal(arg0: Int, arg1: Int, arg2: Int): WrapperBlockState {
         return WrapperBlockState(getBlockStateFinalHandle.invoke(handle, arg0, arg1, arg2))
+    }
+
+    fun getBlockEntityNbtForSaving(arg0: WrapperBlockPos, arg1: WrapperProvider): WrapperCompoundTag {
+        return WrapperCompoundTag(getBlockEntityNbtForSavingHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
     val ticksForSerialization: WrapperTicksToSave
@@ -185,15 +189,11 @@ value class WrapperLevelChunk(val handle: Any) {
         return WrapperGameEventListenerRegistry(getListenerRegistryHandle.invoke(handle, arg0))
     }
 
-    fun getBlockEntityNbtForSaving(arg0: WrapperBlockPos, arg1: WrapperProvider): WrapperCompoundTag {
-        return WrapperCompoundTag(getBlockEntityNbtForSavingHandle.invoke(handle, arg0.handle, arg1.handle))
-    }
-
     val `moonrise$getChunkAndHolder`: WrapperChunkAndHolder
         get() = WrapperChunkAndHolder(`moonrise$getChunkAndHolderHandle`.invoke(handle))
 
-    val unsaved: Boolean
-        get() = isUnsavedHandle.invoke(handle) as Boolean
+    val `moonrise$isPostProcessingDone`: Boolean
+        get() = `moonrise$isPostProcessingDoneHandle`.invoke(handle) as Boolean
 
     fun setLoaded(value: Boolean) {
         loadedSetterHandle.invoke(handle, value)

@@ -17,20 +17,20 @@ value class WrapperRegistryAccess(val handle: Any) {
         val freezeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "freeze", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen")))
         }
-        val registryOrThrowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "registryOrThrow", MethodType.methodType(Class.forName("net.minecraft.core.Registry"), Class.forName("net.minecraft.resources.ResourceKey")))
-        }
-        val allRegistriesLifecycleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "allRegistriesLifecycle", MethodType.methodType(Class.forName("com.mojang.serialization.Lifecycle")))
+        val registryHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "registry", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.resources.ResourceKey")))
         }
         val listRegistriesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "listRegistries", MethodType.methodType(Class.forName("java.util.stream.Stream")))
         }
-        val registryHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "registry", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.resources.ResourceKey")))
+        val registryOrThrowHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "registryOrThrow", MethodType.methodType(Class.forName("net.minecraft.core.Registry"), Class.forName("net.minecraft.resources.ResourceKey")))
         }
         val registriesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "registries", MethodType.methodType(Class.forName("java.util.stream.Stream")))
+        }
+        val allRegistriesLifecycleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "allRegistriesLifecycle", MethodType.methodType(Class.forName("com.mojang.serialization.Lifecycle")))
         }
     }
 
@@ -41,21 +41,21 @@ value class WrapperRegistryAccess(val handle: Any) {
     val freeze: Any
         get() = freezeHandle.invoke(handle) as Any
 
-    fun registryOrThrow(arg0: WrapperResourceKey): WrapperRegistry {
-        return WrapperRegistry(registryOrThrowHandle.invoke(handle, arg0.handle))
-    }
-
-    val allRegistriesLifecycle: Any
-        get() = allRegistriesLifecycleHandle.invoke(handle) as Any
-
-    val listRegistries: Any
-        get() = listRegistriesHandle.invoke(handle) as Any
-
     fun registry(arg0: WrapperResourceKey): Any {
         return registryHandle.invoke(handle, arg0.handle) as Any
     }
 
+    val listRegistries: Any
+        get() = listRegistriesHandle.invoke(handle) as Any
+
+    fun registryOrThrow(arg0: WrapperResourceKey): WrapperRegistry {
+        return WrapperRegistry(registryOrThrowHandle.invoke(handle, arg0.handle))
+    }
+
     val registries: Any
         get() = registriesHandle.invoke(handle) as Any
+
+    val allRegistriesLifecycle: Any
+        get() = allRegistriesLifecycleHandle.invoke(handle) as Any
 
 }

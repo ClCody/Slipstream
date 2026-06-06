@@ -26,296 +26,38 @@ value class WrapperLivingEntity(val handle: Any) {
         val getDimensionsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDimensions", MethodType.methodType(Class.forName("net.minecraft.world.entity.EntityDimensions"), Class.forName("net.minecraft.world.entity.Pose")))
         }
-        val getBukkitYawHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBukkitYaw", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val maxUpStepHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "maxUpStep", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val hurtHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
-        }
-        val isInWallHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInWall", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isPickableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isPickable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isPushableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isPushable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getMainArmHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMainArm", MethodType.methodType(Class.forName("net.minecraft.world.entity.HumanoidArm")))
-        }
-        val canFreezeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canFreeze", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isSleepingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSleeping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val hasEffectHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
-        }
-        val canUseSlotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canUseSlot", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.EquipmentSlot")))
-        }
-        val addEffectHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "addEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getSpeedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSpeed", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getUseItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getUseItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getBrainHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBrain", MethodType.methodType(Class.forName("net.minecraft.world.entity.ai.Brain")))
-        }
-        val isBabyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isBaby", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getScaleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getScale", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val isHoldingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isHolding", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate")))
-        }
-        val canAttackHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canAttack", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val attackableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "attackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val isUsingItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isUsingItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val onClimbableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "onClimbable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getActiveEffectsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getActiveEffects", MethodType.methodType(Class.forName("java.util.Collection")))
-        }
-        val isFallFlyingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isFallFlying", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getViewYRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getViewYRot", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
-        }
-        val isCollidableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isCollidable", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
-        }
-        val isInvulnerableToHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInvulnerableTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val lerpTargetXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lerpTargetX", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val lerpTargetZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lerpTargetZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val lerpTargetYRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lerpTargetYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getOffhandItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getOffhandItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val lerpTargetXRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lerpTargetXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getMainHandItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMainHandItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val lerpTargetYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lerpTargetY", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val isCurrentlyGlowingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isCurrentlyGlowing", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val canUsePortalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canUsePortal", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
-        }
-        val getMaxFallDistanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMaxFallDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val isVisuallySwimmingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isVisuallySwimming", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getWeaponItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWeaponItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val shouldShowNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldShowName", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getTargetEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTargetEntity", MethodType.methodType(Class.forName("net.minecraft.world.phys.EntityHitResult"), Int::class.javaPrimitiveType!!))
-        }
-        val getDeathSoundHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDeathSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
-        }
-        val hasLineOfSightHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasLineOfSight", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getMaxHealthHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMaxHealth", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getCombatTrackerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCombatTracker", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.CombatTracker")))
-        }
-        val getArmorValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmorValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getKillCreditHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getKillCredit", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val getSleepingPosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSleepingPos", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
-        val canCollideWithBukkitHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canCollideWithBukkit", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getPassengerRidingPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPassengerRidingPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getPreciseBodyRotationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPreciseBodyRotation", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
-        }
-        val getBoundingBoxForCullingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBoundingBoxForCulling", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB")))
-        }
-        val getRelativePortalPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRelativePortalPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.core.Direction\$Axis"), Class.forName("net.minecraft.BlockUtil\$FoundRectangle")))
-        }
-        val canBreatheUnderwaterHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBreatheUnderwater", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getShieldBlockingDelayHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getShieldBlockingDelay", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getAbsorptionAmountHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAbsorptionAmount", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val shouldDropExperienceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldDropExperience", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getEquipmentSlotForItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getEquipmentSlotForItem", MethodType.methodType(Class.forName("net.minecraft.world.entity.EquipmentSlot"), Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val shouldDiscardFrictionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldDiscardFriction", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getLastHurtByMobTimestampHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastHurtByMobTimestamp", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getLastDamageSourceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastDamageSource", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val wasExperienceConsumedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "wasExperienceConsumed", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getLastHurtMobTimestampHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastHurtMobTimestamp", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getArmorCoverPercentageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmorCoverPercentage", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val isInvertedHealAndHarmHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInvertedHealAndHarm", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getActiveEffectsMapHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getActiveEffectsMap", MethodType.methodType(Class.forName("java.util.Map")))
-        }
-        val getFallDamageSound0Handle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFallDamageSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Int::class.javaPrimitiveType!!))
-        }
-        val getLastClimbablePosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastClimbablePos", MethodType.methodType(Class.forName("java.util.Optional")))
-        }
-        val isDamageSourceBlockedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isDamageSourceBlocked", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val getVisibilityPercentHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVisibilityPercent", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val removeEffectNoUpdateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeEffectNoUpdate", MethodType.methodType(Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.core.Holder"), Class.forName("org.bukkit.event.entity.EntityPotionEffectEvent\$Cause")))
-        }
-        val getExperienceRewardHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getExperienceReward", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerLevel"), Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getUseItemRemainingTicksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getUseItemRemainingTicks", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val isAffectedByPotionsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAffectedByPotions", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getLocalBoundsForPoseHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLocalBoundsForPose", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB"), Class.forName("net.minecraft.world.entity.Pose")))
-        }
-        val equipmentHasChangedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "equipmentHasChanged", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getArmorAndBodyArmorSlotsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmorAndBodyArmorSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
-        }
-        val getAttributeBaseValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAttributeBaseValue", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
-        }
-        val getBukkitLivingEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBukkitLivingEntity", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.entity.CraftLivingEntity")))
-        }
-        val hasInfiniteMaterialsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasInfiniteMaterials", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val causeFallDamageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "causeFallDamage", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val getLootTableHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLootTable", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
-        }
-        val getItemInHandHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getItemInHand", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.InteractionHand")))
+        val getYHeadRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getYHeadRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getEatingSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEatingSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val isSuppressingSlidingDownLadderHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSuppressingSlidingDownLadder", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val hasEffectHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
         }
-        val getFluidFallingAdjustedMovementHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFluidFallingAdjustedMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Double::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
+        val addEffectHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "addEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.world.entity.Entity"), Class.forName("org.bukkit.event.entity.EntityPotionEffectEvent\$Cause")))
         }
-        val handleRelativeFrictionAndCalculateMovementHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "handleRelativeFrictionAndCalculateMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.phys.Vec3"), Float::class.javaPrimitiveType!!))
+        val canUseSlotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canUseSlot", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.EquipmentSlot")))
         }
-        val activeLocationDependentEnchantmentsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "activeLocationDependentEnchantments", MethodType.methodType(Class.forName("java.util.Map")))
+        val getSpeedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSpeed", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val isBlockingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isBlocking", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getHurtDirHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getHurtDir", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val getYHeadRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getYHeadRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val eatHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "eat", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.world.item.ItemStack")))
+        val isSleepingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSleeping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getHealthHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getHealth", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getEffectHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getEffect", MethodType.methodType(Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.core.Holder")))
+        val isUsingItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isUsingItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getActiveEffectsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getActiveEffects", MethodType.methodType(Class.forName("java.util.Collection")))
         }
         val removeAllEffectsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeAllEffects", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("org.bukkit.event.entity.EntityPotionEffectEvent\$Cause")))
-        }
-        val getItemBySlotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getItemBySlot", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.entity.EquipmentSlot")))
+            lookup.findVirtual(packetClass, "removeAllEffects", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val canDisableShieldHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canDisableShield", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -323,38 +65,47 @@ value class WrapperLivingEntity(val handle: Any) {
         val getUsedItemHandHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getUsedItemHand", MethodType.methodType(Class.forName("net.minecraft.world.InteractionHand")))
         }
-        val canBeSeenAsEnemyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBeSeenAsEnemy", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isDeadOrDyingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isDeadOrDying", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getAttributeValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAttributeValue", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
+        }
+        val canBeSeenAsEnemyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBeSeenAsEnemy", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val isAutoSpinAttackHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAutoSpinAttack", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getProjectileHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getProjectile", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.item.ItemStack")))
+        val isDeadOrDyingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isDeadOrDying", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getFallSoundsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFallSounds", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity\$Fallsounds")))
-        }
-        val getDismountPosesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDismountPoses", MethodType.methodType(Class.forName("com.google.common.collect.ImmutableList")))
+        val getItemBySlotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getItemBySlot", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.entity.EquipmentSlot")))
         }
         val getHandSlotsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getHandSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
         }
-        val getArmorSlotsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmorSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
-        }
         val canTakeItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canTakeItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
         }
+        val getProjectileHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getProjectile", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getDismountPosesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDismountPoses", MethodType.methodType(Class.forName("com.google.common.collect.ImmutableList")))
+        }
+        val getArmorSlotsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmorSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        }
+        val getFallSoundsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFallSounds", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity\$Fallsounds")))
+        }
+        val canAttackTypeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canAttackType", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.EntityType")))
+        }
         val getSwimAmountHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSwimAmount", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val hasLandedInLiquidHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasLandedInLiquid", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getLastHurtByMobHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLastHurtByMob", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
@@ -365,41 +116,29 @@ value class WrapperLivingEntity(val handle: Any) {
         val getAgeScaleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAgeScale", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getLastAttackerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastAttacker", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val canBeSeenByAnyoneHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBeSeenByAnyone", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val canBeAffectedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canBeAffected", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.effect.MobEffectInstance")))
-        }
-        val canAttackTypeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canAttackType", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.EntityType")))
-        }
-        val removeEffectHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
-        }
         val getLastHurtMobHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLastHurtMob", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val getMaxAbsorptionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMaxAbsorption", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val hasLandedInLiquidHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasLandedInLiquid", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getExpRewardHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getExpReward", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getSoundVolumeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSoundVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getVoicePitchHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getVoicePitch", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getHurtSound0Handle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getHurtSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        val canBeSeenByAnyoneHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBeSeenByAnyone", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val removeEffectHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removeEffect", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder"), Class.forName("org.bukkit.event.entity.EntityPotionEffectEvent\$Cause")))
+        }
+        val canBeAffectedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBeAffected", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.effect.MobEffectInstance")))
+        }
+        val getMaxAbsorptionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMaxAbsorption", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getLastAttackerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastAttacker", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
+        }
+        val getSoundVolumeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSoundVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getDeathSound0Handle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDeathSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
@@ -407,53 +146,314 @@ value class WrapperLivingEntity(val handle: Any) {
         val getLootTableSeedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLootTableSeed", MethodType.methodType(Long::class.javaPrimitiveType!!))
         }
-        val getEatingSound0Handle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getEatingSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.item.ItemStack")))
+        val getExpRewardHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getExpReward", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
         }
         val getDrinkingSound0Handle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDrinkingSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val getArrowCountHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArrowCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val getJumpBoostPowerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getJumpBoostPower", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getHurtSound0Handle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getHurtSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.damagesource.DamageSource")))
         }
         val getStingerCountHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStingerCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getRayTraceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRayTrace", MethodType.methodType(Class.forName("net.minecraft.world.phys.HitResult"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.ClipContext\$Fluid")))
-        }
-        val getFallFlyingTicksHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFallFlyingTicks", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val isSensitiveToWaterHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSensitiveToWater", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getAllSlotsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAllSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
         }
         val hasItemInSlotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasItemInSlot", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.EquipmentSlot")))
         }
-        val getAttackAnimHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAttackAnim", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        val getArrowCountHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArrowCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val doHurtTargetHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "doHurtTarget", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        val getEatingSound0Handle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getEatingSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val getTicksUsingItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTicksUsingItem", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val isSensitiveToWaterHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSensitiveToWater", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getFallFlyingTicksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFallFlyingTicks", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getRayTraceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRayTrace", MethodType.methodType(Class.forName("net.minecraft.world.phys.HitResult"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.ClipContext\$Fluid")))
         }
         val randomTeleportHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "randomTeleport", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
         }
-        val getJumpBoostPowerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getJumpBoostPower", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val getBedOrientationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBedOrientation", MethodType.methodType(Class.forName("net.minecraft.core.Direction")))
         }
         val canStandOnFluidHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canStandOnFluid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.material.FluidState")))
         }
-        val getAllSlotsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAllSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        val getTicksUsingItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTicksUsingItem", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getBedOrientationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBedOrientation", MethodType.methodType(Class.forName("net.minecraft.core.Direction")))
+        val doHurtTargetHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "doHurtTarget", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getAttackAnimHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAttackAnim", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val getArmorCoverPercentageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmorCoverPercentage", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val shouldDiscardFrictionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldDiscardFriction", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getVisibilityPercentHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVisibilityPercent", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val isInvertedHealAndHarmHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInvertedHealAndHarm", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getEquipmentSlotForItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getEquipmentSlotForItem", MethodType.methodType(Class.forName("net.minecraft.world.entity.EquipmentSlot"), Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getLastHurtMobTimestampHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastHurtMobTimestamp", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val removeEffectNoUpdateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removeEffectNoUpdate", MethodType.methodType(Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.core.Holder")))
+        }
+        val getActiveEffectsMapHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getActiveEffectsMap", MethodType.methodType(Class.forName("java.util.Map")))
+        }
+        val getLastHurtByMobTimestampHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastHurtByMobTimestamp", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val isDamageSourceBlockedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isDamageSourceBlocked", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val getExperienceRewardHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getExperienceReward", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerLevel"), Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getLastDamageSourceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastDamageSource", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val getUseItemRemainingTicksHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getUseItemRemainingTicks", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val equipmentHasChangedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "equipmentHasChanged", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getLastClimbablePosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastClimbablePos", MethodType.methodType(Class.forName("java.util.Optional")))
+        }
+        val getFallDamageSound0Handle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFallDamageSound0", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent"), Int::class.javaPrimitiveType!!))
+        }
+        val getArmorAndBodyArmorSlotsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmorAndBodyArmorSlots", MethodType.methodType(Class.forName("java.lang.Iterable")))
+        }
+        val getLocalBoundsForPoseHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLocalBoundsForPose", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB"), Class.forName("net.minecraft.world.entity.Pose")))
+        }
+        val wasExperienceConsumedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "wasExperienceConsumed", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isAffectedByPotionsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAffectedByPotions", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isBabyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isBaby", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getScaleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getScale", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getBrainHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBrain", MethodType.methodType(Class.forName("net.minecraft.world.entity.ai.Brain")))
+        }
+        val getUseItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getUseItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val canAttackHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canAttack", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.LivingEntity")))
+        }
+        val isHoldingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isHolding", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.Item")))
+        }
+        val attackableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "attackable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isPushableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isPushable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val maxUpStepHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "maxUpStep", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val isInWallHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInWall", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getMainArmHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMainArm", MethodType.methodType(Class.forName("net.minecraft.world.entity.HumanoidArm")))
+        }
+        val isPickableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isPickable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val canFreezeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canFreeze", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getVisualRotationYInDegreesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVisualRotationYInDegrees", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val shouldShowNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldShowName", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getMaxFallDistanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMaxFallDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getWeaponItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWeaponItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getTargetEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTargetEntity", MethodType.methodType(Class.forName("net.minecraft.world.phys.EntityHitResult"), Int::class.javaPrimitiveType!!))
+        }
+        val hasLineOfSightHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasLineOfSight", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getMaxHealthHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMaxHealth", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getDeathSoundHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDeathSound", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundEvent")))
+        }
+        val activeLocationDependentEnchantmentsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "activeLocationDependentEnchantments", MethodType.methodType(Class.forName("java.util.Map")))
+        }
+        val handleRelativeFrictionAndCalculateMovementHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "handleRelativeFrictionAndCalculateMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.phys.Vec3"), Float::class.javaPrimitiveType!!))
+        }
+        val getCombatTrackerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCombatTracker", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.CombatTracker")))
+        }
+        val getKillCreditHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getKillCredit", MethodType.methodType(Class.forName("net.minecraft.world.entity.LivingEntity")))
+        }
+        val getArmorValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmorValue", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val onClimbableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "onClimbable", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isFallFlyingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isFallFlying", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getSleepingPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSleepingPos", MethodType.methodType(Class.forName("java.util.Optional")))
+        }
+        val getFluidFallingAdjustedMovementHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFluidFallingAdjustedMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Double::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
+        }
+        val isSuppressingSlidingDownLadderHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSuppressingSlidingDownLadder", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getPassengerRidingPositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPassengerRidingPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val canCollideWithBukkitHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canCollideWithBukkit", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getPreciseBodyRotationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPreciseBodyRotation", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val getRelativePortalPositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRelativePortalPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3"), Class.forName("net.minecraft.core.Direction\$Axis"), Class.forName("net.minecraft.BlockUtil\$FoundRectangle")))
+        }
+        val getBoundingBoxForCullingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBoundingBoxForCulling", MethodType.methodType(Class.forName("net.minecraft.world.phys.AABB")))
+        }
+        val hasInfiniteMaterialsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasInfiniteMaterials", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getBukkitLivingEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBukkitLivingEntity", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.entity.CraftLivingEntity")))
+        }
+        val getAttributeBaseValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAttributeBaseValue", MethodType.methodType(Double::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.Holder")))
+        }
+        val getItemInHandHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getItemInHand", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.InteractionHand")))
+        }
+        val getLootTableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLootTable", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
+        }
+        val causeFallDamageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "causeFallDamage", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val getBukkitYawHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBukkitYaw", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val isCollidableHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isCollidable", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
+        }
+        val getViewYRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getViewYRot", MethodType.methodType(Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val isInvulnerableToHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInvulnerableTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val lerpTargetXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lerpTargetX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val isVisuallySwimmingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isVisuallySwimming", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isCurrentlyGlowingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isCurrentlyGlowing", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val lerpTargetZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lerpTargetZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val lerpTargetYRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lerpTargetYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getMainHandItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMainHandItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val canUsePortalHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canUsePortal", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
+        }
+        val lerpTargetYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lerpTargetY", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val lerpTargetXRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lerpTargetXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getOffhandItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getOffhandItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val eatHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "eat", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val hurtHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
+        }
+        val isBlockingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isBlocking", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getHurtDirHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getHurtDir", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getEffectHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getEffect", MethodType.methodType(Class.forName("net.minecraft.world.effect.MobEffectInstance"), Class.forName("net.minecraft.core.Holder")))
+        }
+        val getShieldBlockingDelayHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getShieldBlockingDelay", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getAbsorptionAmountHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAbsorptionAmount", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val canBreatheUnderwaterHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canBreatheUnderwater", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val shouldDropExperienceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldDropExperience", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val combatTrackerSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("combatTracker")
@@ -875,330 +875,42 @@ value class WrapperLivingEntity(val handle: Any) {
         return WrapperEntityDimensions(getDimensionsHandle.invoke(handle, arg0))
     }
 
-    val bukkitYaw: Float
-        get() = getBukkitYawHandle.invoke(handle) as Float
+    val yHeadRot: Float
+        get() = getYHeadRotHandle.invoke(handle) as Float
 
-    val maxUpStep: Float
-        get() = maxUpStepHandle.invoke(handle) as Float
-
-    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
-        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    fun getEatingSound(arg0: WrapperItemStack): WrapperSoundEvent {
+        return WrapperSoundEvent(getEatingSoundHandle.invoke(handle, arg0.handle))
     }
-
-    val inWall: Boolean
-        get() = isInWallHandle.invoke(handle) as Boolean
-
-    val pickable: Boolean
-        get() = isPickableHandle.invoke(handle) as Boolean
-
-    val pushable: Boolean
-        get() = isPushableHandle.invoke(handle) as Boolean
-
-    val mainArm: Any
-        get() = getMainArmHandle.invoke(handle) as Any
-
-    val canFreeze: Boolean
-        get() = canFreezeHandle.invoke(handle) as Boolean
-
-    val sleeping: Boolean
-        get() = isSleepingHandle.invoke(handle) as Boolean
 
     fun hasEffect(arg0: WrapperHolder): Boolean {
         return hasEffectHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    fun addEffect(arg0: WrapperMobEffectInstance, arg1: WrapperEntity, arg2: Any): Boolean {
+        return addEffectHandle.invoke(handle, arg0.handle, arg1.handle, arg2) as Boolean
     }
 
     fun canUseSlot(arg0: Any): Boolean {
         return canUseSlotHandle.invoke(handle, arg0) as Boolean
     }
 
-    fun addEffect(arg0: WrapperMobEffectInstance, arg1: WrapperEntity): Boolean {
-        return addEffectHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
-    }
-
     val speed: Float
         get() = getSpeedHandle.invoke(handle) as Float
 
-    val useItem: WrapperItemStack
-        get() = WrapperItemStack(getUseItemHandle.invoke(handle))
-
-    val brain: WrapperBrain
-        get() = WrapperBrain(getBrainHandle.invoke(handle))
-
-    val baby: Boolean
-        get() = isBabyHandle.invoke(handle) as Boolean
-
-    val scale: Float
-        get() = getScaleHandle.invoke(handle) as Float
-
-    fun isHolding(arg0: Any): Boolean {
-        return isHoldingHandle.invoke(handle, arg0) as Boolean
-    }
-
-    fun canAttack(arg0: WrapperLivingEntity): Boolean {
-        return canAttackHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val attackable: Boolean
-        get() = attackableHandle.invoke(handle) as Boolean
-
-    val visualRotationYInDegrees: Float
-        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
-
-    val usingItem: Boolean
-        get() = isUsingItemHandle.invoke(handle) as Boolean
-
-    val onClimbable: Boolean
-        get() = onClimbableHandle.invoke(handle) as Boolean
-
-    val activeEffects: Any
-        get() = getActiveEffectsHandle.invoke(handle) as Any
-
-    val fallFlying: Boolean
-        get() = isFallFlyingHandle.invoke(handle) as Boolean
-
-    fun getViewYRot(arg0: Float): Float {
-        return getViewYRotHandle.invoke(handle, arg0) as Float
-    }
-
-    fun isCollidable(arg0: Boolean): Boolean {
-        return isCollidableHandle.invoke(handle, arg0) as Boolean
-    }
-
-    fun isInvulnerableTo(arg0: WrapperDamageSource): Boolean {
-        return isInvulnerableToHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val lerpTargetX: Double
-        get() = lerpTargetXHandle.invoke(handle) as Double
-
-    val lerpTargetZ: Double
-        get() = lerpTargetZHandle.invoke(handle) as Double
-
-    val lerpTargetYRot: Float
-        get() = lerpTargetYRotHandle.invoke(handle) as Float
-
-    val offhandItem: WrapperItemStack
-        get() = WrapperItemStack(getOffhandItemHandle.invoke(handle))
-
-    val lerpTargetXRot: Float
-        get() = lerpTargetXRotHandle.invoke(handle) as Float
-
-    val mainHandItem: WrapperItemStack
-        get() = WrapperItemStack(getMainHandItemHandle.invoke(handle))
-
-    val lerpTargetY: Double
-        get() = lerpTargetYHandle.invoke(handle) as Double
-
-    val currentlyGlowing: Boolean
-        get() = isCurrentlyGlowingHandle.invoke(handle) as Boolean
-
-    fun canUsePortal(arg0: Boolean): Boolean {
-        return canUsePortalHandle.invoke(handle, arg0) as Boolean
-    }
-
-    val maxFallDistance: Int
-        get() = getMaxFallDistanceHandle.invoke(handle) as Int
-
-    val visuallySwimming: Boolean
-        get() = isVisuallySwimmingHandle.invoke(handle) as Boolean
-
-    val weaponItem: WrapperItemStack
-        get() = WrapperItemStack(getWeaponItemHandle.invoke(handle))
-
-    val shouldShowName: Boolean
-        get() = shouldShowNameHandle.invoke(handle) as Boolean
-
-    fun getTargetEntity(arg0: Int): WrapperEntityHitResult {
-        return WrapperEntityHitResult(getTargetEntityHandle.invoke(handle, arg0))
-    }
-
-    val deathSound: WrapperSoundEvent
-        get() = WrapperSoundEvent(getDeathSoundHandle.invoke(handle))
-
-    fun hasLineOfSight(arg0: WrapperEntity): Boolean {
-        return hasLineOfSightHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val maxHealth: Float
-        get() = getMaxHealthHandle.invoke(handle) as Float
-
-    val combatTracker: WrapperCombatTracker
-        get() = WrapperCombatTracker(getCombatTrackerHandle.invoke(handle))
-
-    val armorValue: Int
-        get() = getArmorValueHandle.invoke(handle) as Int
-
-    val killCredit: WrapperLivingEntity
-        get() = WrapperLivingEntity(getKillCreditHandle.invoke(handle))
-
-    val sleepingPos: Any
-        get() = getSleepingPosHandle.invoke(handle) as Any
-
-    fun canCollideWithBukkit(arg0: WrapperEntity): Boolean {
-        return canCollideWithBukkitHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    fun getPassengerRidingPosition(arg0: WrapperEntity): WrapperVec3 {
-        return WrapperVec3(getPassengerRidingPositionHandle.invoke(handle, arg0.handle))
-    }
-
-    fun getPreciseBodyRotation(arg0: Float): Float {
-        return getPreciseBodyRotationHandle.invoke(handle, arg0) as Float
-    }
-
-    val boundingBoxForCulling: WrapperAABB
-        get() = WrapperAABB(getBoundingBoxForCullingHandle.invoke(handle))
-
-    fun getRelativePortalPosition(arg0: Any, arg1: WrapperFoundRectangle): WrapperVec3 {
-        return WrapperVec3(getRelativePortalPositionHandle.invoke(handle, arg0, arg1.handle))
-    }
-
-    val canBreatheUnderwater: Boolean
-        get() = canBreatheUnderwaterHandle.invoke(handle) as Boolean
-
-    val shieldBlockingDelay: Int
-        get() = getShieldBlockingDelayHandle.invoke(handle) as Int
-
-    val absorptionAmount: Float
-        get() = getAbsorptionAmountHandle.invoke(handle) as Float
-
-    val shouldDropExperience: Boolean
-        get() = shouldDropExperienceHandle.invoke(handle) as Boolean
-
-    fun getEquipmentSlotForItem(arg0: WrapperItemStack): Any {
-        return getEquipmentSlotForItemHandle.invoke(handle, arg0.handle) as Any
-    }
-
-    val shouldDiscardFriction: Boolean
-        get() = shouldDiscardFrictionHandle.invoke(handle) as Boolean
-
-    val lastHurtByMobTimestamp: Int
-        get() = getLastHurtByMobTimestampHandle.invoke(handle) as Int
-
-    val lastDamageSource: WrapperDamageSource
-        get() = WrapperDamageSource(getLastDamageSourceHandle.invoke(handle))
-
-    val wasExperienceConsumed: Boolean
-        get() = wasExperienceConsumedHandle.invoke(handle) as Boolean
-
-    val lastHurtMobTimestamp: Int
-        get() = getLastHurtMobTimestampHandle.invoke(handle) as Int
-
-    val armorCoverPercentage: Float
-        get() = getArmorCoverPercentageHandle.invoke(handle) as Float
-
-    val invertedHealAndHarm: Boolean
-        get() = isInvertedHealAndHarmHandle.invoke(handle) as Boolean
-
-    val activeEffectsMap: Any
-        get() = getActiveEffectsMapHandle.invoke(handle) as Any
-
-    fun getFallDamageSound0(arg0: Int): WrapperSoundEvent {
-        return WrapperSoundEvent(getFallDamageSound0Handle.invoke(handle, arg0))
-    }
-
-    val lastClimbablePos: Any
-        get() = getLastClimbablePosHandle.invoke(handle) as Any
-
-    fun isDamageSourceBlocked(arg0: WrapperDamageSource): Boolean {
-        return isDamageSourceBlockedHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    fun getVisibilityPercent(arg0: WrapperEntity): Double {
-        return getVisibilityPercentHandle.invoke(handle, arg0.handle) as Double
-    }
-
-    fun removeEffectNoUpdate(arg0: WrapperHolder, arg1: Any): WrapperMobEffectInstance {
-        return WrapperMobEffectInstance(removeEffectNoUpdateHandle.invoke(handle, arg0.handle, arg1))
-    }
-
-    fun getExperienceReward(arg0: WrapperServerLevel, arg1: WrapperEntity): Int {
-        return getExperienceRewardHandle.invoke(handle, arg0.handle, arg1.handle) as Int
-    }
-
-    val useItemRemainingTicks: Int
-        get() = getUseItemRemainingTicksHandle.invoke(handle) as Int
-
-    val affectedByPotions: Boolean
-        get() = isAffectedByPotionsHandle.invoke(handle) as Boolean
-
-    fun getLocalBoundsForPose(arg0: Any): WrapperAABB {
-        return WrapperAABB(getLocalBoundsForPoseHandle.invoke(handle, arg0))
-    }
-
-    fun equipmentHasChanged(arg0: WrapperItemStack, arg1: WrapperItemStack): Boolean {
-        return equipmentHasChangedHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
-    }
-
-    val armorAndBodyArmorSlots: Any
-        get() = getArmorAndBodyArmorSlotsHandle.invoke(handle) as Any
-
-    fun getAttributeBaseValue(arg0: WrapperHolder): Double {
-        return getAttributeBaseValueHandle.invoke(handle, arg0.handle) as Double
-    }
-
-    val bukkitLivingEntity: Any
-        get() = getBukkitLivingEntityHandle.invoke(handle) as Any
-
-    val infiniteMaterials: Boolean
-        get() = hasInfiniteMaterialsHandle.invoke(handle) as Boolean
-
-    fun causeFallDamage(arg0: Float, arg1: Float, arg2: WrapperDamageSource): Boolean {
-        return causeFallDamageHandle.invoke(handle, arg0, arg1, arg2.handle) as Boolean
-    }
-
-    val lootTable: WrapperResourceKey
-        get() = WrapperResourceKey(getLootTableHandle.invoke(handle))
-
-    fun getItemInHand(arg0: Any): WrapperItemStack {
-        return WrapperItemStack(getItemInHandHandle.invoke(handle, arg0))
-    }
-
-    fun getEatingSound(arg0: WrapperItemStack): WrapperSoundEvent {
-        return WrapperSoundEvent(getEatingSoundHandle.invoke(handle, arg0.handle))
-    }
-
-    val suppressingSlidingDownLadder: Boolean
-        get() = isSuppressingSlidingDownLadderHandle.invoke(handle) as Boolean
-
-    fun getFluidFallingAdjustedMovement(arg0: Double, arg1: Boolean, arg2: WrapperVec3): WrapperVec3 {
-        return WrapperVec3(getFluidFallingAdjustedMovementHandle.invoke(handle, arg0, arg1, arg2.handle))
-    }
-
-    fun handleRelativeFrictionAndCalculateMovement(arg0: WrapperVec3, arg1: Float): WrapperVec3 {
-        return WrapperVec3(handleRelativeFrictionAndCalculateMovementHandle.invoke(handle, arg0.handle, arg1))
-    }
-
-    val activeLocationDependentEnchantments: Any
-        get() = activeLocationDependentEnchantmentsHandle.invoke(handle) as Any
-
-    val blocking: Boolean
-        get() = isBlockingHandle.invoke(handle) as Boolean
-
-    val hurtDir: Float
-        get() = getHurtDirHandle.invoke(handle) as Float
-
-    val yHeadRot: Float
-        get() = getYHeadRotHandle.invoke(handle) as Float
-
-    fun eat(arg0: WrapperLevel, arg1: WrapperItemStack): WrapperItemStack {
-        return WrapperItemStack(eatHandle.invoke(handle, arg0.handle, arg1.handle))
-    }
+    val sleeping: Boolean
+        get() = isSleepingHandle.invoke(handle) as Boolean
 
     val health: Float
         get() = getHealthHandle.invoke(handle) as Float
 
-    fun getEffect(arg0: WrapperHolder): WrapperMobEffectInstance {
-        return WrapperMobEffectInstance(getEffectHandle.invoke(handle, arg0.handle))
-    }
+    val usingItem: Boolean
+        get() = isUsingItemHandle.invoke(handle) as Boolean
 
-    fun removeAllEffects(arg0: Any): Boolean {
-        return removeAllEffectsHandle.invoke(handle, arg0) as Boolean
-    }
+    val activeEffects: Any
+        get() = getActiveEffectsHandle.invoke(handle) as Any
 
-    fun getItemBySlot(arg0: Any): WrapperItemStack {
-        return WrapperItemStack(getItemBySlotHandle.invoke(handle, arg0))
-    }
+    val removeAllEffects: Boolean
+        get() = removeAllEffectsHandle.invoke(handle) as Boolean
 
     val canDisableShield: Boolean
         get() = canDisableShieldHandle.invoke(handle) as Boolean
@@ -1206,42 +918,53 @@ value class WrapperLivingEntity(val handle: Any) {
     val usedItemHand: Any
         get() = getUsedItemHandHandle.invoke(handle) as Any
 
-    val canBeSeenAsEnemy: Boolean
-        get() = canBeSeenAsEnemyHandle.invoke(handle) as Boolean
-
-    val deadOrDying: Boolean
-        get() = isDeadOrDyingHandle.invoke(handle) as Boolean
-
     fun getAttributeValue(arg0: WrapperHolder): Double {
         return getAttributeValueHandle.invoke(handle, arg0.handle) as Double
     }
 
+    val canBeSeenAsEnemy: Boolean
+        get() = canBeSeenAsEnemyHandle.invoke(handle) as Boolean
+
     val autoSpinAttack: Boolean
         get() = isAutoSpinAttackHandle.invoke(handle) as Boolean
 
-    fun getProjectile(arg0: WrapperItemStack): WrapperItemStack {
-        return WrapperItemStack(getProjectileHandle.invoke(handle, arg0.handle))
+    val deadOrDying: Boolean
+        get() = isDeadOrDyingHandle.invoke(handle) as Boolean
+
+    fun getItemBySlot(arg0: Any): WrapperItemStack {
+        return WrapperItemStack(getItemBySlotHandle.invoke(handle, arg0))
     }
-
-    val fallSounds: WrapperFallsounds
-        get() = WrapperFallsounds(getFallSoundsHandle.invoke(handle))
-
-    val dismountPoses: Any
-        get() = getDismountPosesHandle.invoke(handle) as Any
 
     val handSlots: Any
         get() = getHandSlotsHandle.invoke(handle) as Any
-
-    val armorSlots: Any
-        get() = getArmorSlotsHandle.invoke(handle) as Any
 
     fun canTakeItem(arg0: WrapperItemStack): Boolean {
         return canTakeItemHandle.invoke(handle, arg0.handle) as Boolean
     }
 
+    fun getProjectile(arg0: WrapperItemStack): WrapperItemStack {
+        return WrapperItemStack(getProjectileHandle.invoke(handle, arg0.handle))
+    }
+
+    val dismountPoses: Any
+        get() = getDismountPosesHandle.invoke(handle) as Any
+
+    val armorSlots: Any
+        get() = getArmorSlotsHandle.invoke(handle) as Any
+
+    val fallSounds: WrapperFallsounds
+        get() = WrapperFallsounds(getFallSoundsHandle.invoke(handle))
+
+    fun canAttackType(arg0: WrapperEntityType): Boolean {
+        return canAttackTypeHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
     fun getSwimAmount(arg0: Float): Float {
         return getSwimAmountHandle.invoke(handle, arg0) as Float
     }
+
+    val landedInLiquid: Boolean
+        get() = hasLandedInLiquidHandle.invoke(handle) as Boolean
 
     val lastHurtByMob: WrapperLivingEntity
         get() = WrapperLivingEntity(getLastHurtByMobHandle.invoke(handle))
@@ -1252,46 +975,31 @@ value class WrapperLivingEntity(val handle: Any) {
     val ageScale: Float
         get() = getAgeScaleHandle.invoke(handle) as Float
 
-    val lastAttacker: WrapperLivingEntity
-        get() = WrapperLivingEntity(getLastAttackerHandle.invoke(handle))
+    val lastHurtMob: WrapperLivingEntity
+        get() = WrapperLivingEntity(getLastHurtMobHandle.invoke(handle))
+
+    val voicePitch: Float
+        get() = getVoicePitchHandle.invoke(handle) as Float
 
     val canBeSeenByAnyone: Boolean
         get() = canBeSeenByAnyoneHandle.invoke(handle) as Boolean
+
+    fun removeEffect(arg0: WrapperHolder, arg1: Any): Boolean {
+        return removeEffectHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
 
     fun canBeAffected(arg0: WrapperMobEffectInstance): Boolean {
         return canBeAffectedHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    fun canAttackType(arg0: WrapperEntityType): Boolean {
-        return canAttackTypeHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    fun removeEffect(arg0: WrapperHolder): Boolean {
-        return removeEffectHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val lastHurtMob: WrapperLivingEntity
-        get() = WrapperLivingEntity(getLastHurtMobHandle.invoke(handle))
-
     val maxAbsorption: Float
         get() = getMaxAbsorptionHandle.invoke(handle) as Float
 
-    val landedInLiquid: Boolean
-        get() = hasLandedInLiquidHandle.invoke(handle) as Boolean
-
-    fun getExpReward(arg0: WrapperEntity): Int {
-        return getExpRewardHandle.invoke(handle, arg0.handle) as Int
-    }
+    val lastAttacker: WrapperLivingEntity
+        get() = WrapperLivingEntity(getLastAttackerHandle.invoke(handle))
 
     val soundVolume: Float
         get() = getSoundVolumeHandle.invoke(handle) as Float
-
-    val voicePitch: Float
-        get() = getVoicePitchHandle.invoke(handle) as Float
-
-    fun getHurtSound0(arg0: WrapperDamageSource): WrapperSoundEvent {
-        return WrapperSoundEvent(getHurtSound0Handle.invoke(handle, arg0.handle))
-    }
 
     val deathSound0: WrapperSoundEvent
         get() = WrapperSoundEvent(getDeathSound0Handle.invoke(handle))
@@ -1299,61 +1007,352 @@ value class WrapperLivingEntity(val handle: Any) {
     val lootTableSeed: Long
         get() = getLootTableSeedHandle.invoke(handle) as Long
 
-    fun getEatingSound0(arg0: WrapperItemStack): WrapperSoundEvent {
-        return WrapperSoundEvent(getEatingSound0Handle.invoke(handle, arg0.handle))
+    fun getExpReward(arg0: WrapperEntity): Int {
+        return getExpRewardHandle.invoke(handle, arg0.handle) as Int
     }
 
     fun getDrinkingSound0(arg0: WrapperItemStack): WrapperSoundEvent {
         return WrapperSoundEvent(getDrinkingSound0Handle.invoke(handle, arg0.handle))
     }
 
-    val arrowCount: Int
-        get() = getArrowCountHandle.invoke(handle) as Int
+    val jumpBoostPower: Float
+        get() = getJumpBoostPowerHandle.invoke(handle) as Float
+
+    fun getHurtSound0(arg0: WrapperDamageSource): WrapperSoundEvent {
+        return WrapperSoundEvent(getHurtSound0Handle.invoke(handle, arg0.handle))
+    }
 
     val stingerCount: Int
         get() = getStingerCountHandle.invoke(handle) as Int
+
+    val allSlots: Any
+        get() = getAllSlotsHandle.invoke(handle) as Any
+
+    fun hasItemInSlot(arg0: Any): Boolean {
+        return hasItemInSlotHandle.invoke(handle, arg0) as Boolean
+    }
+
+    val arrowCount: Int
+        get() = getArrowCountHandle.invoke(handle) as Int
+
+    fun getEatingSound0(arg0: WrapperItemStack): WrapperSoundEvent {
+        return WrapperSoundEvent(getEatingSound0Handle.invoke(handle, arg0.handle))
+    }
+
+    val sensitiveToWater: Boolean
+        get() = isSensitiveToWaterHandle.invoke(handle) as Boolean
+
+    val fallFlyingTicks: Int
+        get() = getFallFlyingTicksHandle.invoke(handle) as Int
 
     fun getRayTrace(arg0: Int, arg1: Any): WrapperHitResult {
         return WrapperHitResult(getRayTraceHandle.invoke(handle, arg0, arg1))
     }
 
-    val fallFlyingTicks: Int
-        get() = getFallFlyingTicksHandle.invoke(handle) as Int
+    fun randomTeleport(arg0: Double, arg1: Double, arg2: Double, arg3: Boolean): Boolean {
+        return randomTeleportHandle.invoke(handle, arg0, arg1, arg2, arg3) as Boolean
+    }
 
-    val sensitiveToWater: Boolean
-        get() = isSensitiveToWaterHandle.invoke(handle) as Boolean
+    val bedOrientation: Any
+        get() = getBedOrientationHandle.invoke(handle) as Any
 
-    fun hasItemInSlot(arg0: Any): Boolean {
-        return hasItemInSlotHandle.invoke(handle, arg0) as Boolean
+    fun canStandOnFluid(arg0: WrapperFluidState): Boolean {
+        return canStandOnFluidHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val ticksUsingItem: Int
+        get() = getTicksUsingItemHandle.invoke(handle) as Int
+
+    fun doHurtTarget(arg0: WrapperEntity): Boolean {
+        return doHurtTargetHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     fun getAttackAnim(arg0: Float): Float {
         return getAttackAnimHandle.invoke(handle, arg0) as Float
     }
 
-    fun doHurtTarget(arg0: WrapperEntity): Boolean {
-        return doHurtTargetHandle.invoke(handle, arg0.handle) as Boolean
+    val armorCoverPercentage: Float
+        get() = getArmorCoverPercentageHandle.invoke(handle) as Float
+
+    val shouldDiscardFriction: Boolean
+        get() = shouldDiscardFrictionHandle.invoke(handle) as Boolean
+
+    fun getVisibilityPercent(arg0: WrapperEntity): Double {
+        return getVisibilityPercentHandle.invoke(handle, arg0.handle) as Double
     }
 
-    val ticksUsingItem: Int
-        get() = getTicksUsingItemHandle.invoke(handle) as Int
+    val invertedHealAndHarm: Boolean
+        get() = isInvertedHealAndHarmHandle.invoke(handle) as Boolean
 
-    fun randomTeleport(arg0: Double, arg1: Double, arg2: Double, arg3: Boolean): Boolean {
-        return randomTeleportHandle.invoke(handle, arg0, arg1, arg2, arg3) as Boolean
+    fun getEquipmentSlotForItem(arg0: WrapperItemStack): Any {
+        return getEquipmentSlotForItemHandle.invoke(handle, arg0.handle) as Any
     }
 
-    val jumpBoostPower: Float
-        get() = getJumpBoostPowerHandle.invoke(handle) as Float
+    val lastHurtMobTimestamp: Int
+        get() = getLastHurtMobTimestampHandle.invoke(handle) as Int
 
-    fun canStandOnFluid(arg0: WrapperFluidState): Boolean {
-        return canStandOnFluidHandle.invoke(handle, arg0.handle) as Boolean
+    fun removeEffectNoUpdate(arg0: WrapperHolder): WrapperMobEffectInstance {
+        return WrapperMobEffectInstance(removeEffectNoUpdateHandle.invoke(handle, arg0.handle))
     }
 
-    val allSlots: Any
-        get() = getAllSlotsHandle.invoke(handle) as Any
+    val activeEffectsMap: Any
+        get() = getActiveEffectsMapHandle.invoke(handle) as Any
 
-    val bedOrientation: Any
-        get() = getBedOrientationHandle.invoke(handle) as Any
+    val lastHurtByMobTimestamp: Int
+        get() = getLastHurtByMobTimestampHandle.invoke(handle) as Int
+
+    fun isDamageSourceBlocked(arg0: WrapperDamageSource): Boolean {
+        return isDamageSourceBlockedHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    fun getExperienceReward(arg0: WrapperServerLevel, arg1: WrapperEntity): Int {
+        return getExperienceRewardHandle.invoke(handle, arg0.handle, arg1.handle) as Int
+    }
+
+    val lastDamageSource: WrapperDamageSource
+        get() = WrapperDamageSource(getLastDamageSourceHandle.invoke(handle))
+
+    val useItemRemainingTicks: Int
+        get() = getUseItemRemainingTicksHandle.invoke(handle) as Int
+
+    fun equipmentHasChanged(arg0: WrapperItemStack, arg1: WrapperItemStack): Boolean {
+        return equipmentHasChangedHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
+    }
+
+    val lastClimbablePos: Any
+        get() = getLastClimbablePosHandle.invoke(handle) as Any
+
+    fun getFallDamageSound0(arg0: Int): WrapperSoundEvent {
+        return WrapperSoundEvent(getFallDamageSound0Handle.invoke(handle, arg0))
+    }
+
+    val armorAndBodyArmorSlots: Any
+        get() = getArmorAndBodyArmorSlotsHandle.invoke(handle) as Any
+
+    fun getLocalBoundsForPose(arg0: Any): WrapperAABB {
+        return WrapperAABB(getLocalBoundsForPoseHandle.invoke(handle, arg0))
+    }
+
+    val wasExperienceConsumed: Boolean
+        get() = wasExperienceConsumedHandle.invoke(handle) as Boolean
+
+    val affectedByPotions: Boolean
+        get() = isAffectedByPotionsHandle.invoke(handle) as Boolean
+
+    val baby: Boolean
+        get() = isBabyHandle.invoke(handle) as Boolean
+
+    val scale: Float
+        get() = getScaleHandle.invoke(handle) as Float
+
+    val brain: WrapperBrain
+        get() = WrapperBrain(getBrainHandle.invoke(handle))
+
+    val useItem: WrapperItemStack
+        get() = WrapperItemStack(getUseItemHandle.invoke(handle))
+
+    fun canAttack(arg0: WrapperLivingEntity): Boolean {
+        return canAttackHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    fun isHolding(arg0: WrapperItem): Boolean {
+        return isHoldingHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val attackable: Boolean
+        get() = attackableHandle.invoke(handle) as Boolean
+
+    val pushable: Boolean
+        get() = isPushableHandle.invoke(handle) as Boolean
+
+    val maxUpStep: Float
+        get() = maxUpStepHandle.invoke(handle) as Float
+
+    val inWall: Boolean
+        get() = isInWallHandle.invoke(handle) as Boolean
+
+    val mainArm: Any
+        get() = getMainArmHandle.invoke(handle) as Any
+
+    val pickable: Boolean
+        get() = isPickableHandle.invoke(handle) as Boolean
+
+    val canFreeze: Boolean
+        get() = canFreezeHandle.invoke(handle) as Boolean
+
+    val visualRotationYInDegrees: Float
+        get() = getVisualRotationYInDegreesHandle.invoke(handle) as Float
+
+    val shouldShowName: Boolean
+        get() = shouldShowNameHandle.invoke(handle) as Boolean
+
+    val maxFallDistance: Int
+        get() = getMaxFallDistanceHandle.invoke(handle) as Int
+
+    val weaponItem: WrapperItemStack
+        get() = WrapperItemStack(getWeaponItemHandle.invoke(handle))
+
+    fun getTargetEntity(arg0: Int): WrapperEntityHitResult {
+        return WrapperEntityHitResult(getTargetEntityHandle.invoke(handle, arg0))
+    }
+
+    fun hasLineOfSight(arg0: WrapperEntity): Boolean {
+        return hasLineOfSightHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val maxHealth: Float
+        get() = getMaxHealthHandle.invoke(handle) as Float
+
+    val deathSound: WrapperSoundEvent
+        get() = WrapperSoundEvent(getDeathSoundHandle.invoke(handle))
+
+    val activeLocationDependentEnchantments: Any
+        get() = activeLocationDependentEnchantmentsHandle.invoke(handle) as Any
+
+    fun handleRelativeFrictionAndCalculateMovement(arg0: WrapperVec3, arg1: Float): WrapperVec3 {
+        return WrapperVec3(handleRelativeFrictionAndCalculateMovementHandle.invoke(handle, arg0.handle, arg1))
+    }
+
+    val combatTracker: WrapperCombatTracker
+        get() = WrapperCombatTracker(getCombatTrackerHandle.invoke(handle))
+
+    val killCredit: WrapperLivingEntity
+        get() = WrapperLivingEntity(getKillCreditHandle.invoke(handle))
+
+    val armorValue: Int
+        get() = getArmorValueHandle.invoke(handle) as Int
+
+    val onClimbable: Boolean
+        get() = onClimbableHandle.invoke(handle) as Boolean
+
+    val fallFlying: Boolean
+        get() = isFallFlyingHandle.invoke(handle) as Boolean
+
+    val sleepingPos: Any
+        get() = getSleepingPosHandle.invoke(handle) as Any
+
+    fun getFluidFallingAdjustedMovement(arg0: Double, arg1: Boolean, arg2: WrapperVec3): WrapperVec3 {
+        return WrapperVec3(getFluidFallingAdjustedMovementHandle.invoke(handle, arg0, arg1, arg2.handle))
+    }
+
+    val suppressingSlidingDownLadder: Boolean
+        get() = isSuppressingSlidingDownLadderHandle.invoke(handle) as Boolean
+
+    fun getPassengerRidingPosition(arg0: WrapperEntity): WrapperVec3 {
+        return WrapperVec3(getPassengerRidingPositionHandle.invoke(handle, arg0.handle))
+    }
+
+    fun canCollideWithBukkit(arg0: WrapperEntity): Boolean {
+        return canCollideWithBukkitHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    fun getPreciseBodyRotation(arg0: Float): Float {
+        return getPreciseBodyRotationHandle.invoke(handle, arg0) as Float
+    }
+
+    fun getRelativePortalPosition(arg0: Any, arg1: WrapperFoundRectangle): WrapperVec3 {
+        return WrapperVec3(getRelativePortalPositionHandle.invoke(handle, arg0, arg1.handle))
+    }
+
+    val boundingBoxForCulling: WrapperAABB
+        get() = WrapperAABB(getBoundingBoxForCullingHandle.invoke(handle))
+
+    val infiniteMaterials: Boolean
+        get() = hasInfiniteMaterialsHandle.invoke(handle) as Boolean
+
+    val bukkitLivingEntity: Any
+        get() = getBukkitLivingEntityHandle.invoke(handle) as Any
+
+    fun getAttributeBaseValue(arg0: WrapperHolder): Double {
+        return getAttributeBaseValueHandle.invoke(handle, arg0.handle) as Double
+    }
+
+    fun getItemInHand(arg0: Any): WrapperItemStack {
+        return WrapperItemStack(getItemInHandHandle.invoke(handle, arg0))
+    }
+
+    val lootTable: WrapperResourceKey
+        get() = WrapperResourceKey(getLootTableHandle.invoke(handle))
+
+    fun causeFallDamage(arg0: Float, arg1: Float, arg2: WrapperDamageSource): Boolean {
+        return causeFallDamageHandle.invoke(handle, arg0, arg1, arg2.handle) as Boolean
+    }
+
+    val bukkitYaw: Float
+        get() = getBukkitYawHandle.invoke(handle) as Float
+
+    fun isCollidable(arg0: Boolean): Boolean {
+        return isCollidableHandle.invoke(handle, arg0) as Boolean
+    }
+
+    fun getViewYRot(arg0: Float): Float {
+        return getViewYRotHandle.invoke(handle, arg0) as Float
+    }
+
+    fun isInvulnerableTo(arg0: WrapperDamageSource): Boolean {
+        return isInvulnerableToHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val lerpTargetX: Double
+        get() = lerpTargetXHandle.invoke(handle) as Double
+
+    val visuallySwimming: Boolean
+        get() = isVisuallySwimmingHandle.invoke(handle) as Boolean
+
+    val currentlyGlowing: Boolean
+        get() = isCurrentlyGlowingHandle.invoke(handle) as Boolean
+
+    val lerpTargetZ: Double
+        get() = lerpTargetZHandle.invoke(handle) as Double
+
+    val lerpTargetYRot: Float
+        get() = lerpTargetYRotHandle.invoke(handle) as Float
+
+    val mainHandItem: WrapperItemStack
+        get() = WrapperItemStack(getMainHandItemHandle.invoke(handle))
+
+    fun canUsePortal(arg0: Boolean): Boolean {
+        return canUsePortalHandle.invoke(handle, arg0) as Boolean
+    }
+
+    val lerpTargetY: Double
+        get() = lerpTargetYHandle.invoke(handle) as Double
+
+    val lerpTargetXRot: Float
+        get() = lerpTargetXRotHandle.invoke(handle) as Float
+
+    val offhandItem: WrapperItemStack
+        get() = WrapperItemStack(getOffhandItemHandle.invoke(handle))
+
+    fun eat(arg0: WrapperLevel, arg1: WrapperItemStack): WrapperItemStack {
+        return WrapperItemStack(eatHandle.invoke(handle, arg0.handle, arg1.handle))
+    }
+
+    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
+        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
+    val blocking: Boolean
+        get() = isBlockingHandle.invoke(handle) as Boolean
+
+    val hurtDir: Float
+        get() = getHurtDirHandle.invoke(handle) as Float
+
+    fun getEffect(arg0: WrapperHolder): WrapperMobEffectInstance {
+        return WrapperMobEffectInstance(getEffectHandle.invoke(handle, arg0.handle))
+    }
+
+    val shieldBlockingDelay: Int
+        get() = getShieldBlockingDelayHandle.invoke(handle) as Int
+
+    val absorptionAmount: Float
+        get() = getAbsorptionAmountHandle.invoke(handle) as Float
+
+    val canBreatheUnderwater: Boolean
+        get() = canBreatheUnderwaterHandle.invoke(handle) as Boolean
+
+    val shouldDropExperience: Boolean
+        get() = shouldDropExperienceHandle.invoke(handle) as Boolean
 
     fun setCombatTracker(value: WrapperCombatTracker) {
         combatTrackerSetterHandle.invoke(handle, value.handle)

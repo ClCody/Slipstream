@@ -11,16 +11,19 @@ value class WrapperTooltipContext(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.item.Item\$TooltipContext") }
         private val lookup = MethodHandles.lookup()
 
+        val registriesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "registries", MethodType.methodType(Class.forName("net.minecraft.core.HolderLookup\$Provider")))
+        }
         val mapDataHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "mapData", MethodType.methodType(Class.forName("net.minecraft.world.level.saveddata.maps.MapItemSavedData"), Class.forName("net.minecraft.world.level.saveddata.maps.MapId")))
         }
         val tickRateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "tickRate", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val registriesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "registries", MethodType.methodType(Class.forName("net.minecraft.core.HolderLookup\$Provider")))
-        }
     }
+
+    val registries: WrapperProvider
+        get() = WrapperProvider(registriesHandle.invoke(handle))
 
     fun mapData(arg0: WrapperMapId): WrapperMapItemSavedData {
         return WrapperMapItemSavedData(mapDataHandle.invoke(handle, arg0.handle))
@@ -28,8 +31,5 @@ value class WrapperTooltipContext(val handle: Any) {
 
     val tickRate: Float
         get() = tickRateHandle.invoke(handle) as Float
-
-    val registries: WrapperProvider
-        get() = WrapperProvider(registriesHandle.invoke(handle))
 
 }

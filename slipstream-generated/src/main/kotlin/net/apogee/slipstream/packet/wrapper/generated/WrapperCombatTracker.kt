@@ -11,11 +11,11 @@ value class WrapperCombatTracker(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.damagesource.CombatTracker") }
         private val lookup = MethodHandles.lookup()
 
-        val getDeathMessageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDeathMessage", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
         val getCombatDurationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCombatDuration", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getDeathMessageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDeathMessage", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
         val lastDamageTimeSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastDamageTime")
@@ -44,11 +44,11 @@ value class WrapperCombatTracker(val handle: Any) {
         }
     }
 
-    val deathMessage: WrapperComponent
-        get() = WrapperComponent(getDeathMessageHandle.invoke(handle))
-
     val combatDuration: Int
         get() = getCombatDurationHandle.invoke(handle) as Int
+
+    val deathMessage: WrapperComponent
+        get() = WrapperComponent(getDeathMessageHandle.invoke(handle))
 
     fun setLastDamageTime(value: Int) {
         lastDamageTimeSetterHandle.invoke(handle, value)

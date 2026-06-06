@@ -14,41 +14,41 @@ value class WrapperBlockHitResult(val handle: Any) {
         val getTypeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getType", MethodType.methodType(Class.forName("net.minecraft.world.phys.HitResult\$Type")))
         }
+        val getBlockPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        }
         val withDirectionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "withDirection", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult"), Class.forName("net.minecraft.core.Direction")))
+        }
+        val withPositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "withPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult"), Class.forName("net.minecraft.core.BlockPos")))
         }
         val getDirectionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDirection", MethodType.methodType(Class.forName("net.minecraft.core.Direction")))
         }
-        val getBlockPosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
-        }
         val isInsideHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isInside", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val withPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "withPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.BlockHitResult"), Class.forName("net.minecraft.core.BlockPos")))
         }
     }
 
     val type: Any
         get() = getTypeHandle.invoke(handle) as Any
 
+    val blockPos: WrapperBlockPos
+        get() = WrapperBlockPos(getBlockPosHandle.invoke(handle))
+
     fun withDirection(arg0: Any): WrapperBlockHitResult {
         return WrapperBlockHitResult(withDirectionHandle.invoke(handle, arg0))
+    }
+
+    fun withPosition(arg0: WrapperBlockPos): WrapperBlockHitResult {
+        return WrapperBlockHitResult(withPositionHandle.invoke(handle, arg0.handle))
     }
 
     val direction: Any
         get() = getDirectionHandle.invoke(handle) as Any
 
-    val blockPos: WrapperBlockPos
-        get() = WrapperBlockPos(getBlockPosHandle.invoke(handle))
-
     val inside: Boolean
         get() = isInsideHandle.invoke(handle) as Boolean
-
-    fun withPosition(arg0: WrapperBlockPos): WrapperBlockHitResult {
-        return WrapperBlockHitResult(withPositionHandle.invoke(handle, arg0.handle))
-    }
 
 }

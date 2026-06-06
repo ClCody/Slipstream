@@ -14,11 +14,11 @@ value class WrapperPlayerEnderChestContainer(val handle: Any) {
         val getLocationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLocation", MethodType.methodType(Class.forName("org.bukkit.Location")))
         }
-        val stillValidHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stillValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
-        }
         val createTagHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "createTag", MethodType.methodType(Class.forName("net.minecraft.nbt.ListTag"), Class.forName("net.minecraft.core.HolderLookup\$Provider")))
+        }
+        val stillValidHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stillValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
         }
         val isActiveChestHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isActiveChest", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.block.entity.EnderChestBlockEntity")))
@@ -36,12 +36,12 @@ value class WrapperPlayerEnderChestContainer(val handle: Any) {
     val location: Any
         get() = getLocationHandle.invoke(handle) as Any
 
-    fun stillValid(arg0: WrapperPlayer): Boolean {
-        return stillValidHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
     fun createTag(arg0: WrapperProvider): WrapperListTag {
         return WrapperListTag(createTagHandle.invoke(handle, arg0.handle))
+    }
+
+    fun stillValid(arg0: WrapperPlayer): Boolean {
+        return stillValidHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     fun isActiveChest(arg0: WrapperEnderChestBlockEntity): Boolean {

@@ -32,14 +32,14 @@ value class WrapperRandomSource(val handle: Any) {
         val forkHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "fork", MethodType.methodType(Class.forName("net.minecraft.util.RandomSource")))
         }
+        val nextIntBetweenInclusiveHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "nextIntBetweenInclusive", MethodType.methodType(Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
         val forkPositionalHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "forkPositional", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.PositionalRandomFactory")))
         }
         val triangleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "triangle", MethodType.methodType(Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
-        }
-        val nextIntBetweenInclusiveHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "nextIntBetweenInclusive", MethodType.methodType(Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
     }
 
@@ -65,15 +65,15 @@ value class WrapperRandomSource(val handle: Any) {
     val fork: WrapperRandomSource
         get() = WrapperRandomSource(forkHandle.invoke(handle))
 
+    fun nextIntBetweenInclusive(arg0: Int, arg1: Int): Int {
+        return nextIntBetweenInclusiveHandle.invoke(handle, arg0, arg1) as Int
+    }
+
     val forkPositional: WrapperPositionalRandomFactory
         get() = WrapperPositionalRandomFactory(forkPositionalHandle.invoke(handle))
 
     fun triangle(arg0: Double, arg1: Double): Double {
         return triangleHandle.invoke(handle, arg0, arg1) as Double
-    }
-
-    fun nextIntBetweenInclusive(arg0: Int, arg1: Int): Int {
-        return nextIntBetweenInclusiveHandle.invoke(handle, arg0, arg1) as Int
     }
 
 }

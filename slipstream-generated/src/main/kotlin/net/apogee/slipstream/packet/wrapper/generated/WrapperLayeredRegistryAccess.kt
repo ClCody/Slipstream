@@ -14,17 +14,17 @@ value class WrapperLayeredRegistryAccess(val handle: Any) {
         val getLayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLayer", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen"), Class.forName("java.lang.Object")))
         }
+        val replaceFromHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "replaceFrom", MethodType.methodType(Class.forName("net.minecraft.core.LayeredRegistryAccess"), Class.forName("java.lang.Object"), Class.forName("[Lnet.minecraft.core.RegistryAccess\$Frozen;")))
+        }
         val compositeAccessHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "compositeAccess", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen")))
-        }
-        val getAccessFromHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAccessFrom", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen"), Class.forName("java.lang.Object")))
         }
         val getAccessForLoadingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAccessForLoading", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen"), Class.forName("java.lang.Object")))
         }
-        val replaceFromHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "replaceFrom", MethodType.methodType(Class.forName("net.minecraft.core.LayeredRegistryAccess"), Class.forName("java.lang.Object"), Class.forName("[Lnet.minecraft.core.RegistryAccess\$Frozen;")))
+        val getAccessFromHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAccessFrom", MethodType.methodType(Class.forName("net.minecraft.core.RegistryAccess\$Frozen"), Class.forName("java.lang.Object")))
         }
     }
 
@@ -32,19 +32,19 @@ value class WrapperLayeredRegistryAccess(val handle: Any) {
         return getLayerHandle.invoke(handle, arg0) as Any
     }
 
+    fun replaceFrom(arg0: Any, arg1: Any): WrapperLayeredRegistryAccess {
+        return WrapperLayeredRegistryAccess(replaceFromHandle.invoke(handle, arg0, arg1))
+    }
+
     val compositeAccess: Any
         get() = compositeAccessHandle.invoke(handle) as Any
-
-    fun getAccessFrom(arg0: Any): Any {
-        return getAccessFromHandle.invoke(handle, arg0) as Any
-    }
 
     fun getAccessForLoading(arg0: Any): Any {
         return getAccessForLoadingHandle.invoke(handle, arg0) as Any
     }
 
-    fun replaceFrom(arg0: Any, arg1: Any): WrapperLayeredRegistryAccess {
-        return WrapperLayeredRegistryAccess(replaceFromHandle.invoke(handle, arg0, arg1))
+    fun getAccessFrom(arg0: Any): Any {
+        return getAccessFromHandle.invoke(handle, arg0) as Any
     }
 
 }

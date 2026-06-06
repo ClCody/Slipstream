@@ -29,11 +29,11 @@ value class WrapperVec2(val handle: Any) {
         val negatedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "negated", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec2")))
         }
-        val lengthSquaredHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "lengthSquared", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val distanceToSqrHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "distanceToSqr", MethodType.methodType(Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec2")))
+        }
+        val lengthSquaredHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "lengthSquared", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
     }
 
@@ -58,11 +58,11 @@ value class WrapperVec2(val handle: Any) {
     val negated: WrapperVec2
         get() = WrapperVec2(negatedHandle.invoke(handle))
 
-    val lengthSquared: Float
-        get() = lengthSquaredHandle.invoke(handle) as Float
-
     fun distanceToSqr(arg0: WrapperVec2): Float {
         return distanceToSqrHandle.invoke(handle, arg0.handle) as Float
     }
+
+    val lengthSquared: Float
+        get() = lengthSquaredHandle.invoke(handle) as Float
 
 }

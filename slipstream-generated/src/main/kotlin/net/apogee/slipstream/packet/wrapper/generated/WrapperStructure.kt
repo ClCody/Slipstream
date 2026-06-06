@@ -20,20 +20,20 @@ value class WrapperStructure(val handle: Any) {
         val generateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "generate", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.StructureStart"), Class.forName("net.minecraft.core.RegistryAccess"), Class.forName("net.minecraft.world.level.chunk.ChunkGenerator"), Class.forName("net.minecraft.world.level.biome.BiomeSource"), Class.forName("net.minecraft.world.level.levelgen.RandomState"), Class.forName("net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager"), Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.ChunkPos"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.LevelHeightAccessor"), Class.forName("java.util.function.Predicate")))
         }
-        val adjustBoundingBoxHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "adjustBoundingBox", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox")))
-        }
         val terrainAdaptationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "terrainAdaptation", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.TerrainAdjustment")))
         }
-        val biomesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "biomes", MethodType.methodType(Class.forName("net.minecraft.core.HolderSet")))
+        val adjustBoundingBoxHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "adjustBoundingBox", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox"), Class.forName("net.minecraft.world.level.levelgen.structure.BoundingBox")))
+        }
+        val spawnOverridesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "spawnOverrides", MethodType.methodType(Class.forName("java.util.Map")))
         }
         val findValidGenerationPointHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "findValidGenerationPoint", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.level.levelgen.structure.Structure\$GenerationContext")))
         }
-        val spawnOverridesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "spawnOverrides", MethodType.methodType(Class.forName("java.util.Map")))
+        val biomesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "biomes", MethodType.methodType(Class.forName("net.minecraft.core.HolderSet")))
         }
     }
 
@@ -47,21 +47,21 @@ value class WrapperStructure(val handle: Any) {
         return WrapperStructureStart(generateHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle, arg3.handle, arg4.handle, arg5, arg6.handle, arg7, arg8.handle, arg9))
     }
 
+    val terrainAdaptation: Any
+        get() = terrainAdaptationHandle.invoke(handle) as Any
+
     fun adjustBoundingBox(arg0: WrapperBoundingBox): WrapperBoundingBox {
         return WrapperBoundingBox(adjustBoundingBoxHandle.invoke(handle, arg0.handle))
     }
 
-    val terrainAdaptation: Any
-        get() = terrainAdaptationHandle.invoke(handle) as Any
-
-    val biomes: WrapperHolderSet
-        get() = WrapperHolderSet(biomesHandle.invoke(handle))
+    val spawnOverrides: Any
+        get() = spawnOverridesHandle.invoke(handle) as Any
 
     fun findValidGenerationPoint(arg0: WrapperGenerationContext): Any {
         return findValidGenerationPointHandle.invoke(handle, arg0.handle) as Any
     }
 
-    val spawnOverrides: Any
-        get() = spawnOverridesHandle.invoke(handle) as Any
+    val biomes: WrapperHolderSet
+        get() = WrapperHolderSet(biomesHandle.invoke(handle))
 
 }

@@ -20,11 +20,11 @@ value class WrapperFoodData(val handle: Any) {
         val getSaturationLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSaturationLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getExhaustionLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getExhaustionLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val getLastFoodLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLastFoodLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getExhaustionLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getExhaustionLevel", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val foodLevelSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("foodLevel")
@@ -82,11 +82,11 @@ value class WrapperFoodData(val handle: Any) {
     val saturationLevel: Float
         get() = getSaturationLevelHandle.invoke(handle) as Float
 
-    val exhaustionLevel: Float
-        get() = getExhaustionLevelHandle.invoke(handle) as Float
-
     val lastFoodLevel: Int
         get() = getLastFoodLevelHandle.invoke(handle) as Int
+
+    val exhaustionLevel: Float
+        get() = getExhaustionLevelHandle.invoke(handle) as Float
 
     fun setFoodLevel(value: Int) {
         foodLevelSetterHandle.invoke(handle, value)

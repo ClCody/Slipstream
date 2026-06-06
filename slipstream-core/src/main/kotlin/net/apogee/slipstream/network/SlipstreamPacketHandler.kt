@@ -36,6 +36,13 @@ class SlipstreamPacketHandler(
         super.handlerAdded(ctx)
     }
 
+    override fun channelInactive(ctx: ChannelHandlerContext) {
+        inboundAwaiters.clear()
+        inboundQueue.clear()
+        outboundQueue.clear()
+        super.channelInactive(ctx)
+    }
+
     /**
      * Безопасное добавление awaiter-а через Netty EventLoop.
      */

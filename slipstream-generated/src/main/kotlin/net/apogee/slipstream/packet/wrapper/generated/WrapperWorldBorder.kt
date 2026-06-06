@@ -14,17 +14,11 @@ value class WrapperWorldBorder(val handle: Any) {
         val getSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSize", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val isWithinBoundsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isWithinBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
-        }
-        val getDistanceToBorderHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDistanceToBorder", MethodType.methodType(Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
+        val getLerpRemainingTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLerpRemainingTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
         }
         val isInsideCloseToBorderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isInsideCloseToBorder", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.phys.AABB")))
-        }
-        val getAbsoluteMaxSizeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAbsoluteMaxSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getWarningBlocksHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWarningBlocks", MethodType.methodType(Int::class.javaPrimitiveType!!))
@@ -32,29 +26,38 @@ value class WrapperWorldBorder(val handle: Any) {
         val getWarningTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWarningTime", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
+        val getAbsoluteMaxSizeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAbsoluteMaxSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
         val getLerpTargetHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLerpTarget", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getDamageSafeZoneHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDamageSafeZone", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getDamagePerBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDamagePerBlock", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getCenterZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCenterZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getCenterXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCenterX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getCollisionShapeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCollisionShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape")))
         }
-        val clampToBoundsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "clampToBounds", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.core.BlockPos")))
+        val isWithinBoundsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isWithinBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos")))
         }
-        val isBlockInBoundsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isBlockInBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getLerpSpeedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLerpSpeed", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val isChunkInBoundsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isChunkInBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getMinZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMinZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val createSettingsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "createSettings", MethodType.methodType(Class.forName("net.minecraft.world.level.border.WorldBorder\$Settings")))
         }
         val getMaxXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMaxX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getMinZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMinZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getMinXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMinX", MethodType.methodType(Double::class.javaPrimitiveType!!))
@@ -65,23 +68,20 @@ value class WrapperWorldBorder(val handle: Any) {
         val getStatusHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStatus", MethodType.methodType(Class.forName("net.minecraft.world.level.border.BorderStatus")))
         }
-        val getCenterZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCenterZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val clampToBoundsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "clampToBounds", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
-        val getCenterXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCenterX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val isBlockInBoundsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isBlockInBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val getLerpRemainingTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLerpRemainingTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
+        val isChunkInBoundsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isChunkInBounds", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val getDamageSafeZoneHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDamageSafeZone", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        val getLerpSpeedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLerpSpeed", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
-        val getDamagePerBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDamagePerBlock", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val createSettingsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "createSettings", MethodType.methodType(Class.forName("net.minecraft.world.level.border.WorldBorder\$Settings")))
+        val getDistanceToBorderHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDistanceToBorder", MethodType.methodType(Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!))
         }
         val damagePerBlockSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("damagePerBlock")
@@ -133,20 +133,12 @@ value class WrapperWorldBorder(val handle: Any) {
     val size: Double
         get() = getSizeHandle.invoke(handle) as Double
 
-    fun isWithinBounds(arg0: Double, arg1: Double, arg2: Double): Boolean {
-        return isWithinBoundsHandle.invoke(handle, arg0, arg1, arg2) as Boolean
-    }
-
-    fun getDistanceToBorder(arg0: Double, arg1: Double): Double {
-        return getDistanceToBorderHandle.invoke(handle, arg0, arg1) as Double
-    }
+    val lerpRemainingTime: Long
+        get() = getLerpRemainingTimeHandle.invoke(handle) as Long
 
     fun isInsideCloseToBorder(arg0: WrapperEntity, arg1: WrapperAABB): Boolean {
         return isInsideCloseToBorderHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
     }
-
-    val absoluteMaxSize: Int
-        get() = getAbsoluteMaxSizeHandle.invoke(handle) as Int
 
     val warningBlocks: Int
         get() = getWarningBlocksHandle.invoke(handle) as Int
@@ -154,32 +146,39 @@ value class WrapperWorldBorder(val handle: Any) {
     val warningTime: Int
         get() = getWarningTimeHandle.invoke(handle) as Int
 
+    val absoluteMaxSize: Int
+        get() = getAbsoluteMaxSizeHandle.invoke(handle) as Int
+
     val lerpTarget: Double
         get() = getLerpTargetHandle.invoke(handle) as Double
+
+    val damageSafeZone: Double
+        get() = getDamageSafeZoneHandle.invoke(handle) as Double
+
+    val damagePerBlock: Double
+        get() = getDamagePerBlockHandle.invoke(handle) as Double
+
+    val centerZ: Double
+        get() = getCenterZHandle.invoke(handle) as Double
+
+    val centerX: Double
+        get() = getCenterXHandle.invoke(handle) as Double
 
     val collisionShape: WrapperVoxelShape
         get() = WrapperVoxelShape(getCollisionShapeHandle.invoke(handle))
 
-    fun clampToBounds(arg0: WrapperBlockPos): WrapperBlockPos {
-        return WrapperBlockPos(clampToBoundsHandle.invoke(handle, arg0.handle))
+    fun isWithinBounds(arg0: WrapperBlockPos): Boolean {
+        return isWithinBoundsHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    fun isBlockInBounds(arg0: Int, arg1: Int): Boolean {
-        return isBlockInBoundsHandle.invoke(handle, arg0, arg1) as Boolean
-    }
-
-    val lerpSpeed: Double
-        get() = getLerpSpeedHandle.invoke(handle) as Double
-
-    fun isChunkInBounds(arg0: Int, arg1: Int): Boolean {
-        return isChunkInBoundsHandle.invoke(handle, arg0, arg1) as Boolean
-    }
-
-    val minZ: Double
-        get() = getMinZHandle.invoke(handle) as Double
+    val createSettings: WrapperSettings
+        get() = WrapperSettings(createSettingsHandle.invoke(handle))
 
     val maxX: Double
         get() = getMaxXHandle.invoke(handle) as Double
+
+    val minZ: Double
+        get() = getMinZHandle.invoke(handle) as Double
 
     val minX: Double
         get() = getMinXHandle.invoke(handle) as Double
@@ -190,23 +189,24 @@ value class WrapperWorldBorder(val handle: Any) {
     val status: Any
         get() = getStatusHandle.invoke(handle) as Any
 
-    val centerZ: Double
-        get() = getCenterZHandle.invoke(handle) as Double
+    fun clampToBounds(arg0: Double, arg1: Double, arg2: Double): WrapperBlockPos {
+        return WrapperBlockPos(clampToBoundsHandle.invoke(handle, arg0, arg1, arg2))
+    }
 
-    val centerX: Double
-        get() = getCenterXHandle.invoke(handle) as Double
+    fun isBlockInBounds(arg0: Int, arg1: Int): Boolean {
+        return isBlockInBoundsHandle.invoke(handle, arg0, arg1) as Boolean
+    }
 
-    val lerpRemainingTime: Long
-        get() = getLerpRemainingTimeHandle.invoke(handle) as Long
+    fun isChunkInBounds(arg0: Int, arg1: Int): Boolean {
+        return isChunkInBoundsHandle.invoke(handle, arg0, arg1) as Boolean
+    }
 
-    val damageSafeZone: Double
-        get() = getDamageSafeZoneHandle.invoke(handle) as Double
+    val lerpSpeed: Double
+        get() = getLerpSpeedHandle.invoke(handle) as Double
 
-    val damagePerBlock: Double
-        get() = getDamagePerBlockHandle.invoke(handle) as Double
-
-    val createSettings: WrapperSettings
-        get() = WrapperSettings(createSettingsHandle.invoke(handle))
+    fun getDistanceToBorder(arg0: Double, arg1: Double): Double {
+        return getDistanceToBorderHandle.invoke(handle, arg0, arg1) as Double
+    }
 
     fun setDamagePerBlock(value: Double) {
         damagePerBlockSetterHandle.invoke(handle, value)

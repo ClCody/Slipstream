@@ -23,11 +23,11 @@ value class WrapperSynchedEntityData(val handle: Any) {
         val packAllHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "packAll", MethodType.methodType(Class.forName("java.util.List")))
         }
-        val getNonDefaultValuesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNonDefaultValues", MethodType.methodType(Class.forName("java.util.List")))
-        }
         val packDirtyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "packDirty", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val getNonDefaultValuesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNonDefaultValues", MethodType.methodType(Class.forName("java.util.List")))
         }
         val isDirtySetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("isDirty")
@@ -50,11 +50,11 @@ value class WrapperSynchedEntityData(val handle: Any) {
     val packAll: Any
         get() = packAllHandle.invoke(handle) as Any
 
-    val nonDefaultValues: Any
-        get() = getNonDefaultValuesHandle.invoke(handle) as Any
-
     val packDirty: Any
         get() = packDirtyHandle.invoke(handle) as Any
+
+    val nonDefaultValues: Any
+        get() = getNonDefaultValuesHandle.invoke(handle) as Any
 
     fun setIsDirty(value: Boolean) {
         isDirtySetterHandle.invoke(handle, value)

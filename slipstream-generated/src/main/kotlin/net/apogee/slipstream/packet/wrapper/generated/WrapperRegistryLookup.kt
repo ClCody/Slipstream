@@ -17,11 +17,11 @@ value class WrapperRegistryLookup(val handle: Any) {
         val filterFeaturesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "filterFeatures", MethodType.methodType(Class.forName("net.minecraft.core.HolderLookup\$RegistryLookup"), Class.forName("net.minecraft.world.flag.FeatureFlagSet")))
         }
-        val filterElementsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "filterElements", MethodType.methodType(Class.forName("net.minecraft.core.HolderLookup\$RegistryLookup"), Class.forName("java.util.function.Predicate")))
-        }
         val registryLifecycleHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "registryLifecycle", MethodType.methodType(Class.forName("com.mojang.serialization.Lifecycle")))
+        }
+        val filterElementsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "filterElements", MethodType.methodType(Class.forName("net.minecraft.core.HolderLookup\$RegistryLookup"), Class.forName("java.util.function.Predicate")))
         }
     }
 
@@ -32,11 +32,11 @@ value class WrapperRegistryLookup(val handle: Any) {
         return WrapperRegistryLookup(filterFeaturesHandle.invoke(handle, arg0.handle))
     }
 
+    val registryLifecycle: Any
+        get() = registryLifecycleHandle.invoke(handle) as Any
+
     fun filterElements(arg0: Any): WrapperRegistryLookup {
         return WrapperRegistryLookup(filterElementsHandle.invoke(handle, arg0))
     }
-
-    val registryLifecycle: Any
-        get() = registryLifecycleHandle.invoke(handle) as Any
 
 }

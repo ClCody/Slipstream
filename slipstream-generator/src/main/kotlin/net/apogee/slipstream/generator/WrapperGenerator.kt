@@ -287,18 +287,32 @@ fun generateWrapper(clazz: Class<*>, outputDir: File, classesWithWrappers: Set<C
 fun generateExtensionsFile(wrapperNames: List<String>, outputDir: File) {
     val sb = StringBuilder()
     sb.append("package net.apogee.slipstream.packet.wrapper.generated\n\n")
+    sb.append("import java.lang.ClassValue\n\n")
     sb.append("/**\n")
     sb.append(" * Универсальный extension для type-safe проверки и каста NMS пакетов и структур.\n")
     sb.append(" * Использование: val movePacket = packet.wrapAs<WrapperClientboundMoveEntityPacket>()\n")
     sb.append(" */\n")
+    
+    sb.append("class WrapperInfo(val packetClass: Class<*>, val constructor: (Any) -> Any)\n\n")
+    
+    sb.append("val wrapperRegistry = object : ClassValue<WrapperInfo?>() {\n")
+    sb.append("    override fun computeValue(type: Class<*>): WrapperInfo? {\n")
+    sb.append("        return when (type.name) {\n")
+    for (name in wrapperNames) {
+        sb.append("            \"net.apogee.slipstream.packet.wrapper.generated.$name\" -> WrapperInfo($name.packetClass) { $name(it) }\n")
+    }
+    sb.append("            else -> null\n")
+    sb.append("        }\n")
+    sb.append("    }\n")
+    sb.append("}\n\n")
+
     sb.append("@Suppress(\"UNCHECKED_CAST\")\n")
     sb.append("inline fun <reified T : Any> Any.wrapAs(): T? {\n")
-    sb.append("    return when (T::class) {\n")
-    for (name in wrapperNames) {
-        sb.append("        $name::class -> if ($name.packetClass.isInstance(this)) $name(this) as T else null\n")
-    }
-    sb.append("        else -> null\n")
+    sb.append("    val info = wrapperRegistry.get(T::class.java)\n")
+    sb.append("    if (info != null && info.packetClass.isInstance(this)) {\n")
+    sb.append("        return info.constructor(this) as T\n")
     sb.append("    }\n")
+    sb.append("    return null\n")
     sb.append("}\n")
     
     File(outputDir, "PacketExtensions.kt").writeText(sb.toString())

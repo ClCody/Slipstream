@@ -14,11 +14,11 @@ value class WrapperClipContext(val handle: Any) {
         val getFromHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFrom", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
         }
-        val getBlockShapeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBlockShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.world.level.block.state.BlockState"), Class.forName("net.minecraft.world.level.BlockGetter"), Class.forName("net.minecraft.core.BlockPos")))
-        }
         val getFluidShapeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFluidShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.world.level.material.FluidState"), Class.forName("net.minecraft.world.level.BlockGetter"), Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val getBlockShapeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBlockShape", MethodType.methodType(Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.world.level.block.state.BlockState"), Class.forName("net.minecraft.world.level.BlockGetter"), Class.forName("net.minecraft.core.BlockPos")))
         }
         val getToHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTo", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
@@ -28,12 +28,12 @@ value class WrapperClipContext(val handle: Any) {
     val from: WrapperVec3
         get() = WrapperVec3(getFromHandle.invoke(handle))
 
-    fun getBlockShape(arg0: WrapperBlockState, arg1: WrapperBlockGetter, arg2: WrapperBlockPos): WrapperVoxelShape {
-        return WrapperVoxelShape(getBlockShapeHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle))
-    }
-
     fun getFluidShape(arg0: WrapperFluidState, arg1: WrapperBlockGetter, arg2: WrapperBlockPos): WrapperVoxelShape {
         return WrapperVoxelShape(getFluidShapeHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle))
+    }
+
+    fun getBlockShape(arg0: WrapperBlockState, arg1: WrapperBlockGetter, arg2: WrapperBlockPos): WrapperVoxelShape {
+        return WrapperVoxelShape(getBlockShapeHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle))
     }
 
     val to: WrapperVec3

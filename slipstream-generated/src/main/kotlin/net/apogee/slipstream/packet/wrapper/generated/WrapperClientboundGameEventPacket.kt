@@ -14,21 +14,21 @@ value class WrapperClientboundGameEventPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getParamHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getParam", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val getEventHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEvent", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.ClientboundGameEventPacket\$Type")))
+        }
+        val getParamHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getParam", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val param: Float
-        get() = getParamHandle.invoke(handle) as Float
-
     val event: WrapperType
         get() = WrapperType(getEventHandle.invoke(handle))
+
+    val param: Float
+        get() = getParamHandle.invoke(handle) as Float
 
 }

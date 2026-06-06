@@ -14,8 +14,8 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getContainerIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getContainerId", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val getVillagerLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getVillagerLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val showProgressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "showProgress", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -23,8 +23,8 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
         val getVillagerXpHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getVillagerXp", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getVillagerLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getVillagerLevel", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val getContainerIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getContainerId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val canRestockHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canRestock", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -37,8 +37,8 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val containerId: Int
-        get() = getContainerIdHandle.invoke(handle) as Int
+    val villagerLevel: Int
+        get() = getVillagerLevelHandle.invoke(handle) as Int
 
     val showProgress: Boolean
         get() = showProgressHandle.invoke(handle) as Boolean
@@ -46,8 +46,8 @@ value class WrapperClientboundMerchantOffersPacket(val handle: Any) {
     val villagerXp: Int
         get() = getVillagerXpHandle.invoke(handle) as Int
 
-    val villagerLevel: Int
-        get() = getVillagerLevelHandle.invoke(handle) as Int
+    val containerId: Int
+        get() = getContainerIdHandle.invoke(handle) as Int
 
     val canRestock: Boolean
         get() = canRestockHandle.invoke(handle) as Boolean

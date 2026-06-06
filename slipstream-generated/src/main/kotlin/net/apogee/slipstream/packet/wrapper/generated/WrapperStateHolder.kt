@@ -20,20 +20,20 @@ value class WrapperStateHolder(val handle: Any) {
         val setValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "setValue", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property"), Class.forName("java.lang.Comparable")))
         }
-        val hasPropertyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasProperty", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.block.state.properties.Property")))
+        val trySetValueHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "trySetValue", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property"), Class.forName("java.lang.Comparable")))
         }
         val getOptionalValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getOptionalValue", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("net.minecraft.world.level.block.state.properties.Property")))
         }
-        val trySetValueHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "trySetValue", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property"), Class.forName("java.lang.Comparable")))
+        val cycleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "cycle", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property")))
+        }
+        val hasPropertyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasProperty", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.block.state.properties.Property")))
         }
         val getValuesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getValues", MethodType.methodType(Class.forName("java.util.Map")))
-        }
-        val cycleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "cycle", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.world.level.block.state.properties.Property")))
         }
         val neighboursSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("neighbours")
@@ -53,24 +53,24 @@ value class WrapperStateHolder(val handle: Any) {
         return setValueHandle.invoke(handle, arg0.handle, arg1) as Any
     }
 
-    fun hasProperty(arg0: WrapperProperty): Boolean {
-        return hasPropertyHandle.invoke(handle, arg0.handle) as Boolean
+    fun trySetValue(arg0: WrapperProperty, arg1: Any): Any {
+        return trySetValueHandle.invoke(handle, arg0.handle, arg1) as Any
     }
 
     fun getOptionalValue(arg0: WrapperProperty): Any {
         return getOptionalValueHandle.invoke(handle, arg0.handle) as Any
     }
 
-    fun trySetValue(arg0: WrapperProperty, arg1: Any): Any {
-        return trySetValueHandle.invoke(handle, arg0.handle, arg1) as Any
+    fun cycle(arg0: WrapperProperty): Any {
+        return cycleHandle.invoke(handle, arg0.handle) as Any
+    }
+
+    fun hasProperty(arg0: WrapperProperty): Boolean {
+        return hasPropertyHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     val values: Any
         get() = getValuesHandle.invoke(handle) as Any
-
-    fun cycle(arg0: WrapperProperty): Any {
-        return cycleHandle.invoke(handle, arg0.handle) as Any
-    }
 
     fun setNeighbours(value: Any) {
         neighboursSetterHandle.invoke(handle, value)

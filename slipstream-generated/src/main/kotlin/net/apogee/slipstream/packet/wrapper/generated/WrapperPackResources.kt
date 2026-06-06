@@ -17,20 +17,20 @@ value class WrapperPackResources(val handle: Any) {
         val locationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "location", MethodType.methodType(Class.forName("net.minecraft.server.packs.PackLocationInfo")))
         }
-        val getNamespacesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNamespaces", MethodType.methodType(Class.forName("java.util.Set"), Class.forName("net.minecraft.server.packs.PackType")))
+        val getRootResourceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRootResource", MethodType.methodType(Class.forName("net.minecraft.server.packs.resources.IoSupplier"), Class.forName("[Ljava.lang.String;")))
         }
         val knownPackInfoHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "knownPackInfo", MethodType.methodType(Class.forName("java.util.Optional")))
         }
-        val getRootResourceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRootResource", MethodType.methodType(Class.forName("net.minecraft.server.packs.resources.IoSupplier"), Class.forName("[Ljava.lang.String;")))
+        val getMetadataSectionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMetadataSection", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.server.packs.metadata.MetadataSectionSerializer")))
+        }
+        val getNamespacesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNamespaces", MethodType.methodType(Class.forName("java.util.Set"), Class.forName("net.minecraft.server.packs.PackType")))
         }
         val packIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "packId", MethodType.methodType(String::class.java))
-        }
-        val getMetadataSectionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMetadataSection", MethodType.methodType(Class.forName("java.lang.Object"), Class.forName("net.minecraft.server.packs.metadata.MetadataSectionSerializer")))
         }
     }
 
@@ -41,22 +41,22 @@ value class WrapperPackResources(val handle: Any) {
     val location: WrapperPackLocationInfo
         get() = WrapperPackLocationInfo(locationHandle.invoke(handle))
 
-    fun getNamespaces(arg0: Any): Any {
-        return getNamespacesHandle.invoke(handle, arg0) as Any
+    fun getRootResource(arg0: Any): WrapperIoSupplier {
+        return WrapperIoSupplier(getRootResourceHandle.invoke(handle, arg0))
     }
 
     val knownPackInfo: Any
         get() = knownPackInfoHandle.invoke(handle) as Any
 
-    fun getRootResource(arg0: Any): WrapperIoSupplier {
-        return WrapperIoSupplier(getRootResourceHandle.invoke(handle, arg0))
+    fun getMetadataSection(arg0: WrapperMetadataSectionSerializer): Any {
+        return getMetadataSectionHandle.invoke(handle, arg0.handle) as Any
+    }
+
+    fun getNamespaces(arg0: Any): Any {
+        return getNamespacesHandle.invoke(handle, arg0) as Any
     }
 
     val packId: String
         get() = packIdHandle.invoke(handle) as String
-
-    fun getMetadataSection(arg0: WrapperMetadataSectionSerializer): Any {
-        return getMetadataSectionHandle.invoke(handle, arg0.handle) as Any
-    }
 
 }

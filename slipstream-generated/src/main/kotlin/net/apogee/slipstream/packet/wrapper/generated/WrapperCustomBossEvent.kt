@@ -26,11 +26,11 @@ value class WrapperCustomBossEvent(val handle: Any) {
         val getBukkitEntityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBukkitEntity", MethodType.methodType(Class.forName("org.bukkit.boss.KeyedBossBar")))
         }
-        val getTextIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTextId", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
-        }
         val setPlayersHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "setPlayers", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.util.Collection")))
+        }
+        val getTextIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTextId", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceLocation")))
         }
         val valueSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("value")
@@ -65,12 +65,12 @@ value class WrapperCustomBossEvent(val handle: Any) {
     val bukkitEntity: Any
         get() = getBukkitEntityHandle.invoke(handle) as Any
 
-    val textId: WrapperResourceLocation
-        get() = WrapperResourceLocation(getTextIdHandle.invoke(handle))
-
     fun setPlayers(arg0: Any): Boolean {
         return setPlayersHandle.invoke(handle, arg0) as Boolean
     }
+
+    val textId: WrapperResourceLocation
+        get() = WrapperResourceLocation(getTextIdHandle.invoke(handle))
 
     fun setValue(value: Int) {
         valueSetterHandle.invoke(handle, value)

@@ -20,14 +20,14 @@ value class WrapperClientboundAddExperienceOrbPacket(val handle: Any) {
         val getIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
         val getXHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
     }
 
@@ -40,13 +40,13 @@ value class WrapperClientboundAddExperienceOrbPacket(val handle: Any) {
     val id: Int
         get() = getIdHandle.invoke(handle) as Int
 
-    val y: Double
-        get() = getYHandle.invoke(handle) as Double
-
     val x: Double
         get() = getXHandle.invoke(handle) as Double
 
     val z: Double
         get() = getZHandle.invoke(handle) as Double
+
+    val y: Double
+        get() = getYHandle.invoke(handle) as Double
 
 }

@@ -17,23 +17,14 @@ value class WrapperClientboundLevelParticlesPacket(val handle: Any) {
         val getCountHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getParticleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getParticle", MethodType.methodType(Class.forName("net.minecraft.core.particles.ParticleOptions")))
-        }
         val getMaxSpeedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMaxSpeed", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
+        val getParticleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getParticle", MethodType.methodType(Class.forName("net.minecraft.core.particles.ParticleOptions")))
+        }
         val isOverrideLimiterHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isOverrideLimiter", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getYHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val getXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
-        }
-        val getZHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
         val getYDistHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getYDist", MethodType.methodType(Float::class.javaPrimitiveType!!))
@@ -44,6 +35,15 @@ value class WrapperClientboundLevelParticlesPacket(val handle: Any) {
         val getZDistHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getZDist", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
+        val getXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getX", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getZHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getZ", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
+        val getYHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getY", MethodType.methodType(Double::class.javaPrimitiveType!!))
+        }
     }
 
     val type: WrapperPacketType
@@ -52,23 +52,14 @@ value class WrapperClientboundLevelParticlesPacket(val handle: Any) {
     val count: Int
         get() = getCountHandle.invoke(handle) as Int
 
-    val particle: WrapperParticleOptions
-        get() = WrapperParticleOptions(getParticleHandle.invoke(handle))
-
     val maxSpeed: Float
         get() = getMaxSpeedHandle.invoke(handle) as Float
 
+    val particle: WrapperParticleOptions
+        get() = WrapperParticleOptions(getParticleHandle.invoke(handle))
+
     val overrideLimiter: Boolean
         get() = isOverrideLimiterHandle.invoke(handle) as Boolean
-
-    val y: Double
-        get() = getYHandle.invoke(handle) as Double
-
-    val x: Double
-        get() = getXHandle.invoke(handle) as Double
-
-    val z: Double
-        get() = getZHandle.invoke(handle) as Double
 
     val yDist: Float
         get() = getYDistHandle.invoke(handle) as Float
@@ -78,5 +69,14 @@ value class WrapperClientboundLevelParticlesPacket(val handle: Any) {
 
     val zDist: Float
         get() = getZDistHandle.invoke(handle) as Float
+
+    val x: Double
+        get() = getXHandle.invoke(handle) as Double
+
+    val z: Double
+        get() = getZHandle.invoke(handle) as Double
+
+    val y: Double
+        get() = getYHandle.invoke(handle) as Double
 
 }

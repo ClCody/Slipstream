@@ -20,11 +20,11 @@ value class WrapperServerEntity(val handle: Any) {
         val getLastSentXRotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLastSentXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getLastSentYHeadRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastSentYHeadRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val getLastSentMovementHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLastSentMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
+        }
+        val getLastSentYHeadRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastSentYHeadRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val lastSentYRotSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastSentYRot")
@@ -92,11 +92,11 @@ value class WrapperServerEntity(val handle: Any) {
     val lastSentXRot: Float
         get() = getLastSentXRotHandle.invoke(handle) as Float
 
-    val lastSentYHeadRot: Float
-        get() = getLastSentYHeadRotHandle.invoke(handle) as Float
-
     val lastSentMovement: WrapperVec3
         get() = WrapperVec3(getLastSentMovementHandle.invoke(handle))
+
+    val lastSentYHeadRot: Float
+        get() = getLastSentYHeadRotHandle.invoke(handle) as Float
 
     fun setLastSentYRot(value: Int) {
         lastSentYRotSetterHandle.invoke(handle, value)

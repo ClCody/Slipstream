@@ -14,26 +14,8 @@ value class WrapperServerPlayer(val handle: Any) {
         val isSpectatorHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isSpectator", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getScoreboardHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getScoreboard", MethodType.methodType(Class.forName("net.minecraft.world.scores.Scoreboard")))
-        }
-        val mayInteractHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "mayInteract", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.core.BlockPos")))
-        }
         val allowsListingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "allowsListing", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val startRidingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "startRiding", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity"), Boolean::class.javaPrimitiveType!!))
-        }
-        val hurtHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
-        }
-        val teleportToHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "teleportTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerLevel"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Class.forName("java.util.Set"), Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!, Class.forName("org.bukkit.event.player.PlayerTeleportEvent\$TeleportCause")))
-        }
-        val openMenuHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "openMenu", MethodType.methodType(Class.forName("java.util.OptionalInt"), Class.forName("net.minecraft.world.MenuProvider")))
         }
         val isImmobileHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isImmobile", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
@@ -41,53 +23,59 @@ value class WrapperServerPlayer(val handle: Any) {
         val getCameraHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCamera", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
         }
+        val openMenuHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "openMenu", MethodType.methodType(Class.forName("java.util.OptionalInt"), Class.forName("net.minecraft.world.MenuProvider")))
+        }
         val getStatsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStats", MethodType.methodType(Class.forName("net.minecraft.stats.ServerStatsCounter")))
-        }
-        val getLastActionTimeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastActionTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
-        }
-        val getLastSectionPosHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastSectionPos", MethodType.methodType(Class.forName("net.minecraft.core.SectionPos")))
-        }
-        val hasDisconnectedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasDisconnected", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getIpAddressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getIpAddress", MethodType.methodType(String::class.java))
         }
-        val canChatInColorHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canChatInColor", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getRecipeBookHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRecipeBook", MethodType.methodType(Class.forName("net.minecraft.stats.ServerRecipeBook")))
         }
-        val getChatVisibilityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getChatVisibility", MethodType.methodType(Class.forName("net.minecraft.world.entity.player.ChatVisiblity")))
+        val hasDisconnectedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasDisconnected", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getAdvancementsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getAdvancements", MethodType.methodType(Class.forName("net.minecraft.server.PlayerAdvancements")))
+        val getLastSectionPosHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastSectionPos", MethodType.methodType(Class.forName("net.minecraft.core.SectionPos")))
         }
-        val awardRecipesHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "awardRecipes", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.util.Collection")))
+        val getTextFilterHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTextFilter", MethodType.methodType(Class.forName("net.minecraft.server.network.TextFilter")))
         }
         val resetRecipesHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "resetRecipes", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.util.Collection")))
         }
-        val isInvulnerableToHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isInvulnerableTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        val getChatVisibilityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getChatVisibility", MethodType.methodType(Class.forName("net.minecraft.world.entity.player.ChatVisiblity")))
         }
-        val changeDimensionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "changeDimension", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.level.portal.DimensionTransition")))
+        val getLastActionTimeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastActionTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
+        }
+        val awardRecipesHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "awardRecipes", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.util.Collection")))
+        }
+        val canChatInColorHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canChatInColor", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getAdvancementsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getAdvancements", MethodType.methodType(Class.forName("net.minecraft.server.PlayerAdvancements")))
+        }
+        val teleportToHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "teleportTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerLevel"), Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Double::class.javaPrimitiveType!!, Class.forName("java.util.Set"), Float::class.javaPrimitiveType!!, Float::class.javaPrimitiveType!!))
+        }
+        val `moonrise$getViewDistanceHolderHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$getViewDistanceHolder", MethodType.methodType(Class.forName("ca.spottedleaf.moonrise.patches.chunk_system.player.RegionizedPlayerChunkLoader\$ViewDistanceHolder")))
         }
         val callPortalEventHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "callPortalEvent", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.event.CraftPortalEvent"), Class.forName("net.minecraft.world.entity.Entity"), Class.forName("org.bukkit.Location"), Class.forName("org.bukkit.event.player.PlayerTeleportEvent\$TeleportCause"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val getKnownMovementHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getKnownMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
-        }
         val broadcastToPlayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "broadcastToPlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerPlayer")))
+        }
+        val getKnownMovementHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getKnownMovement", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
         }
         val getPlayerTimeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPlayerTime", MethodType.methodType(Long::class.javaPrimitiveType!!))
@@ -97,6 +85,12 @@ value class WrapperServerPlayer(val handle: Any) {
         }
         val setGameModeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "setGameMode", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.GameType")))
+        }
+        val getBukkitEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBukkitEntity", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.entity.CraftPlayer")))
+        }
+        val findRespawnPositionAndUseSpawnBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "findRespawnPositionAndUseSpawnBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.portal.DimensionTransition"), Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.portal.DimensionTransition\$PostDimensionTransition"), Class.forName("org.bukkit.event.player.PlayerRespawnEvent\$RespawnReason")))
         }
         val getChatSessionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChatSession", MethodType.methodType(Class.forName("net.minecraft.network.chat.RemoteChatSession")))
@@ -113,47 +107,50 @@ value class WrapperServerPlayer(val handle: Any) {
         val canHarmPlayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canHarmPlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
         }
+        val isRespawnForcedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isRespawnForced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
         val setRespawnPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "setRespawnPosition", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceKey"), Class.forName("net.minecraft.core.BlockPos"), Float::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Class.forName("org.bukkit.event.player.PlayerSpawnChangeEvent\$Cause")))
+            lookup.findVirtual(packetClass, "setRespawnPosition", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceKey"), Class.forName("net.minecraft.core.BlockPos"), Float::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!, Class.forName("com.destroystokyo.paper.event.player.PlayerSetSpawnEvent\$Cause")))
         }
         val startSleepInBedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "startSleepInBed", MethodType.methodType(Class.forName("com.mojang.datafixers.util.Either"), Class.forName("net.minecraft.core.BlockPos"), Boolean::class.javaPrimitiveType!!))
         }
-        val isRespawnForcedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isRespawnForced", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val adjustSpawnLocationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "adjustSpawnLocation", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos"), Class.forName("net.minecraft.server.level.ServerLevel"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val getTabListDisplayNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTabListDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        val isCreativeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isCreative", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val isChangingDimensionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isChangingDimension", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val startRidingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "startRiding", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity"), Boolean::class.javaPrimitiveType!!))
         }
-        val requestedViewDistanceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "requestedViewDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val serverLevelHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "serverLevel", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerLevel")))
         }
-        val `moonrise$isRealPlayerHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$isRealPlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val mayInteractHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "mayInteract", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.core.BlockPos")))
         }
-        val createCommonSpawnInfoHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "createCommonSpawnInfo", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.CommonPlayerSpawnInfo"), Class.forName("net.minecraft.server.level.ServerLevel")))
+        val getScoreboardHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getScoreboard", MethodType.methodType(Class.forName("net.minecraft.world.scores.Scoreboard")))
         }
-        val getRespawnDimensionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRespawnDimension", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
+        val isInvulnerableToHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isInvulnerableTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource")))
         }
-        val `moonrise$getChunkLoaderHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$getChunkLoader", MethodType.methodType(Class.forName("ca.spottedleaf.moonrise.patches.chunk_system.player.RegionizedPlayerChunkLoader\$PlayerChunkLoaderData")))
+        val changeDimensionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "changeDimension", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.world.level.portal.DimensionTransition")))
         }
-        val getWardenSpawnTrackerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getWardenSpawnTracker", MethodType.methodType(Class.forName("java.util.Optional")))
+        val hurtHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hurt", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.damagesource.DamageSource"), Float::class.javaPrimitiveType!!))
         }
-        val getChunkTrackingViewHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getChunkTrackingView", MethodType.methodType(Class.forName("net.minecraft.server.level.ChunkTrackingView")))
+        val dropHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "drop", MethodType.methodType(Class.forName("net.minecraft.world.entity.item.ItemEntity"), Class.forName("net.minecraft.world.item.ItemStack"), Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
         }
-        val nextContainerCounterHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "nextContainerCounter", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val clientInformationHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "clientInformation", MethodType.methodType(Class.forName("net.minecraft.server.level.ClientInformation")))
+        }
+        val getRaidOmenPositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRaidOmenPosition", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
         }
         val shouldFilterMessageToHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "shouldFilterMessageTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.server.level.ServerPlayer")))
@@ -161,32 +158,35 @@ value class WrapperServerPlayer(val handle: Any) {
         val isTextFilteringEnabledHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isTextFilteringEnabled", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getRaidOmenPositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRaidOmenPosition", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        val getWardenSpawnTrackerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getWardenSpawnTracker", MethodType.methodType(Class.forName("java.util.Optional")))
         }
-        val getBukkitEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBukkitEntity", MethodType.methodType(Class.forName("org.bukkit.craftbukkit.entity.CraftPlayer")))
+        val `moonrise$getChunkLoaderHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$getChunkLoader", MethodType.methodType(Class.forName("ca.spottedleaf.moonrise.patches.chunk_system.player.RegionizedPlayerChunkLoader\$PlayerChunkLoaderData")))
         }
-        val serverLevelHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "serverLevel", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerLevel")))
+        val `moonrise$isRealPlayerHandle`: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "moonrise\$isRealPlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val `moonrise$getViewDistanceHolderHandle`: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "moonrise\$getViewDistanceHolder", MethodType.methodType(Class.forName("ca.spottedleaf.moonrise.patches.chunk_system.player.RegionizedPlayerChunkLoader\$ViewDistanceHolder")))
+        val isChangingDimensionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isChangingDimension", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val findRespawnPositionAndUseSpawnBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "findRespawnPositionAndUseSpawnBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.portal.DimensionTransition"), Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.portal.DimensionTransition\$PostDimensionTransition"), Class.forName("org.bukkit.event.player.PlayerRespawnEvent\$RespawnReason")))
+        val getTabListDisplayNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTabListDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val dropHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "drop", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
+        val requestedViewDistanceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "requestedViewDistance", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val clientInformationHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "clientInformation", MethodType.methodType(Class.forName("net.minecraft.server.level.ClientInformation")))
+        val getRespawnDimensionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRespawnDimension", MethodType.methodType(Class.forName("net.minecraft.resources.ResourceKey")))
         }
-        val isCreativeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isCreative", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val nextContainerCounterHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "nextContainerCounter", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getTextFilterHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTextFilter", MethodType.methodType(Class.forName("net.minecraft.server.network.TextFilter")))
+        val createCommonSpawnInfoHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "createCommonSpawnInfo", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.CommonPlayerSpawnInfo"), Class.forName("net.minecraft.server.level.ServerLevel")))
+        }
+        val getChunkTrackingViewHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getChunkTrackingView", MethodType.methodType(Class.forName("net.minecraft.server.level.ChunkTrackingView")))
         }
         val lastSaveSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastSave")
@@ -548,31 +548,8 @@ value class WrapperServerPlayer(val handle: Any) {
     val spectator: Boolean
         get() = isSpectatorHandle.invoke(handle) as Boolean
 
-    val scoreboard: WrapperScoreboard
-        get() = WrapperScoreboard(getScoreboardHandle.invoke(handle))
-
-    fun mayInteract(arg0: WrapperLevel, arg1: WrapperBlockPos): Boolean {
-        return mayInteractHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
-    }
-
     val allowsListing: Boolean
         get() = allowsListingHandle.invoke(handle) as Boolean
-
-    fun startRiding(arg0: WrapperEntity, arg1: Boolean): Boolean {
-        return startRidingHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
-    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
-        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
-    }
-
-    fun teleportTo(arg0: WrapperServerLevel, arg1: Double, arg2: Double, arg3: Double, arg4: Any, arg5: Float, arg6: Float, arg7: Any): Boolean {
-        return teleportToHandle.invoke(handle, arg0.handle, arg1, arg2, arg3, arg4, arg5, arg6, arg7) as Boolean
-    }
-
-    fun openMenu(arg0: WrapperMenuProvider): Any {
-        return openMenuHandle.invoke(handle, arg0.handle) as Any
-    }
 
     val immobile: Boolean
         get() = isImmobileHandle.invoke(handle) as Boolean
@@ -580,59 +557,65 @@ value class WrapperServerPlayer(val handle: Any) {
     val camera: WrapperEntity
         get() = WrapperEntity(getCameraHandle.invoke(handle))
 
+    fun openMenu(arg0: WrapperMenuProvider): Any {
+        return openMenuHandle.invoke(handle, arg0.handle) as Any
+    }
+
     val stats: WrapperServerStatsCounter
         get() = WrapperServerStatsCounter(getStatsHandle.invoke(handle))
-
-    val lastActionTime: Long
-        get() = getLastActionTimeHandle.invoke(handle) as Long
-
-    val lastSectionPos: WrapperSectionPos
-        get() = WrapperSectionPos(getLastSectionPosHandle.invoke(handle))
-
-    val disconnected: Boolean
-        get() = hasDisconnectedHandle.invoke(handle) as Boolean
 
     val ipAddress: String
         get() = getIpAddressHandle.invoke(handle) as String
 
-    val canChatInColor: Boolean
-        get() = canChatInColorHandle.invoke(handle) as Boolean
-
     val recipeBook: WrapperServerRecipeBook
         get() = WrapperServerRecipeBook(getRecipeBookHandle.invoke(handle))
 
-    val chatVisibility: Any
-        get() = getChatVisibilityHandle.invoke(handle) as Any
+    val disconnected: Boolean
+        get() = hasDisconnectedHandle.invoke(handle) as Boolean
 
-    val advancements: WrapperPlayerAdvancements
-        get() = WrapperPlayerAdvancements(getAdvancementsHandle.invoke(handle))
+    val lastSectionPos: WrapperSectionPos
+        get() = WrapperSectionPos(getLastSectionPosHandle.invoke(handle))
 
-    fun awardRecipes(arg0: Any): Int {
-        return awardRecipesHandle.invoke(handle, arg0) as Int
-    }
+    val textFilter: WrapperTextFilter
+        get() = WrapperTextFilter(getTextFilterHandle.invoke(handle))
 
     fun resetRecipes(arg0: Any): Int {
         return resetRecipesHandle.invoke(handle, arg0) as Int
     }
 
-    fun isInvulnerableTo(arg0: WrapperDamageSource): Boolean {
-        return isInvulnerableToHandle.invoke(handle, arg0.handle) as Boolean
+    val chatVisibility: Any
+        get() = getChatVisibilityHandle.invoke(handle) as Any
+
+    val lastActionTime: Long
+        get() = getLastActionTimeHandle.invoke(handle) as Long
+
+    fun awardRecipes(arg0: Any): Int {
+        return awardRecipesHandle.invoke(handle, arg0) as Int
     }
 
-    fun changeDimension(arg0: WrapperDimensionTransition): WrapperEntity {
-        return WrapperEntity(changeDimensionHandle.invoke(handle, arg0.handle))
+    val canChatInColor: Boolean
+        get() = canChatInColorHandle.invoke(handle) as Boolean
+
+    val advancements: WrapperPlayerAdvancements
+        get() = WrapperPlayerAdvancements(getAdvancementsHandle.invoke(handle))
+
+    fun teleportTo(arg0: WrapperServerLevel, arg1: Double, arg2: Double, arg3: Double, arg4: Any, arg5: Float, arg6: Float): Boolean {
+        return teleportToHandle.invoke(handle, arg0.handle, arg1, arg2, arg3, arg4, arg5, arg6) as Boolean
     }
+
+    val `moonrise$getViewDistanceHolder`: Any
+        get() = `moonrise$getViewDistanceHolderHandle`.invoke(handle) as Any
 
     fun callPortalEvent(arg0: WrapperEntity, arg1: Any, arg2: Any, arg3: Int, arg4: Int): Any {
         return callPortalEventHandle.invoke(handle, arg0.handle, arg1, arg2, arg3, arg4) as Any
     }
 
-    val knownMovement: WrapperVec3
-        get() = WrapperVec3(getKnownMovementHandle.invoke(handle))
-
     fun broadcastToPlayer(arg0: WrapperServerPlayer): Boolean {
         return broadcastToPlayerHandle.invoke(handle, arg0.handle) as Boolean
     }
+
+    val knownMovement: WrapperVec3
+        get() = WrapperVec3(getKnownMovementHandle.invoke(handle))
 
     val playerTime: Long
         get() = getPlayerTimeHandle.invoke(handle) as Long
@@ -642,6 +625,13 @@ value class WrapperServerPlayer(val handle: Any) {
 
     fun setGameMode(arg0: Any): Boolean {
         return setGameModeHandle.invoke(handle, arg0) as Boolean
+    }
+
+    val bukkitEntity: Any
+        get() = getBukkitEntityHandle.invoke(handle) as Any
+
+    fun findRespawnPositionAndUseSpawnBlock(arg0: Boolean, arg1: WrapperPostDimensionTransition, arg2: Any): WrapperDimensionTransition {
+        return WrapperDimensionTransition(findRespawnPositionAndUseSpawnBlockHandle.invoke(handle, arg0, arg1.handle, arg2))
     }
 
     val chatSession: WrapperRemoteChatSession
@@ -661,6 +651,9 @@ value class WrapperServerPlayer(val handle: Any) {
         return canHarmPlayerHandle.invoke(handle, arg0.handle) as Boolean
     }
 
+    val respawnForced: Boolean
+        get() = isRespawnForcedHandle.invoke(handle) as Boolean
+
     fun setRespawnPosition(arg0: WrapperResourceKey, arg1: WrapperBlockPos, arg2: Float, arg3: Boolean, arg4: Boolean, arg5: Any): Boolean {
         return setRespawnPositionHandle.invoke(handle, arg0.handle, arg1.handle, arg2, arg3, arg4, arg5) as Boolean
     }
@@ -669,43 +662,48 @@ value class WrapperServerPlayer(val handle: Any) {
         return startSleepInBedHandle.invoke(handle, arg0.handle, arg1) as Any
     }
 
-    val respawnForced: Boolean
-        get() = isRespawnForcedHandle.invoke(handle) as Boolean
-
     fun adjustSpawnLocation(arg0: WrapperServerLevel, arg1: WrapperBlockPos): WrapperBlockPos {
         return WrapperBlockPos(adjustSpawnLocationHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
-    val tabListDisplayName: WrapperComponent
-        get() = WrapperComponent(getTabListDisplayNameHandle.invoke(handle))
+    val creative: Boolean
+        get() = isCreativeHandle.invoke(handle) as Boolean
 
-    val changingDimension: Boolean
-        get() = isChangingDimensionHandle.invoke(handle) as Boolean
-
-    val requestedViewDistance: Int
-        get() = requestedViewDistanceHandle.invoke(handle) as Int
-
-    val `moonrise$isRealPlayer`: Boolean
-        get() = `moonrise$isRealPlayerHandle`.invoke(handle) as Boolean
-
-    fun createCommonSpawnInfo(arg0: WrapperServerLevel): WrapperCommonPlayerSpawnInfo {
-        return WrapperCommonPlayerSpawnInfo(createCommonSpawnInfoHandle.invoke(handle, arg0.handle))
+    fun startRiding(arg0: WrapperEntity, arg1: Boolean): Boolean {
+        return startRidingHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
-    val respawnDimension: WrapperResourceKey
-        get() = WrapperResourceKey(getRespawnDimensionHandle.invoke(handle))
+    val serverLevel: WrapperServerLevel
+        get() = WrapperServerLevel(serverLevelHandle.invoke(handle))
 
-    val `moonrise$getChunkLoader`: Any
-        get() = `moonrise$getChunkLoaderHandle`.invoke(handle) as Any
+    fun mayInteract(arg0: WrapperLevel, arg1: WrapperBlockPos): Boolean {
+        return mayInteractHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
+    }
 
-    val wardenSpawnTracker: Any
-        get() = getWardenSpawnTrackerHandle.invoke(handle) as Any
+    val scoreboard: WrapperScoreboard
+        get() = WrapperScoreboard(getScoreboardHandle.invoke(handle))
 
-    val chunkTrackingView: WrapperChunkTrackingView
-        get() = WrapperChunkTrackingView(getChunkTrackingViewHandle.invoke(handle))
+    fun isInvulnerableTo(arg0: WrapperDamageSource): Boolean {
+        return isInvulnerableToHandle.invoke(handle, arg0.handle) as Boolean
+    }
 
-    val nextContainerCounter: Int
-        get() = nextContainerCounterHandle.invoke(handle) as Int
+    fun changeDimension(arg0: WrapperDimensionTransition): WrapperEntity {
+        return WrapperEntity(changeDimensionHandle.invoke(handle, arg0.handle))
+    }
+
+    fun hurt(arg0: WrapperDamageSource, arg1: Float): Boolean {
+        return hurtHandle.invoke(handle, arg0.handle, arg1) as Boolean
+    }
+
+    fun drop(arg0: WrapperItemStack, arg1: Boolean, arg2: Boolean): WrapperItemEntity {
+        return WrapperItemEntity(dropHandle.invoke(handle, arg0.handle, arg1, arg2))
+    }
+
+    val clientInformation: WrapperClientInformation
+        get() = WrapperClientInformation(clientInformationHandle.invoke(handle))
+
+    val raidOmenPosition: WrapperBlockPos
+        get() = WrapperBlockPos(getRaidOmenPositionHandle.invoke(handle))
 
     fun shouldFilterMessageTo(arg0: WrapperServerPlayer): Boolean {
         return shouldFilterMessageToHandle.invoke(handle, arg0.handle) as Boolean
@@ -714,34 +712,36 @@ value class WrapperServerPlayer(val handle: Any) {
     val textFilteringEnabled: Boolean
         get() = isTextFilteringEnabledHandle.invoke(handle) as Boolean
 
-    val raidOmenPosition: WrapperBlockPos
-        get() = WrapperBlockPos(getRaidOmenPositionHandle.invoke(handle))
+    val wardenSpawnTracker: Any
+        get() = getWardenSpawnTrackerHandle.invoke(handle) as Any
 
-    val bukkitEntity: Any
-        get() = getBukkitEntityHandle.invoke(handle) as Any
+    val `moonrise$getChunkLoader`: Any
+        get() = `moonrise$getChunkLoaderHandle`.invoke(handle) as Any
 
-    val serverLevel: WrapperServerLevel
-        get() = WrapperServerLevel(serverLevelHandle.invoke(handle))
+    val `moonrise$isRealPlayer`: Boolean
+        get() = `moonrise$isRealPlayerHandle`.invoke(handle) as Boolean
 
-    val `moonrise$getViewDistanceHolder`: Any
-        get() = `moonrise$getViewDistanceHolderHandle`.invoke(handle) as Any
+    val changingDimension: Boolean
+        get() = isChangingDimensionHandle.invoke(handle) as Boolean
 
-    fun findRespawnPositionAndUseSpawnBlock(arg0: Boolean, arg1: WrapperPostDimensionTransition, arg2: Any): WrapperDimensionTransition {
-        return WrapperDimensionTransition(findRespawnPositionAndUseSpawnBlockHandle.invoke(handle, arg0, arg1.handle, arg2))
+    val tabListDisplayName: WrapperComponent
+        get() = WrapperComponent(getTabListDisplayNameHandle.invoke(handle))
+
+    val requestedViewDistance: Int
+        get() = requestedViewDistanceHandle.invoke(handle) as Int
+
+    val respawnDimension: WrapperResourceKey
+        get() = WrapperResourceKey(getRespawnDimensionHandle.invoke(handle))
+
+    val nextContainerCounter: Int
+        get() = nextContainerCounterHandle.invoke(handle) as Int
+
+    fun createCommonSpawnInfo(arg0: WrapperServerLevel): WrapperCommonPlayerSpawnInfo {
+        return WrapperCommonPlayerSpawnInfo(createCommonSpawnInfoHandle.invoke(handle, arg0.handle))
     }
 
-    fun drop(arg0: Boolean): Boolean {
-        return dropHandle.invoke(handle, arg0) as Boolean
-    }
-
-    val clientInformation: WrapperClientInformation
-        get() = WrapperClientInformation(clientInformationHandle.invoke(handle))
-
-    val creative: Boolean
-        get() = isCreativeHandle.invoke(handle) as Boolean
-
-    val textFilter: WrapperTextFilter
-        get() = WrapperTextFilter(getTextFilterHandle.invoke(handle))
+    val chunkTrackingView: WrapperChunkTrackingView
+        get() = WrapperChunkTrackingView(getChunkTrackingViewHandle.invoke(handle))
 
     fun setLastSave(value: Long) {
         lastSaveSetterHandle.invoke(handle, value)

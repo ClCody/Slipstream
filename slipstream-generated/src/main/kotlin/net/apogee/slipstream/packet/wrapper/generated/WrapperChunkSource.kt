@@ -17,20 +17,20 @@ value class WrapperChunkSource(val handle: Any) {
         val gatherStatsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "gatherStats", MethodType.methodType(String::class.java))
         }
+        val hasChunkHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "hasChunk", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
         val getChunkHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChunk", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.LevelChunk"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
         }
-        val hasChunkHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "hasChunk", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        val getChunkNowHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getChunkNow", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.LevelChunk"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
         val getLoadedChunksCountHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLoadedChunksCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getChunkForLightingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getChunkForLighting", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.LightChunk"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getChunkNowHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getChunkNow", MethodType.methodType(Class.forName("net.minecraft.world.level.chunk.LevelChunk"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
     }
 
@@ -40,12 +40,16 @@ value class WrapperChunkSource(val handle: Any) {
     val gatherStats: String
         get() = gatherStatsHandle.invoke(handle) as String
 
+    fun hasChunk(arg0: Int, arg1: Int): Boolean {
+        return hasChunkHandle.invoke(handle, arg0, arg1) as Boolean
+    }
+
     fun getChunk(arg0: Int, arg1: Int, arg2: Boolean): WrapperLevelChunk {
         return WrapperLevelChunk(getChunkHandle.invoke(handle, arg0, arg1, arg2))
     }
 
-    fun hasChunk(arg0: Int, arg1: Int): Boolean {
-        return hasChunkHandle.invoke(handle, arg0, arg1) as Boolean
+    fun getChunkNow(arg0: Int, arg1: Int): WrapperLevelChunk {
+        return WrapperLevelChunk(getChunkNowHandle.invoke(handle, arg0, arg1))
     }
 
     val loadedChunksCount: Int
@@ -53,10 +57,6 @@ value class WrapperChunkSource(val handle: Any) {
 
     fun getChunkForLighting(arg0: Int, arg1: Int): WrapperLightChunk {
         return WrapperLightChunk(getChunkForLightingHandle.invoke(handle, arg0, arg1))
-    }
-
-    fun getChunkNow(arg0: Int, arg1: Int): WrapperLevelChunk {
-        return WrapperLevelChunk(getChunkNowHandle.invoke(handle, arg0, arg1))
     }
 
 }

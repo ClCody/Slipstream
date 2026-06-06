@@ -14,11 +14,11 @@ value class WrapperClientboundUpdateAdvancementsPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val shouldResetHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "shouldReset", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getProgressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getProgress", MethodType.methodType(Class.forName("java.util.Map")))
+        }
+        val shouldResetHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "shouldReset", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getAddedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAdded", MethodType.methodType(Class.forName("java.util.List")))
@@ -31,11 +31,11 @@ value class WrapperClientboundUpdateAdvancementsPacket(val handle: Any) {
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val shouldReset: Boolean
-        get() = shouldResetHandle.invoke(handle) as Boolean
-
     val progress: Any
         get() = getProgressHandle.invoke(handle) as Any
+
+    val shouldReset: Boolean
+        get() = shouldResetHandle.invoke(handle) as Boolean
 
     val added: Any
         get() = getAddedHandle.invoke(handle) as Any

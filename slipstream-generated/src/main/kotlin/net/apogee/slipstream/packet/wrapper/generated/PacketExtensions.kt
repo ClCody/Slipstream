@@ -1,600 +1,612 @@
 package net.apogee.slipstream.packet.wrapper.generated
 
+import java.lang.ClassValue
+
 /**
  * Универсальный extension для type-safe проверки и каста NMS пакетов и структур.
  * Использование: val movePacket = packet.wrapAs<WrapperClientboundMoveEntityPacket>()
  */
+class WrapperInfo(val packetClass: Class<*>, val constructor: (Any) -> Any)
+
+val wrapperRegistry = object : ClassValue<WrapperInfo?>() {
+    override fun computeValue(type: Class<*>): WrapperInfo? {
+        return when (type.name) {
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCustomPayloadPacket" -> WrapperInfo(WrapperClientboundCustomPayloadPacket.packetClass) { WrapperClientboundCustomPayloadPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCustomReportDetailsPacket" -> WrapperInfo(WrapperClientboundCustomReportDetailsPacket.packetClass) { WrapperClientboundCustomReportDetailsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundDisconnectPacket" -> WrapperInfo(WrapperClientboundDisconnectPacket.packetClass) { WrapperClientboundDisconnectPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundKeepAlivePacket" -> WrapperInfo(WrapperClientboundKeepAlivePacket.packetClass) { WrapperClientboundKeepAlivePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPingPacket" -> WrapperInfo(WrapperClientboundPingPacket.packetClass) { WrapperClientboundPingPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundResourcePackPopPacket" -> WrapperInfo(WrapperClientboundResourcePackPopPacket.packetClass) { WrapperClientboundResourcePackPopPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundResourcePackPushPacket" -> WrapperInfo(WrapperClientboundResourcePackPushPacket.packetClass) { WrapperClientboundResourcePackPushPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundServerLinksPacket" -> WrapperInfo(WrapperClientboundServerLinksPacket.packetClass) { WrapperClientboundServerLinksPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundStoreCookiePacket" -> WrapperInfo(WrapperClientboundStoreCookiePacket.packetClass) { WrapperClientboundStoreCookiePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTransferPacket" -> WrapperInfo(WrapperClientboundTransferPacket.packetClass) { WrapperClientboundTransferPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateTagsPacket" -> WrapperInfo(WrapperClientboundUpdateTagsPacket.packetClass) { WrapperClientboundUpdateTagsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundClientInformationPacket" -> WrapperInfo(WrapperServerboundClientInformationPacket.packetClass) { WrapperServerboundClientInformationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundCustomPayloadPacket" -> WrapperInfo(WrapperServerboundCustomPayloadPacket.packetClass) { WrapperServerboundCustomPayloadPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundKeepAlivePacket" -> WrapperInfo(WrapperServerboundKeepAlivePacket.packetClass) { WrapperServerboundKeepAlivePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPongPacket" -> WrapperInfo(WrapperServerboundPongPacket.packetClass) { WrapperServerboundPongPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundResourcePackPacket" -> WrapperInfo(WrapperServerboundResourcePackPacket.packetClass) { WrapperServerboundResourcePackPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundFinishConfigurationPacket" -> WrapperInfo(WrapperClientboundFinishConfigurationPacket.packetClass) { WrapperClientboundFinishConfigurationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRegistryDataPacket" -> WrapperInfo(WrapperClientboundRegistryDataPacket.packetClass) { WrapperClientboundRegistryDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundResetChatPacket" -> WrapperInfo(WrapperClientboundResetChatPacket.packetClass) { WrapperClientboundResetChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSelectKnownPacks" -> WrapperInfo(WrapperClientboundSelectKnownPacks.packetClass) { WrapperClientboundSelectKnownPacks(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateEnabledFeaturesPacket" -> WrapperInfo(WrapperClientboundUpdateEnabledFeaturesPacket.packetClass) { WrapperClientboundUpdateEnabledFeaturesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundFinishConfigurationPacket" -> WrapperInfo(WrapperServerboundFinishConfigurationPacket.packetClass) { WrapperServerboundFinishConfigurationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSelectKnownPacks" -> WrapperInfo(WrapperServerboundSelectKnownPacks.packetClass) { WrapperServerboundSelectKnownPacks(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCookieRequestPacket" -> WrapperInfo(WrapperClientboundCookieRequestPacket.packetClass) { WrapperClientboundCookieRequestPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundCookieResponsePacket" -> WrapperInfo(WrapperServerboundCookieResponsePacket.packetClass) { WrapperServerboundCookieResponsePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundAddEntityPacket" -> WrapperInfo(WrapperClientboundAddEntityPacket.packetClass) { WrapperClientboundAddEntityPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundAddExperienceOrbPacket" -> WrapperInfo(WrapperClientboundAddExperienceOrbPacket.packetClass) { WrapperClientboundAddExperienceOrbPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundAnimatePacket" -> WrapperInfo(WrapperClientboundAnimatePacket.packetClass) { WrapperClientboundAnimatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundAwardStatsPacket" -> WrapperInfo(WrapperClientboundAwardStatsPacket.packetClass) { WrapperClientboundAwardStatsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBlockChangedAckPacket" -> WrapperInfo(WrapperClientboundBlockChangedAckPacket.packetClass) { WrapperClientboundBlockChangedAckPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBlockDestructionPacket" -> WrapperInfo(WrapperClientboundBlockDestructionPacket.packetClass) { WrapperClientboundBlockDestructionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBlockEntityDataPacket" -> WrapperInfo(WrapperClientboundBlockEntityDataPacket.packetClass) { WrapperClientboundBlockEntityDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBlockEventPacket" -> WrapperInfo(WrapperClientboundBlockEventPacket.packetClass) { WrapperClientboundBlockEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBlockUpdatePacket" -> WrapperInfo(WrapperClientboundBlockUpdatePacket.packetClass) { WrapperClientboundBlockUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBossEventPacket" -> WrapperInfo(WrapperClientboundBossEventPacket.packetClass) { WrapperClientboundBossEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBundleDelimiterPacket" -> WrapperInfo(WrapperClientboundBundleDelimiterPacket.packetClass) { WrapperClientboundBundleDelimiterPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundBundlePacket" -> WrapperInfo(WrapperClientboundBundlePacket.packetClass) { WrapperClientboundBundlePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundChangeDifficultyPacket" -> WrapperInfo(WrapperClientboundChangeDifficultyPacket.packetClass) { WrapperClientboundChangeDifficultyPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundChunkBatchFinishedPacket" -> WrapperInfo(WrapperClientboundChunkBatchFinishedPacket.packetClass) { WrapperClientboundChunkBatchFinishedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundChunkBatchStartPacket" -> WrapperInfo(WrapperClientboundChunkBatchStartPacket.packetClass) { WrapperClientboundChunkBatchStartPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundChunksBiomesPacket" -> WrapperInfo(WrapperClientboundChunksBiomesPacket.packetClass) { WrapperClientboundChunksBiomesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundClearTitlesPacket" -> WrapperInfo(WrapperClientboundClearTitlesPacket.packetClass) { WrapperClientboundClearTitlesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCommandSuggestionsPacket" -> WrapperInfo(WrapperClientboundCommandSuggestionsPacket.packetClass) { WrapperClientboundCommandSuggestionsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCommandsPacket" -> WrapperInfo(WrapperClientboundCommandsPacket.packetClass) { WrapperClientboundCommandsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundContainerClosePacket" -> WrapperInfo(WrapperClientboundContainerClosePacket.packetClass) { WrapperClientboundContainerClosePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundContainerSetContentPacket" -> WrapperInfo(WrapperClientboundContainerSetContentPacket.packetClass) { WrapperClientboundContainerSetContentPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundContainerSetDataPacket" -> WrapperInfo(WrapperClientboundContainerSetDataPacket.packetClass) { WrapperClientboundContainerSetDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundContainerSetSlotPacket" -> WrapperInfo(WrapperClientboundContainerSetSlotPacket.packetClass) { WrapperClientboundContainerSetSlotPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCooldownPacket" -> WrapperInfo(WrapperClientboundCooldownPacket.packetClass) { WrapperClientboundCooldownPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCustomChatCompletionsPacket" -> WrapperInfo(WrapperClientboundCustomChatCompletionsPacket.packetClass) { WrapperClientboundCustomChatCompletionsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundDamageEventPacket" -> WrapperInfo(WrapperClientboundDamageEventPacket.packetClass) { WrapperClientboundDamageEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundDebugSamplePacket" -> WrapperInfo(WrapperClientboundDebugSamplePacket.packetClass) { WrapperClientboundDebugSamplePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundDeleteChatPacket" -> WrapperInfo(WrapperClientboundDeleteChatPacket.packetClass) { WrapperClientboundDeleteChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundDisguisedChatPacket" -> WrapperInfo(WrapperClientboundDisguisedChatPacket.packetClass) { WrapperClientboundDisguisedChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundEntityEventPacket" -> WrapperInfo(WrapperClientboundEntityEventPacket.packetClass) { WrapperClientboundEntityEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundExplodePacket" -> WrapperInfo(WrapperClientboundExplodePacket.packetClass) { WrapperClientboundExplodePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundForgetLevelChunkPacket" -> WrapperInfo(WrapperClientboundForgetLevelChunkPacket.packetClass) { WrapperClientboundForgetLevelChunkPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundGameEventPacket" -> WrapperInfo(WrapperClientboundGameEventPacket.packetClass) { WrapperClientboundGameEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundHorseScreenOpenPacket" -> WrapperInfo(WrapperClientboundHorseScreenOpenPacket.packetClass) { WrapperClientboundHorseScreenOpenPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundHurtAnimationPacket" -> WrapperInfo(WrapperClientboundHurtAnimationPacket.packetClass) { WrapperClientboundHurtAnimationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundInitializeBorderPacket" -> WrapperInfo(WrapperClientboundInitializeBorderPacket.packetClass) { WrapperClientboundInitializeBorderPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLevelChunkWithLightPacket" -> WrapperInfo(WrapperClientboundLevelChunkWithLightPacket.packetClass) { WrapperClientboundLevelChunkWithLightPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLevelEventPacket" -> WrapperInfo(WrapperClientboundLevelEventPacket.packetClass) { WrapperClientboundLevelEventPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLevelParticlesPacket" -> WrapperInfo(WrapperClientboundLevelParticlesPacket.packetClass) { WrapperClientboundLevelParticlesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLightUpdatePacket" -> WrapperInfo(WrapperClientboundLightUpdatePacket.packetClass) { WrapperClientboundLightUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLoginPacket" -> WrapperInfo(WrapperClientboundLoginPacket.packetClass) { WrapperClientboundLoginPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundMapItemDataPacket" -> WrapperInfo(WrapperClientboundMapItemDataPacket.packetClass) { WrapperClientboundMapItemDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundMerchantOffersPacket" -> WrapperInfo(WrapperClientboundMerchantOffersPacket.packetClass) { WrapperClientboundMerchantOffersPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPos" -> WrapperInfo(WrapperPos.packetClass) { WrapperPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPosRot" -> WrapperInfo(WrapperPosRot.packetClass) { WrapperPosRot(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRot" -> WrapperInfo(WrapperRot.packetClass) { WrapperRot(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundMoveVehiclePacket" -> WrapperInfo(WrapperClientboundMoveVehiclePacket.packetClass) { WrapperClientboundMoveVehiclePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundOpenBookPacket" -> WrapperInfo(WrapperClientboundOpenBookPacket.packetClass) { WrapperClientboundOpenBookPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundOpenScreenPacket" -> WrapperInfo(WrapperClientboundOpenScreenPacket.packetClass) { WrapperClientboundOpenScreenPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundOpenSignEditorPacket" -> WrapperInfo(WrapperClientboundOpenSignEditorPacket.packetClass) { WrapperClientboundOpenSignEditorPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlaceGhostRecipePacket" -> WrapperInfo(WrapperClientboundPlaceGhostRecipePacket.packetClass) { WrapperClientboundPlaceGhostRecipePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerAbilitiesPacket" -> WrapperInfo(WrapperClientboundPlayerAbilitiesPacket.packetClass) { WrapperClientboundPlayerAbilitiesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerChatPacket" -> WrapperInfo(WrapperClientboundPlayerChatPacket.packetClass) { WrapperClientboundPlayerChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerCombatEndPacket" -> WrapperInfo(WrapperClientboundPlayerCombatEndPacket.packetClass) { WrapperClientboundPlayerCombatEndPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerCombatEnterPacket" -> WrapperInfo(WrapperClientboundPlayerCombatEnterPacket.packetClass) { WrapperClientboundPlayerCombatEnterPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerCombatKillPacket" -> WrapperInfo(WrapperClientboundPlayerCombatKillPacket.packetClass) { WrapperClientboundPlayerCombatKillPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerInfoRemovePacket" -> WrapperInfo(WrapperClientboundPlayerInfoRemovePacket.packetClass) { WrapperClientboundPlayerInfoRemovePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerInfoUpdatePacket" -> WrapperInfo(WrapperClientboundPlayerInfoUpdatePacket.packetClass) { WrapperClientboundPlayerInfoUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerLookAtPacket" -> WrapperInfo(WrapperClientboundPlayerLookAtPacket.packetClass) { WrapperClientboundPlayerLookAtPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPlayerPositionPacket" -> WrapperInfo(WrapperClientboundPlayerPositionPacket.packetClass) { WrapperClientboundPlayerPositionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundProjectilePowerPacket" -> WrapperInfo(WrapperClientboundProjectilePowerPacket.packetClass) { WrapperClientboundProjectilePowerPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRecipePacket" -> WrapperInfo(WrapperClientboundRecipePacket.packetClass) { WrapperClientboundRecipePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRemoveEntitiesPacket" -> WrapperInfo(WrapperClientboundRemoveEntitiesPacket.packetClass) { WrapperClientboundRemoveEntitiesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRemoveMobEffectPacket" -> WrapperInfo(WrapperClientboundRemoveMobEffectPacket.packetClass) { WrapperClientboundRemoveMobEffectPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundResetScorePacket" -> WrapperInfo(WrapperClientboundResetScorePacket.packetClass) { WrapperClientboundResetScorePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRespawnPacket" -> WrapperInfo(WrapperClientboundRespawnPacket.packetClass) { WrapperClientboundRespawnPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundRotateHeadPacket" -> WrapperInfo(WrapperClientboundRotateHeadPacket.packetClass) { WrapperClientboundRotateHeadPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSectionBlocksUpdatePacket" -> WrapperInfo(WrapperClientboundSectionBlocksUpdatePacket.packetClass) { WrapperClientboundSectionBlocksUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSelectAdvancementsTabPacket" -> WrapperInfo(WrapperClientboundSelectAdvancementsTabPacket.packetClass) { WrapperClientboundSelectAdvancementsTabPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundServerDataPacket" -> WrapperInfo(WrapperClientboundServerDataPacket.packetClass) { WrapperClientboundServerDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetActionBarTextPacket" -> WrapperInfo(WrapperClientboundSetActionBarTextPacket.packetClass) { WrapperClientboundSetActionBarTextPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetBorderCenterPacket" -> WrapperInfo(WrapperClientboundSetBorderCenterPacket.packetClass) { WrapperClientboundSetBorderCenterPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetBorderLerpSizePacket" -> WrapperInfo(WrapperClientboundSetBorderLerpSizePacket.packetClass) { WrapperClientboundSetBorderLerpSizePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetBorderSizePacket" -> WrapperInfo(WrapperClientboundSetBorderSizePacket.packetClass) { WrapperClientboundSetBorderSizePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetBorderWarningDelayPacket" -> WrapperInfo(WrapperClientboundSetBorderWarningDelayPacket.packetClass) { WrapperClientboundSetBorderWarningDelayPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetBorderWarningDistancePacket" -> WrapperInfo(WrapperClientboundSetBorderWarningDistancePacket.packetClass) { WrapperClientboundSetBorderWarningDistancePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetCameraPacket" -> WrapperInfo(WrapperClientboundSetCameraPacket.packetClass) { WrapperClientboundSetCameraPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetCarriedItemPacket" -> WrapperInfo(WrapperClientboundSetCarriedItemPacket.packetClass) { WrapperClientboundSetCarriedItemPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetChunkCacheCenterPacket" -> WrapperInfo(WrapperClientboundSetChunkCacheCenterPacket.packetClass) { WrapperClientboundSetChunkCacheCenterPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetChunkCacheRadiusPacket" -> WrapperInfo(WrapperClientboundSetChunkCacheRadiusPacket.packetClass) { WrapperClientboundSetChunkCacheRadiusPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetDefaultSpawnPositionPacket" -> WrapperInfo(WrapperClientboundSetDefaultSpawnPositionPacket.packetClass) { WrapperClientboundSetDefaultSpawnPositionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetDisplayObjectivePacket" -> WrapperInfo(WrapperClientboundSetDisplayObjectivePacket.packetClass) { WrapperClientboundSetDisplayObjectivePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetEntityDataPacket" -> WrapperInfo(WrapperClientboundSetEntityDataPacket.packetClass) { WrapperClientboundSetEntityDataPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetEntityLinkPacket" -> WrapperInfo(WrapperClientboundSetEntityLinkPacket.packetClass) { WrapperClientboundSetEntityLinkPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetEntityMotionPacket" -> WrapperInfo(WrapperClientboundSetEntityMotionPacket.packetClass) { WrapperClientboundSetEntityMotionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetEquipmentPacket" -> WrapperInfo(WrapperClientboundSetEquipmentPacket.packetClass) { WrapperClientboundSetEquipmentPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetExperiencePacket" -> WrapperInfo(WrapperClientboundSetExperiencePacket.packetClass) { WrapperClientboundSetExperiencePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetHealthPacket" -> WrapperInfo(WrapperClientboundSetHealthPacket.packetClass) { WrapperClientboundSetHealthPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetObjectivePacket" -> WrapperInfo(WrapperClientboundSetObjectivePacket.packetClass) { WrapperClientboundSetObjectivePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetPassengersPacket" -> WrapperInfo(WrapperClientboundSetPassengersPacket.packetClass) { WrapperClientboundSetPassengersPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetPlayerTeamPacket" -> WrapperInfo(WrapperClientboundSetPlayerTeamPacket.packetClass) { WrapperClientboundSetPlayerTeamPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetScorePacket" -> WrapperInfo(WrapperClientboundSetScorePacket.packetClass) { WrapperClientboundSetScorePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetSimulationDistancePacket" -> WrapperInfo(WrapperClientboundSetSimulationDistancePacket.packetClass) { WrapperClientboundSetSimulationDistancePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetSubtitleTextPacket" -> WrapperInfo(WrapperClientboundSetSubtitleTextPacket.packetClass) { WrapperClientboundSetSubtitleTextPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetTimePacket" -> WrapperInfo(WrapperClientboundSetTimePacket.packetClass) { WrapperClientboundSetTimePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetTitleTextPacket" -> WrapperInfo(WrapperClientboundSetTitleTextPacket.packetClass) { WrapperClientboundSetTitleTextPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSetTitlesAnimationPacket" -> WrapperInfo(WrapperClientboundSetTitlesAnimationPacket.packetClass) { WrapperClientboundSetTitlesAnimationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSoundEntityPacket" -> WrapperInfo(WrapperClientboundSoundEntityPacket.packetClass) { WrapperClientboundSoundEntityPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSoundPacket" -> WrapperInfo(WrapperClientboundSoundPacket.packetClass) { WrapperClientboundSoundPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundStartConfigurationPacket" -> WrapperInfo(WrapperClientboundStartConfigurationPacket.packetClass) { WrapperClientboundStartConfigurationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundStopSoundPacket" -> WrapperInfo(WrapperClientboundStopSoundPacket.packetClass) { WrapperClientboundStopSoundPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundSystemChatPacket" -> WrapperInfo(WrapperClientboundSystemChatPacket.packetClass) { WrapperClientboundSystemChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTabListPacket" -> WrapperInfo(WrapperClientboundTabListPacket.packetClass) { WrapperClientboundTabListPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTagQueryPacket" -> WrapperInfo(WrapperClientboundTagQueryPacket.packetClass) { WrapperClientboundTagQueryPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTakeItemEntityPacket" -> WrapperInfo(WrapperClientboundTakeItemEntityPacket.packetClass) { WrapperClientboundTakeItemEntityPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTeleportEntityPacket" -> WrapperInfo(WrapperClientboundTeleportEntityPacket.packetClass) { WrapperClientboundTeleportEntityPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTickingStatePacket" -> WrapperInfo(WrapperClientboundTickingStatePacket.packetClass) { WrapperClientboundTickingStatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundTickingStepPacket" -> WrapperInfo(WrapperClientboundTickingStepPacket.packetClass) { WrapperClientboundTickingStepPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateAdvancementsPacket" -> WrapperInfo(WrapperClientboundUpdateAdvancementsPacket.packetClass) { WrapperClientboundUpdateAdvancementsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateAttributesPacket" -> WrapperInfo(WrapperClientboundUpdateAttributesPacket.packetClass) { WrapperClientboundUpdateAttributesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateMobEffectPacket" -> WrapperInfo(WrapperClientboundUpdateMobEffectPacket.packetClass) { WrapperClientboundUpdateMobEffectPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundUpdateRecipesPacket" -> WrapperInfo(WrapperClientboundUpdateRecipesPacket.packetClass) { WrapperClientboundUpdateRecipesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundAcceptTeleportationPacket" -> WrapperInfo(WrapperServerboundAcceptTeleportationPacket.packetClass) { WrapperServerboundAcceptTeleportationPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundBlockEntityTagQueryPacket" -> WrapperInfo(WrapperServerboundBlockEntityTagQueryPacket.packetClass) { WrapperServerboundBlockEntityTagQueryPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChangeDifficultyPacket" -> WrapperInfo(WrapperServerboundChangeDifficultyPacket.packetClass) { WrapperServerboundChangeDifficultyPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChatAckPacket" -> WrapperInfo(WrapperServerboundChatAckPacket.packetClass) { WrapperServerboundChatAckPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChatCommandPacket" -> WrapperInfo(WrapperServerboundChatCommandPacket.packetClass) { WrapperServerboundChatCommandPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChatCommandSignedPacket" -> WrapperInfo(WrapperServerboundChatCommandSignedPacket.packetClass) { WrapperServerboundChatCommandSignedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChatPacket" -> WrapperInfo(WrapperServerboundChatPacket.packetClass) { WrapperServerboundChatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChatSessionUpdatePacket" -> WrapperInfo(WrapperServerboundChatSessionUpdatePacket.packetClass) { WrapperServerboundChatSessionUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundChunkBatchReceivedPacket" -> WrapperInfo(WrapperServerboundChunkBatchReceivedPacket.packetClass) { WrapperServerboundChunkBatchReceivedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundClientCommandPacket" -> WrapperInfo(WrapperServerboundClientCommandPacket.packetClass) { WrapperServerboundClientCommandPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundCommandSuggestionPacket" -> WrapperInfo(WrapperServerboundCommandSuggestionPacket.packetClass) { WrapperServerboundCommandSuggestionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundConfigurationAcknowledgedPacket" -> WrapperInfo(WrapperServerboundConfigurationAcknowledgedPacket.packetClass) { WrapperServerboundConfigurationAcknowledgedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundContainerButtonClickPacket" -> WrapperInfo(WrapperServerboundContainerButtonClickPacket.packetClass) { WrapperServerboundContainerButtonClickPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundContainerClickPacket" -> WrapperInfo(WrapperServerboundContainerClickPacket.packetClass) { WrapperServerboundContainerClickPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundContainerClosePacket" -> WrapperInfo(WrapperServerboundContainerClosePacket.packetClass) { WrapperServerboundContainerClosePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundContainerSlotStateChangedPacket" -> WrapperInfo(WrapperServerboundContainerSlotStateChangedPacket.packetClass) { WrapperServerboundContainerSlotStateChangedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundDebugSampleSubscriptionPacket" -> WrapperInfo(WrapperServerboundDebugSampleSubscriptionPacket.packetClass) { WrapperServerboundDebugSampleSubscriptionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundEditBookPacket" -> WrapperInfo(WrapperServerboundEditBookPacket.packetClass) { WrapperServerboundEditBookPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundEntityTagQueryPacket" -> WrapperInfo(WrapperServerboundEntityTagQueryPacket.packetClass) { WrapperServerboundEntityTagQueryPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundInteractPacket" -> WrapperInfo(WrapperServerboundInteractPacket.packetClass) { WrapperServerboundInteractPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundJigsawGeneratePacket" -> WrapperInfo(WrapperServerboundJigsawGeneratePacket.packetClass) { WrapperServerboundJigsawGeneratePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundLockDifficultyPacket" -> WrapperInfo(WrapperServerboundLockDifficultyPacket.packetClass) { WrapperServerboundLockDifficultyPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPos" -> WrapperInfo(WrapperPos.packetClass) { WrapperPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPosRot" -> WrapperInfo(WrapperPosRot.packetClass) { WrapperPosRot(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRot" -> WrapperInfo(WrapperRot.packetClass) { WrapperRot(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStatusOnly" -> WrapperInfo(WrapperStatusOnly.packetClass) { WrapperStatusOnly(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundMoveVehiclePacket" -> WrapperInfo(WrapperServerboundMoveVehiclePacket.packetClass) { WrapperServerboundMoveVehiclePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPaddleBoatPacket" -> WrapperInfo(WrapperServerboundPaddleBoatPacket.packetClass) { WrapperServerboundPaddleBoatPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPickItemPacket" -> WrapperInfo(WrapperServerboundPickItemPacket.packetClass) { WrapperServerboundPickItemPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPlaceRecipePacket" -> WrapperInfo(WrapperServerboundPlaceRecipePacket.packetClass) { WrapperServerboundPlaceRecipePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPlayerAbilitiesPacket" -> WrapperInfo(WrapperServerboundPlayerAbilitiesPacket.packetClass) { WrapperServerboundPlayerAbilitiesPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPlayerActionPacket" -> WrapperInfo(WrapperServerboundPlayerActionPacket.packetClass) { WrapperServerboundPlayerActionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPlayerCommandPacket" -> WrapperInfo(WrapperServerboundPlayerCommandPacket.packetClass) { WrapperServerboundPlayerCommandPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPlayerInputPacket" -> WrapperInfo(WrapperServerboundPlayerInputPacket.packetClass) { WrapperServerboundPlayerInputPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundRecipeBookChangeSettingsPacket" -> WrapperInfo(WrapperServerboundRecipeBookChangeSettingsPacket.packetClass) { WrapperServerboundRecipeBookChangeSettingsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundRecipeBookSeenRecipePacket" -> WrapperInfo(WrapperServerboundRecipeBookSeenRecipePacket.packetClass) { WrapperServerboundRecipeBookSeenRecipePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundRenameItemPacket" -> WrapperInfo(WrapperServerboundRenameItemPacket.packetClass) { WrapperServerboundRenameItemPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSeenAdvancementsPacket" -> WrapperInfo(WrapperServerboundSeenAdvancementsPacket.packetClass) { WrapperServerboundSeenAdvancementsPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSelectTradePacket" -> WrapperInfo(WrapperServerboundSelectTradePacket.packetClass) { WrapperServerboundSelectTradePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetBeaconPacket" -> WrapperInfo(WrapperServerboundSetBeaconPacket.packetClass) { WrapperServerboundSetBeaconPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetCarriedItemPacket" -> WrapperInfo(WrapperServerboundSetCarriedItemPacket.packetClass) { WrapperServerboundSetCarriedItemPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetCommandBlockPacket" -> WrapperInfo(WrapperServerboundSetCommandBlockPacket.packetClass) { WrapperServerboundSetCommandBlockPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetCommandMinecartPacket" -> WrapperInfo(WrapperServerboundSetCommandMinecartPacket.packetClass) { WrapperServerboundSetCommandMinecartPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetCreativeModeSlotPacket" -> WrapperInfo(WrapperServerboundSetCreativeModeSlotPacket.packetClass) { WrapperServerboundSetCreativeModeSlotPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetJigsawBlockPacket" -> WrapperInfo(WrapperServerboundSetJigsawBlockPacket.packetClass) { WrapperServerboundSetJigsawBlockPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSetStructureBlockPacket" -> WrapperInfo(WrapperServerboundSetStructureBlockPacket.packetClass) { WrapperServerboundSetStructureBlockPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSignUpdatePacket" -> WrapperInfo(WrapperServerboundSignUpdatePacket.packetClass) { WrapperServerboundSignUpdatePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundSwingPacket" -> WrapperInfo(WrapperServerboundSwingPacket.packetClass) { WrapperServerboundSwingPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundTeleportToEntityPacket" -> WrapperInfo(WrapperServerboundTeleportToEntityPacket.packetClass) { WrapperServerboundTeleportToEntityPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundUseItemOnPacket" -> WrapperInfo(WrapperServerboundUseItemOnPacket.packetClass) { WrapperServerboundUseItemOnPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundUseItemPacket" -> WrapperInfo(WrapperServerboundUseItemPacket.packetClass) { WrapperServerboundUseItemPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientIntentionPacket" -> WrapperInfo(WrapperClientIntentionPacket.packetClass) { WrapperClientIntentionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundCustomQueryPacket" -> WrapperInfo(WrapperClientboundCustomQueryPacket.packetClass) { WrapperClientboundCustomQueryPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundGameProfilePacket" -> WrapperInfo(WrapperClientboundGameProfilePacket.packetClass) { WrapperClientboundGameProfilePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundHelloPacket" -> WrapperInfo(WrapperClientboundHelloPacket.packetClass) { WrapperClientboundHelloPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLoginCompressionPacket" -> WrapperInfo(WrapperClientboundLoginCompressionPacket.packetClass) { WrapperClientboundLoginCompressionPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLoginDisconnectPacket" -> WrapperInfo(WrapperClientboundLoginDisconnectPacket.packetClass) { WrapperClientboundLoginDisconnectPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundCustomQueryAnswerPacket" -> WrapperInfo(WrapperServerboundCustomQueryAnswerPacket.packetClass) { WrapperServerboundCustomQueryAnswerPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundHelloPacket" -> WrapperInfo(WrapperServerboundHelloPacket.packetClass) { WrapperServerboundHelloPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundKeyPacket" -> WrapperInfo(WrapperServerboundKeyPacket.packetClass) { WrapperServerboundKeyPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundLoginAcknowledgedPacket" -> WrapperInfo(WrapperServerboundLoginAcknowledgedPacket.packetClass) { WrapperServerboundLoginAcknowledgedPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundPongResponsePacket" -> WrapperInfo(WrapperClientboundPongResponsePacket.packetClass) { WrapperClientboundPongResponsePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundPingRequestPacket" -> WrapperInfo(WrapperServerboundPingRequestPacket.packetClass) { WrapperServerboundPingRequestPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundStatusResponsePacket" -> WrapperInfo(WrapperClientboundStatusResponsePacket.packetClass) { WrapperClientboundStatusResponsePacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerboundStatusRequestPacket" -> WrapperInfo(WrapperServerboundStatusRequestPacket.packetClass) { WrapperServerboundStatusRequestPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCustomPacketPayload" -> WrapperInfo(WrapperCustomPacketPayload.packetClass) { WrapperCustomPacketPayload(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperComponent" -> WrapperInfo(WrapperComponent.packetClass) { WrapperComponent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacketType" -> WrapperInfo(WrapperPacketType.packetClass) { WrapperPacketType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperResourceLocation" -> WrapperInfo(WrapperResourceLocation.packetClass) { WrapperResourceLocation(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientInformation" -> WrapperInfo(WrapperClientInformation.packetClass) { WrapperClientInformation(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperResourceKey" -> WrapperInfo(WrapperResourceKey.packetClass) { WrapperResourceKey(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityType" -> WrapperInfo(WrapperEntityType.packetClass) { WrapperEntityType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockPos" -> WrapperInfo(WrapperBlockPos.packetClass) { WrapperBlockPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockEntityType" -> WrapperInfo(WrapperBlockEntityType.packetClass) { WrapperBlockEntityType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCompoundTag" -> WrapperInfo(WrapperCompoundTag.packetClass) { WrapperCompoundTag(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlock" -> WrapperInfo(WrapperBlock.packetClass) { WrapperBlock(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockState" -> WrapperInfo(WrapperBlockState.packetClass) { WrapperBlockState(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemStack" -> WrapperInfo(WrapperItemStack.packetClass) { WrapperItemStack(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperConnection" -> WrapperInfo(WrapperConnection.packetClass) { WrapperConnection(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItem" -> WrapperInfo(WrapperItem.packetClass) { WrapperItem(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolder" -> WrapperInfo(WrapperHolder.packetClass) { WrapperHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacked" -> WrapperInfo(WrapperPacked.packetClass) { WrapperPacked(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBound" -> WrapperInfo(WrapperBound.packetClass) { WrapperBound(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntity" -> WrapperInfo(WrapperEntity.packetClass) { WrapperEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevel" -> WrapperInfo(WrapperLevel.packetClass) { WrapperLevel(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperParticleOptions" -> WrapperInfo(WrapperParticleOptions.packetClass) { WrapperParticleOptions(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkPos" -> WrapperInfo(WrapperChunkPos.packetClass) { WrapperChunkPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperType" -> WrapperInfo(WrapperType.packetClass) { WrapperType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLevelChunkPacketData" -> WrapperInfo(WrapperClientboundLevelChunkPacketData.packetClass) { WrapperClientboundLevelChunkPacketData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClientboundLightUpdatePacketData" -> WrapperInfo(WrapperClientboundLightUpdatePacketData.packetClass) { WrapperClientboundLightUpdatePacketData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommonPlayerSpawnInfo" -> WrapperInfo(WrapperCommonPlayerSpawnInfo.packetClass) { WrapperCommonPlayerSpawnInfo(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMapId" -> WrapperInfo(WrapperMapId.packetClass) { WrapperMapId(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMerchantOffers" -> WrapperInfo(WrapperMerchantOffers.packetClass) { WrapperMerchantOffers(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMenuType" -> WrapperInfo(WrapperMenuType.packetClass) { WrapperMenuType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMessageSignature" -> WrapperInfo(WrapperMessageSignature.packetClass) { WrapperMessageSignature(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacked" -> WrapperInfo(WrapperPacked.packetClass) { WrapperPacked(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFilterMask" -> WrapperInfo(WrapperFilterMask.packetClass) { WrapperFilterMask(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVec3" -> WrapperInfo(WrapperVec3.packetClass) { WrapperVec3(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRecipeBookSettings" -> WrapperInfo(WrapperRecipeBookSettings.packetClass) { WrapperRecipeBookSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperArgumentSignatures" -> WrapperInfo(WrapperArgumentSignatures.packetClass) { WrapperArgumentSignatures(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperUpdate" -> WrapperInfo(WrapperUpdate.packetClass) { WrapperUpdate(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperData" -> WrapperInfo(WrapperData.packetClass) { WrapperData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerLevel" -> WrapperInfo(WrapperServerLevel.packetClass) { WrapperServerLevel(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBaseCommandBlock" -> WrapperInfo(WrapperBaseCommandBlock.packetClass) { WrapperBaseCommandBlock(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVec3i" -> WrapperInfo(WrapperVec3i.packetClass) { WrapperVec3i(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockHitResult" -> WrapperInfo(WrapperBlockHitResult.packetClass) { WrapperBlockHitResult(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCustomQueryPayload" -> WrapperInfo(WrapperCustomQueryPayload.packetClass) { WrapperCustomQueryPayload(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerStatus" -> WrapperInfo(WrapperServerStatus.packetClass) { WrapperServerStatus(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperType" -> WrapperInfo(WrapperType.packetClass) { WrapperType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMutableComponent" -> WrapperInfo(WrapperMutableComponent.packetClass) { WrapperMutableComponent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStyledContentConsumer" -> WrapperInfo(WrapperStyledContentConsumer.packetClass) { WrapperStyledContentConsumer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStyle" -> WrapperInfo(WrapperStyle.packetClass) { WrapperStyle(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperComponentContents" -> WrapperInfo(WrapperComponentContents.packetClass) { WrapperComponentContents(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFormattedCharSequence" -> WrapperInfo(WrapperFormattedCharSequence.packetClass) { WrapperFormattedCharSequence(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTagKey" -> WrapperInfo(WrapperTagKey.packetClass) { WrapperTagKey(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityDimensions" -> WrapperInfo(WrapperEntityDimensions.packetClass) { WrapperEntityDimensions(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFeatureFlagSet" -> WrapperInfo(WrapperFeatureFlagSet.packetClass) { WrapperFeatureFlagSet(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAABB" -> WrapperInfo(WrapperAABB.packetClass) { WrapperAABB(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperReference" -> WrapperInfo(WrapperReference.packetClass) { WrapperReference(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMutableBlockPos" -> WrapperInfo(WrapperMutableBlockPos.packetClass) { WrapperMutableBlockPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockEntity" -> WrapperInfo(WrapperBlockEntity.packetClass) { WrapperBlockEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockGetter" -> WrapperInfo(WrapperBlockGetter.packetClass) { WrapperBlockGetter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTag" -> WrapperInfo(WrapperTag.packetClass) { WrapperTag(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStreamTagVisitor" -> WrapperInfo(WrapperStreamTagVisitor.packetClass) { WrapperStreamTagVisitor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTagType" -> WrapperInfo(WrapperTagType.packetClass) { WrapperTagType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperListTag" -> WrapperInfo(WrapperListTag.packetClass) { WrapperListTag(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockPlaceContext" -> WrapperInfo(WrapperBlockPlaceContext.packetClass) { WrapperBlockPlaceContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayer" -> WrapperInfo(WrapperPlayer.packetClass) { WrapperPlayer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelReader" -> WrapperInfo(WrapperLevelReader.packetClass) { WrapperLevelReader(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperExplosion" -> WrapperInfo(WrapperExplosion.packetClass) { WrapperExplosion(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStateDefinition" -> WrapperInfo(WrapperStateDefinition.packetClass) { WrapperStateDefinition(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataComponentType" -> WrapperInfo(WrapperDataComponentType.packetClass) { WrapperDataComponentType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProvider" -> WrapperInfo(WrapperProvider.packetClass) { WrapperProvider(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperInteractionResultHolder" -> WrapperInfo(WrapperInteractionResultHolder.packetClass) { WrapperInteractionResultHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataComponentMap" -> WrapperInfo(WrapperDataComponentMap.packetClass) { WrapperDataComponentMap(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLivingEntity" -> WrapperInfo(WrapperLivingEntity.packetClass) { WrapperLivingEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemLike" -> WrapperInfo(WrapperItemLike.packetClass) { WrapperItemLike(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTooltipContext" -> WrapperInfo(WrapperTooltipContext.packetClass) { WrapperTooltipContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTooltipFlag" -> WrapperInfo(WrapperTooltipFlag.packetClass) { WrapperTooltipFlag(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSoundEvent" -> WrapperInfo(WrapperSoundEvent.packetClass) { WrapperSoundEvent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemEnchantments" -> WrapperInfo(WrapperItemEnchantments.packetClass) { WrapperItemEnchantments(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDamageSource" -> WrapperInfo(WrapperDamageSource.packetClass) { WrapperDamageSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperUseOnContext" -> WrapperInfo(WrapperUseOnContext.packetClass) { WrapperUseOnContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemFrame" -> WrapperInfo(WrapperItemFrame.packetClass) { WrapperItemFrame(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockInWorld" -> WrapperInfo(WrapperBlockInWorld.packetClass) { WrapperBlockInWorld(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSlot" -> WrapperInfo(WrapperSlot.packetClass) { WrapperSlot(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSlotAccess" -> WrapperInfo(WrapperSlotAccess.packetClass) { WrapperSlotAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataComponentPatch" -> WrapperInfo(WrapperDataComponentPatch.packetClass) { WrapperDataComponentPatch(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacketListener" -> WrapperInfo(WrapperPacketListener.packetClass) { WrapperPacketListener(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDisconnectionDetails" -> WrapperInfo(WrapperDisconnectionDetails.packetClass) { WrapperDisconnectionDetails(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerPlayer" -> WrapperInfo(WrapperServerPlayer.packetClass) { WrapperServerPlayer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemAttributeModifiers" -> WrapperInfo(WrapperItemAttributeModifiers.packetClass) { WrapperItemAttributeModifiers(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolderOwner" -> WrapperInfo(WrapperHolderOwner.packetClass) { WrapperHolderOwner(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHitResult" -> WrapperInfo(WrapperHitResult.packetClass) { WrapperHitResult(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRegistryAccess" -> WrapperInfo(WrapperRegistryAccess.packetClass) { WrapperRegistryAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTeam" -> WrapperInfo(WrapperTeam.packetClass) { WrapperTeam(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProjectile" -> WrapperInfo(WrapperProjectile.packetClass) { WrapperProjectile(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFluidState" -> WrapperInfo(WrapperFluidState.packetClass) { WrapperFluidState(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacket" -> WrapperInfo(WrapperPacket.packetClass) { WrapperPacket(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerEntity" -> WrapperInfo(WrapperServerEntity.packetClass) { WrapperServerEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTrackedEntity" -> WrapperInfo(WrapperTrackedEntity.packetClass) { WrapperTrackedEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommandSourceStack" -> WrapperInfo(WrapperCommandSourceStack.packetClass) { WrapperCommandSourceStack(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFoundRectangle" -> WrapperInfo(WrapperFoundRectangle.packetClass) { WrapperFoundRectangle(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRandomSource" -> WrapperInfo(WrapperRandomSource.packetClass) { WrapperRandomSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDamageSources" -> WrapperInfo(WrapperDamageSources.packetClass) { WrapperDamageSources(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSynchedEntityData" -> WrapperInfo(WrapperSynchedEntityData.packetClass) { WrapperSynchedEntityData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVecDeltaCodec" -> WrapperInfo(WrapperVecDeltaCodec.packetClass) { WrapperVecDeltaCodec(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityAttachments" -> WrapperInfo(WrapperEntityAttachments.packetClass) { WrapperEntityAttachments(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemEntity" -> WrapperInfo(WrapperItemEntity.packetClass) { WrapperItemEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVec2" -> WrapperInfo(WrapperVec2.packetClass) { WrapperVec2(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDimensionTransition" -> WrapperInfo(WrapperDimensionTransition.packetClass) { WrapperDimensionTransition(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayerTeam" -> WrapperInfo(WrapperPlayerTeam.packetClass) { WrapperPlayerTeam(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMinecraftServer" -> WrapperInfo(WrapperMinecraftServer.packetClass) { WrapperMinecraftServer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVoxelShape" -> WrapperInfo(WrapperVoxelShape.packetClass) { WrapperVoxelShape(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelChunk" -> WrapperInfo(WrapperLevelChunk.packetClass) { WrapperLevelChunk(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldBorder" -> WrapperInfo(WrapperWorldBorder.packetClass) { WrapperWorldBorder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCollisionContext" -> WrapperInfo(WrapperCollisionContext.packetClass) { WrapperCollisionContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDimensionType" -> WrapperInfo(WrapperDimensionType.packetClass) { WrapperDimensionType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelEntityGetter" -> WrapperInfo(WrapperLevelEntityGetter.packetClass) { WrapperLevelEntityGetter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperGameRules" -> WrapperInfo(WrapperGameRules.packetClass) { WrapperGameRules(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelLightEngine" -> WrapperInfo(WrapperLevelLightEngine.packetClass) { WrapperLevelLightEngine(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTickRateManager" -> WrapperInfo(WrapperTickRateManager.packetClass) { WrapperTickRateManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelData" -> WrapperInfo(WrapperLevelData.packetClass) { WrapperLevelData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPotionBrewing" -> WrapperInfo(WrapperPotionBrewing.packetClass) { WrapperPotionBrewing(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCrashReportCategory" -> WrapperInfo(WrapperCrashReportCategory.packetClass) { WrapperCrashReportCategory(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCrashReport" -> WrapperInfo(WrapperCrashReport.packetClass) { WrapperCrashReport(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperScoreboard" -> WrapperInfo(WrapperScoreboard.packetClass) { WrapperScoreboard(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiomeManager" -> WrapperInfo(WrapperBiomeManager.packetClass) { WrapperBiomeManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRecipeManager" -> WrapperInfo(WrapperRecipeManager.packetClass) { WrapperRecipeManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClipContext" -> WrapperInfo(WrapperClipContext.packetClass) { WrapperClipContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMapItemSavedData" -> WrapperInfo(WrapperMapItemSavedData.packetClass) { WrapperMapItemSavedData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperExplosionDamageCalculator" -> WrapperInfo(WrapperExplosionDamageCalculator.packetClass) { WrapperExplosionDamageCalculator(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkAccess" -> WrapperInfo(WrapperChunkAccess.packetClass) { WrapperChunkAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkStatus" -> WrapperInfo(WrapperChunkStatus.packetClass) { WrapperChunkStatus(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDifficultyInstance" -> WrapperInfo(WrapperDifficultyInstance.packetClass) { WrapperDifficultyInstance(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperParticleType" -> WrapperInfo(WrapperParticleType.packetClass) { WrapperParticleType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFriendlyByteBuf" -> WrapperInfo(WrapperFriendlyByteBuf.packetClass) { WrapperFriendlyByteBuf(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMerchantOffer" -> WrapperInfo(WrapperMerchantOffer.packetClass) { WrapperMerchantOffer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAbstractContainerMenu" -> WrapperInfo(WrapperAbstractContainerMenu.packetClass) { WrapperAbstractContainerMenu(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperInventory" -> WrapperInfo(WrapperInventory.packetClass) { WrapperInventory(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPacked" -> WrapperInfo(WrapperPacked.packetClass) { WrapperPacked(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperData" -> WrapperInfo(WrapperData.packetClass) { WrapperData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerChunkCache" -> WrapperInfo(WrapperServerChunkCache.packetClass) { WrapperServerChunkCache(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureTemplateManager" -> WrapperInfo(WrapperStructureTemplateManager.packetClass) { WrapperStructureTemplateManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRaids" -> WrapperInfo(WrapperRaids.packetClass) { WrapperRaids(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRaid" -> WrapperInfo(WrapperRaid.packetClass) { WrapperRaid(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelTicks" -> WrapperInfo(WrapperLevelTicks.packetClass) { WrapperLevelTicks(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerScoreboard" -> WrapperInfo(WrapperServerScoreboard.packetClass) { WrapperServerScoreboard(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureManager" -> WrapperInfo(WrapperStructureManager.packetClass) { WrapperStructureManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDimensionDataStorage" -> WrapperInfo(WrapperDimensionDataStorage.packetClass) { WrapperDimensionDataStorage(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPoiManager" -> WrapperInfo(WrapperPoiManager.packetClass) { WrapperPoiManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPortalForcer" -> WrapperInfo(WrapperPortalForcer.packetClass) { WrapperPortalForcer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPathTypeCache" -> WrapperInfo(WrapperPathTypeCache.packetClass) { WrapperPathTypeCache(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRandomSequences" -> WrapperInfo(WrapperRandomSequences.packetClass) { WrapperRandomSequences(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEndDragonFight" -> WrapperInfo(WrapperEndDragonFight.packetClass) { WrapperEndDragonFight(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSectionPos" -> WrapperInfo(WrapperSectionPos.packetClass) { WrapperSectionPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelHeightAccessor" -> WrapperInfo(WrapperLevelHeightAccessor.packetClass) { WrapperLevelHeightAccessor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPosition" -> WrapperInfo(WrapperPosition.packetClass) { WrapperPosition(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTextColor" -> WrapperInfo(WrapperTextColor.packetClass) { WrapperTextColor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHoverEvent" -> WrapperInfo(WrapperHoverEvent.packetClass) { WrapperHoverEvent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClickEvent" -> WrapperInfo(WrapperClickEvent.packetClass) { WrapperClickEvent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperType" -> WrapperInfo(WrapperType.packetClass) { WrapperType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperContentConsumer" -> WrapperInfo(WrapperContentConsumer.packetClass) { WrapperContentConsumer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFormattedCharSink" -> WrapperInfo(WrapperFormattedCharSink.packetClass) { WrapperFormattedCharSink(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFeatureFlag" -> WrapperInfo(WrapperFeatureFlag.packetClass) { WrapperFeatureFlag(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperClipBlockStateContext" -> WrapperInfo(WrapperClipBlockStateContext.packetClass) { WrapperClipBlockStateContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNbtAccounter" -> WrapperInfo(WrapperNbtAccounter.packetClass) { WrapperNbtAccounter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMenuProvider" -> WrapperInfo(WrapperMenuProvider.packetClass) { WrapperMenuProvider(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemCooldowns" -> WrapperInfo(WrapperItemCooldowns.packetClass) { WrapperItemCooldowns(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFallsounds" -> WrapperInfo(WrapperFallsounds.packetClass) { WrapperFallsounds(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFoodData" -> WrapperInfo(WrapperFoodData.packetClass) { WrapperFoodData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAbilities" -> WrapperInfo(WrapperAbilities.packetClass) { WrapperAbilities(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFoodProperties" -> WrapperInfo(WrapperFoodProperties.packetClass) { WrapperFoodProperties(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayerEnderChestContainer" -> WrapperInfo(WrapperPlayerEnderChestContainer.packetClass) { WrapperPlayerEnderChestContainer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperColorResolver" -> WrapperInfo(WrapperColorResolver.packetClass) { WrapperColorResolver(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolderLookup" -> WrapperInfo(WrapperHolderLookup.packetClass) { WrapperHolderLookup(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProperty" -> WrapperInfo(WrapperProperty.packetClass) { WrapperProperty(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStateHolder" -> WrapperInfo(WrapperStateHolder.packetClass) { WrapperStateHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStreamCodec" -> WrapperInfo(WrapperStreamCodec.packetClass) { WrapperStreamCodec(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRegistryLookup" -> WrapperInfo(WrapperRegistryLookup.packetClass) { WrapperRegistryLookup(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProvider" -> WrapperInfo(WrapperProvider.packetClass) { WrapperProvider(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRegistryOps" -> WrapperInfo(WrapperRegistryOps.packetClass) { WrapperRegistryOps(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTypedDataComponent" -> WrapperInfo(WrapperTypedDataComponent.packetClass) { WrapperTypedDataComponent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAttributeMap" -> WrapperInfo(WrapperAttributeMap.packetClass) { WrapperAttributeMap(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAttributeInstance" -> WrapperInfo(WrapperAttributeInstance.packetClass) { WrapperAttributeInstance(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMobEffectInstance" -> WrapperInfo(WrapperMobEffectInstance.packetClass) { WrapperMobEffectInstance(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBrain" -> WrapperInfo(WrapperBrain.packetClass) { WrapperBrain(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityHitResult" -> WrapperInfo(WrapperEntityHitResult.packetClass) { WrapperEntityHitResult(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCombatTracker" -> WrapperInfo(WrapperCombatTracker.packetClass) { WrapperCombatTracker(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDamageType" -> WrapperInfo(WrapperDamageType.packetClass) { WrapperDamageType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSplitResult" -> WrapperInfo(WrapperSplitResult.packetClass) { WrapperSplitResult(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerStatsCounter" -> WrapperInfo(WrapperServerStatsCounter.packetClass) { WrapperServerStatsCounter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerRecipeBook" -> WrapperInfo(WrapperServerRecipeBook.packetClass) { WrapperServerRecipeBook(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTextFilter" -> WrapperInfo(WrapperTextFilter.packetClass) { WrapperTextFilter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayerAdvancements" -> WrapperInfo(WrapperPlayerAdvancements.packetClass) { WrapperPlayerAdvancements(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPostDimensionTransition" -> WrapperInfo(WrapperPostDimensionTransition.packetClass) { WrapperPostDimensionTransition(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRemoteChatSession" -> WrapperInfo(WrapperRemoteChatSession.packetClass) { WrapperRemoteChatSession(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkTrackingView" -> WrapperInfo(WrapperChunkTrackingView.packetClass) { WrapperChunkTrackingView(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRegistry" -> WrapperInfo(WrapperRegistry.packetClass) { WrapperRegistry(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFluid" -> WrapperInfo(WrapperFluid.packetClass) { WrapperFluid(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommandSource" -> WrapperInfo(WrapperCommandSource.packetClass) { WrapperCommandSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommandSigningContext" -> WrapperInfo(WrapperCommandSigningContext.packetClass) { WrapperCommandSigningContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPositionalRandomFactory" -> WrapperInfo(WrapperPositionalRandomFactory.packetClass) { WrapperPositionalRandomFactory(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFireworkRocketEntity" -> WrapperInfo(WrapperFireworkRocketEntity.packetClass) { WrapperFireworkRocketEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWitherSkull" -> WrapperInfo(WrapperWitherSkull.packetClass) { WrapperWitherSkull(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAbstractArrow" -> WrapperInfo(WrapperAbstractArrow.packetClass) { WrapperAbstractArrow(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFireball" -> WrapperInfo(WrapperFireball.packetClass) { WrapperFireball(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityDataAccessor" -> WrapperInfo(WrapperEntityDataAccessor.packetClass) { WrapperEntityDataAccessor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataItem" -> WrapperInfo(WrapperDataItem.packetClass) { WrapperDataItem(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayerList" -> WrapperInfo(WrapperPlayerList.packetClass) { WrapperPlayerList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerAdvancementManager" -> WrapperInfo(WrapperServerAdvancementManager.packetClass) { WrapperServerAdvancementManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCustomBossEvents" -> WrapperInfo(WrapperCustomBossEvents.packetClass) { WrapperCustomBossEvents(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolder" -> WrapperInfo(WrapperHolder.packetClass) { WrapperHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerTickRateManager" -> WrapperInfo(WrapperServerTickRateManager.packetClass) { WrapperServerTickRateManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLayeredRegistryAccess" -> WrapperInfo(WrapperLayeredRegistryAccess.packetClass) { WrapperLayeredRegistryAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldData" -> WrapperInfo(WrapperWorldData.packetClass) { WrapperWorldData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommands" -> WrapperInfo(WrapperCommands.packetClass) { WrapperCommands(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSystemReport" -> WrapperInfo(WrapperSystemReport.packetClass) { WrapperSystemReport(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerFunctionManager" -> WrapperInfo(WrapperServerFunctionManager.packetClass) { WrapperServerFunctionManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperModCheck" -> WrapperInfo(WrapperModCheck.packetClass) { WrapperModCheck(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerConnectionListener" -> WrapperInfo(WrapperServerConnectionListener.packetClass) { WrapperServerConnectionListener(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperGameProfileCache" -> WrapperInfo(WrapperGameProfileCache.packetClass) { WrapperGameProfileCache(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTickTask" -> WrapperInfo(WrapperTickTask.packetClass) { WrapperTickTask(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackRepository" -> WrapperInfo(WrapperPackRepository.packetClass) { WrapperPackRepository(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCommandStorage" -> WrapperInfo(WrapperCommandStorage.packetClass) { WrapperCommandStorage(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelResource" -> WrapperInfo(WrapperLevelResource.packetClass) { WrapperLevelResource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProfileResults" -> WrapperInfo(WrapperProfileResults.packetClass) { WrapperProfileResults(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperResourceManager" -> WrapperInfo(WrapperResourceManager.packetClass) { WrapperResourceManager(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerLinks" -> WrapperInfo(WrapperServerLinks.packetClass) { WrapperServerLinks(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChatDecorator" -> WrapperInfo(WrapperChatDecorator.packetClass) { WrapperChatDecorator(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSignatureValidator" -> WrapperInfo(WrapperSignatureValidator.packetClass) { WrapperSignatureValidator(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerPlayerGameMode" -> WrapperInfo(WrapperServerPlayerGameMode.packetClass) { WrapperServerPlayerGameMode(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTicksToSave" -> WrapperInfo(WrapperTicksToSave.packetClass) { WrapperTicksToSave(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperGameEventListenerRegistry" -> WrapperInfo(WrapperGameEventListenerRegistry.packetClass) { WrapperGameEventListenerRegistry(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkAndHolder" -> WrapperInfo(WrapperChunkAndHolder.packetClass) { WrapperChunkAndHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSettings" -> WrapperInfo(WrapperSettings.packetClass) { WrapperSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMonsterSettings" -> WrapperInfo(WrapperMonsterSettings.packetClass) { WrapperMonsterSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityAccess" -> WrapperInfo(WrapperEntityAccess.packetClass) { WrapperEntityAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperKey" -> WrapperInfo(WrapperKey.packetClass) { WrapperKey(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperValue" -> WrapperInfo(WrapperValue.packetClass) { WrapperValue(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLayerLightEventListener" -> WrapperInfo(WrapperLayerLightEventListener.packetClass) { WrapperLayerLightEventListener(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperReportType" -> WrapperInfo(WrapperReportType.packetClass) { WrapperReportType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperReadOnlyScoreInfo" -> WrapperInfo(WrapperReadOnlyScoreInfo.packetClass) { WrapperReadOnlyScoreInfo(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperScoreHolder" -> WrapperInfo(WrapperScoreHolder.packetClass) { WrapperScoreHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperObjective" -> WrapperInfo(WrapperObjective.packetClass) { WrapperObjective(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperObjectiveCriteria" -> WrapperInfo(WrapperObjectiveCriteria.packetClass) { WrapperObjectiveCriteria(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNumberFormat" -> WrapperInfo(WrapperNumberFormat.packetClass) { WrapperNumberFormat(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperScoreAccess" -> WrapperInfo(WrapperScoreAccess.packetClass) { WrapperScoreAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseBiomeSource" -> WrapperInfo(WrapperNoiseBiomeSource.packetClass) { WrapperNoiseBiomeSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRecipeInput" -> WrapperInfo(WrapperRecipeInput.packetClass) { WrapperRecipeInput(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNonNullList" -> WrapperInfo(WrapperNonNullList.packetClass) { WrapperNonNullList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelAccessor" -> WrapperInfo(WrapperLevelAccessor.packetClass) { WrapperLevelAccessor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHoldingPlayer" -> WrapperInfo(WrapperHoldingPlayer.packetClass) { WrapperHoldingPlayer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelChunkSection" -> WrapperInfo(WrapperLevelChunkSection.packetClass) { WrapperLevelChunkSection(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperUpgradeData" -> WrapperInfo(WrapperUpgradeData.packetClass) { WrapperUpgradeData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiomeGenerationSettings" -> WrapperInfo(WrapperBiomeGenerationSettings.packetClass) { WrapperBiomeGenerationSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkSkyLightSources" -> WrapperInfo(WrapperChunkSkyLightSources.packetClass) { WrapperChunkSkyLightSources(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlendingData" -> WrapperInfo(WrapperBlendingData.packetClass) { WrapperBlendingData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseChunk" -> WrapperInfo(WrapperNoiseChunk.packetClass) { WrapperNoiseChunk(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureStart" -> WrapperInfo(WrapperStructureStart.packetClass) { WrapperStructureStart(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructure" -> WrapperInfo(WrapperStructure.packetClass) { WrapperStructure(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBelowZeroRetrogen" -> WrapperInfo(WrapperBelowZeroRetrogen.packetClass) { WrapperBelowZeroRetrogen(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHeightmap" -> WrapperInfo(WrapperHeightmap.packetClass) { WrapperHeightmap(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStreamDecoder" -> WrapperInfo(WrapperStreamDecoder.packetClass) { WrapperStreamDecoder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperGlobalPos" -> WrapperInfo(WrapperGlobalPos.packetClass) { WrapperGlobalPos(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperItemCost" -> WrapperInfo(WrapperItemCost.packetClass) { WrapperItemCost(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperContainer" -> WrapperInfo(WrapperContainer.packetClass) { WrapperContainer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperThreadedLevelLightEngine" -> WrapperInfo(WrapperThreadedLevelLightEngine.packetClass) { WrapperThreadedLevelLightEngine(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkScanAccess" -> WrapperInfo(WrapperChunkScanAccess.packetClass) { WrapperChunkScanAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkGeneratorStructureState" -> WrapperInfo(WrapperChunkGeneratorStructureState.packetClass) { WrapperChunkGeneratorStructureState(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkGenerator" -> WrapperInfo(WrapperChunkGenerator.packetClass) { WrapperChunkGenerator(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRandomState" -> WrapperInfo(WrapperRandomState.packetClass) { WrapperRandomState(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSpawnState" -> WrapperInfo(WrapperSpawnState.packetClass) { WrapperSpawnState(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLightChunk" -> WrapperInfo(WrapperLightChunk.packetClass) { WrapperLightChunk(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureTemplate" -> WrapperInfo(WrapperStructureTemplate.packetClass) { WrapperStructureTemplate(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRaider" -> WrapperInfo(WrapperRaider.packetClass) { WrapperRaider(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFactory" -> WrapperInfo(WrapperFactory.packetClass) { WrapperFactory(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolderSet" -> WrapperInfo(WrapperHolderSet.packetClass) { WrapperHolderSet(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureAccess" -> WrapperInfo(WrapperStructureAccess.packetClass) { WrapperStructureAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldGenRegion" -> WrapperInfo(WrapperWorldGenRegion.packetClass) { WrapperWorldGenRegion(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructurePlacement" -> WrapperInfo(WrapperStructurePlacement.packetClass) { WrapperStructurePlacement(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSavedData" -> WrapperInfo(WrapperSavedData.packetClass) { WrapperSavedData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperData" -> WrapperInfo(WrapperData.packetClass) { WrapperData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlockPatternMatch" -> WrapperInfo(WrapperBlockPatternMatch.packetClass) { WrapperBlockPatternMatch(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAction" -> WrapperInfo(WrapperAction.packetClass) { WrapperAction(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEnderChestBlockEntity" -> WrapperInfo(WrapperEnderChestBlockEntity.packetClass) { WrapperEnderChestBlockEntity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiome" -> WrapperInfo(WrapperBiome.packetClass) { WrapperBiome(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperValue" -> WrapperInfo(WrapperValue.packetClass) { WrapperValue(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCodecOperation" -> WrapperInfo(WrapperCodecOperation.packetClass) { WrapperCodecOperation(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperHolderGetter" -> WrapperInfo(WrapperHolderGetter.packetClass) { WrapperHolderGetter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAttributeModifier" -> WrapperInfo(WrapperAttributeModifier.packetClass) { WrapperAttributeModifier(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperActivity" -> WrapperInfo(WrapperActivity.packetClass) { WrapperActivity(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMemoryModuleType" -> WrapperInfo(WrapperMemoryModuleType.packetClass) { WrapperMemoryModuleType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSchedule" -> WrapperInfo(WrapperSchedule.packetClass) { WrapperSchedule(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementHolder" -> WrapperInfo(WrapperAdvancementHolder.packetClass) { WrapperAdvancementHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementProgress" -> WrapperInfo(WrapperAdvancementProgress.packetClass) { WrapperAdvancementProgress(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperProfilePublicKey" -> WrapperInfo(WrapperProfilePublicKey.packetClass) { WrapperProfilePublicKey(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIdMap" -> WrapperInfo(WrapperIdMap.packetClass) { WrapperIdMap(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNamed" -> WrapperInfo(WrapperNamed.packetClass) { WrapperNamed(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlayerChatMessage" -> WrapperInfo(WrapperPlayerChatMessage.packetClass) { WrapperPlayerChatMessage(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityDataSerializer" -> WrapperInfo(WrapperEntityDataSerializer.packetClass) { WrapperEntityDataSerializer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataValue" -> WrapperInfo(WrapperDataValue.packetClass) { WrapperDataValue(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerOpList" -> WrapperInfo(WrapperServerOpList.packetClass) { WrapperServerOpList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIpBanList" -> WrapperInfo(WrapperIpBanList.packetClass) { WrapperIpBanList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperUserBanList" -> WrapperInfo(WrapperUserBanList.packetClass) { WrapperUserBanList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperUserWhiteList" -> WrapperInfo(WrapperUserWhiteList.packetClass) { WrapperUserWhiteList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerLoginPacketListenerImpl" -> WrapperInfo(WrapperServerLoginPacketListenerImpl.packetClass) { WrapperServerLoginPacketListenerImpl(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementTree" -> WrapperInfo(WrapperAdvancementTree.packetClass) { WrapperAdvancementTree(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCustomBossEvent" -> WrapperInfo(WrapperCustomBossEvent.packetClass) { WrapperCustomBossEvent(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLootTable" -> WrapperInfo(WrapperLootTable.packetClass) { WrapperLootTable(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldOptions" -> WrapperInfo(WrapperWorldOptions.packetClass) { WrapperWorldOptions(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerLevelData" -> WrapperInfo(WrapperServerLevelData.packetClass) { WrapperServerLevelData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelSettings" -> WrapperInfo(WrapperLevelSettings.packetClass) { WrapperLevelSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldDataConfiguration" -> WrapperInfo(WrapperWorldDataConfiguration.packetClass) { WrapperWorldDataConfiguration(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPack" -> WrapperInfo(WrapperPack.packetClass) { WrapperPack(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSerializableTickContainer" -> WrapperInfo(WrapperSerializableTickContainer.packetClass) { WrapperSerializableTickContainer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperContext" -> WrapperInfo(WrapperContext.packetClass) { WrapperContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkHolder" -> WrapperInfo(WrapperChunkHolder.packetClass) { WrapperChunkHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIntProvider" -> WrapperInfo(WrapperIntProvider.packetClass) { WrapperIntProvider(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataLayer" -> WrapperInfo(WrapperDataLayer.packetClass) { WrapperDataLayer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNumberFormatType" -> WrapperInfo(WrapperNumberFormatType.packetClass) { WrapperNumberFormatType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperChunkSource" -> WrapperInfo(WrapperChunkSource.packetClass) { WrapperChunkSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLevelTickAccess" -> WrapperInfo(WrapperLevelTickAccess.packetClass) { WrapperLevelTickAccess(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPalettedContainer" -> WrapperInfo(WrapperPalettedContainer.packetClass) { WrapperPalettedContainer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPalettedContainerRO" -> WrapperInfo(WrapperPalettedContainerRO.packetClass) { WrapperPalettedContainerRO(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPlacedFeature" -> WrapperInfo(WrapperPlacedFeature.packetClass) { WrapperPlacedFeature(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAquifer" -> WrapperInfo(WrapperAquifer.packetClass) { WrapperAquifer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlender" -> WrapperInfo(WrapperBlender.packetClass) { WrapperBlender(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBoundingBox" -> WrapperInfo(WrapperBoundingBox.packetClass) { WrapperBoundingBox(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructurePieceSerializationContext" -> WrapperInfo(WrapperStructurePieceSerializationContext.packetClass) { WrapperStructurePieceSerializationContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureType" -> WrapperInfo(WrapperStructureType.packetClass) { WrapperStructureType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiomeSource" -> WrapperInfo(WrapperBiomeSource.packetClass) { WrapperBiomeSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperGenerationContext" -> WrapperInfo(WrapperGenerationContext.packetClass) { WrapperGenerationContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataComponentPredicate" -> WrapperInfo(WrapperDataComponentPredicate.packetClass) { WrapperDataComponentPredicate(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperConcentricRingsStructurePlacement" -> WrapperInfo(WrapperConcentricRingsStructurePlacement.packetClass) { WrapperConcentricRingsStructurePlacement(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseColumn" -> WrapperInfo(WrapperNoiseColumn.packetClass) { WrapperNoiseColumn(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWeightedRandomList" -> WrapperInfo(WrapperWeightedRandomList.packetClass) { WrapperWeightedRandomList(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSampler" -> WrapperInfo(WrapperSampler.packetClass) { WrapperSampler(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseRouter" -> WrapperInfo(WrapperNoiseRouter.packetClass) { WrapperNoiseRouter(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNormalNoise" -> WrapperInfo(WrapperNormalNoise.packetClass) { WrapperNormalNoise(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSurfaceSystem" -> WrapperInfo(WrapperSurfaceSystem.packetClass) { WrapperSurfaceSystem(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructurePlaceSettings" -> WrapperInfo(WrapperStructurePlaceSettings.packetClass) { WrapperStructurePlaceSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperServerLevelAccessor" -> WrapperInfo(WrapperServerLevelAccessor.packetClass) { WrapperServerLevelAccessor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperEntityTypeTest" -> WrapperInfo(WrapperEntityTypeTest.packetClass) { WrapperEntityTypeTest(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructurePlacementType" -> WrapperInfo(WrapperStructurePlacementType.packetClass) { WrapperStructurePlacementType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMobSpawnSettings" -> WrapperInfo(WrapperMobSpawnSettings.packetClass) { WrapperMobSpawnSettings(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiomeSpecialEffects" -> WrapperInfo(WrapperBiomeSpecialEffects.packetClass) { WrapperBiomeSpecialEffects(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancement" -> WrapperInfo(WrapperAdvancement.packetClass) { WrapperAdvancement(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCriterionProgress" -> WrapperInfo(WrapperCriterionProgress.packetClass) { WrapperCriterionProgress(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSignedMessageLink" -> WrapperInfo(WrapperSignedMessageLink.packetClass) { WrapperSignedMessageLink(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperSignedMessageBody" -> WrapperInfo(WrapperSignedMessageBody.packetClass) { WrapperSignedMessageBody(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIpBanListEntry" -> WrapperInfo(WrapperIpBanListEntry.packetClass) { WrapperIpBanListEntry(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementNode" -> WrapperInfo(WrapperAdvancementNode.packetClass) { WrapperAdvancementNode(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLootParams" -> WrapperInfo(WrapperLootParams.packetClass) { WrapperLootParams(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLootContextParamSet" -> WrapperInfo(WrapperLootContextParamSet.packetClass) { WrapperLootContextParamSet(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperTimerQueue" -> WrapperInfo(WrapperTimerQueue.packetClass) { WrapperTimerQueue(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDataPackConfig" -> WrapperInfo(WrapperDataPackConfig.packetClass) { WrapperDataPackConfig(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackLocationInfo" -> WrapperInfo(WrapperPackLocationInfo.packetClass) { WrapperPackLocationInfo(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackResources" -> WrapperInfo(WrapperPackResources.packetClass) { WrapperPackResources(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackSelectionConfig" -> WrapperInfo(WrapperPackSelectionConfig.packetClass) { WrapperPackSelectionConfig(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackSource" -> WrapperInfo(WrapperPackSource.packetClass) { WrapperPackSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIntProviderType" -> WrapperInfo(WrapperIntProviderType.packetClass) { WrapperIntProviderType(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPackedData" -> WrapperInfo(WrapperPackedData.packetClass) { WrapperPackedData(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStrategy" -> WrapperInfo(WrapperStrategy.packetClass) { WrapperStrategy(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFunctionContext" -> WrapperInfo(WrapperFunctionContext.packetClass) { WrapperFunctionContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBiomeResolver" -> WrapperInfo(WrapperBiomeResolver.packetClass) { WrapperBiomeResolver(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperBlendingOutput" -> WrapperInfo(WrapperBlendingOutput.packetClass) { WrapperBlendingOutput(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperWorldgenRandom" -> WrapperInfo(WrapperWorldgenRandom.packetClass) { WrapperWorldgenRandom(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperDensityFunction" -> WrapperInfo(WrapperDensityFunction.packetClass) { WrapperDensityFunction(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseParameters" -> WrapperInfo(WrapperNoiseParameters.packetClass) { WrapperNoiseParameters(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperRuleSource" -> WrapperInfo(WrapperRuleSource.packetClass) { WrapperRuleSource(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperCarvingContext" -> WrapperInfo(WrapperCarvingContext.packetClass) { WrapperCarvingContext(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureProcessor" -> WrapperInfo(WrapperStructureProcessor.packetClass) { WrapperStructureProcessor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPalette" -> WrapperInfo(WrapperPalette.packetClass) { WrapperPalette(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMobSpawnCost" -> WrapperInfo(WrapperMobSpawnCost.packetClass) { WrapperMobSpawnCost(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementRewards" -> WrapperInfo(WrapperAdvancementRewards.packetClass) { WrapperAdvancementRewards(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperAdvancementRequirements" -> WrapperInfo(WrapperAdvancementRequirements.packetClass) { WrapperAdvancementRequirements(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLastSeenMessages" -> WrapperInfo(WrapperLastSeenMessages.packetClass) { WrapperLastSeenMessages(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperLootContextParam" -> WrapperInfo(WrapperLootContextParam.packetClass) { WrapperLootContextParam(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperIoSupplier" -> WrapperInfo(WrapperIoSupplier.packetClass) { WrapperIoSupplier(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperMetadataSectionSerializer" -> WrapperInfo(WrapperMetadataSectionSerializer.packetClass) { WrapperMetadataSectionSerializer(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperConfiguration" -> WrapperInfo(WrapperConfiguration.packetClass) { WrapperConfiguration(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperVisitor" -> WrapperInfo(WrapperVisitor.packetClass) { WrapperVisitor(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperKeyDispatchDataCodec" -> WrapperInfo(WrapperKeyDispatchDataCodec.packetClass) { WrapperKeyDispatchDataCodec(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperStructureBlockInfo" -> WrapperInfo(WrapperStructureBlockInfo.packetClass) { WrapperStructureBlockInfo(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperFactory" -> WrapperInfo(WrapperFactory.packetClass) { WrapperFactory(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperNoiseHolder" -> WrapperInfo(WrapperNoiseHolder.packetClass) { WrapperNoiseHolder(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPalette" -> WrapperInfo(WrapperPalette.packetClass) { WrapperPalette(it) }
+            "net.apogee.slipstream.packet.wrapper.generated.WrapperPaletteResize" -> WrapperInfo(WrapperPaletteResize.packetClass) { WrapperPaletteResize(it) }
+            else -> null
+        }
+    }
+}
+
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : Any> Any.wrapAs(): T? {
-    return when (T::class) {
-        WrapperClientboundCustomPayloadPacket::class -> if (WrapperClientboundCustomPayloadPacket.packetClass.isInstance(this)) WrapperClientboundCustomPayloadPacket(this) as T else null
-        WrapperClientboundCustomReportDetailsPacket::class -> if (WrapperClientboundCustomReportDetailsPacket.packetClass.isInstance(this)) WrapperClientboundCustomReportDetailsPacket(this) as T else null
-        WrapperClientboundDisconnectPacket::class -> if (WrapperClientboundDisconnectPacket.packetClass.isInstance(this)) WrapperClientboundDisconnectPacket(this) as T else null
-        WrapperClientboundKeepAlivePacket::class -> if (WrapperClientboundKeepAlivePacket.packetClass.isInstance(this)) WrapperClientboundKeepAlivePacket(this) as T else null
-        WrapperClientboundPingPacket::class -> if (WrapperClientboundPingPacket.packetClass.isInstance(this)) WrapperClientboundPingPacket(this) as T else null
-        WrapperClientboundResourcePackPopPacket::class -> if (WrapperClientboundResourcePackPopPacket.packetClass.isInstance(this)) WrapperClientboundResourcePackPopPacket(this) as T else null
-        WrapperClientboundResourcePackPushPacket::class -> if (WrapperClientboundResourcePackPushPacket.packetClass.isInstance(this)) WrapperClientboundResourcePackPushPacket(this) as T else null
-        WrapperClientboundServerLinksPacket::class -> if (WrapperClientboundServerLinksPacket.packetClass.isInstance(this)) WrapperClientboundServerLinksPacket(this) as T else null
-        WrapperClientboundStoreCookiePacket::class -> if (WrapperClientboundStoreCookiePacket.packetClass.isInstance(this)) WrapperClientboundStoreCookiePacket(this) as T else null
-        WrapperClientboundTransferPacket::class -> if (WrapperClientboundTransferPacket.packetClass.isInstance(this)) WrapperClientboundTransferPacket(this) as T else null
-        WrapperClientboundUpdateTagsPacket::class -> if (WrapperClientboundUpdateTagsPacket.packetClass.isInstance(this)) WrapperClientboundUpdateTagsPacket(this) as T else null
-        WrapperServerboundClientInformationPacket::class -> if (WrapperServerboundClientInformationPacket.packetClass.isInstance(this)) WrapperServerboundClientInformationPacket(this) as T else null
-        WrapperServerboundCustomPayloadPacket::class -> if (WrapperServerboundCustomPayloadPacket.packetClass.isInstance(this)) WrapperServerboundCustomPayloadPacket(this) as T else null
-        WrapperServerboundKeepAlivePacket::class -> if (WrapperServerboundKeepAlivePacket.packetClass.isInstance(this)) WrapperServerboundKeepAlivePacket(this) as T else null
-        WrapperServerboundPongPacket::class -> if (WrapperServerboundPongPacket.packetClass.isInstance(this)) WrapperServerboundPongPacket(this) as T else null
-        WrapperServerboundResourcePackPacket::class -> if (WrapperServerboundResourcePackPacket.packetClass.isInstance(this)) WrapperServerboundResourcePackPacket(this) as T else null
-        WrapperClientboundFinishConfigurationPacket::class -> if (WrapperClientboundFinishConfigurationPacket.packetClass.isInstance(this)) WrapperClientboundFinishConfigurationPacket(this) as T else null
-        WrapperClientboundRegistryDataPacket::class -> if (WrapperClientboundRegistryDataPacket.packetClass.isInstance(this)) WrapperClientboundRegistryDataPacket(this) as T else null
-        WrapperClientboundResetChatPacket::class -> if (WrapperClientboundResetChatPacket.packetClass.isInstance(this)) WrapperClientboundResetChatPacket(this) as T else null
-        WrapperClientboundSelectKnownPacks::class -> if (WrapperClientboundSelectKnownPacks.packetClass.isInstance(this)) WrapperClientboundSelectKnownPacks(this) as T else null
-        WrapperClientboundUpdateEnabledFeaturesPacket::class -> if (WrapperClientboundUpdateEnabledFeaturesPacket.packetClass.isInstance(this)) WrapperClientboundUpdateEnabledFeaturesPacket(this) as T else null
-        WrapperServerboundFinishConfigurationPacket::class -> if (WrapperServerboundFinishConfigurationPacket.packetClass.isInstance(this)) WrapperServerboundFinishConfigurationPacket(this) as T else null
-        WrapperServerboundSelectKnownPacks::class -> if (WrapperServerboundSelectKnownPacks.packetClass.isInstance(this)) WrapperServerboundSelectKnownPacks(this) as T else null
-        WrapperClientboundCookieRequestPacket::class -> if (WrapperClientboundCookieRequestPacket.packetClass.isInstance(this)) WrapperClientboundCookieRequestPacket(this) as T else null
-        WrapperServerboundCookieResponsePacket::class -> if (WrapperServerboundCookieResponsePacket.packetClass.isInstance(this)) WrapperServerboundCookieResponsePacket(this) as T else null
-        WrapperClientboundAddEntityPacket::class -> if (WrapperClientboundAddEntityPacket.packetClass.isInstance(this)) WrapperClientboundAddEntityPacket(this) as T else null
-        WrapperClientboundAddExperienceOrbPacket::class -> if (WrapperClientboundAddExperienceOrbPacket.packetClass.isInstance(this)) WrapperClientboundAddExperienceOrbPacket(this) as T else null
-        WrapperClientboundAnimatePacket::class -> if (WrapperClientboundAnimatePacket.packetClass.isInstance(this)) WrapperClientboundAnimatePacket(this) as T else null
-        WrapperClientboundAwardStatsPacket::class -> if (WrapperClientboundAwardStatsPacket.packetClass.isInstance(this)) WrapperClientboundAwardStatsPacket(this) as T else null
-        WrapperClientboundBlockChangedAckPacket::class -> if (WrapperClientboundBlockChangedAckPacket.packetClass.isInstance(this)) WrapperClientboundBlockChangedAckPacket(this) as T else null
-        WrapperClientboundBlockDestructionPacket::class -> if (WrapperClientboundBlockDestructionPacket.packetClass.isInstance(this)) WrapperClientboundBlockDestructionPacket(this) as T else null
-        WrapperClientboundBlockEntityDataPacket::class -> if (WrapperClientboundBlockEntityDataPacket.packetClass.isInstance(this)) WrapperClientboundBlockEntityDataPacket(this) as T else null
-        WrapperClientboundBlockEventPacket::class -> if (WrapperClientboundBlockEventPacket.packetClass.isInstance(this)) WrapperClientboundBlockEventPacket(this) as T else null
-        WrapperClientboundBlockUpdatePacket::class -> if (WrapperClientboundBlockUpdatePacket.packetClass.isInstance(this)) WrapperClientboundBlockUpdatePacket(this) as T else null
-        WrapperClientboundBossEventPacket::class -> if (WrapperClientboundBossEventPacket.packetClass.isInstance(this)) WrapperClientboundBossEventPacket(this) as T else null
-        WrapperClientboundBundleDelimiterPacket::class -> if (WrapperClientboundBundleDelimiterPacket.packetClass.isInstance(this)) WrapperClientboundBundleDelimiterPacket(this) as T else null
-        WrapperClientboundBundlePacket::class -> if (WrapperClientboundBundlePacket.packetClass.isInstance(this)) WrapperClientboundBundlePacket(this) as T else null
-        WrapperClientboundChangeDifficultyPacket::class -> if (WrapperClientboundChangeDifficultyPacket.packetClass.isInstance(this)) WrapperClientboundChangeDifficultyPacket(this) as T else null
-        WrapperClientboundChunkBatchFinishedPacket::class -> if (WrapperClientboundChunkBatchFinishedPacket.packetClass.isInstance(this)) WrapperClientboundChunkBatchFinishedPacket(this) as T else null
-        WrapperClientboundChunkBatchStartPacket::class -> if (WrapperClientboundChunkBatchStartPacket.packetClass.isInstance(this)) WrapperClientboundChunkBatchStartPacket(this) as T else null
-        WrapperClientboundChunksBiomesPacket::class -> if (WrapperClientboundChunksBiomesPacket.packetClass.isInstance(this)) WrapperClientboundChunksBiomesPacket(this) as T else null
-        WrapperClientboundClearTitlesPacket::class -> if (WrapperClientboundClearTitlesPacket.packetClass.isInstance(this)) WrapperClientboundClearTitlesPacket(this) as T else null
-        WrapperClientboundCommandSuggestionsPacket::class -> if (WrapperClientboundCommandSuggestionsPacket.packetClass.isInstance(this)) WrapperClientboundCommandSuggestionsPacket(this) as T else null
-        WrapperClientboundCommandsPacket::class -> if (WrapperClientboundCommandsPacket.packetClass.isInstance(this)) WrapperClientboundCommandsPacket(this) as T else null
-        WrapperClientboundContainerClosePacket::class -> if (WrapperClientboundContainerClosePacket.packetClass.isInstance(this)) WrapperClientboundContainerClosePacket(this) as T else null
-        WrapperClientboundContainerSetContentPacket::class -> if (WrapperClientboundContainerSetContentPacket.packetClass.isInstance(this)) WrapperClientboundContainerSetContentPacket(this) as T else null
-        WrapperClientboundContainerSetDataPacket::class -> if (WrapperClientboundContainerSetDataPacket.packetClass.isInstance(this)) WrapperClientboundContainerSetDataPacket(this) as T else null
-        WrapperClientboundContainerSetSlotPacket::class -> if (WrapperClientboundContainerSetSlotPacket.packetClass.isInstance(this)) WrapperClientboundContainerSetSlotPacket(this) as T else null
-        WrapperClientboundCooldownPacket::class -> if (WrapperClientboundCooldownPacket.packetClass.isInstance(this)) WrapperClientboundCooldownPacket(this) as T else null
-        WrapperClientboundCustomChatCompletionsPacket::class -> if (WrapperClientboundCustomChatCompletionsPacket.packetClass.isInstance(this)) WrapperClientboundCustomChatCompletionsPacket(this) as T else null
-        WrapperClientboundDamageEventPacket::class -> if (WrapperClientboundDamageEventPacket.packetClass.isInstance(this)) WrapperClientboundDamageEventPacket(this) as T else null
-        WrapperClientboundDebugSamplePacket::class -> if (WrapperClientboundDebugSamplePacket.packetClass.isInstance(this)) WrapperClientboundDebugSamplePacket(this) as T else null
-        WrapperClientboundDeleteChatPacket::class -> if (WrapperClientboundDeleteChatPacket.packetClass.isInstance(this)) WrapperClientboundDeleteChatPacket(this) as T else null
-        WrapperClientboundDisguisedChatPacket::class -> if (WrapperClientboundDisguisedChatPacket.packetClass.isInstance(this)) WrapperClientboundDisguisedChatPacket(this) as T else null
-        WrapperClientboundEntityEventPacket::class -> if (WrapperClientboundEntityEventPacket.packetClass.isInstance(this)) WrapperClientboundEntityEventPacket(this) as T else null
-        WrapperClientboundExplodePacket::class -> if (WrapperClientboundExplodePacket.packetClass.isInstance(this)) WrapperClientboundExplodePacket(this) as T else null
-        WrapperClientboundForgetLevelChunkPacket::class -> if (WrapperClientboundForgetLevelChunkPacket.packetClass.isInstance(this)) WrapperClientboundForgetLevelChunkPacket(this) as T else null
-        WrapperClientboundGameEventPacket::class -> if (WrapperClientboundGameEventPacket.packetClass.isInstance(this)) WrapperClientboundGameEventPacket(this) as T else null
-        WrapperClientboundHorseScreenOpenPacket::class -> if (WrapperClientboundHorseScreenOpenPacket.packetClass.isInstance(this)) WrapperClientboundHorseScreenOpenPacket(this) as T else null
-        WrapperClientboundHurtAnimationPacket::class -> if (WrapperClientboundHurtAnimationPacket.packetClass.isInstance(this)) WrapperClientboundHurtAnimationPacket(this) as T else null
-        WrapperClientboundInitializeBorderPacket::class -> if (WrapperClientboundInitializeBorderPacket.packetClass.isInstance(this)) WrapperClientboundInitializeBorderPacket(this) as T else null
-        WrapperClientboundLevelChunkWithLightPacket::class -> if (WrapperClientboundLevelChunkWithLightPacket.packetClass.isInstance(this)) WrapperClientboundLevelChunkWithLightPacket(this) as T else null
-        WrapperClientboundLevelEventPacket::class -> if (WrapperClientboundLevelEventPacket.packetClass.isInstance(this)) WrapperClientboundLevelEventPacket(this) as T else null
-        WrapperClientboundLevelParticlesPacket::class -> if (WrapperClientboundLevelParticlesPacket.packetClass.isInstance(this)) WrapperClientboundLevelParticlesPacket(this) as T else null
-        WrapperClientboundLightUpdatePacket::class -> if (WrapperClientboundLightUpdatePacket.packetClass.isInstance(this)) WrapperClientboundLightUpdatePacket(this) as T else null
-        WrapperClientboundLoginPacket::class -> if (WrapperClientboundLoginPacket.packetClass.isInstance(this)) WrapperClientboundLoginPacket(this) as T else null
-        WrapperClientboundMapItemDataPacket::class -> if (WrapperClientboundMapItemDataPacket.packetClass.isInstance(this)) WrapperClientboundMapItemDataPacket(this) as T else null
-        WrapperClientboundMerchantOffersPacket::class -> if (WrapperClientboundMerchantOffersPacket.packetClass.isInstance(this)) WrapperClientboundMerchantOffersPacket(this) as T else null
-        WrapperPos::class -> if (WrapperPos.packetClass.isInstance(this)) WrapperPos(this) as T else null
-        WrapperPosRot::class -> if (WrapperPosRot.packetClass.isInstance(this)) WrapperPosRot(this) as T else null
-        WrapperRot::class -> if (WrapperRot.packetClass.isInstance(this)) WrapperRot(this) as T else null
-        WrapperClientboundMoveVehiclePacket::class -> if (WrapperClientboundMoveVehiclePacket.packetClass.isInstance(this)) WrapperClientboundMoveVehiclePacket(this) as T else null
-        WrapperClientboundOpenBookPacket::class -> if (WrapperClientboundOpenBookPacket.packetClass.isInstance(this)) WrapperClientboundOpenBookPacket(this) as T else null
-        WrapperClientboundOpenScreenPacket::class -> if (WrapperClientboundOpenScreenPacket.packetClass.isInstance(this)) WrapperClientboundOpenScreenPacket(this) as T else null
-        WrapperClientboundOpenSignEditorPacket::class -> if (WrapperClientboundOpenSignEditorPacket.packetClass.isInstance(this)) WrapperClientboundOpenSignEditorPacket(this) as T else null
-        WrapperClientboundPlaceGhostRecipePacket::class -> if (WrapperClientboundPlaceGhostRecipePacket.packetClass.isInstance(this)) WrapperClientboundPlaceGhostRecipePacket(this) as T else null
-        WrapperClientboundPlayerAbilitiesPacket::class -> if (WrapperClientboundPlayerAbilitiesPacket.packetClass.isInstance(this)) WrapperClientboundPlayerAbilitiesPacket(this) as T else null
-        WrapperClientboundPlayerChatPacket::class -> if (WrapperClientboundPlayerChatPacket.packetClass.isInstance(this)) WrapperClientboundPlayerChatPacket(this) as T else null
-        WrapperClientboundPlayerCombatEndPacket::class -> if (WrapperClientboundPlayerCombatEndPacket.packetClass.isInstance(this)) WrapperClientboundPlayerCombatEndPacket(this) as T else null
-        WrapperClientboundPlayerCombatEnterPacket::class -> if (WrapperClientboundPlayerCombatEnterPacket.packetClass.isInstance(this)) WrapperClientboundPlayerCombatEnterPacket(this) as T else null
-        WrapperClientboundPlayerCombatKillPacket::class -> if (WrapperClientboundPlayerCombatKillPacket.packetClass.isInstance(this)) WrapperClientboundPlayerCombatKillPacket(this) as T else null
-        WrapperClientboundPlayerInfoRemovePacket::class -> if (WrapperClientboundPlayerInfoRemovePacket.packetClass.isInstance(this)) WrapperClientboundPlayerInfoRemovePacket(this) as T else null
-        WrapperClientboundPlayerInfoUpdatePacket::class -> if (WrapperClientboundPlayerInfoUpdatePacket.packetClass.isInstance(this)) WrapperClientboundPlayerInfoUpdatePacket(this) as T else null
-        WrapperClientboundPlayerLookAtPacket::class -> if (WrapperClientboundPlayerLookAtPacket.packetClass.isInstance(this)) WrapperClientboundPlayerLookAtPacket(this) as T else null
-        WrapperClientboundPlayerPositionPacket::class -> if (WrapperClientboundPlayerPositionPacket.packetClass.isInstance(this)) WrapperClientboundPlayerPositionPacket(this) as T else null
-        WrapperClientboundProjectilePowerPacket::class -> if (WrapperClientboundProjectilePowerPacket.packetClass.isInstance(this)) WrapperClientboundProjectilePowerPacket(this) as T else null
-        WrapperClientboundRecipePacket::class -> if (WrapperClientboundRecipePacket.packetClass.isInstance(this)) WrapperClientboundRecipePacket(this) as T else null
-        WrapperClientboundRemoveEntitiesPacket::class -> if (WrapperClientboundRemoveEntitiesPacket.packetClass.isInstance(this)) WrapperClientboundRemoveEntitiesPacket(this) as T else null
-        WrapperClientboundRemoveMobEffectPacket::class -> if (WrapperClientboundRemoveMobEffectPacket.packetClass.isInstance(this)) WrapperClientboundRemoveMobEffectPacket(this) as T else null
-        WrapperClientboundResetScorePacket::class -> if (WrapperClientboundResetScorePacket.packetClass.isInstance(this)) WrapperClientboundResetScorePacket(this) as T else null
-        WrapperClientboundRespawnPacket::class -> if (WrapperClientboundRespawnPacket.packetClass.isInstance(this)) WrapperClientboundRespawnPacket(this) as T else null
-        WrapperClientboundRotateHeadPacket::class -> if (WrapperClientboundRotateHeadPacket.packetClass.isInstance(this)) WrapperClientboundRotateHeadPacket(this) as T else null
-        WrapperClientboundSectionBlocksUpdatePacket::class -> if (WrapperClientboundSectionBlocksUpdatePacket.packetClass.isInstance(this)) WrapperClientboundSectionBlocksUpdatePacket(this) as T else null
-        WrapperClientboundSelectAdvancementsTabPacket::class -> if (WrapperClientboundSelectAdvancementsTabPacket.packetClass.isInstance(this)) WrapperClientboundSelectAdvancementsTabPacket(this) as T else null
-        WrapperClientboundServerDataPacket::class -> if (WrapperClientboundServerDataPacket.packetClass.isInstance(this)) WrapperClientboundServerDataPacket(this) as T else null
-        WrapperClientboundSetActionBarTextPacket::class -> if (WrapperClientboundSetActionBarTextPacket.packetClass.isInstance(this)) WrapperClientboundSetActionBarTextPacket(this) as T else null
-        WrapperClientboundSetBorderCenterPacket::class -> if (WrapperClientboundSetBorderCenterPacket.packetClass.isInstance(this)) WrapperClientboundSetBorderCenterPacket(this) as T else null
-        WrapperClientboundSetBorderLerpSizePacket::class -> if (WrapperClientboundSetBorderLerpSizePacket.packetClass.isInstance(this)) WrapperClientboundSetBorderLerpSizePacket(this) as T else null
-        WrapperClientboundSetBorderSizePacket::class -> if (WrapperClientboundSetBorderSizePacket.packetClass.isInstance(this)) WrapperClientboundSetBorderSizePacket(this) as T else null
-        WrapperClientboundSetBorderWarningDelayPacket::class -> if (WrapperClientboundSetBorderWarningDelayPacket.packetClass.isInstance(this)) WrapperClientboundSetBorderWarningDelayPacket(this) as T else null
-        WrapperClientboundSetBorderWarningDistancePacket::class -> if (WrapperClientboundSetBorderWarningDistancePacket.packetClass.isInstance(this)) WrapperClientboundSetBorderWarningDistancePacket(this) as T else null
-        WrapperClientboundSetCameraPacket::class -> if (WrapperClientboundSetCameraPacket.packetClass.isInstance(this)) WrapperClientboundSetCameraPacket(this) as T else null
-        WrapperClientboundSetCarriedItemPacket::class -> if (WrapperClientboundSetCarriedItemPacket.packetClass.isInstance(this)) WrapperClientboundSetCarriedItemPacket(this) as T else null
-        WrapperClientboundSetChunkCacheCenterPacket::class -> if (WrapperClientboundSetChunkCacheCenterPacket.packetClass.isInstance(this)) WrapperClientboundSetChunkCacheCenterPacket(this) as T else null
-        WrapperClientboundSetChunkCacheRadiusPacket::class -> if (WrapperClientboundSetChunkCacheRadiusPacket.packetClass.isInstance(this)) WrapperClientboundSetChunkCacheRadiusPacket(this) as T else null
-        WrapperClientboundSetDefaultSpawnPositionPacket::class -> if (WrapperClientboundSetDefaultSpawnPositionPacket.packetClass.isInstance(this)) WrapperClientboundSetDefaultSpawnPositionPacket(this) as T else null
-        WrapperClientboundSetDisplayObjectivePacket::class -> if (WrapperClientboundSetDisplayObjectivePacket.packetClass.isInstance(this)) WrapperClientboundSetDisplayObjectivePacket(this) as T else null
-        WrapperClientboundSetEntityDataPacket::class -> if (WrapperClientboundSetEntityDataPacket.packetClass.isInstance(this)) WrapperClientboundSetEntityDataPacket(this) as T else null
-        WrapperClientboundSetEntityLinkPacket::class -> if (WrapperClientboundSetEntityLinkPacket.packetClass.isInstance(this)) WrapperClientboundSetEntityLinkPacket(this) as T else null
-        WrapperClientboundSetEntityMotionPacket::class -> if (WrapperClientboundSetEntityMotionPacket.packetClass.isInstance(this)) WrapperClientboundSetEntityMotionPacket(this) as T else null
-        WrapperClientboundSetEquipmentPacket::class -> if (WrapperClientboundSetEquipmentPacket.packetClass.isInstance(this)) WrapperClientboundSetEquipmentPacket(this) as T else null
-        WrapperClientboundSetExperiencePacket::class -> if (WrapperClientboundSetExperiencePacket.packetClass.isInstance(this)) WrapperClientboundSetExperiencePacket(this) as T else null
-        WrapperClientboundSetHealthPacket::class -> if (WrapperClientboundSetHealthPacket.packetClass.isInstance(this)) WrapperClientboundSetHealthPacket(this) as T else null
-        WrapperClientboundSetObjectivePacket::class -> if (WrapperClientboundSetObjectivePacket.packetClass.isInstance(this)) WrapperClientboundSetObjectivePacket(this) as T else null
-        WrapperClientboundSetPassengersPacket::class -> if (WrapperClientboundSetPassengersPacket.packetClass.isInstance(this)) WrapperClientboundSetPassengersPacket(this) as T else null
-        WrapperClientboundSetPlayerTeamPacket::class -> if (WrapperClientboundSetPlayerTeamPacket.packetClass.isInstance(this)) WrapperClientboundSetPlayerTeamPacket(this) as T else null
-        WrapperClientboundSetScorePacket::class -> if (WrapperClientboundSetScorePacket.packetClass.isInstance(this)) WrapperClientboundSetScorePacket(this) as T else null
-        WrapperClientboundSetSimulationDistancePacket::class -> if (WrapperClientboundSetSimulationDistancePacket.packetClass.isInstance(this)) WrapperClientboundSetSimulationDistancePacket(this) as T else null
-        WrapperClientboundSetSubtitleTextPacket::class -> if (WrapperClientboundSetSubtitleTextPacket.packetClass.isInstance(this)) WrapperClientboundSetSubtitleTextPacket(this) as T else null
-        WrapperClientboundSetTimePacket::class -> if (WrapperClientboundSetTimePacket.packetClass.isInstance(this)) WrapperClientboundSetTimePacket(this) as T else null
-        WrapperClientboundSetTitleTextPacket::class -> if (WrapperClientboundSetTitleTextPacket.packetClass.isInstance(this)) WrapperClientboundSetTitleTextPacket(this) as T else null
-        WrapperClientboundSetTitlesAnimationPacket::class -> if (WrapperClientboundSetTitlesAnimationPacket.packetClass.isInstance(this)) WrapperClientboundSetTitlesAnimationPacket(this) as T else null
-        WrapperClientboundSoundEntityPacket::class -> if (WrapperClientboundSoundEntityPacket.packetClass.isInstance(this)) WrapperClientboundSoundEntityPacket(this) as T else null
-        WrapperClientboundSoundPacket::class -> if (WrapperClientboundSoundPacket.packetClass.isInstance(this)) WrapperClientboundSoundPacket(this) as T else null
-        WrapperClientboundStartConfigurationPacket::class -> if (WrapperClientboundStartConfigurationPacket.packetClass.isInstance(this)) WrapperClientboundStartConfigurationPacket(this) as T else null
-        WrapperClientboundStopSoundPacket::class -> if (WrapperClientboundStopSoundPacket.packetClass.isInstance(this)) WrapperClientboundStopSoundPacket(this) as T else null
-        WrapperClientboundSystemChatPacket::class -> if (WrapperClientboundSystemChatPacket.packetClass.isInstance(this)) WrapperClientboundSystemChatPacket(this) as T else null
-        WrapperClientboundTabListPacket::class -> if (WrapperClientboundTabListPacket.packetClass.isInstance(this)) WrapperClientboundTabListPacket(this) as T else null
-        WrapperClientboundTagQueryPacket::class -> if (WrapperClientboundTagQueryPacket.packetClass.isInstance(this)) WrapperClientboundTagQueryPacket(this) as T else null
-        WrapperClientboundTakeItemEntityPacket::class -> if (WrapperClientboundTakeItemEntityPacket.packetClass.isInstance(this)) WrapperClientboundTakeItemEntityPacket(this) as T else null
-        WrapperClientboundTeleportEntityPacket::class -> if (WrapperClientboundTeleportEntityPacket.packetClass.isInstance(this)) WrapperClientboundTeleportEntityPacket(this) as T else null
-        WrapperClientboundTickingStatePacket::class -> if (WrapperClientboundTickingStatePacket.packetClass.isInstance(this)) WrapperClientboundTickingStatePacket(this) as T else null
-        WrapperClientboundTickingStepPacket::class -> if (WrapperClientboundTickingStepPacket.packetClass.isInstance(this)) WrapperClientboundTickingStepPacket(this) as T else null
-        WrapperClientboundUpdateAdvancementsPacket::class -> if (WrapperClientboundUpdateAdvancementsPacket.packetClass.isInstance(this)) WrapperClientboundUpdateAdvancementsPacket(this) as T else null
-        WrapperClientboundUpdateAttributesPacket::class -> if (WrapperClientboundUpdateAttributesPacket.packetClass.isInstance(this)) WrapperClientboundUpdateAttributesPacket(this) as T else null
-        WrapperClientboundUpdateMobEffectPacket::class -> if (WrapperClientboundUpdateMobEffectPacket.packetClass.isInstance(this)) WrapperClientboundUpdateMobEffectPacket(this) as T else null
-        WrapperClientboundUpdateRecipesPacket::class -> if (WrapperClientboundUpdateRecipesPacket.packetClass.isInstance(this)) WrapperClientboundUpdateRecipesPacket(this) as T else null
-        WrapperServerboundAcceptTeleportationPacket::class -> if (WrapperServerboundAcceptTeleportationPacket.packetClass.isInstance(this)) WrapperServerboundAcceptTeleportationPacket(this) as T else null
-        WrapperServerboundBlockEntityTagQueryPacket::class -> if (WrapperServerboundBlockEntityTagQueryPacket.packetClass.isInstance(this)) WrapperServerboundBlockEntityTagQueryPacket(this) as T else null
-        WrapperServerboundChangeDifficultyPacket::class -> if (WrapperServerboundChangeDifficultyPacket.packetClass.isInstance(this)) WrapperServerboundChangeDifficultyPacket(this) as T else null
-        WrapperServerboundChatAckPacket::class -> if (WrapperServerboundChatAckPacket.packetClass.isInstance(this)) WrapperServerboundChatAckPacket(this) as T else null
-        WrapperServerboundChatCommandPacket::class -> if (WrapperServerboundChatCommandPacket.packetClass.isInstance(this)) WrapperServerboundChatCommandPacket(this) as T else null
-        WrapperServerboundChatCommandSignedPacket::class -> if (WrapperServerboundChatCommandSignedPacket.packetClass.isInstance(this)) WrapperServerboundChatCommandSignedPacket(this) as T else null
-        WrapperServerboundChatPacket::class -> if (WrapperServerboundChatPacket.packetClass.isInstance(this)) WrapperServerboundChatPacket(this) as T else null
-        WrapperServerboundChatSessionUpdatePacket::class -> if (WrapperServerboundChatSessionUpdatePacket.packetClass.isInstance(this)) WrapperServerboundChatSessionUpdatePacket(this) as T else null
-        WrapperServerboundChunkBatchReceivedPacket::class -> if (WrapperServerboundChunkBatchReceivedPacket.packetClass.isInstance(this)) WrapperServerboundChunkBatchReceivedPacket(this) as T else null
-        WrapperServerboundClientCommandPacket::class -> if (WrapperServerboundClientCommandPacket.packetClass.isInstance(this)) WrapperServerboundClientCommandPacket(this) as T else null
-        WrapperServerboundCommandSuggestionPacket::class -> if (WrapperServerboundCommandSuggestionPacket.packetClass.isInstance(this)) WrapperServerboundCommandSuggestionPacket(this) as T else null
-        WrapperServerboundConfigurationAcknowledgedPacket::class -> if (WrapperServerboundConfigurationAcknowledgedPacket.packetClass.isInstance(this)) WrapperServerboundConfigurationAcknowledgedPacket(this) as T else null
-        WrapperServerboundContainerButtonClickPacket::class -> if (WrapperServerboundContainerButtonClickPacket.packetClass.isInstance(this)) WrapperServerboundContainerButtonClickPacket(this) as T else null
-        WrapperServerboundContainerClickPacket::class -> if (WrapperServerboundContainerClickPacket.packetClass.isInstance(this)) WrapperServerboundContainerClickPacket(this) as T else null
-        WrapperServerboundContainerClosePacket::class -> if (WrapperServerboundContainerClosePacket.packetClass.isInstance(this)) WrapperServerboundContainerClosePacket(this) as T else null
-        WrapperServerboundContainerSlotStateChangedPacket::class -> if (WrapperServerboundContainerSlotStateChangedPacket.packetClass.isInstance(this)) WrapperServerboundContainerSlotStateChangedPacket(this) as T else null
-        WrapperServerboundDebugSampleSubscriptionPacket::class -> if (WrapperServerboundDebugSampleSubscriptionPacket.packetClass.isInstance(this)) WrapperServerboundDebugSampleSubscriptionPacket(this) as T else null
-        WrapperServerboundEditBookPacket::class -> if (WrapperServerboundEditBookPacket.packetClass.isInstance(this)) WrapperServerboundEditBookPacket(this) as T else null
-        WrapperServerboundEntityTagQueryPacket::class -> if (WrapperServerboundEntityTagQueryPacket.packetClass.isInstance(this)) WrapperServerboundEntityTagQueryPacket(this) as T else null
-        WrapperServerboundInteractPacket::class -> if (WrapperServerboundInteractPacket.packetClass.isInstance(this)) WrapperServerboundInteractPacket(this) as T else null
-        WrapperServerboundJigsawGeneratePacket::class -> if (WrapperServerboundJigsawGeneratePacket.packetClass.isInstance(this)) WrapperServerboundJigsawGeneratePacket(this) as T else null
-        WrapperServerboundLockDifficultyPacket::class -> if (WrapperServerboundLockDifficultyPacket.packetClass.isInstance(this)) WrapperServerboundLockDifficultyPacket(this) as T else null
-        WrapperPos::class -> if (WrapperPos.packetClass.isInstance(this)) WrapperPos(this) as T else null
-        WrapperPosRot::class -> if (WrapperPosRot.packetClass.isInstance(this)) WrapperPosRot(this) as T else null
-        WrapperRot::class -> if (WrapperRot.packetClass.isInstance(this)) WrapperRot(this) as T else null
-        WrapperStatusOnly::class -> if (WrapperStatusOnly.packetClass.isInstance(this)) WrapperStatusOnly(this) as T else null
-        WrapperServerboundMoveVehiclePacket::class -> if (WrapperServerboundMoveVehiclePacket.packetClass.isInstance(this)) WrapperServerboundMoveVehiclePacket(this) as T else null
-        WrapperServerboundPaddleBoatPacket::class -> if (WrapperServerboundPaddleBoatPacket.packetClass.isInstance(this)) WrapperServerboundPaddleBoatPacket(this) as T else null
-        WrapperServerboundPickItemPacket::class -> if (WrapperServerboundPickItemPacket.packetClass.isInstance(this)) WrapperServerboundPickItemPacket(this) as T else null
-        WrapperServerboundPlaceRecipePacket::class -> if (WrapperServerboundPlaceRecipePacket.packetClass.isInstance(this)) WrapperServerboundPlaceRecipePacket(this) as T else null
-        WrapperServerboundPlayerAbilitiesPacket::class -> if (WrapperServerboundPlayerAbilitiesPacket.packetClass.isInstance(this)) WrapperServerboundPlayerAbilitiesPacket(this) as T else null
-        WrapperServerboundPlayerActionPacket::class -> if (WrapperServerboundPlayerActionPacket.packetClass.isInstance(this)) WrapperServerboundPlayerActionPacket(this) as T else null
-        WrapperServerboundPlayerCommandPacket::class -> if (WrapperServerboundPlayerCommandPacket.packetClass.isInstance(this)) WrapperServerboundPlayerCommandPacket(this) as T else null
-        WrapperServerboundPlayerInputPacket::class -> if (WrapperServerboundPlayerInputPacket.packetClass.isInstance(this)) WrapperServerboundPlayerInputPacket(this) as T else null
-        WrapperServerboundRecipeBookChangeSettingsPacket::class -> if (WrapperServerboundRecipeBookChangeSettingsPacket.packetClass.isInstance(this)) WrapperServerboundRecipeBookChangeSettingsPacket(this) as T else null
-        WrapperServerboundRecipeBookSeenRecipePacket::class -> if (WrapperServerboundRecipeBookSeenRecipePacket.packetClass.isInstance(this)) WrapperServerboundRecipeBookSeenRecipePacket(this) as T else null
-        WrapperServerboundRenameItemPacket::class -> if (WrapperServerboundRenameItemPacket.packetClass.isInstance(this)) WrapperServerboundRenameItemPacket(this) as T else null
-        WrapperServerboundSeenAdvancementsPacket::class -> if (WrapperServerboundSeenAdvancementsPacket.packetClass.isInstance(this)) WrapperServerboundSeenAdvancementsPacket(this) as T else null
-        WrapperServerboundSelectTradePacket::class -> if (WrapperServerboundSelectTradePacket.packetClass.isInstance(this)) WrapperServerboundSelectTradePacket(this) as T else null
-        WrapperServerboundSetBeaconPacket::class -> if (WrapperServerboundSetBeaconPacket.packetClass.isInstance(this)) WrapperServerboundSetBeaconPacket(this) as T else null
-        WrapperServerboundSetCarriedItemPacket::class -> if (WrapperServerboundSetCarriedItemPacket.packetClass.isInstance(this)) WrapperServerboundSetCarriedItemPacket(this) as T else null
-        WrapperServerboundSetCommandBlockPacket::class -> if (WrapperServerboundSetCommandBlockPacket.packetClass.isInstance(this)) WrapperServerboundSetCommandBlockPacket(this) as T else null
-        WrapperServerboundSetCommandMinecartPacket::class -> if (WrapperServerboundSetCommandMinecartPacket.packetClass.isInstance(this)) WrapperServerboundSetCommandMinecartPacket(this) as T else null
-        WrapperServerboundSetCreativeModeSlotPacket::class -> if (WrapperServerboundSetCreativeModeSlotPacket.packetClass.isInstance(this)) WrapperServerboundSetCreativeModeSlotPacket(this) as T else null
-        WrapperServerboundSetJigsawBlockPacket::class -> if (WrapperServerboundSetJigsawBlockPacket.packetClass.isInstance(this)) WrapperServerboundSetJigsawBlockPacket(this) as T else null
-        WrapperServerboundSetStructureBlockPacket::class -> if (WrapperServerboundSetStructureBlockPacket.packetClass.isInstance(this)) WrapperServerboundSetStructureBlockPacket(this) as T else null
-        WrapperServerboundSignUpdatePacket::class -> if (WrapperServerboundSignUpdatePacket.packetClass.isInstance(this)) WrapperServerboundSignUpdatePacket(this) as T else null
-        WrapperServerboundSwingPacket::class -> if (WrapperServerboundSwingPacket.packetClass.isInstance(this)) WrapperServerboundSwingPacket(this) as T else null
-        WrapperServerboundTeleportToEntityPacket::class -> if (WrapperServerboundTeleportToEntityPacket.packetClass.isInstance(this)) WrapperServerboundTeleportToEntityPacket(this) as T else null
-        WrapperServerboundUseItemOnPacket::class -> if (WrapperServerboundUseItemOnPacket.packetClass.isInstance(this)) WrapperServerboundUseItemOnPacket(this) as T else null
-        WrapperServerboundUseItemPacket::class -> if (WrapperServerboundUseItemPacket.packetClass.isInstance(this)) WrapperServerboundUseItemPacket(this) as T else null
-        WrapperClientIntentionPacket::class -> if (WrapperClientIntentionPacket.packetClass.isInstance(this)) WrapperClientIntentionPacket(this) as T else null
-        WrapperClientboundCustomQueryPacket::class -> if (WrapperClientboundCustomQueryPacket.packetClass.isInstance(this)) WrapperClientboundCustomQueryPacket(this) as T else null
-        WrapperClientboundGameProfilePacket::class -> if (WrapperClientboundGameProfilePacket.packetClass.isInstance(this)) WrapperClientboundGameProfilePacket(this) as T else null
-        WrapperClientboundHelloPacket::class -> if (WrapperClientboundHelloPacket.packetClass.isInstance(this)) WrapperClientboundHelloPacket(this) as T else null
-        WrapperClientboundLoginCompressionPacket::class -> if (WrapperClientboundLoginCompressionPacket.packetClass.isInstance(this)) WrapperClientboundLoginCompressionPacket(this) as T else null
-        WrapperClientboundLoginDisconnectPacket::class -> if (WrapperClientboundLoginDisconnectPacket.packetClass.isInstance(this)) WrapperClientboundLoginDisconnectPacket(this) as T else null
-        WrapperServerboundCustomQueryAnswerPacket::class -> if (WrapperServerboundCustomQueryAnswerPacket.packetClass.isInstance(this)) WrapperServerboundCustomQueryAnswerPacket(this) as T else null
-        WrapperServerboundHelloPacket::class -> if (WrapperServerboundHelloPacket.packetClass.isInstance(this)) WrapperServerboundHelloPacket(this) as T else null
-        WrapperServerboundKeyPacket::class -> if (WrapperServerboundKeyPacket.packetClass.isInstance(this)) WrapperServerboundKeyPacket(this) as T else null
-        WrapperServerboundLoginAcknowledgedPacket::class -> if (WrapperServerboundLoginAcknowledgedPacket.packetClass.isInstance(this)) WrapperServerboundLoginAcknowledgedPacket(this) as T else null
-        WrapperClientboundPongResponsePacket::class -> if (WrapperClientboundPongResponsePacket.packetClass.isInstance(this)) WrapperClientboundPongResponsePacket(this) as T else null
-        WrapperServerboundPingRequestPacket::class -> if (WrapperServerboundPingRequestPacket.packetClass.isInstance(this)) WrapperServerboundPingRequestPacket(this) as T else null
-        WrapperClientboundStatusResponsePacket::class -> if (WrapperClientboundStatusResponsePacket.packetClass.isInstance(this)) WrapperClientboundStatusResponsePacket(this) as T else null
-        WrapperServerboundStatusRequestPacket::class -> if (WrapperServerboundStatusRequestPacket.packetClass.isInstance(this)) WrapperServerboundStatusRequestPacket(this) as T else null
-        WrapperCustomPacketPayload::class -> if (WrapperCustomPacketPayload.packetClass.isInstance(this)) WrapperCustomPacketPayload(this) as T else null
-        WrapperComponent::class -> if (WrapperComponent.packetClass.isInstance(this)) WrapperComponent(this) as T else null
-        WrapperPacketType::class -> if (WrapperPacketType.packetClass.isInstance(this)) WrapperPacketType(this) as T else null
-        WrapperResourceLocation::class -> if (WrapperResourceLocation.packetClass.isInstance(this)) WrapperResourceLocation(this) as T else null
-        WrapperClientInformation::class -> if (WrapperClientInformation.packetClass.isInstance(this)) WrapperClientInformation(this) as T else null
-        WrapperResourceKey::class -> if (WrapperResourceKey.packetClass.isInstance(this)) WrapperResourceKey(this) as T else null
-        WrapperEntityType::class -> if (WrapperEntityType.packetClass.isInstance(this)) WrapperEntityType(this) as T else null
-        WrapperBlockPos::class -> if (WrapperBlockPos.packetClass.isInstance(this)) WrapperBlockPos(this) as T else null
-        WrapperBlockEntityType::class -> if (WrapperBlockEntityType.packetClass.isInstance(this)) WrapperBlockEntityType(this) as T else null
-        WrapperCompoundTag::class -> if (WrapperCompoundTag.packetClass.isInstance(this)) WrapperCompoundTag(this) as T else null
-        WrapperBlock::class -> if (WrapperBlock.packetClass.isInstance(this)) WrapperBlock(this) as T else null
-        WrapperBlockState::class -> if (WrapperBlockState.packetClass.isInstance(this)) WrapperBlockState(this) as T else null
-        WrapperItemStack::class -> if (WrapperItemStack.packetClass.isInstance(this)) WrapperItemStack(this) as T else null
-        WrapperConnection::class -> if (WrapperConnection.packetClass.isInstance(this)) WrapperConnection(this) as T else null
-        WrapperItem::class -> if (WrapperItem.packetClass.isInstance(this)) WrapperItem(this) as T else null
-        WrapperHolder::class -> if (WrapperHolder.packetClass.isInstance(this)) WrapperHolder(this) as T else null
-        WrapperPacked::class -> if (WrapperPacked.packetClass.isInstance(this)) WrapperPacked(this) as T else null
-        WrapperBound::class -> if (WrapperBound.packetClass.isInstance(this)) WrapperBound(this) as T else null
-        WrapperEntity::class -> if (WrapperEntity.packetClass.isInstance(this)) WrapperEntity(this) as T else null
-        WrapperLevel::class -> if (WrapperLevel.packetClass.isInstance(this)) WrapperLevel(this) as T else null
-        WrapperParticleOptions::class -> if (WrapperParticleOptions.packetClass.isInstance(this)) WrapperParticleOptions(this) as T else null
-        WrapperChunkPos::class -> if (WrapperChunkPos.packetClass.isInstance(this)) WrapperChunkPos(this) as T else null
-        WrapperType::class -> if (WrapperType.packetClass.isInstance(this)) WrapperType(this) as T else null
-        WrapperClientboundLightUpdatePacketData::class -> if (WrapperClientboundLightUpdatePacketData.packetClass.isInstance(this)) WrapperClientboundLightUpdatePacketData(this) as T else null
-        WrapperClientboundLevelChunkPacketData::class -> if (WrapperClientboundLevelChunkPacketData.packetClass.isInstance(this)) WrapperClientboundLevelChunkPacketData(this) as T else null
-        WrapperCommonPlayerSpawnInfo::class -> if (WrapperCommonPlayerSpawnInfo.packetClass.isInstance(this)) WrapperCommonPlayerSpawnInfo(this) as T else null
-        WrapperMapId::class -> if (WrapperMapId.packetClass.isInstance(this)) WrapperMapId(this) as T else null
-        WrapperMerchantOffers::class -> if (WrapperMerchantOffers.packetClass.isInstance(this)) WrapperMerchantOffers(this) as T else null
-        WrapperMenuType::class -> if (WrapperMenuType.packetClass.isInstance(this)) WrapperMenuType(this) as T else null
-        WrapperMessageSignature::class -> if (WrapperMessageSignature.packetClass.isInstance(this)) WrapperMessageSignature(this) as T else null
-        WrapperPacked::class -> if (WrapperPacked.packetClass.isInstance(this)) WrapperPacked(this) as T else null
-        WrapperFilterMask::class -> if (WrapperFilterMask.packetClass.isInstance(this)) WrapperFilterMask(this) as T else null
-        WrapperVec3::class -> if (WrapperVec3.packetClass.isInstance(this)) WrapperVec3(this) as T else null
-        WrapperRecipeBookSettings::class -> if (WrapperRecipeBookSettings.packetClass.isInstance(this)) WrapperRecipeBookSettings(this) as T else null
-        WrapperArgumentSignatures::class -> if (WrapperArgumentSignatures.packetClass.isInstance(this)) WrapperArgumentSignatures(this) as T else null
-        WrapperUpdate::class -> if (WrapperUpdate.packetClass.isInstance(this)) WrapperUpdate(this) as T else null
-        WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
-        WrapperServerLevel::class -> if (WrapperServerLevel.packetClass.isInstance(this)) WrapperServerLevel(this) as T else null
-        WrapperBaseCommandBlock::class -> if (WrapperBaseCommandBlock.packetClass.isInstance(this)) WrapperBaseCommandBlock(this) as T else null
-        WrapperVec3i::class -> if (WrapperVec3i.packetClass.isInstance(this)) WrapperVec3i(this) as T else null
-        WrapperBlockHitResult::class -> if (WrapperBlockHitResult.packetClass.isInstance(this)) WrapperBlockHitResult(this) as T else null
-        WrapperCustomQueryPayload::class -> if (WrapperCustomQueryPayload.packetClass.isInstance(this)) WrapperCustomQueryPayload(this) as T else null
-        WrapperServerStatus::class -> if (WrapperServerStatus.packetClass.isInstance(this)) WrapperServerStatus(this) as T else null
-        WrapperType::class -> if (WrapperType.packetClass.isInstance(this)) WrapperType(this) as T else null
-        WrapperMutableComponent::class -> if (WrapperMutableComponent.packetClass.isInstance(this)) WrapperMutableComponent(this) as T else null
-        WrapperContentConsumer::class -> if (WrapperContentConsumer.packetClass.isInstance(this)) WrapperContentConsumer(this) as T else null
-        WrapperComponentContents::class -> if (WrapperComponentContents.packetClass.isInstance(this)) WrapperComponentContents(this) as T else null
-        WrapperFormattedCharSequence::class -> if (WrapperFormattedCharSequence.packetClass.isInstance(this)) WrapperFormattedCharSequence(this) as T else null
-        WrapperStyle::class -> if (WrapperStyle.packetClass.isInstance(this)) WrapperStyle(this) as T else null
-        WrapperTagKey::class -> if (WrapperTagKey.packetClass.isInstance(this)) WrapperTagKey(this) as T else null
-        WrapperEntityDimensions::class -> if (WrapperEntityDimensions.packetClass.isInstance(this)) WrapperEntityDimensions(this) as T else null
-        WrapperFeatureFlagSet::class -> if (WrapperFeatureFlagSet.packetClass.isInstance(this)) WrapperFeatureFlagSet(this) as T else null
-        WrapperAABB::class -> if (WrapperAABB.packetClass.isInstance(this)) WrapperAABB(this) as T else null
-        WrapperReference::class -> if (WrapperReference.packetClass.isInstance(this)) WrapperReference(this) as T else null
-        WrapperPlayer::class -> if (WrapperPlayer.packetClass.isInstance(this)) WrapperPlayer(this) as T else null
-        WrapperMutableBlockPos::class -> if (WrapperMutableBlockPos.packetClass.isInstance(this)) WrapperMutableBlockPos(this) as T else null
-        WrapperBlockEntity::class -> if (WrapperBlockEntity.packetClass.isInstance(this)) WrapperBlockEntity(this) as T else null
-        WrapperBlockGetter::class -> if (WrapperBlockGetter.packetClass.isInstance(this)) WrapperBlockGetter(this) as T else null
-        WrapperTag::class -> if (WrapperTag.packetClass.isInstance(this)) WrapperTag(this) as T else null
-        WrapperStreamTagVisitor::class -> if (WrapperStreamTagVisitor.packetClass.isInstance(this)) WrapperStreamTagVisitor(this) as T else null
-        WrapperTagType::class -> if (WrapperTagType.packetClass.isInstance(this)) WrapperTagType(this) as T else null
-        WrapperListTag::class -> if (WrapperListTag.packetClass.isInstance(this)) WrapperListTag(this) as T else null
-        WrapperBlockPlaceContext::class -> if (WrapperBlockPlaceContext.packetClass.isInstance(this)) WrapperBlockPlaceContext(this) as T else null
-        WrapperExplosion::class -> if (WrapperExplosion.packetClass.isInstance(this)) WrapperExplosion(this) as T else null
-        WrapperStateDefinition::class -> if (WrapperStateDefinition.packetClass.isInstance(this)) WrapperStateDefinition(this) as T else null
-        WrapperLevelReader::class -> if (WrapperLevelReader.packetClass.isInstance(this)) WrapperLevelReader(this) as T else null
-        WrapperDataComponentType::class -> if (WrapperDataComponentType.packetClass.isInstance(this)) WrapperDataComponentType(this) as T else null
-        WrapperProvider::class -> if (WrapperProvider.packetClass.isInstance(this)) WrapperProvider(this) as T else null
-        WrapperInteractionResultHolder::class -> if (WrapperInteractionResultHolder.packetClass.isInstance(this)) WrapperInteractionResultHolder(this) as T else null
-        WrapperHolderSet::class -> if (WrapperHolderSet.packetClass.isInstance(this)) WrapperHolderSet(this) as T else null
-        WrapperDataComponentPatch::class -> if (WrapperDataComponentPatch.packetClass.isInstance(this)) WrapperDataComponentPatch(this) as T else null
-        WrapperDataComponentMap::class -> if (WrapperDataComponentMap.packetClass.isInstance(this)) WrapperDataComponentMap(this) as T else null
-        WrapperBlockInWorld::class -> if (WrapperBlockInWorld.packetClass.isInstance(this)) WrapperBlockInWorld(this) as T else null
-        WrapperSlot::class -> if (WrapperSlot.packetClass.isInstance(this)) WrapperSlot(this) as T else null
-        WrapperItemLike::class -> if (WrapperItemLike.packetClass.isInstance(this)) WrapperItemLike(this) as T else null
-        WrapperLivingEntity::class -> if (WrapperLivingEntity.packetClass.isInstance(this)) WrapperLivingEntity(this) as T else null
-        WrapperSlotAccess::class -> if (WrapperSlotAccess.packetClass.isInstance(this)) WrapperSlotAccess(this) as T else null
-        WrapperSoundEvent::class -> if (WrapperSoundEvent.packetClass.isInstance(this)) WrapperSoundEvent(this) as T else null
-        WrapperDamageSource::class -> if (WrapperDamageSource.packetClass.isInstance(this)) WrapperDamageSource(this) as T else null
-        WrapperItemEnchantments::class -> if (WrapperItemEnchantments.packetClass.isInstance(this)) WrapperItemEnchantments(this) as T else null
-        WrapperTooltipContext::class -> if (WrapperTooltipContext.packetClass.isInstance(this)) WrapperTooltipContext(this) as T else null
-        WrapperTooltipFlag::class -> if (WrapperTooltipFlag.packetClass.isInstance(this)) WrapperTooltipFlag(this) as T else null
-        WrapperUseOnContext::class -> if (WrapperUseOnContext.packetClass.isInstance(this)) WrapperUseOnContext(this) as T else null
-        WrapperItemFrame::class -> if (WrapperItemFrame.packetClass.isInstance(this)) WrapperItemFrame(this) as T else null
-        WrapperPacketListener::class -> if (WrapperPacketListener.packetClass.isInstance(this)) WrapperPacketListener(this) as T else null
-        WrapperDisconnectionDetails::class -> if (WrapperDisconnectionDetails.packetClass.isInstance(this)) WrapperDisconnectionDetails(this) as T else null
-        WrapperServerPlayer::class -> if (WrapperServerPlayer.packetClass.isInstance(this)) WrapperServerPlayer(this) as T else null
-        WrapperItemAttributeModifiers::class -> if (WrapperItemAttributeModifiers.packetClass.isInstance(this)) WrapperItemAttributeModifiers(this) as T else null
-        WrapperHolderOwner::class -> if (WrapperHolderOwner.packetClass.isInstance(this)) WrapperHolderOwner(this) as T else null
-        WrapperHitResult::class -> if (WrapperHitResult.packetClass.isInstance(this)) WrapperHitResult(this) as T else null
-        WrapperSynchedEntityData::class -> if (WrapperSynchedEntityData.packetClass.isInstance(this)) WrapperSynchedEntityData(this) as T else null
-        WrapperCommandSourceStack::class -> if (WrapperCommandSourceStack.packetClass.isInstance(this)) WrapperCommandSourceStack(this) as T else null
-        WrapperVecDeltaCodec::class -> if (WrapperVecDeltaCodec.packetClass.isInstance(this)) WrapperVecDeltaCodec(this) as T else null
-        WrapperPlayerTeam::class -> if (WrapperPlayerTeam.packetClass.isInstance(this)) WrapperPlayerTeam(this) as T else null
-        WrapperTeam::class -> if (WrapperTeam.packetClass.isInstance(this)) WrapperTeam(this) as T else null
-        WrapperProjectile::class -> if (WrapperProjectile.packetClass.isInstance(this)) WrapperProjectile(this) as T else null
-        WrapperFluidState::class -> if (WrapperFluidState.packetClass.isInstance(this)) WrapperFluidState(this) as T else null
-        WrapperEntityAttachments::class -> if (WrapperEntityAttachments.packetClass.isInstance(this)) WrapperEntityAttachments(this) as T else null
-        WrapperVec2::class -> if (WrapperVec2.packetClass.isInstance(this)) WrapperVec2(this) as T else null
-        WrapperItemEntity::class -> if (WrapperItemEntity.packetClass.isInstance(this)) WrapperItemEntity(this) as T else null
-        WrapperDimensionTransition::class -> if (WrapperDimensionTransition.packetClass.isInstance(this)) WrapperDimensionTransition(this) as T else null
-        WrapperPacket::class -> if (WrapperPacket.packetClass.isInstance(this)) WrapperPacket(this) as T else null
-        WrapperServerEntity::class -> if (WrapperServerEntity.packetClass.isInstance(this)) WrapperServerEntity(this) as T else null
-        WrapperFoundRectangle::class -> if (WrapperFoundRectangle.packetClass.isInstance(this)) WrapperFoundRectangle(this) as T else null
-        WrapperTrackedEntity::class -> if (WrapperTrackedEntity.packetClass.isInstance(this)) WrapperTrackedEntity(this) as T else null
-        WrapperDamageSources::class -> if (WrapperDamageSources.packetClass.isInstance(this)) WrapperDamageSources(this) as T else null
-        WrapperRegistryAccess::class -> if (WrapperRegistryAccess.packetClass.isInstance(this)) WrapperRegistryAccess(this) as T else null
-        WrapperMinecraftServer::class -> if (WrapperMinecraftServer.packetClass.isInstance(this)) WrapperMinecraftServer(this) as T else null
-        WrapperRandomSource::class -> if (WrapperRandomSource.packetClass.isInstance(this)) WrapperRandomSource(this) as T else null
-        WrapperLevelChunk::class -> if (WrapperLevelChunk.packetClass.isInstance(this)) WrapperLevelChunk(this) as T else null
-        WrapperVoxelShape::class -> if (WrapperVoxelShape.packetClass.isInstance(this)) WrapperVoxelShape(this) as T else null
-        WrapperWorldBorder::class -> if (WrapperWorldBorder.packetClass.isInstance(this)) WrapperWorldBorder(this) as T else null
-        WrapperTickRateManager::class -> if (WrapperTickRateManager.packetClass.isInstance(this)) WrapperTickRateManager(this) as T else null
-        WrapperLevelLightEngine::class -> if (WrapperLevelLightEngine.packetClass.isInstance(this)) WrapperLevelLightEngine(this) as T else null
-        WrapperScoreboard::class -> if (WrapperScoreboard.packetClass.isInstance(this)) WrapperScoreboard(this) as T else null
-        WrapperCrashReportCategory::class -> if (WrapperCrashReportCategory.packetClass.isInstance(this)) WrapperCrashReportCategory(this) as T else null
-        WrapperCrashReport::class -> if (WrapperCrashReport.packetClass.isInstance(this)) WrapperCrashReport(this) as T else null
-        WrapperLevelData::class -> if (WrapperLevelData.packetClass.isInstance(this)) WrapperLevelData(this) as T else null
-        WrapperRecipeManager::class -> if (WrapperRecipeManager.packetClass.isInstance(this)) WrapperRecipeManager(this) as T else null
-        WrapperBiomeManager::class -> if (WrapperBiomeManager.packetClass.isInstance(this)) WrapperBiomeManager(this) as T else null
-        WrapperPotionBrewing::class -> if (WrapperPotionBrewing.packetClass.isInstance(this)) WrapperPotionBrewing(this) as T else null
-        WrapperChunkAccess::class -> if (WrapperChunkAccess.packetClass.isInstance(this)) WrapperChunkAccess(this) as T else null
-        WrapperChunkStatus::class -> if (WrapperChunkStatus.packetClass.isInstance(this)) WrapperChunkStatus(this) as T else null
-        WrapperExplosionDamageCalculator::class -> if (WrapperExplosionDamageCalculator.packetClass.isInstance(this)) WrapperExplosionDamageCalculator(this) as T else null
-        WrapperCollisionContext::class -> if (WrapperCollisionContext.packetClass.isInstance(this)) WrapperCollisionContext(this) as T else null
-        WrapperMapItemSavedData::class -> if (WrapperMapItemSavedData.packetClass.isInstance(this)) WrapperMapItemSavedData(this) as T else null
-        WrapperDifficultyInstance::class -> if (WrapperDifficultyInstance.packetClass.isInstance(this)) WrapperDifficultyInstance(this) as T else null
-        WrapperDimensionType::class -> if (WrapperDimensionType.packetClass.isInstance(this)) WrapperDimensionType(this) as T else null
-        WrapperEntityTypeTest::class -> if (WrapperEntityTypeTest.packetClass.isInstance(this)) WrapperEntityTypeTest(this) as T else null
-        WrapperGameRules::class -> if (WrapperGameRules.packetClass.isInstance(this)) WrapperGameRules(this) as T else null
-        WrapperClipContext::class -> if (WrapperClipContext.packetClass.isInstance(this)) WrapperClipContext(this) as T else null
-        WrapperParticleType::class -> if (WrapperParticleType.packetClass.isInstance(this)) WrapperParticleType(this) as T else null
-        WrapperFriendlyByteBuf::class -> if (WrapperFriendlyByteBuf.packetClass.isInstance(this)) WrapperFriendlyByteBuf(this) as T else null
-        WrapperMerchantOffer::class -> if (WrapperMerchantOffer.packetClass.isInstance(this)) WrapperMerchantOffer(this) as T else null
-        WrapperAbstractContainerMenu::class -> if (WrapperAbstractContainerMenu.packetClass.isInstance(this)) WrapperAbstractContainerMenu(this) as T else null
-        WrapperInventory::class -> if (WrapperInventory.packetClass.isInstance(this)) WrapperInventory(this) as T else null
-        WrapperPacked::class -> if (WrapperPacked.packetClass.isInstance(this)) WrapperPacked(this) as T else null
-        WrapperPosition::class -> if (WrapperPosition.packetClass.isInstance(this)) WrapperPosition(this) as T else null
-        WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
-        WrapperServerChunkCache::class -> if (WrapperServerChunkCache.packetClass.isInstance(this)) WrapperServerChunkCache(this) as T else null
-        WrapperServerScoreboard::class -> if (WrapperServerScoreboard.packetClass.isInstance(this)) WrapperServerScoreboard(this) as T else null
-        WrapperLevelTicks::class -> if (WrapperLevelTicks.packetClass.isInstance(this)) WrapperLevelTicks(this) as T else null
-        WrapperRaids::class -> if (WrapperRaids.packetClass.isInstance(this)) WrapperRaids(this) as T else null
-        WrapperRaid::class -> if (WrapperRaid.packetClass.isInstance(this)) WrapperRaid(this) as T else null
-        WrapperStructureTemplateManager::class -> if (WrapperStructureTemplateManager.packetClass.isInstance(this)) WrapperStructureTemplateManager(this) as T else null
-        WrapperLevelEntityGetter::class -> if (WrapperLevelEntityGetter.packetClass.isInstance(this)) WrapperLevelEntityGetter(this) as T else null
-        WrapperDimensionDataStorage::class -> if (WrapperDimensionDataStorage.packetClass.isInstance(this)) WrapperDimensionDataStorage(this) as T else null
-        WrapperStructureManager::class -> if (WrapperStructureManager.packetClass.isInstance(this)) WrapperStructureManager(this) as T else null
-        WrapperPoiManager::class -> if (WrapperPoiManager.packetClass.isInstance(this)) WrapperPoiManager(this) as T else null
-        WrapperSectionPos::class -> if (WrapperSectionPos.packetClass.isInstance(this)) WrapperSectionPos(this) as T else null
-        WrapperEndDragonFight::class -> if (WrapperEndDragonFight.packetClass.isInstance(this)) WrapperEndDragonFight(this) as T else null
-        WrapperPortalForcer::class -> if (WrapperPortalForcer.packetClass.isInstance(this)) WrapperPortalForcer(this) as T else null
-        WrapperRandomSequences::class -> if (WrapperRandomSequences.packetClass.isInstance(this)) WrapperRandomSequences(this) as T else null
-        WrapperPathTypeCache::class -> if (WrapperPathTypeCache.packetClass.isInstance(this)) WrapperPathTypeCache(this) as T else null
-        WrapperLevelHeightAccessor::class -> if (WrapperLevelHeightAccessor.packetClass.isInstance(this)) WrapperLevelHeightAccessor(this) as T else null
-        WrapperType::class -> if (WrapperType.packetClass.isInstance(this)) WrapperType(this) as T else null
-        WrapperFormattedCharSink::class -> if (WrapperFormattedCharSink.packetClass.isInstance(this)) WrapperFormattedCharSink(this) as T else null
-        WrapperClickEvent::class -> if (WrapperClickEvent.packetClass.isInstance(this)) WrapperClickEvent(this) as T else null
-        WrapperHoverEvent::class -> if (WrapperHoverEvent.packetClass.isInstance(this)) WrapperHoverEvent(this) as T else null
-        WrapperTextColor::class -> if (WrapperTextColor.packetClass.isInstance(this)) WrapperTextColor(this) as T else null
-        WrapperFeatureFlag::class -> if (WrapperFeatureFlag.packetClass.isInstance(this)) WrapperFeatureFlag(this) as T else null
-        WrapperMenuProvider::class -> if (WrapperMenuProvider.packetClass.isInstance(this)) WrapperMenuProvider(this) as T else null
-        WrapperPlayerEnderChestContainer::class -> if (WrapperPlayerEnderChestContainer.packetClass.isInstance(this)) WrapperPlayerEnderChestContainer(this) as T else null
-        WrapperAbilities::class -> if (WrapperAbilities.packetClass.isInstance(this)) WrapperAbilities(this) as T else null
-        WrapperFoodProperties::class -> if (WrapperFoodProperties.packetClass.isInstance(this)) WrapperFoodProperties(this) as T else null
-        WrapperFoodData::class -> if (WrapperFoodData.packetClass.isInstance(this)) WrapperFoodData(this) as T else null
-        WrapperItemCooldowns::class -> if (WrapperItemCooldowns.packetClass.isInstance(this)) WrapperItemCooldowns(this) as T else null
-        WrapperFallsounds::class -> if (WrapperFallsounds.packetClass.isInstance(this)) WrapperFallsounds(this) as T else null
-        WrapperClipBlockStateContext::class -> if (WrapperClipBlockStateContext.packetClass.isInstance(this)) WrapperClipBlockStateContext(this) as T else null
-        WrapperNbtAccounter::class -> if (WrapperNbtAccounter.packetClass.isInstance(this)) WrapperNbtAccounter(this) as T else null
-        WrapperProperty::class -> if (WrapperProperty.packetClass.isInstance(this)) WrapperProperty(this) as T else null
-        WrapperStateHolder::class -> if (WrapperStateHolder.packetClass.isInstance(this)) WrapperStateHolder(this) as T else null
-        WrapperColorResolver::class -> if (WrapperColorResolver.packetClass.isInstance(this)) WrapperColorResolver(this) as T else null
-        WrapperHolderLookup::class -> if (WrapperHolderLookup.packetClass.isInstance(this)) WrapperHolderLookup(this) as T else null
-        WrapperStreamCodec::class -> if (WrapperStreamCodec.packetClass.isInstance(this)) WrapperStreamCodec(this) as T else null
-        WrapperRegistryOps::class -> if (WrapperRegistryOps.packetClass.isInstance(this)) WrapperRegistryOps(this) as T else null
-        WrapperProvider::class -> if (WrapperProvider.packetClass.isInstance(this)) WrapperProvider(this) as T else null
-        WrapperRegistryLookup::class -> if (WrapperRegistryLookup.packetClass.isInstance(this)) WrapperRegistryLookup(this) as T else null
-        WrapperSplitResult::class -> if (WrapperSplitResult.packetClass.isInstance(this)) WrapperSplitResult(this) as T else null
-        WrapperTypedDataComponent::class -> if (WrapperTypedDataComponent.packetClass.isInstance(this)) WrapperTypedDataComponent(this) as T else null
-        WrapperAttributeMap::class -> if (WrapperAttributeMap.packetClass.isInstance(this)) WrapperAttributeMap(this) as T else null
-        WrapperAttributeInstance::class -> if (WrapperAttributeInstance.packetClass.isInstance(this)) WrapperAttributeInstance(this) as T else null
-        WrapperMobEffectInstance::class -> if (WrapperMobEffectInstance.packetClass.isInstance(this)) WrapperMobEffectInstance(this) as T else null
-        WrapperBrain::class -> if (WrapperBrain.packetClass.isInstance(this)) WrapperBrain(this) as T else null
-        WrapperEntityHitResult::class -> if (WrapperEntityHitResult.packetClass.isInstance(this)) WrapperEntityHitResult(this) as T else null
-        WrapperCombatTracker::class -> if (WrapperCombatTracker.packetClass.isInstance(this)) WrapperCombatTracker(this) as T else null
-        WrapperDamageType::class -> if (WrapperDamageType.packetClass.isInstance(this)) WrapperDamageType(this) as T else null
-        WrapperServerStatsCounter::class -> if (WrapperServerStatsCounter.packetClass.isInstance(this)) WrapperServerStatsCounter(this) as T else null
-        WrapperServerRecipeBook::class -> if (WrapperServerRecipeBook.packetClass.isInstance(this)) WrapperServerRecipeBook(this) as T else null
-        WrapperPlayerAdvancements::class -> if (WrapperPlayerAdvancements.packetClass.isInstance(this)) WrapperPlayerAdvancements(this) as T else null
-        WrapperRemoteChatSession::class -> if (WrapperRemoteChatSession.packetClass.isInstance(this)) WrapperRemoteChatSession(this) as T else null
-        WrapperChunkTrackingView::class -> if (WrapperChunkTrackingView.packetClass.isInstance(this)) WrapperChunkTrackingView(this) as T else null
-        WrapperPostDimensionTransition::class -> if (WrapperPostDimensionTransition.packetClass.isInstance(this)) WrapperPostDimensionTransition(this) as T else null
-        WrapperTextFilter::class -> if (WrapperTextFilter.packetClass.isInstance(this)) WrapperTextFilter(this) as T else null
-        WrapperEntityDataAccessor::class -> if (WrapperEntityDataAccessor.packetClass.isInstance(this)) WrapperEntityDataAccessor(this) as T else null
-        WrapperDataItem::class -> if (WrapperDataItem.packetClass.isInstance(this)) WrapperDataItem(this) as T else null
-        WrapperCommandSigningContext::class -> if (WrapperCommandSigningContext.packetClass.isInstance(this)) WrapperCommandSigningContext(this) as T else null
-        WrapperCommandSource::class -> if (WrapperCommandSource.packetClass.isInstance(this)) WrapperCommandSource(this) as T else null
-        WrapperFluid::class -> if (WrapperFluid.packetClass.isInstance(this)) WrapperFluid(this) as T else null
-        WrapperWitherSkull::class -> if (WrapperWitherSkull.packetClass.isInstance(this)) WrapperWitherSkull(this) as T else null
-        WrapperFireworkRocketEntity::class -> if (WrapperFireworkRocketEntity.packetClass.isInstance(this)) WrapperFireworkRocketEntity(this) as T else null
-        WrapperAbstractArrow::class -> if (WrapperAbstractArrow.packetClass.isInstance(this)) WrapperAbstractArrow(this) as T else null
-        WrapperFireball::class -> if (WrapperFireball.packetClass.isInstance(this)) WrapperFireball(this) as T else null
-        WrapperRegistry::class -> if (WrapperRegistry.packetClass.isInstance(this)) WrapperRegistry(this) as T else null
-        WrapperServerTickRateManager::class -> if (WrapperServerTickRateManager.packetClass.isInstance(this)) WrapperServerTickRateManager(this) as T else null
-        WrapperPlayerList::class -> if (WrapperPlayerList.packetClass.isInstance(this)) WrapperPlayerList(this) as T else null
-        WrapperServerAdvancementManager::class -> if (WrapperServerAdvancementManager.packetClass.isInstance(this)) WrapperServerAdvancementManager(this) as T else null
-        WrapperServerPlayerGameMode::class -> if (WrapperServerPlayerGameMode.packetClass.isInstance(this)) WrapperServerPlayerGameMode(this) as T else null
-        WrapperHolder::class -> if (WrapperHolder.packetClass.isInstance(this)) WrapperHolder(this) as T else null
-        WrapperSignatureValidator::class -> if (WrapperSignatureValidator.packetClass.isInstance(this)) WrapperSignatureValidator(this) as T else null
-        WrapperServerFunctionManager::class -> if (WrapperServerFunctionManager.packetClass.isInstance(this)) WrapperServerFunctionManager(this) as T else null
-        WrapperModCheck::class -> if (WrapperModCheck.packetClass.isInstance(this)) WrapperModCheck(this) as T else null
-        WrapperServerConnectionListener::class -> if (WrapperServerConnectionListener.packetClass.isInstance(this)) WrapperServerConnectionListener(this) as T else null
-        WrapperGameProfileCache::class -> if (WrapperGameProfileCache.packetClass.isInstance(this)) WrapperGameProfileCache(this) as T else null
-        WrapperSystemReport::class -> if (WrapperSystemReport.packetClass.isInstance(this)) WrapperSystemReport(this) as T else null
-        WrapperTickTask::class -> if (WrapperTickTask.packetClass.isInstance(this)) WrapperTickTask(this) as T else null
-        WrapperPackRepository::class -> if (WrapperPackRepository.packetClass.isInstance(this)) WrapperPackRepository(this) as T else null
-        WrapperCommandStorage::class -> if (WrapperCommandStorage.packetClass.isInstance(this)) WrapperCommandStorage(this) as T else null
-        WrapperLevelResource::class -> if (WrapperLevelResource.packetClass.isInstance(this)) WrapperLevelResource(this) as T else null
-        WrapperChatDecorator::class -> if (WrapperChatDecorator.packetClass.isInstance(this)) WrapperChatDecorator(this) as T else null
-        WrapperServerLinks::class -> if (WrapperServerLinks.packetClass.isInstance(this)) WrapperServerLinks(this) as T else null
-        WrapperProfileResults::class -> if (WrapperProfileResults.packetClass.isInstance(this)) WrapperProfileResults(this) as T else null
-        WrapperResourceManager::class -> if (WrapperResourceManager.packetClass.isInstance(this)) WrapperResourceManager(this) as T else null
-        WrapperLayeredRegistryAccess::class -> if (WrapperLayeredRegistryAccess.packetClass.isInstance(this)) WrapperLayeredRegistryAccess(this) as T else null
-        WrapperCustomBossEvents::class -> if (WrapperCustomBossEvents.packetClass.isInstance(this)) WrapperCustomBossEvents(this) as T else null
-        WrapperWorldData::class -> if (WrapperWorldData.packetClass.isInstance(this)) WrapperWorldData(this) as T else null
-        WrapperCommands::class -> if (WrapperCommands.packetClass.isInstance(this)) WrapperCommands(this) as T else null
-        WrapperPositionalRandomFactory::class -> if (WrapperPositionalRandomFactory.packetClass.isInstance(this)) WrapperPositionalRandomFactory(this) as T else null
-        WrapperTicksToSave::class -> if (WrapperTicksToSave.packetClass.isInstance(this)) WrapperTicksToSave(this) as T else null
-        WrapperGameEventListenerRegistry::class -> if (WrapperGameEventListenerRegistry.packetClass.isInstance(this)) WrapperGameEventListenerRegistry(this) as T else null
-        WrapperChunkAndHolder::class -> if (WrapperChunkAndHolder.packetClass.isInstance(this)) WrapperChunkAndHolder(this) as T else null
-        WrapperSettings::class -> if (WrapperSettings.packetClass.isInstance(this)) WrapperSettings(this) as T else null
-        WrapperLayerLightEventListener::class -> if (WrapperLayerLightEventListener.packetClass.isInstance(this)) WrapperLayerLightEventListener(this) as T else null
-        WrapperScoreAccess::class -> if (WrapperScoreAccess.packetClass.isInstance(this)) WrapperScoreAccess(this) as T else null
-        WrapperScoreHolder::class -> if (WrapperScoreHolder.packetClass.isInstance(this)) WrapperScoreHolder(this) as T else null
-        WrapperObjective::class -> if (WrapperObjective.packetClass.isInstance(this)) WrapperObjective(this) as T else null
-        WrapperObjectiveCriteria::class -> if (WrapperObjectiveCriteria.packetClass.isInstance(this)) WrapperObjectiveCriteria(this) as T else null
-        WrapperNumberFormat::class -> if (WrapperNumberFormat.packetClass.isInstance(this)) WrapperNumberFormat(this) as T else null
-        WrapperReadOnlyScoreInfo::class -> if (WrapperReadOnlyScoreInfo.packetClass.isInstance(this)) WrapperReadOnlyScoreInfo(this) as T else null
-        WrapperReportType::class -> if (WrapperReportType.packetClass.isInstance(this)) WrapperReportType(this) as T else null
-        WrapperRecipeInput::class -> if (WrapperRecipeInput.packetClass.isInstance(this)) WrapperRecipeInput(this) as T else null
-        WrapperRecipeHolder::class -> if (WrapperRecipeHolder.packetClass.isInstance(this)) WrapperRecipeHolder(this) as T else null
-        WrapperNonNullList::class -> if (WrapperNonNullList.packetClass.isInstance(this)) WrapperNonNullList(this) as T else null
-        WrapperNoiseBiomeSource::class -> if (WrapperNoiseBiomeSource.packetClass.isInstance(this)) WrapperNoiseBiomeSource(this) as T else null
-        WrapperHeightmap::class -> if (WrapperHeightmap.packetClass.isInstance(this)) WrapperHeightmap(this) as T else null
-        WrapperBlendingData::class -> if (WrapperBlendingData.packetClass.isInstance(this)) WrapperBlendingData(this) as T else null
-        WrapperUpgradeData::class -> if (WrapperUpgradeData.packetClass.isInstance(this)) WrapperUpgradeData(this) as T else null
-        WrapperBiomeGenerationSettings::class -> if (WrapperBiomeGenerationSettings.packetClass.isInstance(this)) WrapperBiomeGenerationSettings(this) as T else null
-        WrapperChunkSkyLightSources::class -> if (WrapperChunkSkyLightSources.packetClass.isInstance(this)) WrapperChunkSkyLightSources(this) as T else null
-        WrapperStructureStart::class -> if (WrapperStructureStart.packetClass.isInstance(this)) WrapperStructureStart(this) as T else null
-        WrapperStructure::class -> if (WrapperStructure.packetClass.isInstance(this)) WrapperStructure(this) as T else null
-        WrapperNoiseChunk::class -> if (WrapperNoiseChunk.packetClass.isInstance(this)) WrapperNoiseChunk(this) as T else null
-        WrapperBelowZeroRetrogen::class -> if (WrapperBelowZeroRetrogen.packetClass.isInstance(this)) WrapperBelowZeroRetrogen(this) as T else null
-        WrapperLevelChunkSection::class -> if (WrapperLevelChunkSection.packetClass.isInstance(this)) WrapperLevelChunkSection(this) as T else null
-        WrapperLevelAccessor::class -> if (WrapperLevelAccessor.packetClass.isInstance(this)) WrapperLevelAccessor(this) as T else null
-        WrapperHoldingPlayer::class -> if (WrapperHoldingPlayer.packetClass.isInstance(this)) WrapperHoldingPlayer(this) as T else null
-        WrapperMonsterSettings::class -> if (WrapperMonsterSettings.packetClass.isInstance(this)) WrapperMonsterSettings(this) as T else null
-        WrapperKey::class -> if (WrapperKey.packetClass.isInstance(this)) WrapperKey(this) as T else null
-        WrapperValue::class -> if (WrapperValue.packetClass.isInstance(this)) WrapperValue(this) as T else null
-        WrapperGlobalPos::class -> if (WrapperGlobalPos.packetClass.isInstance(this)) WrapperGlobalPos(this) as T else null
-        WrapperStreamDecoder::class -> if (WrapperStreamDecoder.packetClass.isInstance(this)) WrapperStreamDecoder(this) as T else null
-        WrapperItemCost::class -> if (WrapperItemCost.packetClass.isInstance(this)) WrapperItemCost(this) as T else null
-        WrapperContainer::class -> if (WrapperContainer.packetClass.isInstance(this)) WrapperContainer(this) as T else null
-        WrapperThreadedLevelLightEngine::class -> if (WrapperThreadedLevelLightEngine.packetClass.isInstance(this)) WrapperThreadedLevelLightEngine(this) as T else null
-        WrapperLightChunk::class -> if (WrapperLightChunk.packetClass.isInstance(this)) WrapperLightChunk(this) as T else null
-        WrapperChunkGenerator::class -> if (WrapperChunkGenerator.packetClass.isInstance(this)) WrapperChunkGenerator(this) as T else null
-        WrapperRandomState::class -> if (WrapperRandomState.packetClass.isInstance(this)) WrapperRandomState(this) as T else null
-        WrapperChunkGeneratorStructureState::class -> if (WrapperChunkGeneratorStructureState.packetClass.isInstance(this)) WrapperChunkGeneratorStructureState(this) as T else null
-        WrapperChunkScanAccess::class -> if (WrapperChunkScanAccess.packetClass.isInstance(this)) WrapperChunkScanAccess(this) as T else null
-        WrapperSpawnState::class -> if (WrapperSpawnState.packetClass.isInstance(this)) WrapperSpawnState(this) as T else null
-        WrapperFactory::class -> if (WrapperFactory.packetClass.isInstance(this)) WrapperFactory(this) as T else null
-        WrapperRaider::class -> if (WrapperRaider.packetClass.isInstance(this)) WrapperRaider(this) as T else null
-        WrapperStructureTemplate::class -> if (WrapperStructureTemplate.packetClass.isInstance(this)) WrapperStructureTemplate(this) as T else null
-        WrapperEntityAccess::class -> if (WrapperEntityAccess.packetClass.isInstance(this)) WrapperEntityAccess(this) as T else null
-        WrapperSavedData::class -> if (WrapperSavedData.packetClass.isInstance(this)) WrapperSavedData(this) as T else null
-        WrapperStructurePlacement::class -> if (WrapperStructurePlacement.packetClass.isInstance(this)) WrapperStructurePlacement(this) as T else null
-        WrapperStructureAccess::class -> if (WrapperStructureAccess.packetClass.isInstance(this)) WrapperStructureAccess(this) as T else null
-        WrapperWorldGenRegion::class -> if (WrapperWorldGenRegion.packetClass.isInstance(this)) WrapperWorldGenRegion(this) as T else null
-        WrapperData::class -> if (WrapperData.packetClass.isInstance(this)) WrapperData(this) as T else null
-        WrapperBlockPatternMatch::class -> if (WrapperBlockPatternMatch.packetClass.isInstance(this)) WrapperBlockPatternMatch(this) as T else null
-        WrapperAction::class -> if (WrapperAction.packetClass.isInstance(this)) WrapperAction(this) as T else null
-        WrapperEnderChestBlockEntity::class -> if (WrapperEnderChestBlockEntity.packetClass.isInstance(this)) WrapperEnderChestBlockEntity(this) as T else null
-        WrapperValue::class -> if (WrapperValue.packetClass.isInstance(this)) WrapperValue(this) as T else null
-        WrapperBiome::class -> if (WrapperBiome.packetClass.isInstance(this)) WrapperBiome(this) as T else null
-        WrapperCodecOperation::class -> if (WrapperCodecOperation.packetClass.isInstance(this)) WrapperCodecOperation(this) as T else null
-        WrapperHolderGetter::class -> if (WrapperHolderGetter.packetClass.isInstance(this)) WrapperHolderGetter(this) as T else null
-        WrapperAttributeModifier::class -> if (WrapperAttributeModifier.packetClass.isInstance(this)) WrapperAttributeModifier(this) as T else null
-        WrapperActivity::class -> if (WrapperActivity.packetClass.isInstance(this)) WrapperActivity(this) as T else null
-        WrapperMemoryModuleType::class -> if (WrapperMemoryModuleType.packetClass.isInstance(this)) WrapperMemoryModuleType(this) as T else null
-        WrapperSchedule::class -> if (WrapperSchedule.packetClass.isInstance(this)) WrapperSchedule(this) as T else null
-        WrapperAdvancementHolder::class -> if (WrapperAdvancementHolder.packetClass.isInstance(this)) WrapperAdvancementHolder(this) as T else null
-        WrapperAdvancementProgress::class -> if (WrapperAdvancementProgress.packetClass.isInstance(this)) WrapperAdvancementProgress(this) as T else null
-        WrapperProfilePublicKey::class -> if (WrapperProfilePublicKey.packetClass.isInstance(this)) WrapperProfilePublicKey(this) as T else null
-        WrapperEntityDataSerializer::class -> if (WrapperEntityDataSerializer.packetClass.isInstance(this)) WrapperEntityDataSerializer(this) as T else null
-        WrapperDataValue::class -> if (WrapperDataValue.packetClass.isInstance(this)) WrapperDataValue(this) as T else null
-        WrapperPlayerChatMessage::class -> if (WrapperPlayerChatMessage.packetClass.isInstance(this)) WrapperPlayerChatMessage(this) as T else null
-        WrapperIdMap::class -> if (WrapperIdMap.packetClass.isInstance(this)) WrapperIdMap(this) as T else null
-        WrapperNamed::class -> if (WrapperNamed.packetClass.isInstance(this)) WrapperNamed(this) as T else null
-        WrapperServerOpList::class -> if (WrapperServerOpList.packetClass.isInstance(this)) WrapperServerOpList(this) as T else null
-        WrapperUserWhiteList::class -> if (WrapperUserWhiteList.packetClass.isInstance(this)) WrapperUserWhiteList(this) as T else null
-        WrapperServerLoginPacketListenerImpl::class -> if (WrapperServerLoginPacketListenerImpl.packetClass.isInstance(this)) WrapperServerLoginPacketListenerImpl(this) as T else null
-        WrapperIpBanList::class -> if (WrapperIpBanList.packetClass.isInstance(this)) WrapperIpBanList(this) as T else null
-        WrapperUserBanList::class -> if (WrapperUserBanList.packetClass.isInstance(this)) WrapperUserBanList(this) as T else null
-        WrapperAdvancementTree::class -> if (WrapperAdvancementTree.packetClass.isInstance(this)) WrapperAdvancementTree(this) as T else null
-        WrapperLootTable::class -> if (WrapperLootTable.packetClass.isInstance(this)) WrapperLootTable(this) as T else null
-        WrapperPack::class -> if (WrapperPack.packetClass.isInstance(this)) WrapperPack(this) as T else null
-        WrapperCustomBossEvent::class -> if (WrapperCustomBossEvent.packetClass.isInstance(this)) WrapperCustomBossEvent(this) as T else null
-        WrapperServerLevelData::class -> if (WrapperServerLevelData.packetClass.isInstance(this)) WrapperServerLevelData(this) as T else null
-        WrapperWorldDataConfiguration::class -> if (WrapperWorldDataConfiguration.packetClass.isInstance(this)) WrapperWorldDataConfiguration(this) as T else null
-        WrapperLevelSettings::class -> if (WrapperLevelSettings.packetClass.isInstance(this)) WrapperLevelSettings(this) as T else null
-        WrapperWorldOptions::class -> if (WrapperWorldOptions.packetClass.isInstance(this)) WrapperWorldOptions(this) as T else null
-        WrapperSerializableTickContainer::class -> if (WrapperSerializableTickContainer.packetClass.isInstance(this)) WrapperSerializableTickContainer(this) as T else null
-        WrapperContext::class -> if (WrapperContext.packetClass.isInstance(this)) WrapperContext(this) as T else null
-        WrapperChunkHolder::class -> if (WrapperChunkHolder.packetClass.isInstance(this)) WrapperChunkHolder(this) as T else null
-        WrapperDataLayer::class -> if (WrapperDataLayer.packetClass.isInstance(this)) WrapperDataLayer(this) as T else null
-        WrapperNumberFormatType::class -> if (WrapperNumberFormatType.packetClass.isInstance(this)) WrapperNumberFormatType(this) as T else null
-        WrapperRecipe::class -> if (WrapperRecipe.packetClass.isInstance(this)) WrapperRecipe(this) as T else null
-        WrapperPlacedFeature::class -> if (WrapperPlacedFeature.packetClass.isInstance(this)) WrapperPlacedFeature(this) as T else null
-        WrapperBoundingBox::class -> if (WrapperBoundingBox.packetClass.isInstance(this)) WrapperBoundingBox(this) as T else null
-        WrapperStructurePieceSerializationContext::class -> if (WrapperStructurePieceSerializationContext.packetClass.isInstance(this)) WrapperStructurePieceSerializationContext(this) as T else null
-        WrapperStructureType::class -> if (WrapperStructureType.packetClass.isInstance(this)) WrapperStructureType(this) as T else null
-        WrapperBiomeSource::class -> if (WrapperBiomeSource.packetClass.isInstance(this)) WrapperBiomeSource(this) as T else null
-        WrapperGenerationContext::class -> if (WrapperGenerationContext.packetClass.isInstance(this)) WrapperGenerationContext(this) as T else null
-        WrapperAquifer::class -> if (WrapperAquifer.packetClass.isInstance(this)) WrapperAquifer(this) as T else null
-        WrapperBlender::class -> if (WrapperBlender.packetClass.isInstance(this)) WrapperBlender(this) as T else null
-        WrapperPalettedContainerRO::class -> if (WrapperPalettedContainerRO.packetClass.isInstance(this)) WrapperPalettedContainerRO(this) as T else null
-        WrapperPalettedContainer::class -> if (WrapperPalettedContainer.packetClass.isInstance(this)) WrapperPalettedContainer(this) as T else null
-        WrapperChunkSource::class -> if (WrapperChunkSource.packetClass.isInstance(this)) WrapperChunkSource(this) as T else null
-        WrapperLevelTickAccess::class -> if (WrapperLevelTickAccess.packetClass.isInstance(this)) WrapperLevelTickAccess(this) as T else null
-        WrapperIntProvider::class -> if (WrapperIntProvider.packetClass.isInstance(this)) WrapperIntProvider(this) as T else null
-        WrapperDataComponentPredicate::class -> if (WrapperDataComponentPredicate.packetClass.isInstance(this)) WrapperDataComponentPredicate(this) as T else null
-        WrapperWeightedRandomList::class -> if (WrapperWeightedRandomList.packetClass.isInstance(this)) WrapperWeightedRandomList(this) as T else null
-        WrapperNoiseColumn::class -> if (WrapperNoiseColumn.packetClass.isInstance(this)) WrapperNoiseColumn(this) as T else null
-        WrapperSampler::class -> if (WrapperSampler.packetClass.isInstance(this)) WrapperSampler(this) as T else null
-        WrapperNoiseRouter::class -> if (WrapperNoiseRouter.packetClass.isInstance(this)) WrapperNoiseRouter(this) as T else null
-        WrapperSurfaceSystem::class -> if (WrapperSurfaceSystem.packetClass.isInstance(this)) WrapperSurfaceSystem(this) as T else null
-        WrapperNormalNoise::class -> if (WrapperNormalNoise.packetClass.isInstance(this)) WrapperNormalNoise(this) as T else null
-        WrapperConcentricRingsStructurePlacement::class -> if (WrapperConcentricRingsStructurePlacement.packetClass.isInstance(this)) WrapperConcentricRingsStructurePlacement(this) as T else null
-        WrapperServerLevelAccessor::class -> if (WrapperServerLevelAccessor.packetClass.isInstance(this)) WrapperServerLevelAccessor(this) as T else null
-        WrapperStructurePlaceSettings::class -> if (WrapperStructurePlaceSettings.packetClass.isInstance(this)) WrapperStructurePlaceSettings(this) as T else null
-        WrapperStructurePlacementType::class -> if (WrapperStructurePlacementType.packetClass.isInstance(this)) WrapperStructurePlacementType(this) as T else null
-        WrapperBiomeSpecialEffects::class -> if (WrapperBiomeSpecialEffects.packetClass.isInstance(this)) WrapperBiomeSpecialEffects(this) as T else null
-        WrapperMobSpawnSettings::class -> if (WrapperMobSpawnSettings.packetClass.isInstance(this)) WrapperMobSpawnSettings(this) as T else null
-        WrapperAdvancement::class -> if (WrapperAdvancement.packetClass.isInstance(this)) WrapperAdvancement(this) as T else null
-        WrapperCriterionProgress::class -> if (WrapperCriterionProgress.packetClass.isInstance(this)) WrapperCriterionProgress(this) as T else null
-        WrapperSignedMessageLink::class -> if (WrapperSignedMessageLink.packetClass.isInstance(this)) WrapperSignedMessageLink(this) as T else null
-        WrapperSignedMessageBody::class -> if (WrapperSignedMessageBody.packetClass.isInstance(this)) WrapperSignedMessageBody(this) as T else null
-        WrapperIpBanListEntry::class -> if (WrapperIpBanListEntry.packetClass.isInstance(this)) WrapperIpBanListEntry(this) as T else null
-        WrapperAdvancementNode::class -> if (WrapperAdvancementNode.packetClass.isInstance(this)) WrapperAdvancementNode(this) as T else null
-        WrapperLootParams::class -> if (WrapperLootParams.packetClass.isInstance(this)) WrapperLootParams(this) as T else null
-        WrapperLootContextParamSet::class -> if (WrapperLootContextParamSet.packetClass.isInstance(this)) WrapperLootContextParamSet(this) as T else null
-        WrapperPackLocationInfo::class -> if (WrapperPackLocationInfo.packetClass.isInstance(this)) WrapperPackLocationInfo(this) as T else null
-        WrapperPackResources::class -> if (WrapperPackResources.packetClass.isInstance(this)) WrapperPackResources(this) as T else null
-        WrapperPackSource::class -> if (WrapperPackSource.packetClass.isInstance(this)) WrapperPackSource(this) as T else null
-        WrapperPackSelectionConfig::class -> if (WrapperPackSelectionConfig.packetClass.isInstance(this)) WrapperPackSelectionConfig(this) as T else null
-        WrapperTimerQueue::class -> if (WrapperTimerQueue.packetClass.isInstance(this)) WrapperTimerQueue(this) as T else null
-        WrapperDataPackConfig::class -> if (WrapperDataPackConfig.packetClass.isInstance(this)) WrapperDataPackConfig(this) as T else null
-        WrapperRecipeSerializer::class -> if (WrapperRecipeSerializer.packetClass.isInstance(this)) WrapperRecipeSerializer(this) as T else null
-        WrapperWorldgenRandom::class -> if (WrapperWorldgenRandom.packetClass.isInstance(this)) WrapperWorldgenRandom(this) as T else null
-        WrapperFunctionContext::class -> if (WrapperFunctionContext.packetClass.isInstance(this)) WrapperFunctionContext(this) as T else null
-        WrapperBlendingOutput::class -> if (WrapperBlendingOutput.packetClass.isInstance(this)) WrapperBlendingOutput(this) as T else null
-        WrapperBiomeResolver::class -> if (WrapperBiomeResolver.packetClass.isInstance(this)) WrapperBiomeResolver(this) as T else null
-        WrapperPackedData::class -> if (WrapperPackedData.packetClass.isInstance(this)) WrapperPackedData(this) as T else null
-        WrapperStrategy::class -> if (WrapperStrategy.packetClass.isInstance(this)) WrapperStrategy(this) as T else null
-        WrapperIntProviderType::class -> if (WrapperIntProviderType.packetClass.isInstance(this)) WrapperIntProviderType(this) as T else null
-        WrapperDensityFunction::class -> if (WrapperDensityFunction.packetClass.isInstance(this)) WrapperDensityFunction(this) as T else null
-        WrapperRuleSource::class -> if (WrapperRuleSource.packetClass.isInstance(this)) WrapperRuleSource(this) as T else null
-        WrapperCarvingContext::class -> if (WrapperCarvingContext.packetClass.isInstance(this)) WrapperCarvingContext(this) as T else null
-        WrapperNoiseParameters::class -> if (WrapperNoiseParameters.packetClass.isInstance(this)) WrapperNoiseParameters(this) as T else null
-        WrapperStructureProcessor::class -> if (WrapperStructureProcessor.packetClass.isInstance(this)) WrapperStructureProcessor(this) as T else null
-        WrapperPalette::class -> if (WrapperPalette.packetClass.isInstance(this)) WrapperPalette(this) as T else null
-        WrapperMobSpawnCost::class -> if (WrapperMobSpawnCost.packetClass.isInstance(this)) WrapperMobSpawnCost(this) as T else null
-        WrapperAdvancementRewards::class -> if (WrapperAdvancementRewards.packetClass.isInstance(this)) WrapperAdvancementRewards(this) as T else null
-        WrapperAdvancementRequirements::class -> if (WrapperAdvancementRequirements.packetClass.isInstance(this)) WrapperAdvancementRequirements(this) as T else null
-        WrapperLastSeenMessages::class -> if (WrapperLastSeenMessages.packetClass.isInstance(this)) WrapperLastSeenMessages(this) as T else null
-        WrapperLootContextParam::class -> if (WrapperLootContextParam.packetClass.isInstance(this)) WrapperLootContextParam(this) as T else null
-        WrapperIoSupplier::class -> if (WrapperIoSupplier.packetClass.isInstance(this)) WrapperIoSupplier(this) as T else null
-        WrapperMetadataSectionSerializer::class -> if (WrapperMetadataSectionSerializer.packetClass.isInstance(this)) WrapperMetadataSectionSerializer(this) as T else null
-        WrapperConfiguration::class -> if (WrapperConfiguration.packetClass.isInstance(this)) WrapperConfiguration(this) as T else null
-        WrapperVisitor::class -> if (WrapperVisitor.packetClass.isInstance(this)) WrapperVisitor(this) as T else null
-        WrapperKeyDispatchDataCodec::class -> if (WrapperKeyDispatchDataCodec.packetClass.isInstance(this)) WrapperKeyDispatchDataCodec(this) as T else null
-        WrapperStructureBlockInfo::class -> if (WrapperStructureBlockInfo.packetClass.isInstance(this)) WrapperStructureBlockInfo(this) as T else null
-        WrapperFactory::class -> if (WrapperFactory.packetClass.isInstance(this)) WrapperFactory(this) as T else null
-        WrapperNoiseHolder::class -> if (WrapperNoiseHolder.packetClass.isInstance(this)) WrapperNoiseHolder(this) as T else null
-        WrapperPalette::class -> if (WrapperPalette.packetClass.isInstance(this)) WrapperPalette(this) as T else null
-        WrapperPaletteResize::class -> if (WrapperPaletteResize.packetClass.isInstance(this)) WrapperPaletteResize(this) as T else null
-        else -> null
+    val info = wrapperRegistry.get(T::class.java)
+    if (info != null && info.packetClass.isInstance(this)) {
+        return info.constructor(this) as T
     }
+    return null
 }

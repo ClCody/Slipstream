@@ -17,11 +17,11 @@ value class WrapperServerboundJigsawGeneratePacket(val handle: Any) {
         val levelsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "levels", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val keepJigsawsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "keepJigsaws", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val getPosHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPos", MethodType.methodType(Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val keepJigsawsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "keepJigsaws", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -31,10 +31,10 @@ value class WrapperServerboundJigsawGeneratePacket(val handle: Any) {
     val levels: Int
         get() = levelsHandle.invoke(handle) as Int
 
-    val keepJigsaws: Boolean
-        get() = keepJigsawsHandle.invoke(handle) as Boolean
-
     val pos: WrapperBlockPos
         get() = WrapperBlockPos(getPosHandle.invoke(handle))
+
+    val keepJigsaws: Boolean
+        get() = keepJigsawsHandle.invoke(handle) as Boolean
 
 }

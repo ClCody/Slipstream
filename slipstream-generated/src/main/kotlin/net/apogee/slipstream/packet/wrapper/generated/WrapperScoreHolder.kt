@@ -14,21 +14,21 @@ value class WrapperScoreHolder(val handle: Any) {
         val getDisplayNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
-        val getScoreboardNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getScoreboardName", MethodType.methodType(String::class.java))
-        }
         val getFeedbackDisplayNameHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getFeedbackDisplayName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val getScoreboardNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getScoreboardName", MethodType.methodType(String::class.java))
         }
     }
 
     val displayName: WrapperComponent
         get() = WrapperComponent(getDisplayNameHandle.invoke(handle))
 
-    val scoreboardName: String
-        get() = getScoreboardNameHandle.invoke(handle) as String
-
     val feedbackDisplayName: WrapperComponent
         get() = WrapperComponent(getFeedbackDisplayNameHandle.invoke(handle))
+
+    val scoreboardName: String
+        get() = getScoreboardNameHandle.invoke(handle) as String
 
 }

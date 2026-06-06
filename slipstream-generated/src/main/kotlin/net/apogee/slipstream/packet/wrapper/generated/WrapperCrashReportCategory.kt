@@ -21,7 +21,7 @@ value class WrapperCrashReportCategory(val handle: Any) {
             lookup.findVirtual(packetClass, "validateStackTrace", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("java.lang.StackTraceElement"), Class.forName("java.lang.StackTraceElement")))
         }
         val setDetailHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "setDetail", MethodType.methodType(Class.forName("net.minecraft.CrashReportCategory"), String::class.java, Class.forName("java.lang.Object")))
+            lookup.findVirtual(packetClass, "setDetail", MethodType.methodType(Class.forName("net.minecraft.CrashReportCategory"), String::class.java, Class.forName("net.minecraft.CrashReportDetail")))
         }
         val stackTraceSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("stackTrace")

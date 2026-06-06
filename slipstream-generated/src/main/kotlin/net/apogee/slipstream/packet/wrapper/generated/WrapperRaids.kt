@@ -17,11 +17,11 @@ value class WrapperRaids(val handle: Any) {
         val saveHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "save", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.nbt.CompoundTag"), Class.forName("net.minecraft.core.HolderLookup\$Provider")))
         }
-        val createOrExtendRaidHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "createOrExtendRaid", MethodType.methodType(Class.forName("net.minecraft.world.entity.raid.Raid"), Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.core.BlockPos")))
-        }
         val getNearbyRaidHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNearbyRaid", MethodType.methodType(Class.forName("net.minecraft.world.entity.raid.Raid"), Class.forName("net.minecraft.core.BlockPos"), Int::class.javaPrimitiveType!!))
+        }
+        val createOrExtendRaidHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "createOrExtendRaid", MethodType.methodType(Class.forName("net.minecraft.world.entity.raid.Raid"), Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.core.BlockPos")))
         }
         val nextAvailableIDSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("nextAvailableID")
@@ -43,12 +43,12 @@ value class WrapperRaids(val handle: Any) {
         return WrapperCompoundTag(saveHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
-    fun createOrExtendRaid(arg0: WrapperServerPlayer, arg1: WrapperBlockPos): WrapperRaid {
-        return WrapperRaid(createOrExtendRaidHandle.invoke(handle, arg0.handle, arg1.handle))
-    }
-
     fun getNearbyRaid(arg0: WrapperBlockPos, arg1: Int): WrapperRaid {
         return WrapperRaid(getNearbyRaidHandle.invoke(handle, arg0.handle, arg1))
+    }
+
+    fun createOrExtendRaid(arg0: WrapperServerPlayer, arg1: WrapperBlockPos): WrapperRaid {
+        return WrapperRaid(createOrExtendRaidHandle.invoke(handle, arg0.handle, arg1.handle))
     }
 
     fun setNextAvailableID(value: Int) {

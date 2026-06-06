@@ -11,8 +11,20 @@ value class WrapperConnection(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.network.Connection") }
         private val lookup = MethodHandles.lookup()
 
-        val isEncryptedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isEncrypted", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getLoggableAddressHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLoggableAddress", MethodType.methodType(String::class.java, Boolean::class.javaPrimitiveType!!))
+        }
+        val isConnectedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isConnected", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getReceivingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getReceiving", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
+        }
+        val getPacketListenerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPacketListener", MethodType.methodType(Class.forName("net.minecraft.network.PacketListener")))
+        }
+        val isMemoryConnectionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isMemoryConnection", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val getRemoteAddressHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getRemoteAddress", MethodType.methodType(Class.forName("java.net.SocketAddress")))
@@ -20,17 +32,11 @@ value class WrapperConnection(val handle: Any) {
         val isConnectingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isConnecting", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getPacketListenerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPacketListener", MethodType.methodType(Class.forName("net.minecraft.network.PacketListener")))
+        val isEncryptedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isEncrypted", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getReceivingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getReceiving", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
-        }
-        val isMemoryConnectionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isMemoryConnection", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isConnectedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isConnected", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val getDisconnectionDetailsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDisconnectionDetails", MethodType.methodType(Class.forName("net.minecraft.network.DisconnectionDetails")))
         }
         val getAverageReceivedPacketsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAverageReceivedPackets", MethodType.methodType(Float::class.javaPrimitiveType!!))
@@ -38,17 +44,11 @@ value class WrapperConnection(val handle: Any) {
         val getAverageSentPacketsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getAverageSentPackets", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getDisconnectionDetailsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDisconnectionDetails", MethodType.methodType(Class.forName("net.minecraft.network.DisconnectionDetails")))
-        }
-        val getLoggableAddressHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLoggableAddress", MethodType.methodType(String::class.java, Boolean::class.javaPrimitiveType!!))
+        val getSendingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSending", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
         }
         val getPlayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPlayer", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerPlayer")))
-        }
-        val getSendingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSending", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketFlow")))
         }
         val sendLoginDisconnectSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("sendLoginDisconnect")
@@ -182,8 +182,21 @@ value class WrapperConnection(val handle: Any) {
         }
     }
 
-    val encrypted: Boolean
-        get() = isEncryptedHandle.invoke(handle) as Boolean
+    fun getLoggableAddress(arg0: Boolean): String {
+        return getLoggableAddressHandle.invoke(handle, arg0) as String
+    }
+
+    val connected: Boolean
+        get() = isConnectedHandle.invoke(handle) as Boolean
+
+    val receiving: Any
+        get() = getReceivingHandle.invoke(handle) as Any
+
+    val packetListener: WrapperPacketListener
+        get() = WrapperPacketListener(getPacketListenerHandle.invoke(handle))
+
+    val memoryConnection: Boolean
+        get() = isMemoryConnectionHandle.invoke(handle) as Boolean
 
     val remoteAddress: Any
         get() = getRemoteAddressHandle.invoke(handle) as Any
@@ -191,17 +204,11 @@ value class WrapperConnection(val handle: Any) {
     val connecting: Boolean
         get() = isConnectingHandle.invoke(handle) as Boolean
 
-    val packetListener: WrapperPacketListener
-        get() = WrapperPacketListener(getPacketListenerHandle.invoke(handle))
+    val encrypted: Boolean
+        get() = isEncryptedHandle.invoke(handle) as Boolean
 
-    val receiving: Any
-        get() = getReceivingHandle.invoke(handle) as Any
-
-    val memoryConnection: Boolean
-        get() = isMemoryConnectionHandle.invoke(handle) as Boolean
-
-    val connected: Boolean
-        get() = isConnectedHandle.invoke(handle) as Boolean
+    val disconnectionDetails: WrapperDisconnectionDetails
+        get() = WrapperDisconnectionDetails(getDisconnectionDetailsHandle.invoke(handle))
 
     val averageReceivedPackets: Float
         get() = getAverageReceivedPacketsHandle.invoke(handle) as Float
@@ -209,18 +216,11 @@ value class WrapperConnection(val handle: Any) {
     val averageSentPackets: Float
         get() = getAverageSentPacketsHandle.invoke(handle) as Float
 
-    val disconnectionDetails: WrapperDisconnectionDetails
-        get() = WrapperDisconnectionDetails(getDisconnectionDetailsHandle.invoke(handle))
-
-    fun getLoggableAddress(arg0: Boolean): String {
-        return getLoggableAddressHandle.invoke(handle, arg0) as String
-    }
+    val sending: Any
+        get() = getSendingHandle.invoke(handle) as Any
 
     val player: WrapperServerPlayer
         get() = WrapperServerPlayer(getPlayerHandle.invoke(handle))
-
-    val sending: Any
-        get() = getSendingHandle.invoke(handle) as Any
 
     fun setSendLoginDisconnect(value: Boolean) {
         sendLoginDisconnectSetterHandle.invoke(handle, value)

@@ -20,14 +20,14 @@ value class WrapperVecDeltaCodec(val handle: Any) {
         val getBaseHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBase", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
         }
-        val encodeXHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "encodeX", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
-        }
         val encodeYHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "encodeY", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
         }
         val encodeZHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "encodeZ", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
+        }
+        val encodeXHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "encodeX", MethodType.methodType(Long::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.Vec3")))
         }
         val baseSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("base")
@@ -47,16 +47,16 @@ value class WrapperVecDeltaCodec(val handle: Any) {
     val base: WrapperVec3
         get() = WrapperVec3(getBaseHandle.invoke(handle))
 
-    fun encodeX(arg0: WrapperVec3): Long {
-        return encodeXHandle.invoke(handle, arg0.handle) as Long
-    }
-
     fun encodeY(arg0: WrapperVec3): Long {
         return encodeYHandle.invoke(handle, arg0.handle) as Long
     }
 
     fun encodeZ(arg0: WrapperVec3): Long {
         return encodeZHandle.invoke(handle, arg0.handle) as Long
+    }
+
+    fun encodeX(arg0: WrapperVec3): Long {
+        return encodeXHandle.invoke(handle, arg0.handle) as Long
     }
 
     fun setBase(value: WrapperVec3) {

@@ -26,20 +26,20 @@ value class WrapperDensityFunction(val handle: Any) {
         val squareHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "square", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
         }
-        val mapAllHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "mapAll", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction"), Class.forName("net.minecraft.world.level.levelgen.DensityFunction\$Visitor")))
-        }
-        val cubeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "cube", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
-        }
         val halfNegativeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "halfNegative", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
         }
         val quarterNegativeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "quarterNegative", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
         }
+        val cubeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "cube", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
+        }
         val squeezeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "squeeze", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction")))
+        }
+        val mapAllHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "mapAll", MethodType.methodType(Class.forName("net.minecraft.world.level.levelgen.DensityFunction"), Class.forName("net.minecraft.world.level.levelgen.DensityFunction\$Visitor")))
         }
         val minValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "minValue", MethodType.methodType(Double::class.javaPrimitiveType!!))
@@ -66,21 +66,21 @@ value class WrapperDensityFunction(val handle: Any) {
     val square: WrapperDensityFunction
         get() = WrapperDensityFunction(squareHandle.invoke(handle))
 
-    fun mapAll(arg0: WrapperVisitor): WrapperDensityFunction {
-        return WrapperDensityFunction(mapAllHandle.invoke(handle, arg0.handle))
-    }
-
-    val cube: WrapperDensityFunction
-        get() = WrapperDensityFunction(cubeHandle.invoke(handle))
-
     val halfNegative: WrapperDensityFunction
         get() = WrapperDensityFunction(halfNegativeHandle.invoke(handle))
 
     val quarterNegative: WrapperDensityFunction
         get() = WrapperDensityFunction(quarterNegativeHandle.invoke(handle))
 
+    val cube: WrapperDensityFunction
+        get() = WrapperDensityFunction(cubeHandle.invoke(handle))
+
     val squeeze: WrapperDensityFunction
         get() = WrapperDensityFunction(squeezeHandle.invoke(handle))
+
+    fun mapAll(arg0: WrapperVisitor): WrapperDensityFunction {
+        return WrapperDensityFunction(mapAllHandle.invoke(handle, arg0.handle))
+    }
 
     val minValue: Double
         get() = minValueHandle.invoke(handle) as Double

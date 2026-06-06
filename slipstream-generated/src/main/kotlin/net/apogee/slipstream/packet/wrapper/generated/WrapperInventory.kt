@@ -21,7 +21,7 @@ value class WrapperInventory(val handle: Any) {
             lookup.findVirtual(packetClass, "add", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
         }
         val containsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "contains", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.tags.TagKey")))
+            lookup.findVirtual(packetClass, "contains", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
         }
         val getLocationHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLocation", MethodType.methodType(Class.forName("org.bukkit.Location")))
@@ -38,53 +38,11 @@ value class WrapperInventory(val handle: Any) {
         val getItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
         }
-        val stillValidHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stillValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
-        }
-        val getViewersHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getViewers", MethodType.methodType(Class.forName("java.util.List")))
-        }
-        val getContainerSizeHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getContainerSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val canHoldHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canHold", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val removeItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removeItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val getDestroySpeedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDestroySpeed", MethodType.methodType(Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.block.state.BlockState")))
-        }
         val getMaxStackSizeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getMaxStackSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val findSlotMatchingItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "findSlotMatchingItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val findSlotMatchingUnusedItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "findSlotMatchingUnusedItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getSlotWithRemainingSpaceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSlotWithRemainingSpace", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
-        }
-        val getSuitableHotbarSlotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSuitableHotbarSlot", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val clearOrCountMatchingItemsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "clearOrCountMatchingItems", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.Container")))
-        }
-        val getTimesChangedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTimesChanged", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getArmorContentsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmorContents", MethodType.methodType(Class.forName("java.util.List")))
-        }
-        val getFreeSlotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFreeSlot", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
-        val getArmorHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getArmor", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
+        val stillValidHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stillValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
         }
         val getSelectedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSelected", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
@@ -94,6 +52,48 @@ value class WrapperInventory(val handle: Any) {
         }
         val removeItemNoUpdateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "removeItemNoUpdate", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
+        }
+        val getViewersHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getViewers", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val getContainerSizeHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getContainerSize", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getDestroySpeedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDestroySpeed", MethodType.methodType(Float::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.block.state.BlockState")))
+        }
+        val canHoldHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canHold", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val removeItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removeItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
+        val getArmorHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmor", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Int::class.javaPrimitiveType!!))
+        }
+        val getArmorContentsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getArmorContents", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val getTimesChangedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTimesChanged", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getFreeSlotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFreeSlot", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val clearOrCountMatchingItemsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "clearOrCountMatchingItems", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("java.util.function.Predicate"), Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.Container")))
+        }
+        val findSlotMatchingUnusedItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "findSlotMatchingUnusedItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getSlotWithRemainingSpaceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSlotWithRemainingSpace", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val findSlotMatchingItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "findSlotMatchingItem", MethodType.methodType(Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack")))
+        }
+        val getSuitableHotbarSlotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSuitableHotbarSlot", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val selectedSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("selected")
@@ -127,7 +127,7 @@ value class WrapperInventory(val handle: Any) {
         return addHandle.invoke(handle, arg0, arg1.handle) as Boolean
     }
 
-    fun contains(arg0: WrapperTagKey): Boolean {
+    fun contains(arg0: WrapperItemStack): Boolean {
         return containsHandle.invoke(handle, arg0.handle) as Boolean
     }
 
@@ -148,61 +148,11 @@ value class WrapperInventory(val handle: Any) {
         return WrapperItemStack(getItemHandle.invoke(handle, arg0))
     }
 
-    fun stillValid(arg0: WrapperPlayer): Boolean {
-        return stillValidHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    val viewers: Any
-        get() = getViewersHandle.invoke(handle) as Any
-
-    val containerSize: Int
-        get() = getContainerSizeHandle.invoke(handle) as Int
-
-    fun canHold(arg0: WrapperItemStack): Int {
-        return canHoldHandle.invoke(handle, arg0.handle) as Int
-    }
-
-    fun removeItem(arg0: Int, arg1: Int): WrapperItemStack {
-        return WrapperItemStack(removeItemHandle.invoke(handle, arg0, arg1))
-    }
-
-    fun getDestroySpeed(arg0: WrapperBlockState): Float {
-        return getDestroySpeedHandle.invoke(handle, arg0.handle) as Float
-    }
-
     val maxStackSize: Int
         get() = getMaxStackSizeHandle.invoke(handle) as Int
 
-    fun findSlotMatchingItem(arg0: WrapperItemStack): Int {
-        return findSlotMatchingItemHandle.invoke(handle, arg0.handle) as Int
-    }
-
-    fun findSlotMatchingUnusedItem(arg0: WrapperItemStack): Int {
-        return findSlotMatchingUnusedItemHandle.invoke(handle, arg0.handle) as Int
-    }
-
-    fun getSlotWithRemainingSpace(arg0: WrapperItemStack): Int {
-        return getSlotWithRemainingSpaceHandle.invoke(handle, arg0.handle) as Int
-    }
-
-    val suitableHotbarSlot: Int
-        get() = getSuitableHotbarSlotHandle.invoke(handle) as Int
-
-    fun clearOrCountMatchingItems(arg0: Any, arg1: Int, arg2: WrapperContainer): Int {
-        return clearOrCountMatchingItemsHandle.invoke(handle, arg0, arg1, arg2.handle) as Int
-    }
-
-    val timesChanged: Int
-        get() = getTimesChangedHandle.invoke(handle) as Int
-
-    val armorContents: Any
-        get() = getArmorContentsHandle.invoke(handle) as Any
-
-    val freeSlot: Int
-        get() = getFreeSlotHandle.invoke(handle) as Int
-
-    fun getArmor(arg0: Int): WrapperItemStack {
-        return WrapperItemStack(getArmorHandle.invoke(handle, arg0))
+    fun stillValid(arg0: WrapperPlayer): Boolean {
+        return stillValidHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     val selected: WrapperItemStack
@@ -215,6 +165,56 @@ value class WrapperInventory(val handle: Any) {
     fun removeItemNoUpdate(arg0: Int): WrapperItemStack {
         return WrapperItemStack(removeItemNoUpdateHandle.invoke(handle, arg0))
     }
+
+    val viewers: Any
+        get() = getViewersHandle.invoke(handle) as Any
+
+    val containerSize: Int
+        get() = getContainerSizeHandle.invoke(handle) as Int
+
+    fun getDestroySpeed(arg0: WrapperBlockState): Float {
+        return getDestroySpeedHandle.invoke(handle, arg0.handle) as Float
+    }
+
+    fun canHold(arg0: WrapperItemStack): Int {
+        return canHoldHandle.invoke(handle, arg0.handle) as Int
+    }
+
+    fun removeItem(arg0: Int, arg1: Int): WrapperItemStack {
+        return WrapperItemStack(removeItemHandle.invoke(handle, arg0, arg1))
+    }
+
+    fun getArmor(arg0: Int): WrapperItemStack {
+        return WrapperItemStack(getArmorHandle.invoke(handle, arg0))
+    }
+
+    val armorContents: Any
+        get() = getArmorContentsHandle.invoke(handle) as Any
+
+    val timesChanged: Int
+        get() = getTimesChangedHandle.invoke(handle) as Int
+
+    val freeSlot: Int
+        get() = getFreeSlotHandle.invoke(handle) as Int
+
+    fun clearOrCountMatchingItems(arg0: Any, arg1: Int, arg2: WrapperContainer): Int {
+        return clearOrCountMatchingItemsHandle.invoke(handle, arg0, arg1, arg2.handle) as Int
+    }
+
+    fun findSlotMatchingUnusedItem(arg0: WrapperItemStack): Int {
+        return findSlotMatchingUnusedItemHandle.invoke(handle, arg0.handle) as Int
+    }
+
+    fun getSlotWithRemainingSpace(arg0: WrapperItemStack): Int {
+        return getSlotWithRemainingSpaceHandle.invoke(handle, arg0.handle) as Int
+    }
+
+    fun findSlotMatchingItem(arg0: WrapperItemStack): Int {
+        return findSlotMatchingItemHandle.invoke(handle, arg0.handle) as Int
+    }
+
+    val suitableHotbarSlot: Int
+        get() = getSuitableHotbarSlotHandle.invoke(handle) as Int
 
     fun setSelected(value: Int) {
         selectedSetterHandle.invoke(handle, value)

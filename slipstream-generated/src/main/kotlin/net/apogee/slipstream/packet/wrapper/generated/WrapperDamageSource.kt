@@ -20,59 +20,32 @@ value class WrapperDamageSource(val handle: Any) {
         val isHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "is", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.tags.TagKey")))
         }
-        val sweepHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "sweep", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
         val criticalHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "critical", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Boolean::class.javaPrimitiveType!!))
         }
-        val directBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "directBlock", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Class.forName("org.bukkit.block.Block")))
+        val sweepHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "sweep", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
         }
-        val customEventDamagerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "customEventDamager", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Class.forName("net.minecraft.world.entity.Entity")))
+        val getSourcePositionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSourcePosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
+        }
+        val getFoodExhaustionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getFoodExhaustion", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getDirectBlockStateHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDirectBlockState", MethodType.methodType(Class.forName("org.bukkit.block.BlockState")))
         }
         val isCreativePlayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isCreativePlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val customEventDamagerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "customEventDamager", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Class.forName("net.minecraft.world.entity.Entity")))
+        }
         val getWeaponItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getWeaponItem", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
         }
-        val getLocalizedDeathMessageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLocalizedDeathMessage", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component"), Class.forName("net.minecraft.world.entity.LivingEntity")))
-        }
-        val getCustomEventDamagerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCustomEventDamager", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val scalesWithDifficultyHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "scalesWithDifficulty", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val sourcePositionRawHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "sourcePositionRaw", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
-        }
-        val getDirectEntityHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDirectEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
-        }
-        val getMsgIdHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getMsgId", MethodType.methodType(String::class.java))
-        }
-        val isMeltingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isMelting", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val poisonHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "poison", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val isPoisonHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isPoison", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isCriticalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isCritical", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val meltingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "melting", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
-        }
-        val isSweepHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSweep", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val directBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "directBlock", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.core.BlockPos")))
         }
         val directBlockStateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "directBlockState", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource"), Class.forName("org.bukkit.block.BlockState")))
@@ -80,20 +53,47 @@ value class WrapperDamageSource(val handle: Any) {
         val getDirectBlockHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDirectBlock", MethodType.methodType(Class.forName("org.bukkit.block.Block")))
         }
+        val isMeltingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isMelting", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val meltingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "melting", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val getMsgIdHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getMsgId", MethodType.methodType(String::class.java))
+        }
+        val poisonHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "poison", MethodType.methodType(Class.forName("net.minecraft.world.damagesource.DamageSource")))
+        }
+        val isCriticalHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isCritical", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isSweepHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSweep", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val isPoisonHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isPoison", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getCustomEventDamagerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCustomEventDamager", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val getLocalizedDeathMessageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLocalizedDeathMessage", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component"), Class.forName("net.minecraft.world.entity.LivingEntity")))
+        }
         val getEntityHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
         }
         val typeHolderHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "typeHolder", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
         }
-        val getDirectBlockStateHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDirectBlockState", MethodType.methodType(Class.forName("org.bukkit.block.BlockState")))
+        val sourcePositionRawHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "sourcePositionRaw", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
         }
-        val getSourcePositionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSourcePosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
+        val getDirectEntityHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDirectEntity", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity")))
         }
-        val getFoodExhaustionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getFoodExhaustion", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val scalesWithDifficultyHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "scalesWithDifficulty", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val directBlockSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("directBlock")
@@ -142,63 +142,35 @@ value class WrapperDamageSource(val handle: Any) {
         return isHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    val sweep: WrapperDamageSource
-        get() = WrapperDamageSource(sweepHandle.invoke(handle))
-
     fun critical(arg0: Boolean): WrapperDamageSource {
         return WrapperDamageSource(criticalHandle.invoke(handle, arg0))
     }
 
-    fun directBlock(arg0: Any): WrapperDamageSource {
-        return WrapperDamageSource(directBlockHandle.invoke(handle, arg0))
-    }
+    val sweep: WrapperDamageSource
+        get() = WrapperDamageSource(sweepHandle.invoke(handle))
+
+    val sourcePosition: WrapperVec3
+        get() = WrapperVec3(getSourcePositionHandle.invoke(handle))
+
+    val foodExhaustion: Float
+        get() = getFoodExhaustionHandle.invoke(handle) as Float
+
+    val directBlockState: Any
+        get() = getDirectBlockStateHandle.invoke(handle) as Any
+
+    val creativePlayer: Boolean
+        get() = isCreativePlayerHandle.invoke(handle) as Boolean
 
     fun customEventDamager(arg0: WrapperEntity): WrapperDamageSource {
         return WrapperDamageSource(customEventDamagerHandle.invoke(handle, arg0.handle))
     }
 
-    val creativePlayer: Boolean
-        get() = isCreativePlayerHandle.invoke(handle) as Boolean
-
     val weaponItem: WrapperItemStack
         get() = WrapperItemStack(getWeaponItemHandle.invoke(handle))
 
-    fun getLocalizedDeathMessage(arg0: WrapperLivingEntity): WrapperComponent {
-        return WrapperComponent(getLocalizedDeathMessageHandle.invoke(handle, arg0.handle))
+    fun directBlock(arg0: WrapperLevel, arg1: WrapperBlockPos): WrapperDamageSource {
+        return WrapperDamageSource(directBlockHandle.invoke(handle, arg0.handle, arg1.handle))
     }
-
-    val customEventDamager: WrapperEntity
-        get() = WrapperEntity(getCustomEventDamagerHandle.invoke(handle))
-
-    val scalesWithDifficulty: Boolean
-        get() = scalesWithDifficultyHandle.invoke(handle) as Boolean
-
-    val sourcePositionRaw: WrapperVec3
-        get() = WrapperVec3(sourcePositionRawHandle.invoke(handle))
-
-    val directEntity: WrapperEntity
-        get() = WrapperEntity(getDirectEntityHandle.invoke(handle))
-
-    val msgId: String
-        get() = getMsgIdHandle.invoke(handle) as String
-
-    val isMelting: Boolean
-        get() = isMeltingHandle.invoke(handle) as Boolean
-
-    val poison: WrapperDamageSource
-        get() = WrapperDamageSource(poisonHandle.invoke(handle))
-
-    val isPoison: Boolean
-        get() = isPoisonHandle.invoke(handle) as Boolean
-
-    val critical: Boolean
-        get() = isCriticalHandle.invoke(handle) as Boolean
-
-    val melting: WrapperDamageSource
-        get() = WrapperDamageSource(meltingHandle.invoke(handle))
-
-    val isSweep: Boolean
-        get() = isSweepHandle.invoke(handle) as Boolean
 
     fun directBlockState(arg0: Any): WrapperDamageSource {
         return WrapperDamageSource(directBlockStateHandle.invoke(handle, arg0))
@@ -207,20 +179,48 @@ value class WrapperDamageSource(val handle: Any) {
     val directBlock: Any
         get() = getDirectBlockHandle.invoke(handle) as Any
 
+    val isMelting: Boolean
+        get() = isMeltingHandle.invoke(handle) as Boolean
+
+    val melting: WrapperDamageSource
+        get() = WrapperDamageSource(meltingHandle.invoke(handle))
+
+    val msgId: String
+        get() = getMsgIdHandle.invoke(handle) as String
+
+    val poison: WrapperDamageSource
+        get() = WrapperDamageSource(poisonHandle.invoke(handle))
+
+    val critical: Boolean
+        get() = isCriticalHandle.invoke(handle) as Boolean
+
+    val isSweep: Boolean
+        get() = isSweepHandle.invoke(handle) as Boolean
+
+    val isPoison: Boolean
+        get() = isPoisonHandle.invoke(handle) as Boolean
+
+    val customEventDamager: WrapperEntity
+        get() = WrapperEntity(getCustomEventDamagerHandle.invoke(handle))
+
+    fun getLocalizedDeathMessage(arg0: WrapperLivingEntity): WrapperComponent {
+        return WrapperComponent(getLocalizedDeathMessageHandle.invoke(handle, arg0.handle))
+    }
+
     val entity: WrapperEntity
         get() = WrapperEntity(getEntityHandle.invoke(handle))
 
     val typeHolder: WrapperHolder
         get() = WrapperHolder(typeHolderHandle.invoke(handle))
 
-    val directBlockState: Any
-        get() = getDirectBlockStateHandle.invoke(handle) as Any
+    val sourcePositionRaw: WrapperVec3
+        get() = WrapperVec3(sourcePositionRawHandle.invoke(handle))
 
-    val sourcePosition: WrapperVec3
-        get() = WrapperVec3(getSourcePositionHandle.invoke(handle))
+    val directEntity: WrapperEntity
+        get() = WrapperEntity(getDirectEntityHandle.invoke(handle))
 
-    val foodExhaustion: Float
-        get() = getFoodExhaustionHandle.invoke(handle) as Float
+    val scalesWithDifficulty: Boolean
+        get() = scalesWithDifficultyHandle.invoke(handle) as Boolean
 
     fun setDirectBlock(value: Any) {
         directBlockSetterHandle.invoke(handle, value)

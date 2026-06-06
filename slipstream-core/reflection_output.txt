@@ -11,14 +11,14 @@ net.minecraft.network.protocol.game.ServerboundMovePlayerPacket methods:
   - net.minecraft.network.protocol.PacketType type()
   - void handle(net.minecraft.network.PacketListener)
   - void handle(net.minecraft.network.protocol.game.ServerGamePacketListener)
-  - boolean hasPosition()
-  - double getY(double)
-  - double getX(double)
-  - double getZ(double)
-  - boolean hasRotation()
-  - float getYRot(float)
-  - float getXRot(float)
   - boolean isOnGround()
+  - float getXRot(float)
+  - float getYRot(float)
+  - boolean hasPosition()
+  - boolean hasRotation()
+  - double getY(double)
+  - double getZ(double)
+  - double getX(double)
 net.minecraft.network.protocol.game.ServerboundSwingPacket fields:
   - net.minecraft.network.codec.StreamCodec STREAM_CODEC
   - net.minecraft.world.InteractionHand hand

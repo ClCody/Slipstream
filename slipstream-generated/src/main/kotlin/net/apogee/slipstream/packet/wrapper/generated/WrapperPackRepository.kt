@@ -14,6 +14,12 @@ value class WrapperPackRepository(val handle: Any) {
         val isAvailableHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAvailable", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
         }
+        val openAllSelectedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "openAllSelected", MethodType.methodType(Class.forName("java.util.List")))
+        }
+        val getPackHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPack", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.Pack"), String::class.java))
+        }
         val getSelectedPacksHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSelectedPacks", MethodType.methodType(Class.forName("java.util.Collection")))
         }
@@ -26,20 +32,14 @@ value class WrapperPackRepository(val handle: Any) {
         val getSelectedIdsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSelectedIds", MethodType.methodType(Class.forName("java.util.Collection")))
         }
-        val removePackHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "removePack", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
+        val getRequestedFeatureFlagsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getRequestedFeatureFlags", MethodType.methodType(Class.forName("net.minecraft.world.flag.FeatureFlagSet")))
         }
         val addPackHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "addPack", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
         }
-        val openAllSelectedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "openAllSelected", MethodType.methodType(Class.forName("java.util.List")))
-        }
-        val getRequestedFeatureFlagsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getRequestedFeatureFlags", MethodType.methodType(Class.forName("net.minecraft.world.flag.FeatureFlagSet")))
-        }
-        val getPackHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPack", MethodType.methodType(Class.forName("net.minecraft.server.packs.repository.Pack"), String::class.java))
+        val removePackHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "removePack", MethodType.methodType(Boolean::class.javaPrimitiveType!!, String::class.java))
         }
         val availableSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("available")
@@ -57,6 +57,13 @@ value class WrapperPackRepository(val handle: Any) {
         return isAvailableHandle.invoke(handle, arg0) as Boolean
     }
 
+    val openAllSelected: Any
+        get() = openAllSelectedHandle.invoke(handle) as Any
+
+    fun getPack(arg0: String): WrapperPack {
+        return WrapperPack(getPackHandle.invoke(handle, arg0))
+    }
+
     val selectedPacks: Any
         get() = getSelectedPacksHandle.invoke(handle) as Any
 
@@ -69,22 +76,15 @@ value class WrapperPackRepository(val handle: Any) {
     val selectedIds: Any
         get() = getSelectedIdsHandle.invoke(handle) as Any
 
-    fun removePack(arg0: String): Boolean {
-        return removePackHandle.invoke(handle, arg0) as Boolean
-    }
+    val requestedFeatureFlags: WrapperFeatureFlagSet
+        get() = WrapperFeatureFlagSet(getRequestedFeatureFlagsHandle.invoke(handle))
 
     fun addPack(arg0: String): Boolean {
         return addPackHandle.invoke(handle, arg0) as Boolean
     }
 
-    val openAllSelected: Any
-        get() = openAllSelectedHandle.invoke(handle) as Any
-
-    val requestedFeatureFlags: WrapperFeatureFlagSet
-        get() = WrapperFeatureFlagSet(getRequestedFeatureFlagsHandle.invoke(handle))
-
-    fun getPack(arg0: String): WrapperPack {
-        return WrapperPack(getPackHandle.invoke(handle, arg0))
+    fun removePack(arg0: String): Boolean {
+        return removePackHandle.invoke(handle, arg0) as Boolean
     }
 
     fun setAvailable(value: Any) {

@@ -26,14 +26,14 @@ value class WrapperAttributeInstance(val handle: Any) {
         val getBaseValueHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getBaseValue", MethodType.methodType(Double::class.javaPrimitiveType!!))
         }
+        val getModifierHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getModifier", MethodType.methodType(Class.forName("net.minecraft.world.entity.ai.attributes.AttributeModifier"), Class.forName("net.minecraft.resources.ResourceLocation")))
+        }
         val removeModifierHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "removeModifier", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceLocation")))
         }
         val hasModifierHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "hasModifier", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.resources.ResourceLocation")))
-        }
-        val getModifierHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getModifier", MethodType.methodType(Class.forName("net.minecraft.world.entity.ai.attributes.AttributeModifier"), Class.forName("net.minecraft.resources.ResourceLocation")))
         }
         val baseValueSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("baseValue")
@@ -67,16 +67,16 @@ value class WrapperAttributeInstance(val handle: Any) {
     val baseValue: Double
         get() = getBaseValueHandle.invoke(handle) as Double
 
+    fun getModifier(arg0: WrapperResourceLocation): WrapperAttributeModifier {
+        return WrapperAttributeModifier(getModifierHandle.invoke(handle, arg0.handle))
+    }
+
     fun removeModifier(arg0: WrapperResourceLocation): Boolean {
         return removeModifierHandle.invoke(handle, arg0.handle) as Boolean
     }
 
     fun hasModifier(arg0: WrapperResourceLocation): Boolean {
         return hasModifierHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
-    fun getModifier(arg0: WrapperResourceLocation): WrapperAttributeModifier {
-        return WrapperAttributeModifier(getModifierHandle.invoke(handle, arg0.handle))
     }
 
     fun setBaseValue(value: Double) {

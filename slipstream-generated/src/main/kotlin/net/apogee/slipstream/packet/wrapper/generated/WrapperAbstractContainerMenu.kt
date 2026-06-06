@@ -17,23 +17,17 @@ value class WrapperAbstractContainerMenu(val handle: Any) {
         val getSlotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSlot", MethodType.methodType(Class.forName("net.minecraft.world.inventory.Slot"), Int::class.javaPrimitiveType!!))
         }
-        val findSlotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "findSlot", MethodType.methodType(Class.forName("java.util.OptionalInt"), Class.forName("net.minecraft.world.Container"), Int::class.javaPrimitiveType!!))
+        val canTakeItemForPickAllHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canTakeItemForPickAll", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.inventory.Slot")))
         }
         val stillValidHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "stillValid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player")))
         }
-        val canTakeItemForPickAllHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canTakeItemForPickAll", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.inventory.Slot")))
+        val findSlotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "findSlot", MethodType.methodType(Class.forName("java.util.OptionalInt"), Class.forName("net.minecraft.world.Container"), Int::class.javaPrimitiveType!!))
         }
-        val getBukkitViewHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBukkitView", MethodType.methodType(Class.forName("org.bukkit.inventory.InventoryView")))
-        }
-        val isValidSlotIndexHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isValidSlotIndex", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
-        val clickMenuButtonHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "clickMenuButton", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player"), Int::class.javaPrimitiveType!!))
+        val getTitleHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getTitle", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
         }
         val quickMoveStackHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "quickMoveStack", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.entity.player.Player"), Int::class.javaPrimitiveType!!))
@@ -41,20 +35,26 @@ value class WrapperAbstractContainerMenu(val handle: Any) {
         val incrementStateIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "incrementStateId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
+        val isValidSlotIndexHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isValidSlotIndex", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
+        val clickMenuButtonHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "clickMenuButton", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.player.Player"), Int::class.javaPrimitiveType!!))
+        }
+        val getBukkitViewHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBukkitView", MethodType.methodType(Class.forName("org.bukkit.inventory.InventoryView")))
+        }
+        val getCarriedHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCarried", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        }
         val canDragToHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "canDragTo", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.inventory.Slot")))
-        }
-        val getTitleHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getTitle", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val getItemsHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getItems", MethodType.methodType(Class.forName("net.minecraft.core.NonNullList")))
         }
         val getStateIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getStateId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
-        val getCarriedHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCarried", MethodType.methodType(Class.forName("net.minecraft.world.item.ItemStack")))
+        val getItemsHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getItems", MethodType.methodType(Class.forName("net.minecraft.core.NonNullList")))
         }
         val lastSlotsSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastSlots")
@@ -135,20 +135,27 @@ value class WrapperAbstractContainerMenu(val handle: Any) {
         return WrapperSlot(getSlotHandle.invoke(handle, arg0))
     }
 
-    fun findSlot(arg0: WrapperContainer, arg1: Int): Any {
-        return findSlotHandle.invoke(handle, arg0.handle, arg1) as Any
+    fun canTakeItemForPickAll(arg0: WrapperItemStack, arg1: WrapperSlot): Boolean {
+        return canTakeItemForPickAllHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
     }
 
     fun stillValid(arg0: WrapperPlayer): Boolean {
         return stillValidHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    fun canTakeItemForPickAll(arg0: WrapperItemStack, arg1: WrapperSlot): Boolean {
-        return canTakeItemForPickAllHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
+    fun findSlot(arg0: WrapperContainer, arg1: Int): Any {
+        return findSlotHandle.invoke(handle, arg0.handle, arg1) as Any
     }
 
-    val bukkitView: Any
-        get() = getBukkitViewHandle.invoke(handle) as Any
+    val title: WrapperComponent
+        get() = WrapperComponent(getTitleHandle.invoke(handle))
+
+    fun quickMoveStack(arg0: WrapperPlayer, arg1: Int): WrapperItemStack {
+        return WrapperItemStack(quickMoveStackHandle.invoke(handle, arg0.handle, arg1))
+    }
+
+    val incrementStateId: Int
+        get() = incrementStateIdHandle.invoke(handle) as Int
 
     fun isValidSlotIndex(arg0: Int): Boolean {
         return isValidSlotIndexHandle.invoke(handle, arg0) as Boolean
@@ -158,28 +165,21 @@ value class WrapperAbstractContainerMenu(val handle: Any) {
         return clickMenuButtonHandle.invoke(handle, arg0.handle, arg1) as Boolean
     }
 
-    fun quickMoveStack(arg0: WrapperPlayer, arg1: Int): WrapperItemStack {
-        return WrapperItemStack(quickMoveStackHandle.invoke(handle, arg0.handle, arg1))
-    }
+    val bukkitView: Any
+        get() = getBukkitViewHandle.invoke(handle) as Any
 
-    val incrementStateId: Int
-        get() = incrementStateIdHandle.invoke(handle) as Int
+    val carried: WrapperItemStack
+        get() = WrapperItemStack(getCarriedHandle.invoke(handle))
 
     fun canDragTo(arg0: WrapperSlot): Boolean {
         return canDragToHandle.invoke(handle, arg0.handle) as Boolean
     }
 
-    val title: WrapperComponent
-        get() = WrapperComponent(getTitleHandle.invoke(handle))
-
-    val items: WrapperNonNullList
-        get() = WrapperNonNullList(getItemsHandle.invoke(handle))
-
     val stateId: Int
         get() = getStateIdHandle.invoke(handle) as Int
 
-    val carried: WrapperItemStack
-        get() = WrapperItemStack(getCarriedHandle.invoke(handle))
+    val items: WrapperNonNullList
+        get() = WrapperNonNullList(getItemsHandle.invoke(handle))
 
     fun setLastSlots(value: WrapperNonNullList) {
         lastSlotsSetterHandle.invoke(handle, value.handle)

@@ -14,28 +14,28 @@ value class WrapperServerboundSetCommandMinecartPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getCommandBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCommandBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.BaseCommandBlock"), Class.forName("net.minecraft.world.level.Level")))
+        val getCommandHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCommand", MethodType.methodType(String::class.java))
         }
         val isTrackOutputHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isTrackOutput", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val getCommandHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCommand", MethodType.methodType(String::class.java))
+        val getCommandBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCommandBlock", MethodType.methodType(Class.forName("net.minecraft.world.level.BaseCommandBlock"), Class.forName("net.minecraft.world.level.Level")))
         }
     }
 
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    fun getCommandBlock(arg0: WrapperLevel): WrapperBaseCommandBlock {
-        return WrapperBaseCommandBlock(getCommandBlockHandle.invoke(handle, arg0.handle))
-    }
+    val command: String
+        get() = getCommandHandle.invoke(handle) as String
 
     val trackOutput: Boolean
         get() = isTrackOutputHandle.invoke(handle) as Boolean
 
-    val command: String
-        get() = getCommandHandle.invoke(handle) as String
+    fun getCommandBlock(arg0: WrapperLevel): WrapperBaseCommandBlock {
+        return WrapperBaseCommandBlock(getCommandBlockHandle.invoke(handle, arg0.handle))
+    }
 
 }

@@ -11,33 +11,33 @@ value class WrapperCollisionContext(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.phys.shapes.CollisionContext") }
         private val lookup = MethodHandles.lookup()
 
+        val canStandOnFluidHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "canStandOnFluid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.material.FluidState"), Class.forName("net.minecraft.world.level.material.FluidState")))
+        }
         val isDescendingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isDescending", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isHoldingItemHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isHoldingItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.Item")))
         }
         val isAboveHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isAbove", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.phys.shapes.VoxelShape"), Class.forName("net.minecraft.core.BlockPos"), Boolean::class.javaPrimitiveType!!))
         }
-        val canStandOnFluidHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "canStandOnFluid", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.material.FluidState"), Class.forName("net.minecraft.world.level.material.FluidState")))
+        val isHoldingItemHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isHoldingItem", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.item.Item")))
         }
+    }
+
+    fun canStandOnFluid(arg0: WrapperFluidState, arg1: WrapperFluidState): Boolean {
+        return canStandOnFluidHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
     }
 
     val descending: Boolean
         get() = isDescendingHandle.invoke(handle) as Boolean
 
-    fun isHoldingItem(arg0: WrapperItem): Boolean {
-        return isHoldingItemHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
     fun isAbove(arg0: WrapperVoxelShape, arg1: WrapperBlockPos, arg2: Boolean): Boolean {
         return isAboveHandle.invoke(handle, arg0.handle, arg1.handle, arg2) as Boolean
     }
 
-    fun canStandOnFluid(arg0: WrapperFluidState, arg1: WrapperFluidState): Boolean {
-        return canStandOnFluidHandle.invoke(handle, arg0.handle, arg1.handle) as Boolean
+    fun isHoldingItem(arg0: WrapperItem): Boolean {
+        return isHoldingItemHandle.invoke(handle, arg0.handle) as Boolean
     }
 
 }

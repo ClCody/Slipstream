@@ -11,11 +11,11 @@ value class WrapperNbtAccounter(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.nbt.NbtAccounter") }
         private val lookup = MethodHandles.lookup()
 
-        val getUsageHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getUsage", MethodType.methodType(Long::class.javaPrimitiveType!!))
-        }
         val getDepthHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getDepth", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
+        val getUsageHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getUsage", MethodType.methodType(Long::class.javaPrimitiveType!!))
         }
         val usageSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("usage")
@@ -29,11 +29,11 @@ value class WrapperNbtAccounter(val handle: Any) {
         }
     }
 
-    val usage: Long
-        get() = getUsageHandle.invoke(handle) as Long
-
     val depth: Int
         get() = getDepthHandle.invoke(handle) as Int
+
+    val usage: Long
+        get() = getUsageHandle.invoke(handle) as Long
 
     fun setUsage(value: Long) {
         usageSetterHandle.invoke(handle, value)

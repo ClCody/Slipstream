@@ -23,23 +23,17 @@ value class WrapperBaseCommandBlock(val handle: Any) {
         val getLevelHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLevel", MethodType.methodType(Class.forName("net.minecraft.server.level.ServerLevel")))
         }
-        val getBukkitSenderHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getBukkitSender", MethodType.methodType(Class.forName("org.bukkit.command.CommandSender"), Class.forName("net.minecraft.commands.CommandSourceStack")))
+        val usedByHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "usedBy", MethodType.methodType(Class.forName("net.minecraft.world.InteractionResult"), Class.forName("net.minecraft.world.entity.player.Player")))
         }
-        val isTrackOutputHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isTrackOutput", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getCustomNameHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getCustomName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val acceptsFailureHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "acceptsFailure", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val acceptsSuccessHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "acceptsSuccess", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val shouldInformAdminsHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "shouldInformAdmins", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val acceptsSuccessHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "acceptsSuccess", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        val acceptsFailureHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "acceptsFailure", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val performCommandHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "performCommand", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.Level")))
@@ -47,8 +41,17 @@ value class WrapperBaseCommandBlock(val handle: Any) {
         val createCommandSourceStackHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "createCommandSourceStack", MethodType.methodType(Class.forName("net.minecraft.commands.CommandSourceStack")))
         }
-        val usedByHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "usedBy", MethodType.methodType(Class.forName("net.minecraft.world.InteractionResult"), Class.forName("net.minecraft.world.entity.player.Player")))
+        val getBukkitSenderHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getBukkitSender", MethodType.methodType(Class.forName("org.bukkit.command.CommandSender"), Class.forName("net.minecraft.commands.CommandSourceStack")))
+        }
+        val getCustomNameHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getCustomName", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val getLastOutputHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getLastOutput", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
+        }
+        val getSuccessCountHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSuccessCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val getPositionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPosition", MethodType.methodType(Class.forName("net.minecraft.world.phys.Vec3")))
@@ -56,11 +59,8 @@ value class WrapperBaseCommandBlock(val handle: Any) {
         val getCommandHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCommand", MethodType.methodType(String::class.java))
         }
-        val getLastOutputHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getLastOutput", MethodType.methodType(Class.forName("net.minecraft.network.chat.Component")))
-        }
-        val getSuccessCountHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSuccessCount", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val isTrackOutputHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isTrackOutput", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val lastExecutionSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("lastExecution")
@@ -112,24 +112,18 @@ value class WrapperBaseCommandBlock(val handle: Any) {
     val level: WrapperServerLevel
         get() = WrapperServerLevel(getLevelHandle.invoke(handle))
 
-    fun getBukkitSender(arg0: WrapperCommandSourceStack): Any {
-        return getBukkitSenderHandle.invoke(handle, arg0.handle) as Any
+    fun usedBy(arg0: WrapperPlayer): Any {
+        return usedByHandle.invoke(handle, arg0.handle) as Any
     }
 
-    val trackOutput: Boolean
-        get() = isTrackOutputHandle.invoke(handle) as Boolean
-
-    val customName: WrapperComponent
-        get() = WrapperComponent(getCustomNameHandle.invoke(handle))
-
-    val acceptsFailure: Boolean
-        get() = acceptsFailureHandle.invoke(handle) as Boolean
+    val acceptsSuccess: Boolean
+        get() = acceptsSuccessHandle.invoke(handle) as Boolean
 
     val shouldInformAdmins: Boolean
         get() = shouldInformAdminsHandle.invoke(handle) as Boolean
 
-    val acceptsSuccess: Boolean
-        get() = acceptsSuccessHandle.invoke(handle) as Boolean
+    val acceptsFailure: Boolean
+        get() = acceptsFailureHandle.invoke(handle) as Boolean
 
     fun performCommand(arg0: WrapperLevel): Boolean {
         return performCommandHandle.invoke(handle, arg0.handle) as Boolean
@@ -138,9 +132,18 @@ value class WrapperBaseCommandBlock(val handle: Any) {
     val createCommandSourceStack: WrapperCommandSourceStack
         get() = WrapperCommandSourceStack(createCommandSourceStackHandle.invoke(handle))
 
-    fun usedBy(arg0: WrapperPlayer): Any {
-        return usedByHandle.invoke(handle, arg0.handle) as Any
+    fun getBukkitSender(arg0: WrapperCommandSourceStack): Any {
+        return getBukkitSenderHandle.invoke(handle, arg0.handle) as Any
     }
+
+    val customName: WrapperComponent
+        get() = WrapperComponent(getCustomNameHandle.invoke(handle))
+
+    val lastOutput: WrapperComponent
+        get() = WrapperComponent(getLastOutputHandle.invoke(handle))
+
+    val successCount: Int
+        get() = getSuccessCountHandle.invoke(handle) as Int
 
     val position: WrapperVec3
         get() = WrapperVec3(getPositionHandle.invoke(handle))
@@ -148,11 +151,8 @@ value class WrapperBaseCommandBlock(val handle: Any) {
     val command: String
         get() = getCommandHandle.invoke(handle) as String
 
-    val lastOutput: WrapperComponent
-        get() = WrapperComponent(getLastOutputHandle.invoke(handle))
-
-    val successCount: Int
-        get() = getSuccessCountHandle.invoke(handle) as Int
+    val trackOutput: Boolean
+        get() = isTrackOutputHandle.invoke(handle) as Boolean
 
     fun setLastExecution(value: Long) {
         lastExecutionSetterHandle.invoke(handle, value)

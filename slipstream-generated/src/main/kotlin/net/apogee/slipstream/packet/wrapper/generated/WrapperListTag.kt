@@ -62,17 +62,17 @@ value class WrapperListTag(val handle: Any) {
         val getCompoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getCompound", MethodType.methodType(Class.forName("net.minecraft.nbt.CompoundTag"), Int::class.javaPrimitiveType!!))
         }
-        val addTagHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "addTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
-        }
-        val setTagHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "setTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
-        }
         val getLongArrayHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getLongArray", MethodType.methodType(Class.forName("[J"), Int::class.javaPrimitiveType!!))
         }
         val getIntArrayHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getIntArray", MethodType.methodType(IntArray::class.java, Int::class.javaPrimitiveType!!))
+        }
+        val addTagHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "addTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
+        }
+        val setTagHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "setTag", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Class.forName("net.minecraft.nbt.Tag")))
         }
         val getListHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getList", MethodType.methodType(Class.forName("net.minecraft.nbt.ListTag"), Int::class.javaPrimitiveType!!))
@@ -145,20 +145,20 @@ value class WrapperListTag(val handle: Any) {
         return WrapperCompoundTag(getCompoundHandle.invoke(handle, arg0))
     }
 
-    fun addTag(arg0: Int, arg1: WrapperTag): Boolean {
-        return addTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
-    }
-
-    fun setTag(arg0: Int, arg1: WrapperTag): Boolean {
-        return setTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
-    }
-
     fun getLongArray(arg0: Int): Any {
         return getLongArrayHandle.invoke(handle, arg0) as Any
     }
 
     fun getIntArray(arg0: Int): IntArray {
         return getIntArrayHandle.invoke(handle, arg0) as IntArray
+    }
+
+    fun addTag(arg0: Int, arg1: WrapperTag): Boolean {
+        return addTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
+    }
+
+    fun setTag(arg0: Int, arg1: WrapperTag): Boolean {
+        return setTagHandle.invoke(handle, arg0, arg1.handle) as Boolean
     }
 
     fun getList(arg0: Int): WrapperListTag {

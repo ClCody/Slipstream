@@ -20,14 +20,14 @@ value class WrapperServerTickRateManager(val handle: Any) {
         val requestGameToSprintHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "requestGameToSprint", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
-        val stopSteppingHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "stopStepping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val stopSprintingHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "stopSprinting", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Boolean::class.javaPrimitiveType!!))
         }
         val stepGameIfPausedHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "stepGameIfPaused", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
+        }
+        val stopSteppingHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "stopStepping", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val remainingSprintTicksSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("remainingSprintTicks")
@@ -66,9 +66,6 @@ value class WrapperServerTickRateManager(val handle: Any) {
         return requestGameToSprintHandle.invoke(handle, arg0) as Boolean
     }
 
-    val stopStepping: Boolean
-        get() = stopSteppingHandle.invoke(handle) as Boolean
-
     fun stopSprinting(arg0: Boolean): Boolean {
         return stopSprintingHandle.invoke(handle, arg0) as Boolean
     }
@@ -76,6 +73,9 @@ value class WrapperServerTickRateManager(val handle: Any) {
     fun stepGameIfPaused(arg0: Int): Boolean {
         return stepGameIfPausedHandle.invoke(handle, arg0) as Boolean
     }
+
+    val stopStepping: Boolean
+        get() = stopSteppingHandle.invoke(handle) as Boolean
 
     fun setRemainingSprintTicks(value: Long) {
         remainingSprintTicksSetterHandle.invoke(handle, value)

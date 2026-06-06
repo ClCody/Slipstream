@@ -23,11 +23,11 @@ value class WrapperClientboundSoundEntityPacket(val handle: Any) {
         val getSourceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSource", MethodType.methodType(Class.forName("net.minecraft.sounds.SoundSource")))
         }
-        val getPitchHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPitch", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
         val getVolumeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getVolume", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        }
+        val getPitchHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPitch", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getSoundHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getSound", MethodType.methodType(Class.forName("net.minecraft.core.Holder")))
@@ -46,11 +46,11 @@ value class WrapperClientboundSoundEntityPacket(val handle: Any) {
     val source: Any
         get() = getSourceHandle.invoke(handle) as Any
 
-    val pitch: Float
-        get() = getPitchHandle.invoke(handle) as Float
-
     val volume: Float
         get() = getVolumeHandle.invoke(handle) as Float
+
+    val pitch: Float
+        get() = getPitchHandle.invoke(handle) as Float
 
     val sound: WrapperHolder
         get() = WrapperHolder(getSoundHandle.invoke(handle))

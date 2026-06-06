@@ -14,11 +14,17 @@ value class WrapperTickRateManager(val handle: Any) {
         val isFrozenHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isFrozen", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
+        val frozenTicksToRunHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "frozenTicksToRun", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        }
         val runsNormallyHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "runsNormally", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
-        val frozenTicksToRunHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "frozenTicksToRun", MethodType.methodType(Int::class.javaPrimitiveType!!))
+        val isEntityFrozenHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isEntityFrozen", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
+        }
+        val isSteppingForwardHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSteppingForward", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
         val nanosecondsPerTickHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "nanosecondsPerTick", MethodType.methodType(Long::class.javaPrimitiveType!!))
@@ -26,14 +32,8 @@ value class WrapperTickRateManager(val handle: Any) {
         val millisecondsPerTickHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "millisecondsPerTick", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val isSteppingForwardHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSteppingForward", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
         val tickrateHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "tickrate", MethodType.methodType(Float::class.javaPrimitiveType!!))
-        }
-        val isEntityFrozenHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isEntityFrozen", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.entity.Entity")))
         }
         val tickrateSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("tickrate")
@@ -65,11 +65,18 @@ value class WrapperTickRateManager(val handle: Any) {
     val frozen: Boolean
         get() = isFrozenHandle.invoke(handle) as Boolean
 
+    val frozenTicksToRun: Int
+        get() = frozenTicksToRunHandle.invoke(handle) as Int
+
     val runsNormally: Boolean
         get() = runsNormallyHandle.invoke(handle) as Boolean
 
-    val frozenTicksToRun: Int
-        get() = frozenTicksToRunHandle.invoke(handle) as Int
+    fun isEntityFrozen(arg0: WrapperEntity): Boolean {
+        return isEntityFrozenHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val steppingForward: Boolean
+        get() = isSteppingForwardHandle.invoke(handle) as Boolean
 
     val nanosecondsPerTick: Long
         get() = nanosecondsPerTickHandle.invoke(handle) as Long
@@ -77,15 +84,8 @@ value class WrapperTickRateManager(val handle: Any) {
     val millisecondsPerTick: Float
         get() = millisecondsPerTickHandle.invoke(handle) as Float
 
-    val steppingForward: Boolean
-        get() = isSteppingForwardHandle.invoke(handle) as Boolean
-
     val tickrate: Float
         get() = tickrateHandle.invoke(handle) as Float
-
-    fun isEntityFrozen(arg0: WrapperEntity): Boolean {
-        return isEntityFrozenHandle.invoke(handle, arg0.handle) as Boolean
-    }
 
     fun setTickrate(value: Float) {
         tickrateSetterHandle.invoke(handle, value)

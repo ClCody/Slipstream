@@ -17,14 +17,14 @@ value class WrapperServerboundInteractPacket(val handle: Any) {
         val getTargetHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTarget", MethodType.methodType(Class.forName("net.minecraft.world.entity.Entity"), Class.forName("net.minecraft.server.level.ServerLevel")))
         }
+        val isAttackHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isAttack", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
         val getEntityIdHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEntityId", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val isUsingSecondaryActionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isUsingSecondaryAction", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val isAttackHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isAttack", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
         }
     }
 
@@ -35,13 +35,13 @@ value class WrapperServerboundInteractPacket(val handle: Any) {
         return WrapperEntity(getTargetHandle.invoke(handle, arg0.handle))
     }
 
+    val attack: Boolean
+        get() = isAttackHandle.invoke(handle) as Boolean
+
     val entityId: Int
         get() = getEntityIdHandle.invoke(handle) as Int
 
     val usingSecondaryAction: Boolean
         get() = isUsingSecondaryActionHandle.invoke(handle) as Boolean
-
-    val attack: Boolean
-        get() = isAttackHandle.invoke(handle) as Boolean
 
 }

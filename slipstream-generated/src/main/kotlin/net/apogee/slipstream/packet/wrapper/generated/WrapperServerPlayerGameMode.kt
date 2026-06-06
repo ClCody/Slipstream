@@ -14,18 +14,6 @@ value class WrapperServerPlayerGameMode(val handle: Any) {
         val useItemHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "useItem", MethodType.methodType(Class.forName("net.minecraft.world.InteractionResult"), Class.forName("net.minecraft.server.level.ServerPlayer"), Class.forName("net.minecraft.world.level.Level"), Class.forName("net.minecraft.world.item.ItemStack"), Class.forName("net.minecraft.world.InteractionHand")))
         }
-        val isSurvivalHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "isSurvival", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
-        }
-        val getGameModeForPlayerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getGameModeForPlayer", MethodType.methodType(Class.forName("net.minecraft.world.level.GameType")))
-        }
-        val changeGameModeForPlayerHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "changeGameModeForPlayer", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.world.level.GameType")))
-        }
-        val destroyBlockHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "destroyBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos")))
-        }
         val getPreviousGameModeForPlayerHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPreviousGameModeForPlayer", MethodType.methodType(Class.forName("net.minecraft.world.level.GameType")))
         }
@@ -34,6 +22,18 @@ value class WrapperServerPlayerGameMode(val handle: Any) {
         }
         val isCreativeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "isCreative", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val destroyBlockHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "destroyBlock", MethodType.methodType(Boolean::class.javaPrimitiveType!!, Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val isSurvivalHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "isSurvival", MethodType.methodType(Boolean::class.javaPrimitiveType!!))
+        }
+        val getGameModeForPlayerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getGameModeForPlayer", MethodType.methodType(Class.forName("net.minecraft.world.level.GameType")))
+        }
+        val changeGameModeForPlayerHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "changeGameModeForPlayer", MethodType.methodType(Class.forName("org.bukkit.event.player.PlayerGameModeChangeEvent"), Class.forName("net.minecraft.world.level.GameType"), Class.forName("org.bukkit.event.player.PlayerGameModeChangeEvent\$Cause"), Class.forName("net.kyori.adventure.text.Component")))
         }
         val levelSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("level")
@@ -131,20 +131,6 @@ value class WrapperServerPlayerGameMode(val handle: Any) {
         return useItemHandle.invoke(handle, arg0.handle, arg1.handle, arg2.handle, arg3) as Any
     }
 
-    val survival: Boolean
-        get() = isSurvivalHandle.invoke(handle) as Boolean
-
-    val gameModeForPlayer: Any
-        get() = getGameModeForPlayerHandle.invoke(handle) as Any
-
-    fun changeGameModeForPlayer(arg0: Any): Boolean {
-        return changeGameModeForPlayerHandle.invoke(handle, arg0) as Boolean
-    }
-
-    fun destroyBlock(arg0: WrapperBlockPos): Boolean {
-        return destroyBlockHandle.invoke(handle, arg0.handle) as Boolean
-    }
-
     val previousGameModeForPlayer: Any
         get() = getPreviousGameModeForPlayerHandle.invoke(handle) as Any
 
@@ -154,6 +140,20 @@ value class WrapperServerPlayerGameMode(val handle: Any) {
 
     val creative: Boolean
         get() = isCreativeHandle.invoke(handle) as Boolean
+
+    fun destroyBlock(arg0: WrapperBlockPos): Boolean {
+        return destroyBlockHandle.invoke(handle, arg0.handle) as Boolean
+    }
+
+    val survival: Boolean
+        get() = isSurvivalHandle.invoke(handle) as Boolean
+
+    val gameModeForPlayer: Any
+        get() = getGameModeForPlayerHandle.invoke(handle) as Any
+
+    fun changeGameModeForPlayer(arg0: Any, arg1: Any, arg2: Any): Any {
+        return changeGameModeForPlayerHandle.invoke(handle, arg0, arg1, arg2) as Any
+    }
 
     fun setLevel(value: WrapperServerLevel) {
         levelSetterHandle.invoke(handle, value.handle)

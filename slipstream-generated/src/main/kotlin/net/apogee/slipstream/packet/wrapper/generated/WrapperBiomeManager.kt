@@ -17,11 +17,11 @@ value class WrapperBiomeManager(val handle: Any) {
         val withDifferentSourceHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "withDifferentSource", MethodType.methodType(Class.forName("net.minecraft.world.level.biome.BiomeManager"), Class.forName("net.minecraft.world.level.biome.BiomeManager\$NoiseBiomeSource")))
         }
-        val getNoiseBiomeAtQuartHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getNoiseBiomeAtQuart", MethodType.methodType(Class.forName("net.minecraft.core.Holder"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
-        }
         val getNoiseBiomeAtPositionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getNoiseBiomeAtPosition", MethodType.methodType(Class.forName("net.minecraft.core.Holder"), Class.forName("net.minecraft.core.BlockPos")))
+        }
+        val getNoiseBiomeAtQuartHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getNoiseBiomeAtQuart", MethodType.methodType(Class.forName("net.minecraft.core.Holder"), Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!))
         }
     }
 
@@ -33,12 +33,12 @@ value class WrapperBiomeManager(val handle: Any) {
         return WrapperBiomeManager(withDifferentSourceHandle.invoke(handle, arg0.handle))
     }
 
-    fun getNoiseBiomeAtQuart(arg0: Int, arg1: Int, arg2: Int): WrapperHolder {
-        return WrapperHolder(getNoiseBiomeAtQuartHandle.invoke(handle, arg0, arg1, arg2))
-    }
-
     fun getNoiseBiomeAtPosition(arg0: WrapperBlockPos): WrapperHolder {
         return WrapperHolder(getNoiseBiomeAtPositionHandle.invoke(handle, arg0.handle))
+    }
+
+    fun getNoiseBiomeAtQuart(arg0: Int, arg1: Int, arg2: Int): WrapperHolder {
+        return WrapperHolder(getNoiseBiomeAtQuartHandle.invoke(handle, arg0, arg1, arg2))
     }
 
 }

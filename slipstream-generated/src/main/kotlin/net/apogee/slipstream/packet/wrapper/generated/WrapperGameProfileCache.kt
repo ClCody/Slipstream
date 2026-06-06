@@ -12,7 +12,7 @@ value class WrapperGameProfileCache(val handle: Any) {
         private val lookup = MethodHandles.lookup()
 
         val getHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "get", MethodType.methodType(Class.forName("java.util.Optional"), Class.forName("java.util.UUID")))
+            lookup.findVirtual(packetClass, "get", MethodType.methodType(Class.forName("java.util.Optional"), String::class.java))
         }
         val loadHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "load", MethodType.methodType(Class.forName("java.util.List")))
@@ -30,7 +30,7 @@ value class WrapperGameProfileCache(val handle: Any) {
         }
     }
 
-    fun get(arg0: Any): Any {
+    fun get(arg0: String): Any {
         return getHandle.invoke(handle, arg0) as Any
     }
 

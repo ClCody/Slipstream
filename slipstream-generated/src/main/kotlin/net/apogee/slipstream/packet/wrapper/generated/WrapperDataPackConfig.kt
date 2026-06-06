@@ -11,18 +11,18 @@ value class WrapperDataPackConfig(val handle: Any) {
         val packetClass: Class<*> by lazy { Class.forName("net.minecraft.world.level.DataPackConfig") }
         private val lookup = MethodHandles.lookup()
 
-        val getDisabledHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getDisabled", MethodType.methodType(Class.forName("java.util.List")))
-        }
         val getEnabledHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getEnabled", MethodType.methodType(Class.forName("java.util.List")))
         }
+        val getDisabledHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getDisabled", MethodType.methodType(Class.forName("java.util.List")))
+        }
     }
-
-    val disabled: Any
-        get() = getDisabledHandle.invoke(handle) as Any
 
     val enabled: Any
         get() = getEnabledHandle.invoke(handle) as Any
+
+    val disabled: Any
+        get() = getDisabledHandle.invoke(handle) as Any
 
 }

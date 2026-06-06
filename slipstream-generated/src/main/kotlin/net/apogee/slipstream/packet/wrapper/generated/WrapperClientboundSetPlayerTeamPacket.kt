@@ -20,11 +20,11 @@ value class WrapperClientboundSetPlayerTeamPacket(val handle: Any) {
         val getParametersHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getParameters", MethodType.methodType(Class.forName("java.util.Optional")))
         }
-        val getPlayerActionHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getPlayerAction", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket\$Action")))
-        }
         val getTeamActionHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getTeamAction", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket\$Action")))
+        }
+        val getPlayerActionHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getPlayerAction", MethodType.methodType(Class.forName("net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket\$Action")))
         }
         val getPlayersHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getPlayers", MethodType.methodType(Class.forName("java.util.Collection")))
@@ -40,11 +40,11 @@ value class WrapperClientboundSetPlayerTeamPacket(val handle: Any) {
     val parameters: Any
         get() = getParametersHandle.invoke(handle) as Any
 
-    val playerAction: Any
-        get() = getPlayerActionHandle.invoke(handle) as Any
-
     val teamAction: Any
         get() = getTeamActionHandle.invoke(handle) as Any
+
+    val playerAction: Any
+        get() = getPlayerActionHandle.invoke(handle) as Any
 
     val players: Any
         get() = getPlayersHandle.invoke(handle) as Any

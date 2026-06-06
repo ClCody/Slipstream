@@ -14,17 +14,17 @@ value class WrapperServerboundUseItemPacket(val handle: Any) {
         val typeHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "type", MethodType.methodType(Class.forName("net.minecraft.network.protocol.PacketType")))
         }
-        val getSequenceHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getSequence", MethodType.methodType(Int::class.javaPrimitiveType!!))
-        }
         val getHandHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getHand", MethodType.methodType(Class.forName("net.minecraft.world.InteractionHand")))
+        }
+        val getYRotHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
         val getXRotHandle: MethodHandle by lazy { 
             lookup.findVirtual(packetClass, "getXRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
         }
-        val getYRotHandle: MethodHandle by lazy { 
-            lookup.findVirtual(packetClass, "getYRot", MethodType.methodType(Float::class.javaPrimitiveType!!))
+        val getSequenceHandle: MethodHandle by lazy { 
+            lookup.findVirtual(packetClass, "getSequence", MethodType.methodType(Int::class.javaPrimitiveType!!))
         }
         val timestampSetterHandle: MethodHandle by lazy { 
             val f = packetClass.getDeclaredField("timestamp")
@@ -36,17 +36,17 @@ value class WrapperServerboundUseItemPacket(val handle: Any) {
     val type: WrapperPacketType
         get() = WrapperPacketType(typeHandle.invoke(handle))
 
-    val sequence: Int
-        get() = getSequenceHandle.invoke(handle) as Int
-
     val hand: Any
         get() = getHandHandle.invoke(handle) as Any
+
+    val yRot: Float
+        get() = getYRotHandle.invoke(handle) as Float
 
     val xRot: Float
         get() = getXRotHandle.invoke(handle) as Float
 
-    val yRot: Float
-        get() = getYRotHandle.invoke(handle) as Float
+    val sequence: Int
+        get() = getSequenceHandle.invoke(handle) as Int
 
     fun setTimestamp(value: Long) {
         timestampSetterHandle.invoke(handle, value)
