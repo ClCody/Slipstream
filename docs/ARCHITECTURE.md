@@ -1,5 +1,7 @@
 # 🏗️ Slipstream Architecture (v2.0.0)
 
+🇷🇺 [Русская версия](ru/ARCHITECTURE_RU.md)
+
 Slipstream is designed for maximum performance in high-frequency packet processing environments. With version 2.0.0, the framework has been split into a **Multi-Module** architecture to provide unmatched compile-time type safety while preserving runtime performance.
 
 ## 📦 Multi-Module Structure

@@ -1,5 +1,7 @@
 # ⚡ Slipstream Engine (v2.0.0)
 
+🇷🇺 [Русская версия](README_RU.md)
+
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-blue.svg)
 ![PaperMC](https://img.shields.io/badge/Paper-1.21+-black.svg)
 ![Performance](https://img.shields.io/badge/Performance-Zero_Overhead-success.svg)

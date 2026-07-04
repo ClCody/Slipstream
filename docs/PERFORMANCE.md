@@ -1,5 +1,7 @@
 # ⏱️ Slipstream Performance
 
+🇷🇺 [Русская версия](ru/PERFORMANCE_RU.md)
+
 Slipstream is the fastest packet framework for Paper/Minecraft, period.
 
 ## 📊 Benchmark Results (JMH)

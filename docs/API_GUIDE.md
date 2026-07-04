@@ -1,5 +1,7 @@
 # 📖 API Guide (v2.0.0)
 
+🇷🇺 [Русская версия](ru/API_GUIDE_RU.md)
+
 ## 🚀 Getting the Manager
 To start using Slipstream, you need to get the `SlipstreamManager` instance. You can do this via the singleton:
 
